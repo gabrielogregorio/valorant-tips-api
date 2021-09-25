@@ -39,6 +39,13 @@ router.post('/user', async (req, res) => {
     return res.sendStatus(400)
   }
 
+  let userExists = await UserService.UserExistsByUsername(username)
+  if(userExists !== undefined) {
+    res.statusCode = 409
+    return res.json({error: 'Username já está cadastrado!'})
+  }
+
+
   const salt = await bcrypt.genSalt(10)
   const hash = await bcrypt.hash(password, salt)
 
@@ -46,7 +53,7 @@ router.post('/user', async (req, res) => {
     let newUser = await UserService.Create({username, password:hash})
     return res.json(newUser)
   } catch(error) {
-    res.status = 500
+    res.statusCode = 500
     return res.json({error: 'Erro no servidor'})
   }
 })
@@ -55,11 +62,26 @@ router.put('/user', userAuth, async (req, res) => {
   let { username, password } = req.body
   let { id } = req.data
 
+  // Se o Usuário foi alterado, verificar se já existe no db
+  if(username !== '' && username !== undefined && username !== null) {
+    let userExists = await UserService.UserExistsByUsername(username)
+    if(userExists !== undefined) {
+      res.statusCode = 409
+      return res.json({error: 'Username já está cadastrado!'})
+    }
+  }
+
+  if(password !== '' && password !== undefined && password !== null) {
+    const salt = await bcrypt.genSalt(10)
+    password = await bcrypt.hash(password, salt) // Hash
+  }
+
+
   try {
     let userUpdate = await UserService.FindByIdAndUpdate(id, {username, password})
     return res.json(userUpdate)
   } catch(error) {
-    res.status = 500
+    res.statusCode = 500
     return res.json({error: 'Erro no servidor'})
   }
 })
@@ -71,7 +93,7 @@ router.get('/user', userAuth, async (req, res) => {
     let newUser = await UserService.FindById(id)
     return res.json(newUser)
   } catch(error) {
-    res.status = 500
+    res.statusCode = 500
     return res.json({error: 'Erro no servidor'})
   }
 })
@@ -82,9 +104,9 @@ router.delete('/user', userAuth, async (req, res) => {
 
   try {
     await UserService.DeleteById(id)
-    return res.sendStatus(200)
+    return res.json({})
   } catch(error) {
-    res.status = 500
+    res.statusCode = 500
     return res.json({error: 'Erro no servidor'})
   }
 })

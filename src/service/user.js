@@ -8,7 +8,17 @@ class UserService {
   }
 
   async FindByIdAndUpdate(id, {username, password}) {
-    let user = await User.findOneAndUpdate({_id: id}, {$set: {username, password}})
+    let update = {}
+    // Senha foi alterada
+    if(password !== '' && password !== undefined && password !== null) {
+      update.password = password
+    }
+    // Username foi alterado
+    if(username !== '' && username !== undefined && username !== null) {
+      update.username = username
+    }
+
+    let user = await User.findOneAndUpdate({_id: id}, {$set: update})
     return user
   }
 
@@ -16,6 +26,17 @@ class UserService {
     let user = await User.findById(id)
     return user
   }
+
+  async UserExistsByUsername(username) {
+    let user = await User.findOne({username})
+
+    if(user === null) {
+      return undefined
+    } else {
+      return user
+    }
+  }
+
 
   async FindByUsername(username) {
     let user = await User.find({username})
@@ -27,7 +48,7 @@ class UserService {
   }
 
   async DeleteById(id)   {
-    let deleteuser = await User.findOneAndDelete({_id, id})
+    let deleteuser = await User.findOneAndDelete({_id: id})
     return deleteuser
   }
 
