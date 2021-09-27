@@ -18,6 +18,11 @@ class PostService {
     return post
   }
 
+  async FindAll() {
+    let post = await Post.find()
+    return post
+  }
+
   async DeleteById(idPost, idUser)   {
     let deletePost = await Post.findOneAndDelete({_id: idPost, user:idUser})
     return deletePost

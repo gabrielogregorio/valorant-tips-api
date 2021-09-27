@@ -114,6 +114,12 @@ describe('Deve testar o sistema de cadastro de posts', () => {
     })
   })
 
+  it('Deve Obter todos os posts', () => {
+    return request.get(`/posts`).set(token).then(res => {
+      expect(res.statusCode).toEqual(200)
+    })
+  })
+
   it('Deve Deletar um post', () => {
     return request.delete(`/post/${postId}`).set(token).then(res => {
       expect(res.statusCode).toEqual(200)

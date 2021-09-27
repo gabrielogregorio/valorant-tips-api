@@ -18,17 +18,22 @@ router.post('/post', userAuth, async (req, res) => {
   // Algum valor Obrigatório é nulo
   if( validValues(title) === null ||
       validValues(description) === null ||
-      validValues(user) === null  ||
+      //validValues(user) === null  ||
       validValues(tags) === null ||
       validValues(imgs) === null) {
         res.statusCode = 400
         return res.json({error: 'Algum valor inválido'})
     }
 
+  if (validValues(user) === null) {
+    user = undefined
+  }
+
   try {
     let newPost = await PostService.Create({ title, description, user, tags, imgs })
     return res.json(newPost)
   } catch(error) {
+    console.log(error)
     res.statusCode = 500
     return res.json({error: 'Erro no servidor'})
   }
@@ -69,6 +74,17 @@ router.get('/post/:id', userAuth, async (req, res) => {
     return res.json({error: 'Erro no servidor'})
   }
 })
+
+router.get('/posts', async (req, res) => {
+  try {
+    let posts = await PostService.FindAll()
+    return res.json(posts)
+  } catch(error) {
+    res.statusCode = 500
+    return res.json({error: 'Erro no servidor'})
+  }
+})
+
 
 
 router.delete('/post/:id', userAuth, async (req, res) => {
