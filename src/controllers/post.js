@@ -28,7 +28,6 @@ router.post('/postLoadFile', multer_post.single('image'), async(req, res, next) 
   } else {
     filename = ''
   }
-  console.log(filename, '...')
   return res.json({filename})
 
   //const blob = bucket.file(`${Date.now().toString()}-${uuid()}`);
@@ -69,7 +68,6 @@ router.post('/post', userAuth, async (req, res) => {
     let newPost = await PostService.Create({ title, description, user, tags, imgs })
     return res.json(newPost)
   } catch(error) {
-    console.log(error)
     res.statusCode = 500
     return res.json({error: 'Erro no servidor'})
   }
@@ -83,15 +81,17 @@ router.put('/post/:id', userAuth, async (req, res) => {
   // Algum valor Obrigatório é nulo
   if( validValues(title) === null ||
       validValues(description) === null ||
-      validValues(user) === null  ||
+      //validValues(user) === null  ||
       validValues(tags) === null ||
       validValues(imgs) === null) {
         res.statusCode = 400
         return res.json({error: 'Algum valor inválido'})
     }
-
+  if (validValues(user) === null) {
+    user = undefined
+  }
   try {
-    let postUpdate = await PostService.FindByIdAndUpdate(id,  { title, description, user, tags, imgs })
+    let postUpdate = await PostService.FindByIdAndUpdate(id,  {title, description, user, tags, imgs})
     return res.json(postUpdate)
   } catch(error) {
     res.statusCode = 500

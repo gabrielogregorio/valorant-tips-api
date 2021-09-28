@@ -21,6 +21,7 @@ const postSchema = mongoose.Schema({
   },
   imgs: [
     {
+      _id: String,
       title: String,
       img: String
     }
