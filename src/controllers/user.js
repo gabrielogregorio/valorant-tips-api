@@ -39,7 +39,7 @@ router.post('/user', async (req, res) => {
     return res.sendStatus(400)
   }
 
-  let userExists = await UserService.UserExistsByUsername(username)
+  let userExists = await UserService.UserExistsByUsername(username, "")
   if(userExists !== undefined) {
     res.statusCode = 409
     return res.json({error: 'Username já está cadastrado!'})
@@ -64,7 +64,8 @@ router.put('/user', userAuth, async (req, res) => {
 
   // Se o Usuário foi alterado, verificar se já existe no db
   if(username !== '' && username !== undefined && username !== null) {
-    let userExists = await UserService.UserExistsByUsername(username)
+    let userExists = await UserService.UserExistsByUsername(username, id)
+
     if(userExists !== undefined) {
       res.statusCode = 409
       return res.json({error: 'Username já está cadastrado!'})
@@ -74,6 +75,8 @@ router.put('/user', userAuth, async (req, res) => {
   if(password !== '' && password !== undefined && password !== null) {
     const salt = await bcrypt.genSalt(10)
     password = await bcrypt.hash(password, salt) // Hash
+  } else {
+    password = undefined
   }
 
 

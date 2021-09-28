@@ -27,13 +27,17 @@ class UserService {
     return user
   }
 
-  async UserExistsByUsername(username) {
+  async UserExistsByUsername(username, id) {
     let user = await User.findOne({username})
 
     if(user === null) {
       return undefined
     } else {
-      return user
+      if(user._id.toString() === id) {
+        return undefined
+      } else {
+        return user
+      }
     }
   }
 

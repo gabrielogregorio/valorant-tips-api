@@ -20,10 +20,12 @@ let post = {
   },
   imgs: [
     {
+      _id: "1",
       title: 'Primeiro mire no pontinho roxo indicado',
       img: 'img/pontinho.png'
     },
     {
+      _id: "2",
       title: 'Depois solte a flexa com 1.5 de força',
       img: 'img/pontinho2.png'
     },
@@ -45,10 +47,12 @@ let postEdited = {
   },
   imgs: [
     {
+      _id: "1",
       title: 'Primeiro mire no pontinho roxo indicado',
       img: 'img/pontinho.png'
     },
     {
+      _id: "2",
       title: 'Depois solte a flexa com 1.5 de força',
       img: 'img/pontinho2.png'
     },
@@ -88,6 +92,7 @@ describe('Deve testar o sistema de cadastro de posts', () => {
       expect(res.body.description).toEqual('Descrição maluca')
       expect(res.body.tags.map[1]).toEqual('Split')
       expect(res.body.imgs[0].title).toEqual('Primeiro mire no pontinho roxo indicado')
+      expect(res.body.imgs[1].title).toEqual('Depois solte a flexa com 1.5 de força')
       postId = res.body._id
     })
   })
