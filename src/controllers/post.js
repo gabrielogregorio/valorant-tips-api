@@ -3,7 +3,7 @@ const express = require('express')
 const PostService = require('../service/post')
 const router = express.Router()
 const userAuth = require('../middlewares/userAuth')
-
+const multer_post = require('../middlewares/multerPost');
 
 function validValues(value) {
   if (value === '' || value === undefined || value === null) {
@@ -11,6 +11,42 @@ function validValues(value) {
   }
   return value
 }
+
+
+router.post('/postLoadFile', multer_post.single('image'), async(req, res, next) => {
+  //let user = processId(req.data.id)
+  let filename = ''
+
+  if (!req.file){ // || user === undefined) {
+    res.status(400).send('No file uploaded.');
+
+    return;
+  }
+
+  if (req.file) {
+    filename = req.file['filename']
+  } else {
+    filename = ''
+  }
+  console.log(filename, '...')
+  return res.json({filename})
+
+  //const blob = bucket.file(`${Date.now().toString()}-${uuid()}`);
+  //const blobStream = blob.createWriteStream();
+
+  //blobStream.on('error', err => {
+  //  next(err);
+  //});
+
+  //blobStream.on('finish', () => {
+  //  const publicUrl = format(
+  //   `https://storage.googleapis.com/${bucket.name}/${blob.name}`
+  //  );
+  //  res.json({file:publicUrl})
+  //});
+  //blobStream.end(req.file.buffer);
+})
+
 
 router.post('/post', userAuth, async (req, res) => {
   let { title, description, user, tags, imgs } = req.body
