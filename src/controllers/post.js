@@ -3,7 +3,8 @@ const express = require('express')
 const PostService = require('../service/post')
 const router = express.Router()
 const userAuth = require('../middlewares/userAuth')
-const multer_post = require('../middlewares/multerPost');
+const multer_post = require('../middlewares/multerPost')
+const dataPost = require('../factories/dataPost')
 
 function validValues(value) {
   if (value === '' || value === undefined || value === null) {
@@ -48,24 +49,18 @@ router.post('/postLoadFile', multer_post.single('image'), async(req, res, next) 
 
 
 router.post('/post', userAuth, async (req, res) => {
-  let { title, description, user, tags, imgs } = req.body
+  let { title, description, tags, imgs } = req.body
+  let user = req.data.id
 
   // Algum valor Obrigatório é nulo
   if( validValues(title) === null ||
-      validValues(description) === null ||
-      //validValues(user) === null  ||
-      validValues(tags) === null ||
-      validValues(imgs) === null) {
+      validValues(description) === null ) {
         res.statusCode = 400
         return res.json({error: 'Algum valor inválido'})
     }
 
-  if (validValues(user) === null) {
-    user = undefined
-  }
-
   try {
-    let newPost = await PostService.Create({ title, description, user, tags, imgs })
+    let newPost = dataPost.Build(await PostService.Create({ title, description, user, tags, imgs }))
     return res.json(newPost)
   } catch(error) {
     res.statusCode = 500
@@ -74,24 +69,19 @@ router.post('/post', userAuth, async (req, res) => {
 })
 
 router.put('/post/:id', userAuth, async (req, res) => {
-  let { title, description, user, tags, imgs } = req.body
+  let { title, description, tags, imgs } = req.body
   let { id } = req.params
-
+  let user = req.data.id
 
   // Algum valor Obrigatório é nulo
   if( validValues(title) === null ||
-      validValues(description) === null ||
-      //validValues(user) === null  ||
-      validValues(tags) === null ||
-      validValues(imgs) === null) {
+      validValues(description) === null ) {
         res.statusCode = 400
         return res.json({error: 'Algum valor inválido'})
-    }
-  if (validValues(user) === null) {
-    user = undefined
   }
+
   try {
-    let postUpdate = await PostService.FindByIdAndUpdate(id,  {title, description, user, tags, imgs})
+    let postUpdate = dataPost.Build(await PostService.FindByIdAndUpdate(id,  {title, description, user, tags, imgs}))
     return res.json(postUpdate)
   } catch(error) {
     res.statusCode = 500
@@ -99,11 +89,11 @@ router.put('/post/:id', userAuth, async (req, res) => {
   }
 })
 
-router.get('/post/:id', userAuth, async (req, res) => {
+router.get('/post/:id', async (req, res) => {
   let { id } = req.params
 
   try {
-    let post = await PostService.FindById(id)
+    let post = dataPost.Build(await PostService.FindById(id))
     return res.json(post)
   } catch(error) {
     res.statusCode = 500
@@ -114,9 +104,15 @@ router.get('/post/:id', userAuth, async (req, res) => {
 router.get('/posts', async (req, res) => {
   try {
     let posts = await PostService.FindAll()
-    return res.json(posts)
+    let postsFactories = []
+    posts.forEach(post => {
+      postsFactories.push(dataPost.Build(post))
+    })
+
+    return res.json(postsFactories)
   } catch(error) {
     res.statusCode = 500
+    console.log(error)
     return res.json({error: 'Erro no servidor'})
   }
 })

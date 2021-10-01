@@ -83,6 +83,7 @@ describe("Testa o CRUD de usuários", () => {
       .then(res => {
         expect(res.statusCode).toEqual(200)
         expect(res.body._id).toEqual(idUser)
+        expect(res.body.password).toBeUndefined()
       })
   }),
 
@@ -121,5 +122,4 @@ describe("Testa o CRUD de usuários", () => {
         expect(res.statusCode).toEqual(200)
       })
   })
-
 })

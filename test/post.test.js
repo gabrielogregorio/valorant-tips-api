@@ -88,7 +88,7 @@ describe('Deve testar o sistema de cadastro de posts', () => {
     return request.post('/post').set(token).send(post).then(res => {
       expect(res.statusCode).toEqual(200)
       expect(res.body.title).toEqual('Titulo de um post maluco')
-      expect(res.body.user).toEqual(idUser)
+      expect(res.body.user._id).toEqual(idUser)
       expect(res.body.description).toEqual('Descrição maluca')
       expect(res.body.tags.map[1]).toEqual('Split')
       expect(res.body.imgs[0].title).toEqual('Primeiro mire no pontinho roxo indicado')

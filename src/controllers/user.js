@@ -6,6 +6,41 @@ const userAuth = require('../middlewares/userAuth')
 const jwt = require('jsonwebtoken')
 const jwtSecret = process.env.JWT_SECRET
 const bcrypt = require('bcrypt')
+const dataUser = require('../factories/dataUser')
+const multer_user = require('../middlewares/multerUser')
+
+router.post('/userLoadFile', multer_user.single('image'), async(req, res, next) => {
+  //let user = processId(req.data.id)
+  let filename = ''
+
+  if (!req.file){ // || user === undefined) {
+    res.status(400).send('No file uploaded.');
+
+    return;
+  }
+
+  if (req.file) {
+    filename = req.file['filename']
+  } else {
+    filename = ''
+  }
+  return res.json({filename})
+
+  //const blob = bucket.file(`${Date.now().toString()}-${uuid()}`);
+  //const blobStream = blob.createWriteStream();
+
+  //blobStream.on('error', err => {
+  //  next(err);
+  //});
+
+  //blobStream.on('finish', () => {
+  //  const publicUrl = format(
+  //   `https://storage.googleapis.com/${bucket.name}/${blob.name}`
+  //  );
+  //  res.json({file:publicUrl})
+  //});
+  //blobStream.end(req.file.buffer);
+})
 
 router.post('/auth', async (req, res) => {
   let {username, password} = req.body;
@@ -21,7 +56,7 @@ router.post('/auth', async (req, res) => {
     return res.sendStatus(403)
   }
 
-  jwt.sign({username, name:user.name, id: user._id}, jwtSecret, {expiresIn: '48h'}, (error, token) => {
+  jwt.sign({username, name:user.name, id: user._id}, jwtSecret, {expiresIn: '128h'}, (error, token) => {
     if (error) {
       return res.sendStatus(500)
     }
@@ -30,7 +65,7 @@ router.post('/auth', async (req, res) => {
 })
 
 router.post('/user', async (req, res) => {
-  let { username, password } = req.body
+  let { username, password, image } = req.body
 
   if  (
     (username === undefined || username === null || username === '') ||
@@ -39,18 +74,24 @@ router.post('/user', async (req, res) => {
     return res.sendStatus(400)
   }
 
+  // Verifica se o username já está registrado
   let userExists = await UserService.UserExistsByUsername(username, "")
   if(userExists !== undefined) {
     res.statusCode = 409
     return res.json({error: 'Username já está cadastrado!'})
   }
 
-
+  // Gera um hash da senha
   const salt = await bcrypt.genSalt(10)
   const hash = await bcrypt.hash(password, salt)
 
+  let update = {username, password:hash}
+  if(image !== undefined && image !== '') {
+    update.image = image
+  }
+
   try {
-    let newUser = await UserService.Create({username, password:hash})
+    let newUser = dataUser.Build(await UserService.Create(update))
     return res.json(newUser)
   } catch(error) {
     res.statusCode = 500
@@ -59,7 +100,7 @@ router.post('/user', async (req, res) => {
 })
 
 router.put('/user', userAuth, async (req, res) => {
-  let { username, password } = req.body
+  let { username, password, image } = req.body
   let { id } = req.data
 
   // Se o Usuário foi alterado, verificar se já existe no db
@@ -79,9 +120,13 @@ router.put('/user', userAuth, async (req, res) => {
     password = undefined
   }
 
+  let update = {username, password}
+  if(image !== undefined && image !== '') {
+    update.image = image
+  }
 
   try {
-    let userUpdate = await UserService.FindByIdAndUpdate(id, {username, password})
+    let userUpdate = dataUser.Build(await UserService.FindByIdAndUpdate(id, update))
     return res.json(userUpdate)
   } catch(error) {
     res.statusCode = 500
@@ -93,14 +138,13 @@ router.get('/user', userAuth, async (req, res) => {
   let { id } = req.data
 
   try {
-    let newUser = await UserService.FindById(id)
+    let newUser = dataUser.Build(await UserService.FindById(id))
     return res.json(newUser)
   } catch(error) {
     res.statusCode = 500
     return res.json({error: 'Erro no servidor'})
   }
 })
-
 
 router.delete('/user', userAuth, async (req, res) => {
   let { id } = req.data
