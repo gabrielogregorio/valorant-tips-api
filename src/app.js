@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const UserController = require('../src/controllers/user')
 const PostController = require('../src/controllers/post')
 const SuggestionController = require('../src/controllers/suggestion')
+const ReportController = require('../src/controllers/report')
 
 const cors = require('cors')
 
@@ -19,6 +20,7 @@ app.use(express.static('public'))
 app.use('/', UserController)
 app.use('/', PostController)
 app.use('/', SuggestionController)
+app.use('/', ReportController)
 
 mongoose.connect(
   process.env.MONGO_URI, {}
