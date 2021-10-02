@@ -106,7 +106,15 @@ router.get('/post/:id', async (req, res) => {
 
 router.get('/posts', async (req, res) => {
   try {
-    let posts = await PostService.FindAll()
+    let posts;
+    let { agent, map } = req.query
+
+    if(agent && map) {
+      posts = await PostService.FindAllByMapAndAgent(agent, map)
+    }else {
+      posts = await PostService.FindAll()
+    }
+
     let postsFactories = []
     posts.forEach(post => {
       postsFactories.push(dataPost.Build(post))
@@ -119,6 +127,7 @@ router.get('/posts', async (req, res) => {
     return res.json({error: 'Erro no servidor'})
   }
 })
+
 
 router.delete('/post/:id', userAuth, async (req, res) => {
   let idUser = req.data.id

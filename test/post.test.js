@@ -120,7 +120,7 @@ describe('Deve testar o sistema de cadastro de posts', () => {
   })
 
   it('Deve Obter todos os posts', () => {
-    return request.get(`/posts`).set(token).then(res => {
+    return request.get(`/posts`).then(res => {
       expect(res.statusCode).toEqual(200)
     })
   })
