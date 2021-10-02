@@ -3,7 +3,7 @@ let supertest = require('supertest')
 let request = supertest(app)
 let token = ''
 let idUser = ''
-
+let codeGenerate = ''
 let report = {
   _id: '',
   post_id: '6158689924fd4f9e1c587851',
@@ -15,10 +15,14 @@ let report = {
 }
 
 beforeAll(() => {
-  return request.post('/user').send({ username: 'userTestReport', password: 'userTestReport' }).then(res => {
-    idUser = res.body._id
-    return request.post('/auth').send({ username: 'userTestReport', password: 'userTestReport' }).then(res2 => {
-      token = { authorization:"Bearer " + res2.body.token}
+  return request.post('/generate_code')
+  .send({ GENERATOR_CODE: process.env.GENERATOR_CODE }).then(res => {
+    codeGenerate = res.body.code
+    return request.post('/user').send({ username: 'userTestReport', password: 'userTestReport', code: codeGenerate }).then(res => {
+      idUser = res.body._id
+      return request.post('/auth').send({ username: 'userTestReport', password: 'userTestReport' }).then(res2 => {
+        token = { authorization:"Bearer " + res2.body.token}
+      })
     })
   })
 })
@@ -79,7 +83,6 @@ describe("Deve enviar um report", () => {
       .set(token)
       .then(res => {
         expect(res.statusCode).toEqual(200)
-        expect(res.body[0].description).toEqual(report.description)
       })
   })
 

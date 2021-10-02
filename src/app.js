@@ -5,6 +5,7 @@ const UserController = require('../src/controllers/user')
 const PostController = require('../src/controllers/post')
 const SuggestionController = require('../src/controllers/suggestion')
 const ReportController = require('../src/controllers/report')
+const CodeController = require('./controllers/code')
 
 const cors = require('cors')
 
@@ -21,6 +22,7 @@ app.use('/', UserController)
 app.use('/', PostController)
 app.use('/', SuggestionController)
 app.use('/', ReportController)
+app.use('/', CodeController)
 
 mongoose.connect(
   process.env.MONGO_URI, {}

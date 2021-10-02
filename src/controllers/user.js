@@ -1,6 +1,7 @@
 require('dotenv/config')
 const express = require('express')
 const UserService = require('../service/user')
+const CodeService = require('../service/Code')
 const router = express.Router()
 const userAuth = require('../middlewares/userAuth')
 const jwt = require('jsonwebtoken')
@@ -65,7 +66,14 @@ router.post('/auth', async (req, res) => {
 })
 
 router.post('/user', async (req, res) => {
-  let { username, password, image } = req.body
+  let { username, password, image, code } = req.body
+
+  let codeData = await CodeService.FindCode(code)
+
+  if (codeData?.code?.length < 10 || codeData === null) {
+    res.statusCode = (403)
+    return res.json({msg: 'invalid code'})
+  }
 
   if  (
     (username === undefined || username === null || username === '') ||
@@ -91,6 +99,11 @@ router.post('/user', async (req, res) => {
   }
 
   try {
+    let use = await CodeService.UseCode(codeData.code)
+    if(use.available !== false) {
+      return res.sendStatus(403)
+    }
+
     let newUser = dataUser.Build(await UserService.Create(update))
     return res.json(newUser)
   } catch(error) {
