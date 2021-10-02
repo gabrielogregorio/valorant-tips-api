@@ -10,23 +10,23 @@ let post = {
   description: 'Descrição maluca',
   user: '',
   tags: {
-    moment: ['ComeçoPartida'],
-    difficult: ['hard'],
-    ability: ['Spot'],
-    side: ['Atacantes'],
-    map: ['Ascent', 'Split'],
-    mapPosition: ['heaven'],
-    agent: ['Sova'],
+    moment: 'ComeçoPartida',
+    difficult: 'hard',
+    ability: 'Spot',
+    side: 'Atacantes',
+    map: 'Ascent',
+    mapPosition: 'heaven',
+    agent: 'Sova',
   },
   imgs: [
     {
       _id: "1",
-      title: 'Primeiro mire no pontinho roxo indicado',
+      description: 'Primeiro mire no pontinho roxo indicado',
       img: 'img/pontinho.png'
     },
     {
       _id: "2",
-      title: 'Depois solte a flexa com 1.5 de força',
+      description: 'Depois solte a flexa com 1.5 de força',
       img: 'img/pontinho2.png'
     },
   ]
@@ -37,23 +37,23 @@ let postEdited = {
   description: 'Descrição maluca 2',
   user: '',
   tags: {
-    moment: ['ComeçoPartida'],
-    difficult: ['Facil'],
-    ability: ['Spot'],
-    side: ['Atacantes'],
-    map: ['Ascent', 'Split'],
-    mapPosition: ['heaven'],
-    agent: ['Sova'],
+    moment: 'ComeçoPartida',
+    difficult: 'Facil',
+    ability: 'Spot',
+    side: 'Atacantes',
+    map: 'Ascent',
+    mapPosition: 'heaven',
+    agent: 'Sova',
   },
   imgs: [
     {
       _id: "1",
-      title: 'Primeiro mire no pontinho roxo indicado',
+      description: 'Primeiro mire no pontinho roxo indicado',
       img: 'img/pontinho.png'
     },
     {
       _id: "2",
-      title: 'Depois solte a flexa com 1.5 de força',
+      description: 'Depois solte a flexa com 1.5 de força',
       img: 'img/pontinho2.png'
     },
   ]
@@ -87,12 +87,12 @@ describe('Deve testar o sistema de cadastro de posts', () => {
   it('Deve cadastrar um post', () => {
     return request.post('/post').set(token).send(post).then(res => {
       expect(res.statusCode).toEqual(200)
-      expect(res.body.title).toEqual('Titulo de um post maluco')
+      expect(res.body.title).toEqual(post.title)
       expect(res.body.user._id).toEqual(idUser)
-      expect(res.body.description).toEqual('Descrição maluca')
-      expect(res.body.tags.map[1]).toEqual('Split')
-      expect(res.body.imgs[0].title).toEqual('Primeiro mire no pontinho roxo indicado')
-      expect(res.body.imgs[1].title).toEqual('Depois solte a flexa com 1.5 de força')
+      expect(res.body.description).toEqual(post.description)
+      expect(res.body.tags.map).toEqual(post.tags.map)
+      expect(res.body.imgs[0].description).toEqual('Primeiro mire no pontinho roxo indicado')
+      expect(res.body.imgs[1].description).toEqual('Depois solte a flexa com 1.5 de força')
       postId = res.body._id
     })
   })

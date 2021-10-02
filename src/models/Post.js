@@ -11,13 +11,13 @@ const postSchema = mongoose.Schema({
     ref: 'User'
   },
   tags: {
-    moment: [String],
-    difficult: [String],
-    ability: [String],
-    side: [String],
-    map: [String],
-    mapPosition: [String],
-    agent: [String],
+    moment: String,
+    difficult: String,
+    ability: String,
+    side: String,
+    map: String,
+    mapPosition: String,
+    agent: String,
   },
   imgs: [
     {

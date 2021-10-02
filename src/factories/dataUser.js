@@ -1,6 +1,6 @@
 class DataUser {
   Build(user) {
-    if (user === undefined) {
+    if (!user) {
       return {}
     }
 
