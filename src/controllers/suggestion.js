@@ -15,18 +15,30 @@ router.post('/suggestion', async(req, res) => {
     return res.json({erro: 'Parametros inválidos ou faltantes'})
   }
 
-  let suggestion = await SuggestionService.Create({
-    post_id,
-    email,
-    description
-  })
+  try {
+    let suggestion = await SuggestionService.Create({
+      post_id,
+      email,
+      description
+    })
 
-  return res.json(suggestion)
+    return res.json(suggestion)
+  } catch(error) {
+    console.log(error)
+    res.statusCode = 500
+    return res.json({error: 'Erro no Servidor'})
+  }
 })
 
 router.get('/suggestions', userAuth, async (req, res) => {
-  let suggestions = await SuggestionService.FindAdll()
-  return res.json(suggestions)
+  try {
+    let suggestions = await SuggestionService.FindAdll()
+    return res.json(suggestions)
+  } catch(error) {
+    console.log(error)
+    res.statusCode = 500
+    return res.json({error: 'Erro no Servidor'})
+  }
 })
 
 router.put('/suggestion/:id', userAuth, async (req, res) => {

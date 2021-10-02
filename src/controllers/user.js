@@ -94,6 +94,7 @@ router.post('/user', async (req, res) => {
     let newUser = dataUser.Build(await UserService.Create(update))
     return res.json(newUser)
   } catch(error) {
+    console.log(error)
     res.statusCode = 500
     return res.json({error: 'Erro no servidor'})
   }
@@ -129,6 +130,7 @@ router.put('/user', userAuth, async (req, res) => {
     let userUpdate = dataUser.Build(await UserService.FindByIdAndUpdate(id, update))
     return res.json(userUpdate)
   } catch(error) {
+    console.log(error)
     res.statusCode = 500
     return res.json({error: 'Erro no servidor'})
   }
@@ -141,6 +143,7 @@ router.get('/user', userAuth, async (req, res) => {
     let newUser = dataUser.Build(await UserService.FindById(id))
     return res.json(newUser)
   } catch(error) {
+    console.log(error)
     res.statusCode = 500
     return res.json({error: 'Erro no servidor'})
   }
@@ -153,6 +156,7 @@ router.delete('/user', userAuth, async (req, res) => {
     await UserService.DeleteById(id)
     return res.json({})
   } catch(error) {
+    console.log(error)
     res.statusCode = 500
     return res.json({error: 'Erro no servidor'})
   }

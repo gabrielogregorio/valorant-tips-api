@@ -14,25 +14,37 @@ router.post('/report', async(req, res) => {
     res.statusCode = 400
     return res.json({erro: 'Parametros inválidos ou faltantes'})
   }
+
   if (!screenHeight || !screenWidth) {
     screenHeight = 0
     screenWidth = 0
   }
 
-  let report = await ReportService.Create({
-    post_id,
-    email,
-    description,
-    screenHeight,
-    screenWidth
-  })
-
-  return res.json(report)
+  try {
+    let report = await ReportService.Create({
+      post_id,
+      email,
+      description,
+      screenHeight,
+      screenWidth
+    })
+    return res.json(report)
+  } catch(error) {
+    console.log(error)
+    res.statusCode = 500
+    return res.json({error: 'Erro no Servidor'})
+  }
 })
 
 router.get('/reports', userAuth, async (req, res) => {
-  let reports = await ReportService.FindAdll()
-  return res.json(reports)
+  try {
+    let reports = await ReportService.FindAdll()
+    return res.json(reports)
+  } catch(error) {
+    console.log(error)
+    res.statusCode = 500
+    return res.json({error: 'Erro no Servidor'})
+  }
 })
 
 router.put('/report/:id', userAuth, async (req, res) => {

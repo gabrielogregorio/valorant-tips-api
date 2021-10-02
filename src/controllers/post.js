@@ -63,6 +63,7 @@ router.post('/post', userAuth, async (req, res) => {
     let newPost = dataPost.Build(await PostService.Create({ title, description, user, tags, imgs }))
     return res.json(newPost)
   } catch(error) {
+    console.log(error)
     res.statusCode = 500
     return res.json({error: 'Erro no servidor'})
   }
@@ -84,6 +85,7 @@ router.put('/post/:id', userAuth, async (req, res) => {
     let postUpdate = dataPost.Build(await PostService.FindByIdAndUpdate(id,  {title, description, user, tags, imgs}))
     return res.json(postUpdate)
   } catch(error) {
+    console.log(error)
     res.statusCode = 500
     return res.json({error: 'Erro no servidor'})
   }
@@ -96,6 +98,7 @@ router.get('/post/:id', async (req, res) => {
     let post = dataPost.Build(await PostService.FindById(id))
     return res.json(post)
   } catch(error) {
+    console.log(error)
     res.statusCode = 500
     return res.json({error: 'Erro no servidor'})
   }
@@ -111,13 +114,11 @@ router.get('/posts', async (req, res) => {
 
     return res.json(postsFactories)
   } catch(error) {
-    res.statusCode = 500
     console.log(error)
+    res.statusCode = 500
     return res.json({error: 'Erro no servidor'})
   }
 })
-
-
 
 router.delete('/post/:id', userAuth, async (req, res) => {
   let idUser = req.data.id
@@ -127,6 +128,7 @@ router.delete('/post/:id', userAuth, async (req, res) => {
     await PostService.DeleteById(idPost, idUser)
     return res.json({})
   } catch(error) {
+    console.log(error)
     res.statusCode = 500
     return res.json({error: 'Erro no servidor'})
   }
