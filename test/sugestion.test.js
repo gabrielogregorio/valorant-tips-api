@@ -3,20 +3,24 @@ let supertest = require('supertest')
 let request = supertest(app)
 let token = ''
 let idUser = ''
-
+let codeGenerate = ''
 let sugestion = {
   _id: '',
-  post_id: '12345123145',
+  post_id: '6158689924fd4f9e1c587851',
   email: 'gab@gab.com',
   description: 'Eu acho que seria...',
   status: ''
 }
 
 beforeAll(() => {
-  return request.post('/user').send({ username: 'userTestSugestion', password: 'userTestSugestion' }).then(res => {
-    idUser = res.body._id
-    return request.post('/auth').send({ username: 'userTestSugestion', password: 'userTestSugestion' }).then(res2 => {
-      token = { authorization:"Bearer " + res2.body.token}
+  return request.post('/generate_code')
+  .send({ GENERATOR_CODE: process.env.GENERATOR_CODE }).then(res => {
+    codeGenerate = res.body.code
+    return request.post('/user').send({ username: 'userTestSugestion', password: 'userTestSugestion', code: codeGenerate }).then(res => {
+      idUser = res.body._id
+      return request.post('/auth').send({ username: 'userTestSugestion', password: 'userTestSugestion' }).then(res2 => {
+        token = { authorization:"Bearer " + res2.body.token}
+      })
     })
   })
 })

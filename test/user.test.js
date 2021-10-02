@@ -1,3 +1,4 @@
+require('dotenv/config')
 let { app, mongoose } = require('../src/app')
 let supertest = require('supertest')
 let request = supertest(app)
@@ -9,15 +10,30 @@ let userTest = {
 
 let idUser = ''
 let token = ''
+let codeGenerate = ''
+let codeGenerate2 = ''
 
 afterAll(async () =>{
   await mongoose.connection.close()
 })
 
+beforeAll(() => {
+  return request.post('/generate_code')
+    .send({ GENERATOR_CODE: process.env.GENERATOR_CODE }).then(res => {
+      codeGenerate = res.body.code
+      return request.post('/generate_code')
+      .send({ GENERATOR_CODE: process.env.GENERATOR_CODE }).then(res => {
+        codeGenerate2 = res.body.code
+      })
+    })
+})
+
+
 describe("Testa o CRUD de usuários", () => {
   it("Deve cadastrar um usuário", () => {
     return request.post('/user')
       .send({
+        code: codeGenerate,
         username: userTest.password,
         password: userTest.username
       }).then(res => {
@@ -29,6 +45,7 @@ describe("Testa o CRUD de usuários", () => {
   it("Deve retornar 409 ao tentar cadastrar um usuário que já existe", () => {
     return request.post('/user')
       .send({
+        code: codeGenerate2,
         username: userTest.username,
         password: userTest.password
       }).then(res => {

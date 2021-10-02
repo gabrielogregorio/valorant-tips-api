@@ -1,7 +1,7 @@
 let { app, mongoose } = require('../src/app')
 let supertest = require('supertest')
 let request = supertest(app)
-
+let codeGenerate = ''
 let idUser = ''
 let token = ''
 let postId = ''
@@ -59,17 +59,27 @@ let postEdited = {
   ]
 }
 
-beforeAll(() => {
-  return request.post('/user').send({ username: 'userTest', password: 'userTest' }).then(res => {
-    idUser = res.body._id
-    post.user = idUser
-    postEdited.user = idUser
 
-    return request.post('/auth').send({ username: 'userTest', password: 'userTest' }).then(res => {
-      token = { authorization:"Bearer " + res.body.token}
+beforeAll(() => {
+  return request.post('/generate_code')
+  .send({ GENERATOR_CODE: process.env.GENERATOR_CODE }).then(res => {
+    codeGenerate = res.body.code
+
+    return request.post('/user').send({ username: 'userTest', password: 'userTest', code: codeGenerate }).then(res => {
+      idUser = res.body._id
+      post.user = idUser
+      postEdited.user = idUser
+
+      return request.post('/auth').send({ username: 'userTest', password: 'userTest' }).then(res => {
+        token = { authorization:"Bearer " + res.body.token}
+      })
     })
   })
 })
+
+
+
+
 
 afterAll(async () =>{
   await request.delete(`/user`).set(token)
@@ -120,7 +130,7 @@ describe('Deve testar o sistema de cadastro de posts', () => {
   })
 
   it('Deve Obter todos os posts', () => {
-    return request.get(`/posts`).set(token).then(res => {
+    return request.get(`/posts`).then(res => {
       expect(res.statusCode).toEqual(200)
     })
   })

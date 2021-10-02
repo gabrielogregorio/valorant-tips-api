@@ -23,6 +23,11 @@ class PostService {
     return post
   }
 
+  async FindAllByMapAndAgent(agent, map) {
+    let post = await Post.find({'tags.agent': agent, 'tags.map': map}).populate('user')
+    return post
+  }
+
   async DeleteById(idPost, idUser)   {
     let deletePost = await Post.findOneAndDelete({_id: idPost})
     return deletePost
