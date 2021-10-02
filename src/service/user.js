@@ -1,13 +1,13 @@
 const User = require('../models/User')
 
 class UserService {
-  async Create({username, password}) {
-    let newUser = new User({username, password})
+  async Create({username, password, image}) {
+    let newUser = new User({username, password, image})
     await newUser.save()
     return newUser
   }
 
-  async FindByIdAndUpdate(id, {username, password}) {
+  async FindByIdAndUpdate(id, {username, password, image}) {
     let update = {}
     // Senha foi alterada
     if(password !== '' && password !== undefined && password !== null) {
@@ -16,6 +16,10 @@ class UserService {
     // Username foi alterado
     if(username !== '' && username !== undefined && username !== null) {
       update.username = username
+    }
+
+    if (image !== undefined && image !== '') {
+      update.image = image
     }
 
     let user = await User.findOneAndUpdate({_id: id}, {$set: update})
@@ -55,7 +59,6 @@ class UserService {
     let deleteuser = await User.findOneAndDelete({_id: id})
     return deleteuser
   }
-
 }
 
 module.exports = new UserService()

@@ -2,7 +2,7 @@ const Post = require('../models/Post')
 
 class PostService {
   async Create({ title, description, user, tags, imgs }) {
-    let newPost = new Post({ title, description, user, tags, imgs })
+    let newPost = new Post({ title, description, user, tags, imgs, user})
     await newPost.save()
     return newPost
   }
@@ -14,17 +14,17 @@ class PostService {
   }
 
   async FindById(id) {
-    let post = await Post.findById(id)
+    let post = await Post.findById(id).populate('user')
     return post
   }
 
   async FindAll() {
-    let post = await Post.find()
+    let post = await Post.find().populate('user')
     return post
   }
 
   async DeleteById(idPost, idUser)   {
-    let deletePost = await Post.findOneAndDelete({_id: idPost, user:idUser})
+    let deletePost = await Post.findOneAndDelete({_id: idPost})
     return deletePost
   }
 

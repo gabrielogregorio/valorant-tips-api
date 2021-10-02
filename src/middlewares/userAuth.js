@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 
 module.exports = (req, res, next) => {
   const authToken = req.headers.authorization
+
   if (authToken === '' || authToken === undefined) {
     return res.sendStatus(403)
   }
@@ -16,12 +17,14 @@ module.exports = (req, res, next) => {
     try {
       let data = jwt.verify(auth, process.env.JWT_SECRET);
       req.data = data;
+
       if (data.username === undefined) {
         res.sendStatus(403)
       } else {
         next()
       }
     } catch(error) {
+      console.log(error)
       res.sendStatus(403)
     }
   }
