@@ -3,8 +3,19 @@ const express = require('express')
 const PostService = require('../service/post')
 const router = express.Router()
 const userAuth = require('../middlewares/userAuth')
-const multer_post = require('../middlewares/multerPost')
+//const multer_post = require('../middlewares/multerPost')
+const { bucket } = require('./bucket')
+const Multer = require('multer')
 const dataPost = require('../factories/dataPost')
+const { v4: uuidv4 } = require('uuid');
+const {format} = require('util');
+
+const multer = Multer({
+  storage: Multer.memoryStorage(),
+  limits: {
+    fileSize: 10 * 1024 * 1024 // 5mb
+  }
+})
 
 function validValues(value) {
   if (value === '' || value === undefined || value === null) {
@@ -14,37 +25,29 @@ function validValues(value) {
 }
 
 
-router.post('/postLoadFile', multer_post.single('image'), async(req, res, next) => {
-  //let user = processId(req.data.id)
+router.post('/postLoadFile', multer.single('image'), async(req, res, next) => {
   let filename = ''
 
-  if (!req.file){ // || user === undefined) {
+  if (!req.file){
     res.status(400).send('No file uploaded.');
 
     return;
   }
 
-  if (req.file) {
-    filename = req.file['filename']
-  } else {
-    filename = ''
-  }
-  return res.json({filename})
+  const blob = bucket.file(`${Date.now().toString()}-${uuidv4()}`);
+  const blobStream = blob.createWriteStream();
 
-  //const blob = bucket.file(`${Date.now().toString()}-${uuid()}`);
-  //const blobStream = blob.createWriteStream();
+  blobStream.on('error', err => {
+    next(err);
+  });
 
-  //blobStream.on('error', err => {
-  //  next(err);
-  //});
-
-  //blobStream.on('finish', () => {
-  //  const publicUrl = format(
-  //   `https://storage.googleapis.com/${bucket.name}/${blob.name}`
-  //  );
-  //  res.json({file:publicUrl})
-  //});
-  //blobStream.end(req.file.buffer);
+  blobStream.on('finish', () => {
+    const publicUrl = format(
+     `https://storage.googleapis.com/${bucket.name}/${blob.name}`
+    );
+    res.json({filename:publicUrl})
+  });
+  blobStream.end(req.file.buffer);
 })
 
 
