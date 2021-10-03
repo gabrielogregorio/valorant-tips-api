@@ -21,8 +21,8 @@ class PostService {
   async FindAll() {
     let post = await Post.find({},null,
       {
-        skip:0, // Starting Row
-        limit:2, // Ending Row
+        skip: 0, // Starting Row
+        limit: 15, // Ending Row
         sort:{
           updatedAt: -1 //Sort by Date Added DESC
         }
@@ -39,8 +39,8 @@ class PostService {
       },
       null,
       {
-        skip:0, // Starting Row
-        limit:3, // Ending Row
+        skip: 0, // Starting Row
+        limit: 15, // Ending Row
         sort:{
           updatedAt: -1 //Sort by Date Added DESC
         }
