@@ -26,6 +26,8 @@ const postSchema = mongoose.Schema({
       image: String
     }
   ]
+}, {
+  timestamps: true
 })
 
 const Post = mongoose.model('Post', postSchema)

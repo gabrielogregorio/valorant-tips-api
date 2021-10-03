@@ -19,12 +19,32 @@ class PostService {
   }
 
   async FindAll() {
-    let post = await Post.find().populate('user')
+    let post = await Post.find({},null,
+      {
+        skip:0, // Starting Row
+        limit:2, // Ending Row
+        sort:{
+          updatedAt: -1 //Sort by Date Added DESC
+        }
+      }
+    ).populate('user')
     return post
   }
 
   async FindAllByMapAndAgent(agent, map) {
-    let post = await Post.find({'tags.agent': agent, 'tags.map': map}).populate('user')
+    let post = await Post.find(
+      {
+        'tags.agent': agent,
+        'tags.map': map
+      },
+      null,
+      {
+        skip:0, // Starting Row
+        limit:3, // Ending Row
+        sort:{
+          updatedAt: -1 //Sort by Date Added DESC
+        }
+      }).populate('user')
     return post
   }
 
