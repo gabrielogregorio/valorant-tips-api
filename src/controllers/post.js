@@ -3,7 +3,6 @@ const express = require('express')
 const PostService = require('../service/post')
 const router = express.Router()
 const userAuth = require('../middlewares/userAuth')
-//const multer_post = require('../middlewares/multerPost')
 const { bucket } = require('./bucket')
 const Multer = require('multer')
 const dataPost = require('../factories/dataPost')
@@ -13,7 +12,7 @@ const {format} = require('util');
 const multer = Multer({
   storage: Multer.memoryStorage(),
   limits: {
-    fileSize: 10 * 1024 * 1024 // 5mb
+    fileSize: 0.9 * 1024 * 1024 // 5mb
   }
 })
 
@@ -26,8 +25,6 @@ function validValues(value) {
 
 
 router.post('/postLoadFile', multer.single('image'), async(req, res, next) => {
-  let filename = ''
-
   if (!req.file){
     res.status(400).send('No file uploaded.');
 
