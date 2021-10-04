@@ -18,6 +18,16 @@ class PostService {
     return post
   }
 
+  async findAvaliableMaps() {
+      let maps = await Post.find().distinct('tags.map')
+      return maps
+  }
+
+  async findAvaliableAgents(map) {
+    let agents = await Post.find({'tags.map': map}).distinct('tags.agent')
+    return agents
+  }
+
   async FindAll() {
     let post = await Post.find({},null,
       {
