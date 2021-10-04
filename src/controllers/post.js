@@ -100,6 +100,36 @@ router.get('/post/:id', async (req, res) => {
   }
 })
 
+
+/* Sem cobertura de testes */
+/* Sem cobertura de testes */
+router.get('/maps', async (req, res) => {
+  try {
+    let maps = await PostService.findAvaliableMaps()
+    return res.json({ maps })
+  } catch(error) {
+    console.log(error)
+    res.statusCode = 500
+    return res.json({error: 'Erro ao obter a listagem de mapas'})
+  }
+})
+
+router.get('/agents/:map', async (req, res) => {
+  try {
+    let agents = await PostService.findAvaliableAgents(req.params.map)
+    return res.json({ agents })
+  } catch(error) {
+    console.log(error)
+    res.statusCode = 500
+    return res.json({error: 'Erro ao obter a listagem de Agentes por mapa'})
+  }
+})
+
+/* Sem cobertura de testes */
+/* Sem cobertura de testes */
+
+
+
 router.get('/posts', async (req, res) => {
   try {
     let posts;

@@ -107,7 +107,6 @@ describe('Deve testar o sistema de cadastro de posts', () => {
     })
   })
 
-
   it('Deve retornar 400 para o cadastro de um post sem os dados', () => {
     return request.post('/post').set(token).send({}).then(res => {
       expect(res.statusCode).toEqual(400)
