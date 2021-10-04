@@ -3,18 +3,9 @@ const express = require('express')
 const PostService = require('../service/post')
 const router = express.Router()
 const userAuth = require('../middlewares/userAuth')
-const { bucket } = require('./bucket')
-const Multer = require('multer')
 const dataPost = require('../factories/dataPost')
 const { v4: uuidv4 } = require('uuid');
-const {format} = require('util');
-
-const multer = Multer({
-  storage: Multer.memoryStorage(),
-  limits: {
-    fileSize: 0.9 * 1024 * 1024 // 5mb
-  }
-})
+const { bucket, format, Multer, multer } = require('./mode')
 
 function validValues(value) {
   if (value === '' || value === undefined || value === null) {
@@ -23,7 +14,6 @@ function validValues(value) {
   return value
 }
 
-
 router.post('/postLoadFile', multer.single('image'), async(req, res, next) => {
   if (!req.file){
     res.status(400).send('No file uploaded.');
@@ -31,20 +21,26 @@ router.post('/postLoadFile', multer.single('image'), async(req, res, next) => {
     return;
   }
 
-  const blob = bucket.file(`${Date.now().toString()}-${uuidv4()}`);
-  const blobStream = blob.createWriteStream();
+  if (process.env.MODE_RUN === 'PRODUCTION') {
+    const blob = bucket.file(`${Date.now().toString()}-${uuidv4()}`);
+    const blobStream = blob.createWriteStream();
 
-  blobStream.on('error', err => {
-    next(err);
-  });
+    blobStream.on('error', err => {
+      next(err);
+    });
 
-  blobStream.on('finish', () => {
-    const publicUrl = format(
-     `https://storage.googleapis.com/${bucket.name}/${blob.name}`
-    );
-    res.json({filename:publicUrl})
-  });
-  blobStream.end(req.file.buffer);
+    blobStream.on('finish', () => {
+      const publicUrl = format(
+       `https://storage.googleapis.com/${bucket.name}/${blob.name}`
+      );
+      res.json({filename:publicUrl})
+    });
+    blobStream.end(req.file.buffer);
+
+  } else if(process.env.MODE_RUN === 'DEVELOP') {
+    console.log('upload in develop mode => ok')
+    return res.json({filename: req.file['filename']})
+  }
 })
 
 
