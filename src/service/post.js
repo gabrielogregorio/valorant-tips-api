@@ -22,7 +22,7 @@ class PostService {
     let post = await Post.find({},null,
       {
         skip: 0, // Starting Row
-        limit: 15, // Ending Row
+        limit: 5, // Ending Row
         sort:{
           updatedAt: -1 //Sort by Date Added DESC
         }
@@ -40,7 +40,7 @@ class PostService {
       null,
       {
         skip: 0, // Starting Row
-        limit: 15, // Ending Row
+        limit: 50, // Ending Row
         sort:{
           updatedAt: -1 //Sort by Date Added DESC
         }
@@ -52,7 +52,6 @@ class PostService {
     let deletePost = await Post.findOneAndDelete({_id: idPost})
     return deletePost
   }
-
 }
 
 module.exports = new PostService()
