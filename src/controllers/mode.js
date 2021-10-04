@@ -6,7 +6,7 @@ const multer_post = require('../middlewares/multerPost')
 const multer = Multer({
   storage: Multer.memoryStorage(),
   limits: {
-    fileSize: 0.9 * 1024 * 1024 // 5mb
+    fileSize: 2.5 * 1024 * 1024 // 5mb
   }
 })
 console.log(process.env.MODE_RUN)
