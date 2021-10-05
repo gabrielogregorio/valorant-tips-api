@@ -32,7 +32,7 @@ class PostService {
     let post = await Post.find({},null,
       {
         skip: 0, // Starting Row
-        limit: 5, // Ending Row
+        limit: 50, // Ending Row
         sort:{
           updatedAt: -1 //Sort by Date Added DESC
         }
