@@ -28,20 +28,28 @@ class PostService {
     return agents
   }
 
-  async FindAll() {
+
+  async FindAll(page) {
+    let skip = 2
+    let count = await Post.countDocuments({});
+
     let post = await Post.find({},null,
       {
-        skip: 0, // Starting Row
-        limit: 50, // Ending Row
+        skip: page * skip,
+        limit: skip,
         sort:{
           updatedAt: -1 //Sort by Date Added DESC
         }
       }
     ).populate('user')
-    return post
+
+    return {post, count: Math.ceil(count / skip)}
   }
 
-  async FindAllByMapAndAgent(agent, map) {
+  async FindAllByMapAndAgent(agent, map, page) {
+    let skip = 2
+    let count = await Post.countDocuments({});
+
     let post = await Post.find(
       {
         'tags.agent': agent,
@@ -49,13 +57,13 @@ class PostService {
       },
       null,
       {
-        skip: 0, // Starting Row
-        limit: 50, // Ending Row
+        skip:  page * skip,
+        limit: skip,
         sort:{
           updatedAt: -1 //Sort by Date Added DESC
         }
       }).populate('user')
-    return post
+    return {post, count: Math.ceil(count / skip)}
   }
 
   async DeleteById(idPost, idUser)   {

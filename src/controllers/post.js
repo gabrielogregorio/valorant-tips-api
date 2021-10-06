@@ -38,7 +38,6 @@ router.post('/postLoadFile', multer.single('image'), async(req, res, next) => {
     blobStream.end(req.file.buffer);
 
   } else if(process.env.MODE_RUN === 'DEVELOP') {
-    console.log('upload in develop mode => ok')
     return res.json({filename: req.file['filename']})
   }
 })
@@ -129,24 +128,40 @@ router.get('/agents/:map', async (req, res) => {
 /* Sem cobertura de testes */
 
 
+function testPage(value) {
+  // Nunca sera 0
+  if(value === undefined) {
+    return 0
+  }
+  console.log(typeof value)
+  if (isNaN(value)) {
+    return 0
+  }
+
+  let value2 = parseInt(value) - 1
+  if(value2 < 0) {
+    return 0
+  }
+  return value2
+}
 
 router.get('/posts', async (req, res) => {
   try {
     let posts;
-    let { agent, map } = req.query
+    let { agent, map, page } = req.query
 
     if(agent && map) {
-      posts = await PostService.FindAllByMapAndAgent(agent, map)
+      posts = await PostService.FindAllByMapAndAgent(agent, map, testPage(page))
     }else {
-      posts = await PostService.FindAll()
+      posts = await PostService.FindAll(testPage(page))
     }
 
     let postsFactories = []
-    posts.forEach(post => {
+    posts.post.forEach(post => {
       postsFactories.push(dataPost.Build(post))
     })
 
-    return res.json(postsFactories)
+    return res.json({posts:postsFactories, count: posts.count})
   } catch(error) {
     console.log(error)
     res.statusCode = 500
