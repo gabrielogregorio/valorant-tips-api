@@ -28,9 +28,8 @@ class PostService {
     return agents
   }
 
-
   async FindAll(page) {
-    let skip = 2
+    let skip = 10
     let count = await Post.countDocuments({});
 
     let post = await Post.find({},null,
@@ -47,8 +46,8 @@ class PostService {
   }
 
   async FindAllByMapAndAgent(agent, map, page) {
-    let skip = 2
-    let count = await Post.countDocuments({});
+    let skip = 10
+    let count = await Post.countDocuments({ 'tags.agent': agent, 'tags.map': map });
 
     let post = await Post.find(
       {
