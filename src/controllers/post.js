@@ -1,6 +1,7 @@
 require('dotenv/config')
 const express = require('express')
 const PostService = require('../service/post')
+const viewSerice = require('../service/View')
 const router = express.Router()
 const userAuth = require('../middlewares/userAuth')
 const dataPost = require('../factories/dataPost')
@@ -133,7 +134,7 @@ function testPage(value) {
   if(value === undefined) {
     return 0
   }
-  console.log(typeof value)
+
   if (isNaN(value)) {
     return 0
   }
@@ -145,7 +146,25 @@ function testPage(value) {
   return value2
 }
 
+
+
+router.get('/tags', async (req, res) => {
+    let { agent, map } = req.query
+
+    if(agent && map) {
+      posts = await PostService.FindAllTags(agent, map)
+    }
+    return res.sendStatus(400)
+})
+
 router.get('/posts', async (req, res) => {
+  try {
+    let ip = req.socket.remoteAddress.split(`:`).pop();
+    viewSerice.Create(ip)
+  } catch(error) {
+    console.log('Erro ao registrar IP ', error)
+  }
+
   try {
     let posts;
     let { agent, map, page } = req.query
