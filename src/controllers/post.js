@@ -157,6 +157,7 @@ router.get('/tags', async (req, res) => {
     return res.sendStatus(400)
 })
 
+
 router.get('/posts', async (req, res) => {
   try {
     let ip = req.socket.remoteAddress.split(`:`).pop();
@@ -167,10 +168,17 @@ router.get('/posts', async (req, res) => {
 
   try {
     let posts;
-    let { agent, map, page } = req.query
+    let { agent, map, page, filters } = req.query
+
+    if(filters === undefined || filters === null || filters === '' || filters === ',') {
+
+      filters = []
+    } else {
+      filters = filters.split(',')
+    }
 
     if(agent && map) {
-      posts = await PostService.FindAllByMapAndAgent(agent, map, testPage(page))
+      posts = await PostService.FindAllByMapAndAgent(agent, map, testPage(page), filters)
     }else {
       posts = await PostService.FindAll(testPage(page))
     }
@@ -180,7 +188,7 @@ router.get('/posts', async (req, res) => {
       postsFactories.push(dataPost.Build(post))
     })
 
-    return res.json({posts:postsFactories, count: posts.count})
+    return res.json({posts:postsFactories, count: posts.count, tags: posts.tags})
   } catch(error) {
     console.log(error)
     res.statusCode = 500
