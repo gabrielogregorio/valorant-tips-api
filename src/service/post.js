@@ -29,7 +29,7 @@ class PostService {
   }
 
   async FindAll(page) {
-    let skip = 2
+    let skip = 10
     let count = await Post.countDocuments({});
 
     let post = await Post.find({},null,
@@ -99,7 +99,7 @@ class PostService {
   }
 
   async FindAllByMapAndAgent(agent, map, page, filters) {
-    let skip = 2
+    let skip = 10
     let posts = await Post.find({ 'tags.agent': agent, 'tags.map': map },
       null,
       { sort:{ updatedAt: -1 } }).populate('user')
