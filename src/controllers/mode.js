@@ -9,11 +9,10 @@ const multer = Multer({
     fileSize: 2.5 * 1024 * 1024 // 5mb
   }
 })
-console.log(process.env.MODE_RUN)
+
 if (process.env.MODE_RUN === 'PRODUCTION') {
   module.exports = { bucket, format, Multer, multer }
 } else if(process.env.MODE_RUN === 'DEVELOP') {
-  console.log('dev')
   module.exports = { bucket:null, format:null, Multer:null, multer: multer_post }
 }
 
