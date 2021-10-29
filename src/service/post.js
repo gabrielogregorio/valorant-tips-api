@@ -28,11 +28,12 @@ class PostService {
     return agents
   }
 
-  async FindAll(page) {
+  async FindAll(page, idPosts) {
     let skip = 10
-    let count = await Post.countDocuments({});
+    let filter = idPosts === undefined ? {} : {'_id': {$in: idPosts}}
+    let count = await Post.countDocuments(filter);
 
-    let post = await Post.find({},null,
+    let post = await Post.find(filter, null,
       {
         skip: page * skip,
         limit: skip,
@@ -41,6 +42,7 @@ class PostService {
         }
       }
     ).populate('user')
+
 
     return {post, count: Math.ceil(count / skip), tags: []}
   }

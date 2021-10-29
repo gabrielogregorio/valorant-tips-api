@@ -168,19 +168,22 @@ router.get('/posts', async (req, res) => {
 
   try {
     let posts;
-    let { agent, map, page, filters } = req.query
+    let { agent, map, page, filters, idPosts } = req.query
 
     if(filters === undefined || filters === null || filters === '' || filters === ',') {
-
       filters = []
     } else {
       filters = filters.split(',')
     }
 
+    if(idPosts !== undefined) {
+      idPosts = JSON.parse(idPosts)
+    }
+
     if(agent && map) {
       posts = await PostService.FindAllByMapAndAgent(agent, map, testPage(page), filters)
     }else {
-      posts = await PostService.FindAll(testPage(page))
+      posts = await PostService.FindAll(testPage(page), idPosts)
     }
 
     let postsFactories = []
