@@ -20,32 +20,64 @@
 ## Backend Dicas de Valorant
 
 ### Descrição
-Backend do projeto dicas de valorant.
+Backend do projeto dicas de Valorant.
 
-### Requisitos
+### Preparando o ambiente de desenvolvimento
+Se o seu objetivo é focar no front-end, só se preocupe com esse tópico.
 
-É preciso ter conhecimento em NodeJs, Google Cloud Buckets, Multer, Heroku, ExpressJs, Jest, MongoDb Local e MongoDb Atlas para explorar ao máximo esse projeto.
+1. Instale o [mongodb community server](https://www.mongodb.com/try/download/community?tck=docs_server)
+2. Inicie o mondodb
+> No windows, abra o Prompt de Comando como administrador, execute o comando "net start mongodb", isso deverá iniciar o mongodb. Depois execute o comando "mongo" para acessar o banco de dados, se você conseguir acessar, pode continuar os passos.
+> No Linux o processo é similar, mas não vou deixar documentado aqui.
+3. Com tudo funcionando, faça um fork deste projeto
+4. Clone o fork na sua máquina
+5. Acesse a branch de desenvolvimento
+```shell
+git checkout -b develop origin/develop
+```
+6. Instale os pacotes necessários
+```shell
+npm install
+```
+7. Faça uma cópia do arquivo ".env.develop.example" para ".env".
+> Note que dentro do arquivo .env, o único parâmetro que você talvez precise de ajustar é o "MONGO_URI".
+8. Acesse o app.js, e descomente a importação e a chamada no controller do "DevEnvironment"
 
-### Ambiente de desenvolvimento vs Produção
+![Descomente as duas linhas](./docs/img1.png)
 
-O ambiente de desenvolvimento deve ser configurado nestas condições
+9. Execute a aplicação
+```shell
+npm run dev
+```
+10. Acesse o endereço abaixo para que o ambiente de desenvolvimento seja criado.
+```shell
+http://127.0.0.1:3333/prepare_dev_environment
+```
+11. Comente novamente as duas linhas que você descomentou, isso é extremamente importante, pois não queremos que esse recurso esteja disponível no ambiente de produção.
+> Pull request com essas linhas descomentadas serão rejeitados
 
-| ITEM | DESCRIÇÃO |
-|------|-----------|
-| MODE_RUN | DEVELOP ou PRODUCTION |
-| MONGO_URI | URI do mongodb, local para ambiente de desenvolvimento, e a URI de produção para na hospedage |
-| JWT_SECRET | Um código qualquer |
-| GENERATOR_CODE | Um código qualquer que permite a geração de convites para outros usuários |
-| GCLOUD_PROJECT_ID | Project Id, obtido da configuração do Google Cloud Buckets
-| GCLOUD_STORAGE_BUCKET |
+![Comente as duas linhas](./docs/img2.png)
 
-Além disso, é preciso criar um arquivo chamado 'google-credentials.json' com as credencias do Google Cloud Bucket. Na pratica deixe esse arquivo apenas para testar o backend local com o Google Buckets e em produção, pois, durante o ambiente de desenvolvimento o Google Cloud Bucket, assim como o mongodb Atlas não são utilizados.
+12. Pronto, backend de desenvolvimento configurado, agora teremos vários posts para testes e um usuário de acesso
+```text
+username: developer
+password: developer
+```
+
+### Ambiente de Produção
+Para fazer deploy você precisa ter conhecimento em NodeJs, Google Cloud Buckets, Multer, Heroku, ExpressJs, Jest, MongoDb Local e MongoDb Atlas.
+
+É preciso criar um arquivo chamado 'google-credentials.json' com as credenciais do Google Cloud Bucket. Na prática deixe esse arquivo apenas para testar o backend local com o Google Buckets e em produção, pois, durante o ambiente de desenvolvimento o Google Cloud Bucket, assim como o mongodb Atlas não são utilizados.
 
 ### Testes
 Para executar os testes automatizados é preciso ter o jest instalado de forma global.
 
-### Executar o projeto
-Para executar a aplicação, rode o comando abaixo nodemon src/server.js
+```shell
+npm run test
+```
 
-### Documentação
-Por enquanto estou usando os testes como documentação, portanto, basta acessar os arquivos de testes e você conseguirá entender a função de cada endpoint
+### Executar o projeto
+Para executar a aplicação, rode o comando abaixo
+```shell
+node src/server.js
+```
