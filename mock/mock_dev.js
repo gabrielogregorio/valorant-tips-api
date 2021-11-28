@@ -2700,14 +2700,6 @@ module.exports = {
       }
     ],
     "suggestion":[
-      {
-        "_id":"61590ef3f294ee0162a18dfe",
-        "email":"emailtest@test.com",
-        "description":"Muito god mano",
-        "createdAt":"2021-10-03T02:01:23.208Z",
-        "updatedAt":"2021-10-03T02:01:23.208Z",
-        "__v":0
-      }
     ]
   }
 }
