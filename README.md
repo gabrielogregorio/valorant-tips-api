@@ -45,7 +45,7 @@ npm install
 
 ![Descomente as duas linhas](./docs/img1.png)
 
-9. Execute a aplicação
+9. Execute a aplicação (considere instalar o nodemon, ou ajustar no package.json para node)
 ```shell
 npm run dev
 ```
