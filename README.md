@@ -7,7 +7,8 @@
   <img height="30" alt="Express" src="https://img.shields.io/badge/Express.js-404D59?style=for-the-badge">
 </div>
 
-<div align="center">    
+<div align="center">
+  
 ![GitHub estrelas](https://img.shields.io/github/stars/gabrielogregorio/vavatips-api)
 ![GitHub last commit](https://img.shields.io/github/last-commit/gabrielogregorio/vavatips-api?style=flat-square)
 ![GitHub contributors](https://img.shields.io/github/contributors/gabrielogregorio/vavatips-api)
