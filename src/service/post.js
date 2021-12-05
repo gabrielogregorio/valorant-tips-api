@@ -1,6 +1,6 @@
 const Post = require('../models/Post')
 
-const limitPostsByPage = 2
+const limitPostsByPage = 10
 
 class PostService {
   async Create({ title, description, user, tags, imgs }) {
