@@ -1,5 +1,7 @@
 const Post = require('../models/Post')
 
+const limitPostsByPage = 2
+
 class PostService {
   async Create({ title, description, user, tags, imgs }) {
     let newPost = new Post({ title, description, user, tags, imgs, user})
@@ -29,14 +31,13 @@ class PostService {
   }
 
   async FindAll(page, idPosts) {
-    let skip = 10
     let filter = idPosts === undefined ? {} : {'_id': {$in: idPosts}}
     let count = await Post.countDocuments(filter);
 
     let post = await Post.find(filter, null,
       {
-        skip: page * skip,
-        limit: skip,
+        skip: page * limitPostsByPage,
+        limit: limitPostsByPage,
         sort:{
           updatedAt: -1 //Sort by Date Added DESC
         }
@@ -44,7 +45,7 @@ class PostService {
     ).populate('user')
 
 
-    return {post, count: Math.ceil(count / skip), tags: []}
+    return {post, count: Math.ceil(count / limitPostsByPage), tags: []}
   }
 
 
@@ -101,7 +102,6 @@ class PostService {
   }
 
   async FindAllByMapAndAgent(agent, map, page, filters) {
-    let skip = 10
     let posts = await Post.find({ 'tags.agent': agent, 'tags.map': map },
       null,
       { sort:{ updatedAt: -1 } }).populate('user')
@@ -114,9 +114,9 @@ class PostService {
 
 
     return {
-      post: posts.slice(page * skip, page * skip + skip),
+      post: posts.slice(page * limitPostsByPage, page * limitPostsByPage + limitPostsByPage),
       tags,
-      count: Math.ceil(count / skip)}
+      count: Math.ceil(count / limitPostsByPage)}
   }
 
   async DeleteById(idPost, idUser)   {
