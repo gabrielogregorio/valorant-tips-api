@@ -44,7 +44,6 @@ class PostService {
       }
     ).populate('user')
 
-
     return {post, count: Math.ceil(count / limitPostsByPage), tags: []}
   }
 

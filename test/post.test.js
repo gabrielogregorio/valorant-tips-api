@@ -20,12 +20,12 @@ let post = {
   },
   imgs: [
     {
-      _id: "1",
+      id: "1",
       description: 'Primeiro mire no pontinho roxo indicado',
       img: 'img/pontinho.png'
     },
     {
-      _id: "2",
+      id: "2",
       description: 'Depois solte a flexa com 1.5 de força',
       img: 'img/pontinho2.png'
     },
@@ -47,12 +47,12 @@ let postEdited = {
   },
   imgs: [
     {
-      _id: "1",
+      id: "1",
       description: 'Primeiro mire no pontinho roxo indicado',
       img: 'img/pontinho.png'
     },
     {
-      _id: "2",
+      id: "2",
       description: 'Depois solte a flexa com 1.5 de força',
       img: 'img/pontinho2.png'
     },
@@ -66,7 +66,7 @@ beforeAll(() => {
     codeGenerate = res.body.code
 
     return request.post('/user').send({ username: 'userTest', password: 'userTest', code: codeGenerate }).then(res => {
-      idUser = res.body._id
+      idUser = res.body.id
       post.user = idUser
       postEdited.user = idUser
 
@@ -78,14 +78,10 @@ beforeAll(() => {
 })
 
 
-
-
-
 afterAll(async () =>{
   await request.delete(`/user`).set(token)
   await mongoose.connection.close()
 })
-
 
 describe('Deve testar o sistema de cadastro de posts', () => {
   it('Deve impedir um cadastro de um post por alguém não cadastrado', () => {
@@ -98,12 +94,12 @@ describe('Deve testar o sistema de cadastro de posts', () => {
     return request.post('/post').set(token).send(post).then(res => {
       expect(res.statusCode).toEqual(200)
       expect(res.body.title).toEqual(post.title)
-      expect(res.body.user._id).toEqual(idUser)
+      expect(res.body.user.id).toEqual(idUser)
       expect(res.body.description).toEqual(post.description)
       expect(res.body.tags.map).toEqual(post.tags.map)
       expect(res.body.imgs[0].description).toEqual('Primeiro mire no pontinho roxo indicado')
       expect(res.body.imgs[1].description).toEqual('Depois solte a flexa com 1.5 de força')
-      postId = res.body._id
+      postId = res.body.id
     })
   })
 

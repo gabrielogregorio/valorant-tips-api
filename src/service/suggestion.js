@@ -11,7 +11,7 @@ class SuggestionService {
     return newSuggestion
   }
 
-  async FindAdll() {
+  async FindAll() {
     let suggestions = await Suggestion.find()
     return suggestions
   }
