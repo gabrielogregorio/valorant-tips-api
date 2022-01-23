@@ -70,6 +70,15 @@ router.put('/post/:id', userAuth, async (req, res) => {
   let { id } = req.params
   let user = req.data.id
 
+  newImgs = []
+  imgs.forEach(img => {
+    newImgs.push({
+      description: img.description,
+      _id: img.id,
+      image: img.image,
+    })
+  })
+
   // Algum valor Obrigatório é nulo
   if( validValues(title) === null ||
       validValues(description) === null ) {
@@ -78,7 +87,7 @@ router.put('/post/:id', userAuth, async (req, res) => {
   }
 
   try {
-    let postUpdate = dataPost.Build(await PostService.FindByIdAndUpdate(id,  {title, description, user, tags, imgs}))
+    let postUpdate = dataPost.Build(await PostService.FindByIdAndUpdate(id,  {title, description, user, tags, imgs: newImgs}))
     return res.json(postUpdate)
   } catch(error) {
     console.log(error)

@@ -73,7 +73,7 @@ describe("Deve enviar uma sugestão", () => {
       .set(token)
       .then(res => {
         expect(res.statusCode).toEqual(200)
-        expect(res.body[0].description).toEqual(sugestion.description)
+        expect(res.body[res.body.length - 1].description).toEqual(sugestion.description)
       })
   })
 

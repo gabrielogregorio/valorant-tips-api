@@ -5,7 +5,7 @@ class DataUser {
     }
 
     return {
-      _id: user._id.toString(),
+      id: user._id.toString(),
       username: user.username,
       image: user.image
     }

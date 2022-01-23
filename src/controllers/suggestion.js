@@ -2,6 +2,7 @@ require('dotenv/config')
 const express = require('express')
 const SuggestionService = require('../service/suggestion')
 const userAuth = require('../middlewares/userAuth')
+const dataSuggestion = require('../factories/dataSuggestion')
 
 const router = express.Router()
 
@@ -32,8 +33,14 @@ router.post('/suggestion', async(req, res) => {
 
 router.get('/suggestions', userAuth, async (req, res) => {
   try {
-    let suggestions = await SuggestionService.FindAdll()
-    return res.json(suggestions)
+    let suggestions = await SuggestionService.FindAll()
+
+    let suggestionsFactory = []
+    suggestions.forEach(suggestion => {
+      suggestionsFactory.push(dataSuggestion.Build(suggestion))
+    })
+
+    return res.json(suggestionsFactory)
   } catch(error) {
     console.log(error)
     res.statusCode = 500
