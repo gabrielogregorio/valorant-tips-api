@@ -8,76 +8,76 @@
 </div>
 
 <div align="center">
-
-  ![GitHub estrelas](https://img.shields.io/github/stars/gabrielogregorio/Backend-Valorant-Tips)
-  ![GitHub last commit](https://img.shields.io/github/last-commit/gabrielogregorio/Backend-Valorant-Tips?style=flat-square)
-  ![GitHub contributors](https://img.shields.io/github/contributors/gabrielogregorio/Backend-Valorant-Tips)
-  ![GitHub language count](https://img.shields.io/github/languages/count/gabrielogregorio/Backend-Valorant-Tips)
-  ![GitHub repo size](https://img.shields.io/github/repo-size/gabrielogregorio/Backend-Valorant-Tips)
+  
+![GitHub estrelas](https://img.shields.io/github/stars/gabrielogregorio/vavatips-api)
+![GitHub last commit](https://img.shields.io/github/last-commit/gabrielogregorio/vavatips-api?style=flat-square)
+![GitHub contributors](https://img.shields.io/github/contributors/gabrielogregorio/vavatips-api)
+![GitHub language count](https://img.shields.io/github/languages/count/gabrielogregorio/vavatips-api)
+![GitHub repo size](https://img.shields.io/github/repo-size/gabrielogregorio/vavatips-api)
 </div>
 
+## api vavatips
 
- ## Backend Dicas de Valorant
+### Description
+Api of the project VavaTips.
 
-### Descrição
-Backend do projeto dicas de Valorant.
+### Preparing the development environment
+If your goal is to be on the front-end, just worry about that topic.
 
-### Preparando o ambiente de desenvolvimento
-Se o seu objetivo é focar no front-end, só se preocupe com esse tópico.
+1. Install the [mongodb community server](https://www.mongodb.com/try/download/community?tck=docs_server)
 
-1. Instale o [mongodb community server](https://www.mongodb.com/try/download/community?tck=docs_server)
-2. Inicie o mondodb
-> No windows, abra o Prompt de Comando como administrador, execute o comando "net start mongodb", isso deverá iniciar o mongodb. Depois execute o comando "mongo" para acessar o banco de dados, se você conseguir acessar, pode continuar os passos.
-> No Linux o processo é similar, mas não vou deixar documentado aqui.
-3. Com tudo funcionando, faça um fork deste projeto
-4. Clone o fork na sua máquina
-5. Acesse a branch de desenvolvimento
+2. Start mongodb
+> On windows, open the Command Prompt as administrator, run the command "net start mongodb", this should start mongodb. Then run the command "mongo" to access the database, if you can access it, you can continue the steps.
+> On Linux the process is similar, but I won't document it here.
+3. With everything working, fork the project
+4. Clone the fork on your machine
+5. Access to development branch
 ```shell
 git checkout -b develop origin/develop
 ```
-6. Instale os pacotes necessários
+6. Install the necessary packages
 ```shell
 npm install
 ```
-7. Faça uma cópia do arquivo ".env.develop.example" para ".env".
-> Note que dentro do arquivo .env, o único parâmetro que você talvez precise de ajustar é o "MONGO_URI".
-8. Acesse o app.js, e descomente a importação e a chamada no controller do "DevEnvironment"
+7. Copy the ".env.develop.example" file to ".env".
+> Note that within the .env file, the only parameter you might need to adjust is the "MONGO_URI".
+8. Go to app.js, and uncomment the import and call in the controller of the "DevEnvironment"
 
-![Descomente as duas linhas](./docs/img1.png)
+![Uncomment the two lines](./docs/img1.png)
 
-9. Execute a aplicação
+9. Run the application (consider installing nodemon, or setting package.json to node)
 ```shell
 npm run dev
 ```
-10. Acesse o endereço abaixo para que o ambiente de desenvolvimento seja criado.
+10. Access the address below for the development environment to be created.
 ```shell
 http://127.0.0.1:3333/prepare_dev_environment
 ```
-11. Comente novamente as duas linhas que você descomentou, isso é extremamente importante, pois não queremos que esse recurso esteja disponível no ambiente de produção.
-> Pull request com essas linhas descomentadas serão rejeitados
+11. Recomment the two lines you uncommented, this is extremely important as we don't want this feature to be available in the production environment.
+> Pull request with these uncommented lines will be rejected
 
-![Comente as duas linhas](./docs/img2.png)
+![comment to the two lines](./docs/img2.png)
 
-12. Pronto, backend de desenvolvimento configurado, agora teremos vários posts para testes e um usuário de acesso
+12. Okay, development api configured, now we will have several posts for testing and an access user
 ```text
 username: developer
 password: developer
 ```
 
-### Ambiente de Produção
-Para fazer deploy você precisa ter conhecimento em NodeJs, Google Cloud Buckets, Multer, Heroku, ExpressJs, Jest, MongoDb Local e MongoDb Atlas.
+### Production Environment
+To deploy you need to have knowledge of NodeJs, Google Cloud Buckets, Multer, Heroku, ExpressJs, Jest, MongoDb Local and MongoDb Atlas.
 
-É preciso criar um arquivo chamado 'google-credentials.json' com as credenciais do Google Cloud Bucket. Na prática deixe esse arquivo apenas para testar o backend local com o Google Buckets e em produção, pois, durante o ambiente de desenvolvimento o Google Cloud Bucket, assim como o mongodb Atlas não são utilizados.
+You need to create a file called 'google-credentials.json' with your Google Cloud Bucket credentials. In practice, leave this file only to test the local backend with Google Buckets and in production, because, during the development environment, Google Cloud Bucket as well as mongodb Atlas are not used.
 
-### Testes
-Para executar os testes automatizados é preciso ter o jest instalado de forma global.
+### Tests
+To run the automated tests you need to have just installed globally.
 
 ```shell
 npm run test
 ```
 
-### Executar o projeto
-Para executar a aplicação, rode o comando abaixo
+### Run the project
+To run the application, run the command below
 ```shell
 node src/server.js
 ```
