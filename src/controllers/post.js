@@ -5,8 +5,25 @@ const viewSerice = require('../service/View')
 const router = express.Router()
 const userAuth = require('../middlewares/userAuth')
 const dataPost = require('../factories/dataPost')
-const { v4: uuidv4 } = require('uuid');
-const { bucket, format, Multer, multer } = require('./mode')
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const multer = require("multer");
+const cloudinary = require("cloudinary").v2;
+require('dotenv/config')
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "tips",
+  },
+});
+
+const upload = multer({ storage: storage });
 
 function validValues(value) {
   if (value === '' || value === undefined || value === null) {
@@ -15,34 +32,9 @@ function validValues(value) {
   return value
 }
 
-router.post('/postLoadFile', multer.single('image'), async(req, res, next) => {
-  if (!req.file){
-    res.status(400).send('No file uploaded.');
-
-    return;
-  }
-
-  if (process.env.MODE_RUN === 'PRODUCTION') {
-    const blob = bucket.file(`${Date.now().toString()}-${uuidv4()}`);
-    const blobStream = blob.createWriteStream();
-
-    blobStream.on('error', err => {
-      next(err);
-    });
-
-    blobStream.on('finish', () => {
-      const publicUrl = format(
-       `https://storage.googleapis.com/${bucket.name}/${blob.name}`
-      );
-      res.json({filename:publicUrl})
-    });
-    blobStream.end(req.file.buffer);
-
-  } else if(process.env.MODE_RUN === 'DEVELOP') {
-    return res.json({filename: req.file['filename']})
-  }
-})
-
+router.post("/postLoadFile", upload.single("image"), async (req, res) => {
+  return res.json({ filename: req.file.path });
+});
 
 router.post('/post', userAuth, async (req, res) => {
   let { title, description, tags, imgs } = req.body
