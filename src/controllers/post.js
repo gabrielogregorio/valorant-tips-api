@@ -1,7 +1,6 @@
 require('dotenv/config')
 const express = require('express')
 const PostService = require('../service/post')
-const viewSerice = require('../service/View')
 const router = express.Router()
 const userAuth = require('../middlewares/userAuth')
 const dataPost = require('../factories/dataPost')
@@ -40,7 +39,6 @@ router.post('/post', userAuth, async (req, res) => {
   let { title, description, tags, imgs } = req.body
   let user = req.data.id
 
-  // Algum valor Obrigatório é nulo
   if( validValues(title) === null ||
       validValues(description) === null ) {
         res.statusCode = 400
@@ -51,7 +49,6 @@ router.post('/post', userAuth, async (req, res) => {
     let newPost = dataPost.Build(await PostService.Create({ title, description, user, tags, imgs }))
     return res.json(newPost)
   } catch(error) {
-    console.log(error)
     res.statusCode = 500
     return res.json({error: 'Erro no servidor'})
   }
@@ -71,7 +68,6 @@ router.put('/post/:id', userAuth, async (req, res) => {
     })
   })
 
-  // Algum valor Obrigatório é nulo
   if( validValues(title) === null ||
       validValues(description) === null ) {
         res.statusCode = 400
@@ -82,7 +78,6 @@ router.put('/post/:id', userAuth, async (req, res) => {
     let postUpdate = dataPost.Build(await PostService.FindByIdAndUpdate(id,  {title, description, user, tags, imgs: newImgs}))
     return res.json(postUpdate)
   } catch(error) {
-    console.log(error)
     res.statusCode = 500
     return res.json({error: 'Erro no servidor'})
   }
@@ -95,21 +90,16 @@ router.get('/post/:id', async (req, res) => {
     let post = dataPost.Build(await PostService.FindById(id))
     return res.json(post)
   } catch(error) {
-    console.log(error)
     res.statusCode = 500
     return res.json({error: 'Erro no servidor'})
   }
 })
 
-
-/* Sem cobertura de testes */
-/* Sem cobertura de testes */
 router.get('/maps', async (req, res) => {
   try {
     let maps = await PostService.findAvaliableMaps()
     return res.json({ maps })
   } catch(error) {
-    console.log(error)
     res.statusCode = 500
     return res.json({error: 'Erro ao obter a listagem de mapas'})
   }
@@ -120,86 +110,44 @@ router.get('/agents/:map', async (req, res) => {
     let agents = await PostService.findAvaliableAgents(req.params.map)
     return res.json({ agents })
   } catch(error) {
-    console.log(error)
     res.statusCode = 500
     return res.json({error: 'Erro ao obter a listagem de Agentes por mapa'})
   }
 })
 
-/* Sem cobertura de testes */
-/* Sem cobertura de testes */
-
-
-function testPage(value) {
-  // Nunca sera 0
-  if(value === undefined) {
-    return 0
-  }
-
-  if (isNaN(value)) {
-    return 0
-  }
-
-  let value2 = parseInt(value) - 1
-  if(value2 < 0) {
-    return 0
-  }
-  return value2
-}
-
-
-
-router.get('/tags', async (req, res) => {
-    let { agent, map } = req.query
-
-    if(agent && map) {
-      posts = await PostService.FindAllTags(agent, map)
-    }
-    return res.sendStatus(400)
-})
-
-
 router.get('/posts', async (req, res) => {
   try {
-    let ip = req.socket.remoteAddress.split(`:`).pop();
-    viewSerice.Create(ip)
-  } catch(error) {
-    console.log('Erro ao registrar IP ', error)
-  }
-
-  try {
-    let posts;
-    let { agent, map, page, filters, idPosts } = req.query
-
-    if(filters === undefined || filters === null || filters === '' || filters === ',') {
-      filters = []
-    } else {
-      filters = filters.split(',')
-    }
-
-    if(idPosts !== undefined) {
-      idPosts = JSON.parse(idPosts)
-    }
-
-    if(agent && map) {
-      posts = await PostService.FindAllByMapAndAgent(agent, map, testPage(page), filters)
-    }else {
-      posts = await PostService.FindAll(testPage(page), idPosts)
-    }
+    let posts = await PostService.FindAll()
 
     let postsFactories = []
-    posts.post.forEach(post => {
+    posts.forEach(post => {
       postsFactories.push(dataPost.Build(post))
     })
 
-    return res.json({posts:postsFactories, count: posts.count, tags: posts.tags})
+    return res.json({posts:postsFactories})
   } catch(error) {
-    console.log(error)
     res.statusCode = 500
     return res.json({error: 'Erro no servidor'})
   }
 })
 
+router.get('/posts/:map/:agent', async (req, res) => {
+  try {
+    let { agent, map } = req.params
+
+    let posts = await PostService.FindAllByMapAndAgent(agent, map)
+
+    let postsFactories = []
+    posts.forEach(post => {
+      postsFactories.push(dataPost.Build(post))
+    })
+
+    return res.json({posts:postsFactories})
+  } catch(error) {
+    res.statusCode = 500
+    return res.json({error: 'Erro no servidor'})
+  }
+})
 
 router.delete('/post/:id', userAuth, async (req, res) => {
   let idUser = req.data.id
@@ -209,7 +157,6 @@ router.delete('/post/:id', userAuth, async (req, res) => {
     await PostService.DeleteById(idPost, idUser)
     return res.json({})
   } catch(error) {
-    console.log(error)
     res.statusCode = 500
     return res.json({error: 'Erro no servidor'})
   }
