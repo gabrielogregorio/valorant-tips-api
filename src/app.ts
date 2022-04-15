@@ -14,6 +14,7 @@ import PostController from '@/controllers/postController';
 dotenv.config();
 
 export const app: Application = express();
+app.disable('x-powered-by');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
