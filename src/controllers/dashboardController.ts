@@ -7,7 +7,7 @@ dotenv.config();
 
 const dashboardController: Router = express.Router();
 
-dashboardController.get('/dashboard', userAuth, async (req: Request, res: Response): Promise<Response> => {
+dashboardController.get('/dashboard', userAuth, async (_req: Request, res: Response): Promise<Response> => {
   try {
     const data: IDashboardServiceType = await DashboardService.count();
     return res.json(data);
