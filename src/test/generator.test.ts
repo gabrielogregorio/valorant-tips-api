@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import supertest from 'supertest';
+import mockTests from '@/mock/mockTests.json';
 import { connection } from './mockMongoose';
 import { app } from '../app';
 
@@ -57,8 +58,8 @@ describe('Testa a geração de uma chave que permite o registro de um usuário',
       const {
         body: { token: token2 },
       } = await request.post('/auth').send({
-        username: '1231KHGJADSUOIWYQEYO@@###@##@#OIUQADXX',
-        password: '1231KHGJADSUOIWYQEYO@@###@##@#OIUQADXX',
+        username: mockTests.username1,
+        password: mockTests.password1,
       });
 
       await request.delete(`/user`).set({ authorization: `Bearer ${token2}` });
@@ -68,16 +69,16 @@ describe('Testa a geração de uma chave que permite o registro de um usuário',
       .post('/user')
       .send({
         code: codeGenerate,
-        username: '1231KHGJADSUOIWYQEYO@@###@##@#OIUQADXX',
-        password: '1231KHGJADSUOIWYQEYO@@###@##@#OIUQADXX',
+        username: mockTests.username1,
+        password: mockTests.password1,
       })
       .then((res) => {
         expect(res.statusCode).toEqual(200);
         return request
           .post('/auth')
           .send({
-            username: '1231KHGJADSUOIWYQEYO@@###@##@#OIUQADXX',
-            password: '1231KHGJADSUOIWYQEYO@@###@##@#OIUQADXX',
+            username: mockTests.username1,
+            password: mockTests.password1,
           })
           .then((res2) => {
             // @ts-ignore
@@ -91,8 +92,8 @@ describe('Testa a geração de uma chave que permite o registro de um usuário',
       .post('/user')
       .send({
         code: codeGenerate,
-        username: '1231KHGJADSUOIWYQEYO@@###@##@#OIUQADXX',
-        password: '1231KHGJADSUOIWYQEYO@@###@##@#OIUQADXX',
+        username: mockTests.username1,
+        password: mockTests.password1,
       })
       .then((res) => {
         expect(res.statusCode).toEqual(403);
