@@ -43,6 +43,8 @@ afterAll(async () => {
   await connection.connection.close();
 });
 
+const sendSuggestion = (id: string, status: string) => request.put(`/suggestion/${id}`).send({ status });
+
 describe('Deve enviar uma sugestão', () => {
   it('Deve enviar uma sugestão', () =>
     request
@@ -92,17 +94,12 @@ describe('Deve enviar uma sugestão', () => {
       }));
 
   it('Deve impedir alterações nas sugestões por um usuário desconhecido', () =>
-    request
-      .put(`/suggestion/${sugestion._id}`)
-      .send({ status: 'accepted' })
-      .then((res) => {
-        expect(res.statusCode).toEqual(403);
-      }));
+    sendSuggestion(sugestion._id, 'accepted').then((res) => {
+      expect(res.statusCode).toEqual(403);
+    }));
 
   it('Deve permitir a alteração do estado de uma sugestão', () =>
-    request
-      .put(`/suggestion/${sugestion._id}`)
-      .send({ status: 'accepted' })
+    sendSuggestion(sugestion._id, 'accepted')
       .set(token)
       .then((res) => {
         expect(res.statusCode).toEqual(200);
@@ -110,9 +107,7 @@ describe('Deve enviar uma sugestão', () => {
       }));
 
   it('Deve permitir a alteração do estado de uma sugestão', () =>
-    request
-      .put(`/suggestion/${sugestion._id}`)
-      .send({ status: 'rejected' })
+    sendSuggestion(sugestion._id, 'rejected')
       .set(token)
       .then((res) => {
         expect(res.statusCode).toEqual(200);
@@ -120,9 +115,7 @@ describe('Deve enviar uma sugestão', () => {
       }));
 
   it('Deve impedir a edição para um status inválido', () =>
-    request
-      .put(`/suggestion/${sugestion._id}`)
-      .send({ status: 'aaaaaaaaaaaaaaaaaaaaaaaaaaa' })
+    sendSuggestion(sugestion._id, 'aaaaaaaaaaaaaaaaaaaaaaaaaaa')
       .set(token)
       .then((res) => {
         expect(res.statusCode).toEqual(400);

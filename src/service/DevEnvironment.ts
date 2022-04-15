@@ -1,11 +1,11 @@
 import { Post } from '@/models/Post';
 import { Suggestion } from '@/models/Suggestion';
 import { User } from '@/models/User';
-import { mockDevEnvironment } from '@/mock/mock_dev';
+import mockDevEnvironment from '@/mock/mockDevEnvironment.json';
 
 export class DevEnvironmentService {
   static async Create() {
-    const mock = mockDevEnvironment;
+    const mock: any = mockDevEnvironment;
     mock.user.forEach((user) => {
       new User(user).save();
     });
