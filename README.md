@@ -19,8 +19,6 @@
 
 ## api vavatips
 
-test
-
 ### Description
 
 Api of the project VavaTips.
