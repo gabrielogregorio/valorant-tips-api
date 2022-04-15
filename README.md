@@ -30,10 +30,8 @@ Api of the project Valorant tips.
 If your goal is to be on the front-end, just worry about that topic.
 
 1.   Install the [mongodb community server](https://www.mongodb.com/try/download/community?tck=docs_server)
-
 2.   Start mongodb
-> On windows, open the Command Prompt as administrator, run the command "net start mongodb", this should start mongodb. Then run the command "mongo" to access the database, if you can access it, you can continue the steps.
-> On Linux the process is similar, but I won't document it here.
+> On windows, open the Command Prompt as administrator, run the command "net start mongodb", this should start mongodb. Then run the command "mongo" to access the database, if you can access it, you can continue the steps. On Linux the process is similar, but I won't document it here.
 3.   With everything working, fork the project
 4.   Clone the fork on your machine
 5.   Access to development branch

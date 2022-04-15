@@ -22,6 +22,7 @@ module.exports = {
           '@/service': './src/service',
           '@/mock': './src/mock',
           '@/locales': './src/locales',
+          '@/helpers': './src/helpers',
         },
       },
     ],

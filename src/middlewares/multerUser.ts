@@ -1,6 +1,8 @@
+import { convertMegabytesToBytes } from '@/helpers/conversors';
 import { Request } from 'express';
 import multer from 'multer';
 
+const LIMIT_SIZE_UPLOAD_IN_BYTES = convertMegabytesToBytes(10);
 export const multerUser = multer({
   storage: multer.diskStorage({
     destination: (request: Request, file, callback) => {
@@ -17,5 +19,8 @@ export const multerUser = multer({
     );
 
     return callback(null, accepted);
+  },
+  limits: {
+    fileSize: LIMIT_SIZE_UPLOAD_IN_BYTES,
   },
 });

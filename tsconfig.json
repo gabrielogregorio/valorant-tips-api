@@ -22,7 +22,8 @@
       "@/models/*": ["./src/models/*"],
       "@/service/*": ["./src/service/*"],
       "@/mock/*": ["./src/mock/*"],
-      "@/locales/*": ["./src/locales/*"]
+      "@/locales/*": ["./src/locales/*"],
+      "@/helpers/*": ["./src/helpers/*"]
     }
   },
   "include": ["src/**/*"]
