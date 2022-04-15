@@ -15,16 +15,10 @@ export class CodeService {
   }
 
   static async FindCode(code: string): Promise<ICode> {
-    const codeAccess: ICode = await Code.findOne({ code, available: true });
-    return codeAccess;
+    return Code.findOne({ code, available: true });
   }
 
   static async UseCode(code: string): Promise<ICode> {
-    const codeAccess: ICode = await Code.findOneAndUpdate(
-      { code, available: true },
-      { $set: { available: false } },
-      { new: true },
-    );
-    return codeAccess;
+    return Code.findOneAndUpdate({ code, available: true }, { $set: { available: false } }, { new: true });
   }
 }

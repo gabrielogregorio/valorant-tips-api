@@ -5,12 +5,12 @@ import { userAuth } from '@/middlewares/userAuth';
 
 dotenv.config();
 
-const router: Router = express.Router();
+const backupController: Router = express.Router();
 
-router.get(
+backupController.get(
   '/backup',
   userAuth,
-  async (req: Request, res: Response): Promise<Response> => res.json(await BackupService.start()),
+  async (_req: Request, res: Response): Promise<Response> => res.json(await BackupService.start()),
 );
 
-export default router;
+export default backupController;

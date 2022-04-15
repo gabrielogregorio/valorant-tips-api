@@ -5,11 +5,11 @@ import { ICode } from '@/models/Code';
 
 dotenv.config();
 
-const router: Router = express.Router();
+const codeController: Router = express.Router();
 
 let tryCreateCode: number = 0;
 
-router.post('/generate_code', async (req: Request, res: Response): Promise<Response> => {
+codeController.post('/generate_code', async (req: Request, res: Response): Promise<Response> => {
   const { GENERATOR_CODE } = req.body as { GENERATOR_CODE: string };
 
   if (tryCreateCode === 2) {
@@ -24,4 +24,4 @@ router.post('/generate_code', async (req: Request, res: Response): Promise<Respo
   return res.sendStatus(404);
 });
 
-export default router;
+export default codeController;

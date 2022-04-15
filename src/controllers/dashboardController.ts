@@ -5,9 +5,9 @@ import { userAuth } from '@/middlewares/userAuth';
 
 dotenv.config();
 
-const router: Router = express.Router();
+const dashboardController: Router = express.Router();
 
-router.get('/dashboard', userAuth, async (req: Request, res: Response): Promise<Response> => {
+dashboardController.get('/dashboard', userAuth, async (req: Request, res: Response): Promise<Response> => {
   try {
     const data: IDashboardServiceType = await DashboardService.count();
     return res.json(data);
@@ -16,4 +16,4 @@ router.get('/dashboard', userAuth, async (req: Request, res: Response): Promise<
   }
 });
 
-export default router;
+export default dashboardController;

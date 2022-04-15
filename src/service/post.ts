@@ -8,17 +8,11 @@ export class PostService {
   }
 
   static async FindByIdAndUpdate(id: string, { title, description, user, tags, imgs }: IPost): Promise<IPost> {
-    const post = await Post.findOneAndUpdate(
-      { _id: id },
-      { $set: { title, description, user, tags, imgs } },
-      { new: true },
-    );
-    return post;
+    return Post.findOneAndUpdate({ _id: id }, { $set: { title, description, user, tags, imgs } }, { new: true });
   }
 
   static async FindById(id: string): Promise<IPost> {
-    const post = await Post.findById(id).populate('user');
-    return post;
+    return Post.findById(id).populate('user');
   }
 
   static async findAvailableMaps(): Promise<string[]> {
@@ -27,8 +21,7 @@ export class PostService {
   }
 
   static async findAvailableAgents(map: string): Promise<string[]> {
-    const agents = await Post.find({ 'tags.map': map }).distinct('tags.agent');
-    return agents;
+    return Post.find({ 'tags.map': map }).distinct('tags.agent');
   }
 
   static async FindAll(): Promise<IPost[]> {
@@ -42,15 +35,10 @@ export class PostService {
   }
 
   static async FindAllByMapAndAgent(agent: string, map: string): Promise<IPost[]> {
-    const posts = await Post.find({ 'tags.agent': agent, 'tags.map': map }, null, { sort: { updatedAt: -1 } }).populate(
-      'user',
-    );
-
-    return posts;
+    return Post.find({ 'tags.agent': agent, 'tags.map': map }, null, { sort: { updatedAt: -1 } }).populate('user');
   }
 
   static async DeleteById(idPost: string): Promise<any> {
-    const deletePost = await Post.findOneAndDelete({ _id: idPost });
-    return deletePost;
+    return Post.findOneAndDelete({ _id: idPost });
   }
 }

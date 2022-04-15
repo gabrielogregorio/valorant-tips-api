@@ -8,9 +8,9 @@ import messages from '@/locales/index';
 
 dotenv.config();
 
-const router = express.Router();
+const suggestionController = express.Router();
 
-router.post('/suggestion', async (req: Request, res: Response): Promise<Response> => {
+suggestionController.post('/suggestion', async (req: Request, res: Response): Promise<Response> => {
   const { post_id, email, description } = req.body;
 
   if (description === null || description === undefined || description === '') {
@@ -33,7 +33,7 @@ router.post('/suggestion', async (req: Request, res: Response): Promise<Response
   }
 });
 
-router.get('/suggestions', userAuth, async (req: Request, res: Response): Promise<Response> => {
+suggestionController.get('/suggestions', userAuth, async (_req: Request, res: Response): Promise<Response> => {
   try {
     const suggestions: ISuggestion[] = await SuggestionService.FindAll();
 
@@ -49,7 +49,7 @@ router.get('/suggestions', userAuth, async (req: Request, res: Response): Promis
   }
 });
 
-router.put('/suggestion/:id', userAuth, async (req: Request, res: Response): Promise<Response> => {
+suggestionController.put('/suggestion/:id', userAuth, async (req: Request, res: Response): Promise<Response> => {
   const suggestionId = req.params.id;
   const newStatus = req.body.status;
 
@@ -67,7 +67,7 @@ router.put('/suggestion/:id', userAuth, async (req: Request, res: Response): Pro
   }
 });
 
-router.delete('/suggestion/:id', userAuth, async (req: Request, res: Response): Promise<Response> => {
+suggestionController.delete('/suggestion/:id', userAuth, async (req: Request, res: Response): Promise<Response> => {
   const suggestionId = req.params.id;
 
   try {
@@ -79,4 +79,4 @@ router.delete('/suggestion/:id', userAuth, async (req: Request, res: Response): 
   }
 });
 
-export default router;
+export default suggestionController;

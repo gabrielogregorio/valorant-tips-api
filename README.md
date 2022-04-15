@@ -47,7 +47,7 @@ npm install
 ```
 
 7.   Copy the ".env.develop.example" file to ".env".
-   > Note that within the .env file, the only parameter you might need to adjust is the "MONGO_URI".
+> Note that within the .env file, the only parameter you might need to adjust is the "MONGO_URI".
 8.   Go to app.js, and uncomment the import and call in the controller of the "DevEnvironment"
 
 ![Uncomment the two lines](./docs/img1.png)
@@ -65,7 +65,7 @@ http://127.0.0.1:3333/prepare_dev_environment
 ```
 
 11.   Recommend the two lines you uncommented, this is extremely important as we don't want this feature to be available in the production environment.
-    > Pull request with these uncommented lines will be rejected
+> Pull request with these uncommented lines will be rejected
 
 ![comment to the two lines](./docs/img2.png)
 

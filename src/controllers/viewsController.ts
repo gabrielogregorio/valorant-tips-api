@@ -4,9 +4,9 @@ import { countViewsType, ViewService } from '@/service/View';
 
 dotenv.config();
 
-const router: Router = express.Router();
+const viewsController: Router = express.Router();
 
-router.post('/views', async (req: Request, res: Response): Promise<Response> => {
+viewsController.post('/views', async (req: Request, res: Response): Promise<Response> => {
   try {
     const ip = req.socket.remoteAddress.split(`:`).pop();
     await ViewService.Create(ip);
@@ -16,7 +16,7 @@ router.post('/views', async (req: Request, res: Response): Promise<Response> => 
   }
 });
 
-router.get('/views', async (req: Request, res: Response): Promise<Response> => {
+viewsController.get('/views', async (_req: Request, res: Response): Promise<Response> => {
   try {
     const { countAll, countIps }: countViewsType = await ViewService.CountViews();
     return res.json({ countAll, countIps });
@@ -25,4 +25,4 @@ router.get('/views', async (req: Request, res: Response): Promise<Response> => {
   }
 });
 
-export default router;
+export default viewsController;

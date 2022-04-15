@@ -1,15 +1,15 @@
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-import express from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
-import UserController from '@/controllers/user';
-import PostController from '@/controllers/post';
-import SuggestionController from '@/controllers/suggestion';
-import CodeController from '@/controllers/code';
-import ViewsController from '@/controllers/views';
-import DashboardController from '@/controllers/dashboard';
-// import const BackupController from '@/controllers/backup
-// import const DevEnvironmentController from '@/controllers/DevEnvironment
+import DashboardController from '@/controllers/dashboardController';
+import UserController from '@/controllers/userController';
+import ViewsController from '@/controllers/viewsController';
+import CodeController from '@/controllers/codeController';
+import SuggestionController from '@/controllers/suggestionController';
+import PostController from '@/controllers/postController';
+// import const BackupController from '@/controllers/backupController
+// import const DevEnvironmentController from '@/controllers/devEnvironmentController
 
 dotenv.config();
 
@@ -31,7 +31,7 @@ app.use('/', DashboardController);
 
 mongoose
   .connect(process.env.MONGO_URI, {})
-  .then(() => {})
+  .then(() => null)
   .catch((error) => error);
 
-app.get('/', (req, res) => res.send('oi'));
+app.get('/', (_req: Request, res: Response): Response => res.send('oi'));

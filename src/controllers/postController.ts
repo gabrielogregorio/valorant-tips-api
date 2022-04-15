@@ -11,7 +11,7 @@ import messages from '@/locales/index';
 
 const cloudinaryV2 = cloudinary.v2;
 
-const router: Router = express.Router();
+const postController: Router = express.Router();
 
 dotenv.config();
 
@@ -31,7 +31,7 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage });
 
-router.post(
+postController.post(
   '/postLoadFile',
   upload.single('image'),
   async (req: Request, res: Response): Promise<Response> =>
@@ -39,7 +39,7 @@ router.post(
     res.json({ filename: req.file.path }),
 );
 
-router.post('/post', userAuth, async (req: Request, res: Response): Promise<Response> => {
+postController.post('/post', userAuth, async (req: Request, res: Response): Promise<Response> => {
   const { title, description, tags, imgs } = req.body as IPost;
   // @ts-ignore
   const user = req.data.id;
@@ -59,7 +59,7 @@ router.post('/post', userAuth, async (req: Request, res: Response): Promise<Resp
   }
 });
 
-router.put('/post/:id', userAuth, async (req: Request, res: Response): Promise<Response> => {
+postController.put('/post/:id', userAuth, async (req: Request, res: Response): Promise<Response> => {
   const { title, description, tags, imgs } = req.body as IPost;
   const { id } = req.params;
   // @ts-ignore
@@ -96,7 +96,7 @@ router.put('/post/:id', userAuth, async (req: Request, res: Response): Promise<R
   }
 });
 
-router.get('/post/:id', async (req: Request, res: Response): Promise<Response> => {
+postController.get('/post/:id', async (req: Request, res: Response): Promise<Response> => {
   const { id } = req.params;
 
   try {
@@ -109,7 +109,7 @@ router.get('/post/:id', async (req: Request, res: Response): Promise<Response> =
   }
 });
 
-router.get('/maps', async (req: Request, res: Response): Promise<Response> => {
+postController.get('/maps', async (_req: Request, res: Response): Promise<Response> => {
   try {
     const maps: string[] = await PostService.findAvailableMaps();
     return res.json({ maps });
@@ -119,7 +119,7 @@ router.get('/maps', async (req: Request, res: Response): Promise<Response> => {
   }
 });
 
-router.get('/agents/:map', async (req: Request, res: Response): Promise<Response> => {
+postController.get('/agents/:map', async (req: Request, res: Response): Promise<Response> => {
   try {
     const agents: string[] = await PostService.findAvailableAgents(req.params.map);
     return res.json({ agents });
@@ -129,7 +129,7 @@ router.get('/agents/:map', async (req: Request, res: Response): Promise<Response
   }
 });
 
-router.get('/posts', async (req: Request, res: Response): Promise<Response> => {
+postController.get('/posts', async (_req: Request, res: Response): Promise<Response> => {
   try {
     const postService: IPost[] = await PostService.FindAll();
 
@@ -145,7 +145,7 @@ router.get('/posts', async (req: Request, res: Response): Promise<Response> => {
   }
 });
 
-router.get('/posts/:map/:agent', async (req: Request, res: Response): Promise<Response> => {
+postController.get('/posts/:map/:agent', async (req: Request, res: Response): Promise<Response> => {
   try {
     const { agent, map } = req.params as { agent: string; map: string };
 
@@ -163,7 +163,7 @@ router.get('/posts/:map/:agent', async (req: Request, res: Response): Promise<Re
   }
 });
 
-router.delete('/post/:id', userAuth, async (req: Request, res: Response): Promise<Response> => {
+postController.delete('/post/:id', userAuth, async (req: Request, res: Response): Promise<Response> => {
   // @ts-ignore
   const idUser = req.data.id;
   const idPost = req.params.id;
@@ -178,4 +178,4 @@ router.delete('/post/:id', userAuth, async (req: Request, res: Response): Promis
   }
 });
 
-export default router;
+export default postController;

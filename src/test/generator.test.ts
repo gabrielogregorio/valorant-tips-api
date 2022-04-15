@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import dotenv from 'dotenv';
 import supertest from 'supertest';
 import { connection } from './mockMongoose';

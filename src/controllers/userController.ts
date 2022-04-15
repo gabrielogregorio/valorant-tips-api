@@ -12,29 +12,30 @@ import { multerUser } from '@/middlewares/multerUser';
 import { ICode } from '@/models/Code';
 import messages from '@/locales/index';
 
-const router: Router = express.Router();
+const userController: Router = express.Router();
 const jwtSecret: string = process.env.JWT_SECRET;
 
 dotenv.config();
-router.post('/userLoadFile', multerUser.single('image'), async (req: Request, res: Response): Promise<Response> => {
-  let filename = '';
+userController.post(
+  '/userLoadFile',
+  multerUser.single('image'),
+  async (req: Request, res: Response): Promise<Response> => {
+    let filename: string = '';
 
-  // @ts-ignore
-  if (!req.file) {
-    return res.status(400).send('No file uploaded.');
-  }
-
-  // @ts-ignore
-  if (req.file) {
     // @ts-ignore
-    filename = req.file.filename;
-  } else {
-    filename = '';
-  }
-  return res.json({ filename });
-});
+    if (!req.file) {
+      return res.status(400).send('No file uploaded.');
+    }
 
-router.post('/auth', async (req: Request, res: Response): Promise<Response> => {
+    // @ts-ignore
+    if (req.file) {
+      filename = req.file.filename;
+    }
+    return res.json({ filename });
+  },
+);
+
+userController.post('/auth', async (req: Request, res: Response): Promise<Response> => {
   const { username, password } = req.body as { username: string; password: string };
 
   const user: IUser = await UserService.FindByUsername(username);
@@ -59,7 +60,7 @@ router.post('/auth', async (req: Request, res: Response): Promise<Response> => {
   });
 });
 
-router.post('/user', async (req: Request, res: Response): Promise<Response> => {
+userController.post('/user', async (req: Request, res: Response): Promise<Response> => {
   const { username, password, image, code } = req.body as {
     username: string;
     password: string;
@@ -109,7 +110,7 @@ router.post('/user', async (req: Request, res: Response): Promise<Response> => {
   }
 });
 
-router.put('/user', userAuth, async (req: Request, res: Response): Promise<Response> => {
+userController.put('/user', userAuth, async (req: Request, res: Response): Promise<Response> => {
   let { password } = req.body;
   const { username, image } = req.body;
   // @ts-ignore
@@ -144,7 +145,7 @@ router.put('/user', userAuth, async (req: Request, res: Response): Promise<Respo
   }
 });
 
-router.get('/user', userAuth, async (req: Request, res: Response): Promise<Response> => {
+userController.get('/user', userAuth, async (req: Request, res: Response): Promise<Response> => {
   // @ts-ignore
   const { id } = req.data;
 
@@ -158,7 +159,7 @@ router.get('/user', userAuth, async (req: Request, res: Response): Promise<Respo
   }
 });
 
-router.delete('/user', userAuth, async (req: Request, res: Response): Promise<Response> => {
+userController.delete('/user', userAuth, async (req: Request, res: Response): Promise<Response> => {
   // @ts-ignore
   const { id } = req.data;
 
@@ -171,4 +172,4 @@ router.delete('/user', userAuth, async (req: Request, res: Response): Promise<Re
   }
 });
 
-export default router;
+export default userController;

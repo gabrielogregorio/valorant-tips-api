@@ -4,9 +4,9 @@ import { DevEnvironmentService } from '@/service/DevEnvironment';
 
 dotenv.config();
 
-const router: Router = express.Router();
+const devEnvironmentController: Router = express.Router();
 
-router.get('/prepare_dev_environment', async (req: Request, res: Response): Promise<Response> => {
+devEnvironmentController.get('/prepare_dev_environment', async (req: Request, res: Response): Promise<Response> => {
   if (process.env.MODE_RUN === 'DEVELOP') {
     await DevEnvironmentService.Create();
     return res.json({ msg: 'Environment create success' });
@@ -15,4 +15,4 @@ router.get('/prepare_dev_environment', async (req: Request, res: Response): Prom
   return res.json({ msg: 'Ops' });
 });
 
-export default router;
+export default devEnvironmentController;
