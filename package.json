@@ -10,7 +10,6 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --watchAll --coverage"
-
   },
   "repository": {
     "type": "git",
