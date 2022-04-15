@@ -20,7 +20,7 @@ module.exports = {
           '@/middlewares': './src/middlewares',
           '@/models': './src/models',
           '@/service': './src/service',
-          '@/mock': './mock',
+          '@/mock': './src/mock',
           '@/locales': './src/locales',
           '@/helpers': './src/helpers',
         },
