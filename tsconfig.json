@@ -21,7 +21,8 @@
       "@/middlewares/*": ["./src/middlewares/*"],
       "@/models/*": ["./src/models/*"],
       "@/service/*": ["./src/service/*"],
-      "@/mock/*": ["./src/mock/*"]
+      "@/mock/*": ["./src/mock/*"],
+      "@/locales/*": ["./src/locales/*"]
     }
   },
   "include": ["src/**/*"]

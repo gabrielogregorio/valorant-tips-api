@@ -1,22 +1,23 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response, Router } from 'express';
 import dotenv from 'dotenv';
 import { CodeService } from '@/service/Code';
+import { ICode } from '@/models/Code';
 
 dotenv.config();
 
-const router = express.Router();
+const router: Router = express.Router();
 
-let tryCreateCode = 0;
+let tryCreateCode: number = 0;
 
 router.post('/generate_code', async (req: Request, res: Response): Promise<Response> => {
-  const { GENERATOR_CODE } = req.body;
+  const { GENERATOR_CODE } = req.body as { GENERATOR_CODE: string };
 
   if (tryCreateCode === 2) {
     return res.sendStatus(405);
   }
 
   if (GENERATOR_CODE === process.env.GENERATOR_CODE && GENERATOR_CODE.length > 15) {
-    const codeGenerated = await CodeService.Create();
+    const codeGenerated: ICode = await CodeService.Create();
     return res.json({ code: codeGenerated.code });
   }
   tryCreateCode += 1;

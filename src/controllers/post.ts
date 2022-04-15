@@ -1,27 +1,28 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response, Router } from 'express';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import multer from 'multer';
 import cloudinary from 'cloudinary';
 import dotenv from 'dotenv';
 import { IPost } from '@/models/Post';
-import { DataPost } from '@/factories/dataPost';
+import { DataPost, factoryPostType } from '@/factories/dataPost';
 import { userAuth } from '@/middlewares/userAuth';
 import { PostService } from '@/service/post';
+import messages from '@/locales/index';
 
-const router = express.Router();
+const cloudinaryV2 = cloudinary.v2;
+
+const router: Router = express.Router();
 
 dotenv.config();
 
-// @ts-ignore
-cloudinary.config({
+cloudinaryV2.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 const storage = new CloudinaryStorage({
-  // @ts-ignore
-  cloudinary,
+  cloudinary: cloudinaryV2,
   params: {
     // @ts-ignore
     folder: 'tips',
@@ -29,13 +30,6 @@ const storage = new CloudinaryStorage({
 });
 
 const upload = multer({ storage });
-
-function validValues(value) {
-  if (value === '' || value === undefined || value === null) {
-    return null;
-  }
-  return value;
-}
 
 router.post(
   '/postLoadFile',
@@ -46,26 +40,27 @@ router.post(
 );
 
 router.post('/post', userAuth, async (req: Request, res: Response): Promise<Response> => {
-  const { title, description, tags, imgs } = req.body;
+  const { title, description, tags, imgs } = req.body as IPost;
   // @ts-ignore
   const user = req.data.id;
 
-  if (validValues(title) === null || validValues(description) === null) {
+  if (!title || !description) {
     res.statusCode = 400;
-    return res.json({ error: 'Algum valor inválido' });
+    return res.json({ error: 'Some value is invalid' });
   }
 
   try {
-    const newPost = DataPost.Build(await PostService.Create({ title, description, user, tags, imgs }));
+    const post: IPost = await PostService.Create({ title, description, user, tags, imgs });
+    const newPost: factoryPostType = DataPost.Build(post);
     return res.json(newPost);
   } catch (error) {
     res.statusCode = 500;
-    return res.json({ error: 'Erro no servidor' });
+    return res.json({ error: messages.error.in.server });
   }
 });
 
 router.put('/post/:id', userAuth, async (req: Request, res: Response): Promise<Response> => {
-  const { title, description, tags, imgs } = req.body;
+  const { title, description, tags, imgs } = req.body as IPost;
   const { id } = req.params;
   // @ts-ignore
   const user = req.data.id;
@@ -74,24 +69,30 @@ router.put('/post/:id', userAuth, async (req: Request, res: Response): Promise<R
   imgs.forEach((img) => {
     newImgs.push({
       description: img.description,
+      // @ts-ignore
       _id: img.id,
       image: img.image,
     });
   });
 
-  if (validValues(title) === null || validValues(description) === null) {
+  if (!title || !description) {
     res.statusCode = 400;
-    return res.json({ error: 'Algum valor inválido' });
+    return res.json({ error: 'Some value is invalid' });
   }
 
   try {
-    const postUpdate = DataPost.Build(
-      await PostService.FindByIdAndUpdate(id, { title, description, user, tags, imgs: newImgs }),
-    );
+    const postService: IPost = await PostService.FindByIdAndUpdate(id, {
+      title,
+      description,
+      user,
+      tags,
+      imgs: newImgs,
+    });
+    const postUpdate: factoryPostType = DataPost.Build(postService);
     return res.json(postUpdate);
   } catch (error) {
     res.statusCode = 500;
-    return res.json({ error: 'Erro no servidor' });
+    return res.json({ error: messages.error.in.server });
   }
 });
 
@@ -100,65 +101,65 @@ router.get('/post/:id', async (req: Request, res: Response): Promise<Response> =
 
   try {
     const post: IPost = await PostService.FindById(id);
-    const postsBuilded = DataPost.Build(post);
+    const postsBuilded: factoryPostType = DataPost.Build(post);
     return res.json(postsBuilded);
   } catch (error) {
     res.statusCode = 500;
-    return res.json({ error: 'Erro no servidor' });
+    return res.json({ error: messages.error.in.server });
   }
 });
 
 router.get('/maps', async (req: Request, res: Response): Promise<Response> => {
   try {
-    const maps = await PostService.findAvaliableMaps();
+    const maps: string[] = await PostService.findAvailableMaps();
     return res.json({ maps });
   } catch (error) {
     res.statusCode = 500;
-    return res.json({ error: 'Erro ao obter a listagem de mapas' });
+    return res.json({ error: 'Error in get listing maps' });
   }
 });
 
 router.get('/agents/:map', async (req: Request, res: Response): Promise<Response> => {
   try {
-    const agents = await PostService.findAvaliableAgents(req.params.map);
+    const agents: string[] = await PostService.findAvailableAgents(req.params.map);
     return res.json({ agents });
   } catch (error) {
     res.statusCode = 500;
-    return res.json({ error: 'Erro ao obter a listagem de Agentes por mapa' });
+    return res.json({ error: 'Error in get listing agents by map' });
   }
 });
 
 router.get('/posts', async (req: Request, res: Response): Promise<Response> => {
   try {
-    const posts = await PostService.FindAll();
+    const postService: IPost[] = await PostService.FindAll();
 
-    const postsFactories = [];
-    posts.forEach((post) => {
-      postsFactories.push(DataPost.Build(post));
+    const posts: factoryPostType[] = [];
+    postService.forEach((post) => {
+      posts.push(DataPost.Build(post));
     });
 
-    return res.json({ posts: postsFactories });
+    return res.json({ posts });
   } catch (error) {
     res.statusCode = 500;
-    return res.json({ error: 'Erro no servidor' });
+    return res.json({ error: messages.error.in.server });
   }
 });
 
 router.get('/posts/:map/:agent', async (req: Request, res: Response): Promise<Response> => {
   try {
-    const { agent, map } = req.params;
+    const { agent, map } = req.params as { agent: string; map: string };
 
-    const posts = await PostService.FindAllByMapAndAgent(agent, map);
+    const postsService: IPost[] = await PostService.FindAllByMapAndAgent(agent, map);
 
-    const postsFactories = [];
-    posts.forEach((post) => {
-      postsFactories.push(DataPost.Build(post));
+    const posts: factoryPostType[] = [];
+    postsService.forEach((post) => {
+      posts.push(DataPost.Build(post));
     });
 
-    return res.json({ posts: postsFactories });
+    return res.json({ posts });
   } catch (error) {
     res.statusCode = 500;
-    return res.json({ error: 'Erro no servidor' });
+    return res.json({ error: messages.error.in.server });
   }
 });
 
@@ -173,7 +174,7 @@ router.delete('/post/:id', userAuth, async (req: Request, res: Response): Promis
     return res.json({});
   } catch (error) {
     res.statusCode = 500;
-    return res.json({ error: 'Erro no servidor' });
+    return res.json({ error: messages.error.in.server });
   }
 });
 

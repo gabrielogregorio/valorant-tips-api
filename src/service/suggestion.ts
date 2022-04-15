@@ -1,7 +1,6 @@
-import { Suggestion, ISuggestion } from '@/models/Sugestion';
+import { Suggestion, ISuggestion } from '@/models/Suggestion';
 
 export class SuggestionService {
-  // eslint-disable-next-line camelcase
   static async Create({ post_id, email, description }: ISuggestion): Promise<ISuggestion> {
     const newSuggestion = new Suggestion({
       post_id,

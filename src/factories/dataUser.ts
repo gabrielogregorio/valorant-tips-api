@@ -1,12 +1,17 @@
+export type factoryUserType = {
+  username: string;
+  image: string;
+};
+
 export class DataUser {
-  static Build(user) {
+  static Build(user: any): factoryUserType {
     if (!user) {
-      return {};
+      return null;
     }
 
     return {
-      username: user.username,
-      image: user.image,
+      username: user?.username,
+      image: user?.image,
     };
   }
 }

@@ -7,6 +7,7 @@ let codeGenerate = '';
 let idUser = '';
 let token = '';
 let postId = '';
+
 const post = {
   title: 'Titulo de um post maluco',
   description: 'Descrição maluca',

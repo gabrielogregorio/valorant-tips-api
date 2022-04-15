@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { User, IUser } from '@/models/User';
 
 export class UserService {
@@ -9,35 +10,36 @@ export class UserService {
 
   static async FindByIdAndUpdate(id: string, { username, password, image }: IUser) {
     const update: any = {};
-    // Senha foi alterada
-    if (password !== '' && password !== undefined && password !== null) {
+    const passwordHasChanged = password !== '' && password !== undefined && password !== null;
+    const usernameHasChanged = username !== '' && username !== undefined && username !== null;
+    const imageHasChanged = image !== undefined && image !== '';
+
+    if (passwordHasChanged) {
       update.password = password;
     }
-    // Username foi alterado
-    if (username !== '' && username !== undefined && username !== null) {
+
+    if (usernameHasChanged) {
       update.username = username;
     }
 
-    if (image !== undefined && image !== '') {
+    if (imageHasChanged) {
       update.image = image;
     }
 
-    const user = await User.findOneAndUpdate({ _id: id }, { $set: update });
-    return user;
+    return User.findOneAndUpdate({ _id: id }, { $set: update });
   }
 
   static async FindById(id: string): Promise<IUser> {
-    const user = await User.findById(id);
-    return user;
+    return User.findById(id);
   }
 
-  static async UserExistsByUsername(username, id) {
-    const user = await User.findOne({ username });
+  static async UserExistsByUsername(username: string, id: string): Promise<IUser> {
+    const user: IUser = await User.findOne({ username });
 
     if (user === null) {
       return undefined;
     }
-    // eslint-disable-next-line no-underscore-dangle
+    // @ts-ignore
     if (user._id.toString() === id) {
       return undefined;
     }
@@ -51,7 +53,6 @@ export class UserService {
   }
 
   static async DeleteById(id: string) {
-    const userDeleted = await User.findOneAndDelete({ _id: id });
-    return userDeleted;
+    return User.findOneAndDelete({ _id: id });
   }
 }

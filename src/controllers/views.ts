@@ -1,10 +1,10 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response, Router } from 'express';
 import dotenv from 'dotenv';
-import { ViewService } from '@/service/View';
+import { countViewsType, ViewService } from '@/service/View';
 
 dotenv.config();
 
-const router = express.Router();
+const router: Router = express.Router();
 
 router.post('/views', async (req: Request, res: Response): Promise<Response> => {
   try {
@@ -18,7 +18,7 @@ router.post('/views', async (req: Request, res: Response): Promise<Response> => 
 
 router.get('/views', async (req: Request, res: Response): Promise<Response> => {
   try {
-    const { countAll, countIps } = await ViewService.CountViews();
+    const { countAll, countIps }: countViewsType = await ViewService.CountViews();
     return res.json({ countAll, countIps });
   } catch (error) {
     return res.sendStatus(500);

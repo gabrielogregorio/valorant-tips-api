@@ -8,10 +8,10 @@ import SuggestionController from '@/controllers/suggestion';
 import CodeController from '@/controllers/code';
 import ViewsController from '@/controllers/views';
 import DashboardController from '@/controllers/dashboard';
-
-dotenv.config();
 // import const BackupController from '@/controllers/backup
 // import const DevEnvironmentController from '@/controllers/DevEnvironment
+
+dotenv.config();
 
 export const app = express();
 
@@ -20,7 +20,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 app.use(express.static('public'));
 
-// Controllers
 app.use('/', UserController);
 app.use('/', PostController);
 app.use('/', SuggestionController);
@@ -33,6 +32,6 @@ app.use('/', DashboardController);
 mongoose
   .connect(process.env.MONGO_URI, {})
   .then(() => {})
-  .catch((error) => console.log(error));
+  .catch((error) => error);
 
 app.get('/', (req, res) => res.send('oi'));

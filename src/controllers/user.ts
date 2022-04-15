@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import express, { Request, Response } from 'express';
+import express, { Request, Response, Router } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
@@ -9,9 +9,11 @@ import { CodeService } from '@/service/Code';
 import { userAuth } from '@/middlewares/userAuth';
 import { DataUser } from '@/factories/dataUser';
 import { multerUser } from '@/middlewares/multerUser';
+import { ICode } from '@/models/Code';
+import messages from '@/locales/index';
 
-const router = express.Router();
-const jwtSecret = process.env.JWT_SECRET;
+const router: Router = express.Router();
+const jwtSecret: string = process.env.JWT_SECRET;
 
 dotenv.config();
 router.post('/userLoadFile', multerUser.single('image'), async (req: Request, res: Response): Promise<Response> => {
@@ -33,16 +35,16 @@ router.post('/userLoadFile', multerUser.single('image'), async (req: Request, re
 });
 
 router.post('/auth', async (req: Request, res: Response): Promise<Response> => {
-  const { username, password } = req.body;
+  const { username, password } = req.body as { username: string; password: string };
 
-  const user = await UserService.FindByUsername(username);
+  const user: IUser = await UserService.FindByUsername(username);
 
-  if (user === undefined) {
+  if (!user) {
     return res.sendStatus(404);
   }
 
-  // @ts-ignore
-  const valid = await bcrypt.compare(password, user.password);
+  const valid: boolean = await bcrypt.compare(password, user.password);
+
   if (!valid) {
     return res.sendStatus(403);
   }
@@ -58,34 +60,31 @@ router.post('/auth', async (req: Request, res: Response): Promise<Response> => {
 });
 
 router.post('/user', async (req: Request, res: Response): Promise<Response> => {
-  const { username, password, image, code } = req.body;
+  const { username, password, image, code } = req.body as {
+    username: string;
+    password: string;
+    image: string;
+    code: string;
+  };
 
-  const codeData = await CodeService.FindCode(code);
+  const codeData: ICode = await CodeService.FindCode(code);
 
   if (codeData?.code?.length < 10 || codeData === null) {
     res.statusCode = 403;
     return res.json({ msg: 'invalid code' });
   }
 
-  if (
-    username === undefined ||
-    username === null ||
-    username === '' ||
-    password === undefined ||
-    password === null ||
-    password === ''
-  ) {
+  if (!username || !password) {
     return res.sendStatus(400);
   }
 
-  // Verifica se o username já está registrado
   const userExists = await UserService.UserExistsByUsername(username, '');
+
   if (userExists !== undefined) {
     res.statusCode = 409;
-    return res.json({ error: 'Username já está cadastrado!' });
+    return res.json({ error: 'Username is already registered' });
   }
 
-  // Gera um hash da senha
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
 
@@ -106,7 +105,7 @@ router.post('/user', async (req: Request, res: Response): Promise<Response> => {
     return res.json(newUser);
   } catch (error) {
     res.statusCode = 500;
-    return res.json({ error: 'Erro no servidor' });
+    return res.json({ error: messages.error.in.server });
   }
 });
 
@@ -116,13 +115,13 @@ router.put('/user', userAuth, async (req: Request, res: Response): Promise<Respo
   // @ts-ignore
   const { id } = req.data;
 
-  // Se o Usuário foi alterado, verificar se já existe no db
-  if (username !== '' && username !== undefined && username !== null) {
+  const usernameIsAlreadyRegistered = username !== '' && username !== undefined && username !== null;
+  if (usernameIsAlreadyRegistered) {
     const userExists: IUser = await UserService.UserExistsByUsername(username, id);
 
     if (userExists !== undefined) {
       res.statusCode = 409;
-      return res.json({ error: 'Username já está cadastrado!' });
+      return res.json({ error: 'Username is already registered' });
     }
   }
 
@@ -141,7 +140,7 @@ router.put('/user', userAuth, async (req: Request, res: Response): Promise<Respo
     return res.json(userBuilded);
   } catch (error) {
     res.statusCode = 500;
-    return res.json({ error: 'Erro no servidor' });
+    return res.json({ error: messages.error.in.server });
   }
 });
 
@@ -155,7 +154,7 @@ router.get('/user', userAuth, async (req: Request, res: Response): Promise<Respo
     return res.json(userBuilded);
   } catch (error) {
     res.statusCode = 500;
-    return res.json({ error: 'Erro no servidor' });
+    return res.json({ error: messages.error.in.server });
   }
 });
 
@@ -168,7 +167,7 @@ router.delete('/user', userAuth, async (req: Request, res: Response): Promise<Re
     return res.json({});
   } catch (error) {
     res.statusCode = 500;
-    return res.json({ error: 'Erro no servidor' });
+    return res.json({ error: messages.error.in.server });
   }
 });
 

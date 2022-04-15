@@ -1,5 +1,5 @@
 import { Post } from '@/models/Post';
-import { Suggestion } from '@/models/Sugestion';
+import { Suggestion } from '@/models/Suggestion';
 import { User } from '@/models/User';
 import { mockDevEnvironment } from '@/mock/mock_dev';
 

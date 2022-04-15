@@ -21,12 +21,12 @@ export class PostService {
     return post;
   }
 
-  static async findAvaliableMaps(): Promise<string[]> {
-    const maps = await Post.find().distinct('tags.map');
+  static async findAvailableMaps(): Promise<string[]> {
+    const maps: string[] = await Post.find().distinct('tags.map');
     return maps;
   }
 
-  static async findAvaliableAgents(map: string): Promise<string[]> {
+  static async findAvailableAgents(map: string): Promise<string[]> {
     const agents = await Post.find({ 'tags.map': map }).distinct('tags.agent');
     return agents;
   }

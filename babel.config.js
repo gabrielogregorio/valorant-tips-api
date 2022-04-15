@@ -21,6 +21,7 @@ module.exports = {
           '@/models': './src/models',
           '@/service': './src/service',
           '@/mock': './src/mock',
+          '@/locales': './src/locales',
         },
       },
     ],

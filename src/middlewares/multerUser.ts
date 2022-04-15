@@ -1,26 +1,21 @@
-/* eslint-disable camelcase */
-import multer_user from 'multer';
+import { Request } from 'express';
+import multer from 'multer';
 
-// https://github.com/expressjs/multer/blob/master/doc/README-pt-br.md
-
-export const multerUser = multer_user({
-  storage: multer_user.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, './public/images/users');
+export const multerUser = multer({
+  storage: multer.diskStorage({
+    destination: (request: Request, file, callback) => {
+      callback(null, './public/images/users');
     },
-    filename: (req, file, cb) => {
-      cb(null, `${file.fieldname}-${Date.now()}`);
+    filename: (request: Request, file, callback) => {
+      callback(null, `${file.fieldname}-${Date.now()}`);
     },
   }),
 
-  fileFilter: (req, file, cb) => {
-    const accepted = ['image/gif', 'image/png', 'image/webp', 'image/jpg', 'image/jpeg'].find(
-      (aceito) => aceito === file.mimetype,
+  fileFilter: (request: Request, file, callback) => {
+    const accepted = !!['image/gif', 'image/png', 'image/webp', 'image/jpg', 'image/jpeg'].find(
+      (accept) => accept === file.mimetype,
     );
 
-    if (accepted) {
-      return cb(null, true); // Aceitar arquivo
-    }
-    return cb(null, false); // Rejeitar arquivo
+    return callback(null, accepted);
   },
 });
