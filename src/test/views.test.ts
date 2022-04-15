@@ -21,7 +21,6 @@ describe('Deve Gerenciar as visualizações', () => {
         .then((res2) => {
           expect(res2.statusCode).toEqual(200);
 
-          // views + 1
           return request.get('/views').then((res3) => {
             expect(res3.statusCode).toEqual(200);
             expect(res3.body.countAll).toEqual(views + 1);

@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import { Post } from '@/models/Post';
-import { Suggestion } from '@/models/Sugestion';
+import { Suggestion } from '@/models/Suggestion';
 
 dotenv.config();
 

@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
-
 import dotenv from 'dotenv';
-
 import jwt from 'jsonwebtoken';
 
 dotenv.config();
+
+const { JWT_SECRET } = process.env;
 
 export const userAuth = (req: Request, res: Response, next: NextFunction) => {
   const authToken = req.headers.authorization;
@@ -21,7 +21,7 @@ export const userAuth = (req: Request, res: Response, next: NextFunction) => {
   }
 
   try {
-    const data = jwt.verify(auth, process.env.JWT_SECRET);
+    const data = jwt.verify(auth, JWT_SECRET);
     // @ts-ignore
     req.data = data;
 

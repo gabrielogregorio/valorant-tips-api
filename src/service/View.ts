@@ -1,6 +1,6 @@
 import { View, IView } from '@/models/View';
 
-type countViewsType = {
+export type countViewsType = {
   countAll: number;
   countIps: number;
 };
@@ -9,7 +9,7 @@ export class ViewService {
   static async Create(ip: string): Promise<IView> {
     const newView = new View({
       ip,
-      dateAcess: Date.now(),
+      dateAccess: Date.now(),
     });
     await newView.save();
     return newView;

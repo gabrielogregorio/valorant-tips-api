@@ -1,10 +1,16 @@
 /* eslint-disable no-underscore-dangle */
+
+export type factorySuggestionType = {
+  description: string;
+  email: string;
+  id: string;
+};
 export class DataSuggestion {
-  static Build(suggestion) {
+  static Build(suggestion: any): factorySuggestionType {
     return {
-      description: suggestion.description,
-      email: suggestion.email,
-      id: suggestion._id.toString(),
+      description: suggestion?.description,
+      email: suggestion?.email,
+      id: suggestion?._id?.toString(),
     };
   }
 }

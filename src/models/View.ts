@@ -2,13 +2,13 @@ import mongoose from 'mongoose';
 
 export interface IView {
   ip: string;
-  dateAcess: Date;
+  dateAccess: Date;
 }
 
 const viewSchema = new mongoose.Schema<IView>(
   {
     ip: String,
-    dateAcess: Date,
+    dateAccess: Date,
   },
   {
     timestamps: true,
