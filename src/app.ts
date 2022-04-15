@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-import express, { Request, Response } from 'express';
+import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import DashboardController from '@/controllers/dashboardController';
 import UserController from '@/controllers/userController';
@@ -13,7 +13,7 @@ import PostController from '@/controllers/postController';
 
 dotenv.config();
 
-export const app = express();
+export const app: Application = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
