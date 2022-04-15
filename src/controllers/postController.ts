@@ -8,6 +8,7 @@ import { DataPost, factoryPostType } from '@/factories/dataPost';
 import { userAuth } from '@/middlewares/userAuth';
 import { PostService } from '@/service/post';
 import messages from '@/locales/index';
+import { convertMegabytesToBytes } from '@/helpers/conversors';
 
 const cloudinaryV2 = cloudinary.v2;
 
@@ -29,7 +30,13 @@ const storage = new CloudinaryStorage({
   },
 });
 
-const upload = multer({ storage });
+const LIMIT_SIZE_UPLOAD_IN_BYTES = convertMegabytesToBytes(10);
+const upload = multer({
+  storage,
+  limits: {
+    fileSize: LIMIT_SIZE_UPLOAD_IN_BYTES,
+  },
+});
 
 postController.post(
   '/postLoadFile',
