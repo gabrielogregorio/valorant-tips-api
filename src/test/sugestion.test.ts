@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import supertest from 'supertest';
+import mockTests from '@/mock/mockTests.json';
 import { connection } from './mockMongoose';
 import { app } from '../app';
 
@@ -24,12 +25,12 @@ beforeAll(() =>
       codeGenerate = res.body.code;
       return request
         .post('/user')
-        .send({ username: 'userTestSugestion', password: 'userTestSugestion', code: codeGenerate })
+        .send({ username: mockTests.username3, password: mockTests.password3, code: codeGenerate })
         .then((res2) => {
           idUser = res2.body._id;
           return request
             .post('/auth')
-            .send({ username: 'userTestSugestion', password: 'userTestSugestion' })
+            .send({ username: mockTests.username3, password: mockTests.password3 })
             .then((res3) => {
               // @ts-ignore
               token = { authorization: `Bearer ${res3.body.token}` };

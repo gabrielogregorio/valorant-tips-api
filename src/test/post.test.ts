@@ -1,4 +1,5 @@
 import supertest from 'supertest';
+import mockTests from '@/mock/mockTests.json';
 import { connection } from './mockMongoose';
 import { app } from '../app';
 
@@ -71,7 +72,7 @@ beforeAll(() =>
 
       return request
         .post('/user')
-        .send({ username: 'userTest', password: 'userTest', code: codeGenerate })
+        .send({ username: mockTests.username2, password: mockTests.password2, code: codeGenerate })
         .then((res2) => {
           idUser = res2.body.id;
           post.user = idUser;
@@ -79,7 +80,7 @@ beforeAll(() =>
 
           return request
             .post('/auth')
-            .send({ username: 'userTest', password: 'userTest' })
+            .send({ username: mockTests.username2, password: mockTests.password2 })
             .then((res3) => {
               // @ts-ignore
               token = { authorization: `Bearer ${res3.body.token}` };
