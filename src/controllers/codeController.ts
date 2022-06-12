@@ -2,6 +2,7 @@ import express, { Request, Response, Router } from 'express';
 import dotenv from 'dotenv';
 import { CodeService } from '@/service/Code';
 import { ICode } from '@/models/Code';
+import statusCode from '../config/statusCode';
 
 dotenv.config();
 
@@ -13,7 +14,7 @@ codeController.post('/generate_code', async (req: Request, res: Response): Promi
   const { GENERATOR_CODE } = req.body as { GENERATOR_CODE: string };
 
   if (tryCreateCode === 2) {
-    return res.sendStatus(405);
+    return res.sendStatus(statusCode.NOT_ALLOWED.code);
   }
 
   if (GENERATOR_CODE === process.env.GENERATOR_CODE && GENERATOR_CODE.length > 15) {
@@ -21,7 +22,7 @@ codeController.post('/generate_code', async (req: Request, res: Response): Promi
     return res.json({ code: codeGenerated.code });
   }
   tryCreateCode += 1;
-  return res.sendStatus(404);
+  return res.sendStatus(statusCode.NOT_FOUND.code);
 });
 
 export default codeController;

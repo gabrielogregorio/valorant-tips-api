@@ -5,6 +5,7 @@ import { SuggestionService } from '@/service/suggestion';
 import { userAuth } from '@/middlewares/userAuth';
 import { DataSuggestion, factorySuggestionType } from '@/factories/dataSuggestion';
 import messages from '@/locales/index';
+import statusCode from '../config/statusCode';
 
 dotenv.config();
 
@@ -14,7 +15,7 @@ suggestionController.post('/suggestion', async (req: Request, res: Response): Pr
   const { post_id, email, description } = req.body;
 
   if (description === null || description === undefined || description === '') {
-    res.statusCode = 400;
+    res.statusCode = statusCode.BAD_REQUEST.code;
     return res.json({ erro: 'Parametros inválidos ou faltantes' });
   }
 
@@ -28,7 +29,7 @@ suggestionController.post('/suggestion', async (req: Request, res: Response): Pr
 
     return res.json(suggestion);
   } catch (error) {
-    res.statusCode = 500;
+    res.statusCode = statusCode.ERROR_IN_SERVER.code;
     return res.json({ error: messages.error.in.server });
   }
 });
@@ -44,7 +45,7 @@ suggestionController.get('/suggestions', userAuth, async (_req: Request, res: Re
 
     return res.json(suggestionsFactory);
   } catch (error) {
-    res.statusCode = 500;
+    res.statusCode = statusCode.ERROR_IN_SERVER.code;
     return res.json({ error: messages.error.in.server });
   }
 });
@@ -54,7 +55,7 @@ suggestionController.put('/suggestion/:id', userAuth, async (req: Request, res: 
   const newStatus = req.body.status;
 
   if (newStatus !== 'accepted' && newStatus !== 'rejected') {
-    res.statusCode = 400;
+    res.statusCode = statusCode.BAD_REQUEST.code;
     return res.json({ error: 'Status para a sugestão inválido!' });
   }
 
@@ -62,7 +63,7 @@ suggestionController.put('/suggestion/:id', userAuth, async (req: Request, res: 
     const suggestionEdited: ISuggestion = await SuggestionService.UpdateById(suggestionId, newStatus);
     return res.json(suggestionEdited);
   } catch (error) {
-    res.statusCode = 500;
+    res.statusCode = statusCode.ERROR_IN_SERVER.code;
     return res.json({ msg: messages.error.in.server });
   }
 });
@@ -74,7 +75,7 @@ suggestionController.delete('/suggestion/:id', userAuth, async (req: Request, re
     await SuggestionService.DeleteById(suggestionId);
     return res.json({});
   } catch (error) {
-    res.statusCode = 500;
+    res.statusCode = statusCode.ERROR_IN_SERVER.code;
     return res.json({ msg: messages.error.in.server });
   }
 });

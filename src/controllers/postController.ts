@@ -9,6 +9,8 @@ import { userAuth } from '@/middlewares/userAuth';
 import { PostService } from '@/service/post';
 import messages from '@/locales/index';
 import { convertMegabytesToBytes } from '@/helpers/conversors';
+import statusCode from '../config/statusCode';
+import { RequestMiddleware } from '../interfaces/extends';
 
 const cloudinaryV2 = cloudinary.v2;
 
@@ -42,34 +44,32 @@ postController.post(
   '/postLoadFile',
   upload.single('image'),
   async (req: Request, res: Response): Promise<Response> =>
-    // @ts-ignore
     res.json({ filename: req.file.path }),
 );
 
-postController.post('/post', userAuth, async (req: Request, res: Response): Promise<Response> => {
+postController.post('/post', userAuth, async (req: RequestMiddleware, res: Response): Promise<Response> => {
   const { title, description, tags, imgs } = req.body as IPost;
-  // @ts-ignore
   const user = req.data.id;
 
   if (!title || !description) {
-    res.statusCode = 400;
+    res.statusCode = statusCode.BAD_REQUEST.code;
     return res.json({ error: 'Some value is invalid' });
   }
 
   try {
+    // @ts-ignore
     const post: IPost = await PostService.Create({ title, description, user, tags, imgs });
     const newPost: factoryPostType = DataPost.Build(post);
     return res.json(newPost);
   } catch (error) {
-    res.statusCode = 500;
+    res.statusCode = statusCode.ERROR_IN_SERVER.code;
     return res.json({ error: messages.error.in.server });
   }
 });
 
-postController.put('/post/:id', userAuth, async (req: Request, res: Response): Promise<Response> => {
+postController.put('/post/:id', userAuth, async (req: RequestMiddleware, res: Response): Promise<Response> => {
   const { title, description, tags, imgs } = req.body as IPost;
   const { id } = req.params;
-  // @ts-ignore
   const user = req.data.id;
 
   const newImgs = [];
@@ -83,7 +83,7 @@ postController.put('/post/:id', userAuth, async (req: Request, res: Response): P
   });
 
   if (!title || !description) {
-    res.statusCode = 400;
+    res.statusCode = statusCode.BAD_REQUEST.code;
     return res.json({ error: 'Some value is invalid' });
   }
 
@@ -91,6 +91,7 @@ postController.put('/post/:id', userAuth, async (req: Request, res: Response): P
     const postService: IPost = await PostService.FindByIdAndUpdate(id, {
       title,
       description,
+      // @ts-ignore
       user,
       tags,
       imgs: newImgs,
@@ -98,7 +99,7 @@ postController.put('/post/:id', userAuth, async (req: Request, res: Response): P
     const postUpdate: factoryPostType = DataPost.Build(postService);
     return res.json(postUpdate);
   } catch (error) {
-    res.statusCode = 500;
+    res.statusCode = statusCode.ERROR_IN_SERVER.code;
     return res.json({ error: messages.error.in.server });
   }
 });
@@ -111,7 +112,7 @@ postController.get('/post/:id', async (req: Request, res: Response): Promise<Res
     const postsBuilded: factoryPostType = DataPost.Build(post);
     return res.json(postsBuilded);
   } catch (error) {
-    res.statusCode = 500;
+    res.statusCode = statusCode.ERROR_IN_SERVER.code;
     return res.json({ error: messages.error.in.server });
   }
 });
@@ -121,7 +122,7 @@ postController.get('/maps', async (_req: Request, res: Response): Promise<Respon
     const maps: string[] = await PostService.findAvailableMaps();
     return res.json({ maps });
   } catch (error) {
-    res.statusCode = 500;
+    res.statusCode = statusCode.ERROR_IN_SERVER.code;
     return res.json({ error: 'Error in get listing maps' });
   }
 });
@@ -131,7 +132,7 @@ postController.get('/agents/:map', async (req: Request, res: Response): Promise<
     const agents: string[] = await PostService.findAvailableAgents(req.params.map);
     return res.json({ agents });
   } catch (error) {
-    res.statusCode = 500;
+    res.statusCode = statusCode.ERROR_IN_SERVER.code;
     return res.json({ error: 'Error in get listing agents by map' });
   }
 });
@@ -147,7 +148,7 @@ postController.get('/posts', async (_req: Request, res: Response): Promise<Respo
 
     return res.json({ posts });
   } catch (error) {
-    res.statusCode = 500;
+    res.statusCode = statusCode.ERROR_IN_SERVER.code;
     return res.json({ error: messages.error.in.server });
   }
 });
@@ -165,22 +166,19 @@ postController.get('/posts/:map/:agent', async (req: Request, res: Response): Pr
 
     return res.json({ posts });
   } catch (error) {
-    res.statusCode = 500;
+    res.statusCode = statusCode.ERROR_IN_SERVER.code;
     return res.json({ error: messages.error.in.server });
   }
 });
 
-postController.delete('/post/:id', userAuth, async (req: Request, res: Response): Promise<Response> => {
-  // @ts-ignore
-  const idUser = req.data.id;
+postController.delete('/post/:id', userAuth, async (req: RequestMiddleware, res: Response): Promise<Response> => {
   const idPost = req.params.id;
 
   try {
-    // @ts-ignore
-    await PostService.DeleteById(idPost, idUser);
+    await PostService.DeleteById(idPost);
     return res.json({});
   } catch (error) {
-    res.statusCode = 500;
+    res.statusCode = statusCode.ERROR_IN_SERVER.code;
     return res.json({ error: messages.error.in.server });
   }
 });
