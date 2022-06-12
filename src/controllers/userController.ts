@@ -11,6 +11,8 @@ import { DataUser } from '@/factories/dataUser';
 import { multerUser } from '@/middlewares/multerUser';
 import { ICode } from '@/models/Code';
 import messages from '@/locales/index';
+import statusCode from '../config/statusCode';
+import { RequestMiddleware, RequestMulter } from '../interfaces/extends';
 
 const userController: Router = express.Router();
 const jwtSecret: string = process.env.JWT_SECRET;
@@ -19,15 +21,13 @@ dotenv.config();
 userController.post(
   '/userLoadFile',
   multerUser.single('image'),
-  async (req: Request, res: Response): Promise<Response> => {
+  async (req: RequestMulter, res: Response): Promise<Response> => {
     let filename: string = '';
 
-    // @ts-ignore
     if (!req.file) {
-      return res.status(400).send('No file uploaded.');
+      return res.status(statusCode.BAD_REQUEST.code).send('No file uploaded.');
     }
 
-    // @ts-ignore
     if (req.file) {
       filename = req.file.filename;
     }
@@ -41,19 +41,19 @@ userController.post('/auth', async (req: Request, res: Response): Promise<Respon
   const user: IUser = await UserService.FindByUsername(username);
 
   if (!user) {
-    return res.sendStatus(404);
+    return res.sendStatus(statusCode.NOT_FOUND.code);
   }
 
   const valid: boolean = await bcrypt.compare(password, user.password);
 
   if (!valid) {
-    return res.sendStatus(403);
+    return res.sendStatus(statusCode.NEED_TOKEN.code);
   }
 
   // @ts-ignore
   return jwt.sign({ username, name: user.name, id: user._id }, jwtSecret, { expiresIn: '128h' }, (error, token) => {
     if (error) {
-      return res.sendStatus(500);
+      return res.sendStatus(statusCode.ERROR_IN_SERVER.code);
     }
     // @ts-ignore
     return res.json({ token, id: user._id });
@@ -71,18 +71,18 @@ userController.post('/user', async (req: Request, res: Response): Promise<Respon
   const codeData: ICode = await CodeService.FindCode(code);
 
   if (codeData?.code?.length < 10 || codeData === null) {
-    res.statusCode = 403;
+    res.statusCode = statusCode.NEED_TOKEN.code;
     return res.json({ msg: 'invalid code' });
   }
 
   if (!username || !password) {
-    return res.sendStatus(400);
+    return res.sendStatus(statusCode.BAD_REQUEST.code);
   }
 
   const userExists = await UserService.UserExistsByUsername(username, '');
 
   if (userExists !== undefined) {
-    res.statusCode = 409;
+    res.statusCode = statusCode.CONFLICT.code;
     return res.json({ error: 'Username is already registered' });
   }
 
@@ -98,22 +98,21 @@ userController.post('/user', async (req: Request, res: Response): Promise<Respon
   try {
     const use = await CodeService.UseCode(codeData.code);
     if (use.available !== false) {
-      return res.sendStatus(403);
+      return res.sendStatus(statusCode.NEED_TOKEN.code);
     }
 
     // @ts-ignore
     const newUser = DataUser.Build(await UserService.Create(update));
     return res.json(newUser);
   } catch (error) {
-    res.statusCode = 500;
+    res.statusCode = statusCode.ERROR_IN_SERVER.code;
     return res.json({ error: messages.error.in.server });
   }
 });
 
-userController.put('/user', userAuth, async (req: Request, res: Response): Promise<Response> => {
+userController.put('/user', userAuth, async (req: RequestMiddleware, res: Response): Promise<Response> => {
   let { password } = req.body;
   const { username, image } = req.body;
-  // @ts-ignore
   const { id } = req.data;
 
   const usernameIsAlreadyRegistered = username !== '' && username !== undefined && username !== null;
@@ -121,14 +120,14 @@ userController.put('/user', userAuth, async (req: Request, res: Response): Promi
     const userExists: IUser = await UserService.UserExistsByUsername(username, id);
 
     if (userExists !== undefined) {
-      res.statusCode = 409;
+      res.statusCode = statusCode.CONFLICT.code;
       return res.json({ error: 'Username is already registered' });
     }
   }
 
   if (password !== '' && password !== undefined && password !== null) {
     const salt = await bcrypt.genSalt(10);
-    password = await bcrypt.hash(password, salt); // Hash
+    password = await bcrypt.hash(password, salt);
   } else {
     password = undefined;
   }
@@ -140,13 +139,12 @@ userController.put('/user', userAuth, async (req: Request, res: Response): Promi
     const userBuilded = DataUser.Build(user);
     return res.json(userBuilded);
   } catch (error) {
-    res.statusCode = 500;
+    res.statusCode = statusCode.ERROR_IN_SERVER.code;
     return res.json({ error: messages.error.in.server });
   }
 });
 
-userController.get('/user', userAuth, async (req: Request, res: Response): Promise<Response> => {
-  // @ts-ignore
+userController.get('/user', userAuth, async (req: RequestMiddleware, res: Response): Promise<Response> => {
   const { id } = req.data;
 
   try {
@@ -154,20 +152,19 @@ userController.get('/user', userAuth, async (req: Request, res: Response): Promi
     const userBuilded = DataUser.Build(user);
     return res.json(userBuilded);
   } catch (error) {
-    res.statusCode = 500;
+    res.statusCode = statusCode.ERROR_IN_SERVER.code;
     return res.json({ error: messages.error.in.server });
   }
 });
 
-userController.delete('/user', userAuth, async (req: Request, res: Response): Promise<Response> => {
-  // @ts-ignore
+userController.delete('/user', userAuth, async (req: RequestMiddleware, res: Response): Promise<Response> => {
   const { id } = req.data;
 
   try {
     await UserService.DeleteById(id);
     return res.json({});
   } catch (error) {
-    res.statusCode = 500;
+    res.statusCode = statusCode.ERROR_IN_SERVER.code;
     return res.json({ error: messages.error.in.server });
   }
 });

@@ -5,7 +5,7 @@ import { connection } from './mockMongoose';
 import { app } from '../app';
 
 const request = supertest(app);
-let token = '';
+let token = { Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5c' };
 let idUser = '';
 let codeGenerate = '';
 
@@ -17,122 +17,114 @@ const sugestion = {
   status: '',
 };
 
-beforeAll(() =>
-  request
-    .post('/generate_code')
-    .send({ GENERATOR_CODE: process.env.GENERATOR_CODE })
-    .then((res) => {
-      codeGenerate = res.body.code;
-      return request
-        .post('/user')
-        .send({ username: mockTests.username3, password: mockTests.password3, code: codeGenerate })
-        .then((res2) => {
-          idUser = res2.body._id;
-          return request
-            .post('/auth')
-            .send({ username: mockTests.username3, password: mockTests.password3 })
-            .then((res3) => {
-              // @ts-ignore
-              token = { authorization: `Bearer ${res3.body.token}` };
-            });
-        });
-    }),
-);
+const testDoc = it;
+
+let suggestionId = '629cfd7adc5df3a582ff57c6';
+
+beforeAll(async () => {
+  const res = await request.post('/generate_code').send({ GENERATOR_CODE: process.env.GENERATOR_CODE });
+
+  codeGenerate = res.body.code;
+
+  const res2 = await request
+    .post('/user')
+    .send({ username: mockTests.username3, password: mockTests.password3, code: codeGenerate });
+
+  idUser = res2.body._id;
+
+  const res3 = await request.post('/auth').send({ username: mockTests.username3, password: mockTests.password3 });
+
+  // @ts-ignore
+  token = { authorization: `Bearer ${res3.body.token}` };
+});
 
 afterAll(async () => {
   await request.delete(`/user/${idUser}`);
   await connection.connection.close();
 });
 
-const sendSuggestion = (id: string, status: string) => request.put(`/suggestion/${id}`).send({ status });
+describe('Gerenciamento de sugestões', () => {
+  testDoc('Enviar uma sugestão', async () => {
+    const res = await request.post('/suggestion').send({
+      post_id: '6158689924fd4f9e1c587851',
+      email: 'gab@gab.com',
+      description: 'Eu acho que seria...',
+    });
 
-describe('Deve enviar uma sugestão', () => {
-  it('Deve enviar uma sugestão', () =>
-    request
-      .post('/suggestion')
-      .send({
-        post_id: sugestion.post_id,
-        email: sugestion.email,
-        description: sugestion.description,
-      })
-      .then((res) => {
-        expect(res.statusCode).toEqual(200);
-        sugestion._id = res.body._id;
-      }));
+    expect(res.statusCode).toEqual(200);
+    sugestion._id = res.body._id;
+  });
 
-  it('Deve retornar 400 quando não informar descrição', () =>
-    request
-      .post('/suggestion')
-      .send({
-        post_id: '12345123145',
-        email: 'gab@gab.com',
-        description: '',
-      })
-      .then((res) => {
-        expect(res.statusCode).toEqual(400);
-      }));
+  testDoc('Impede o registro de uma sugestão sem conteúdo correto', async () => {
+    const res = await request.post('/suggestion').send({
+      post_id: '12345123145',
+      email: 'gab@gab.com',
+      description: '',
+    });
 
-  it('Deve retornar 400 quando não passar parâmetros', () =>
-    request
-      .post('/suggestion')
-      .send()
-      .then((res) => {
-        expect(res.statusCode).toEqual(400);
-      }));
+    expect(res.statusCode).toEqual(400);
+  });
 
-  it('Deve impedir que um usuário não autorizado veja as sugestões', () =>
-    request.get('/suggestions').then((res) => {
-      expect(res.statusCode).toEqual(403);
-    }));
+  test('Deve retornar 400 quando não passar parâmetros', async () => {
+    const res = await request.post('/suggestion').send();
 
-  it('Deve permitir que um usuário autorizado veja as sugestões', () =>
-    request
-      .get('/suggestions')
-      .set(token)
-      .then((res) => {
-        expect(res.statusCode).toEqual(200);
-        expect(res.body[res.body.length - 1].description).toEqual(sugestion.description);
-      }));
+    expect(res.statusCode).toEqual(400);
+  });
 
-  it('Deve impedir alterações nas sugestões por um usuário desconhecido', () =>
-    sendSuggestion(sugestion._id, 'accepted').then((res) => {
-      expect(res.statusCode).toEqual(403);
-    }));
+  testDoc('Retorna sugestões', async () => {
+    const res = await request.get('/suggestions').set(token);
 
-  it('Deve permitir a alteração do estado de uma sugestão', () =>
-    sendSuggestion(sugestion._id, 'accepted')
-      .set(token)
-      .then((res) => {
-        expect(res.statusCode).toEqual(200);
-        expect(res.body.status).toEqual('accepted');
-      }));
+    expect(res.statusCode).toEqual(200);
+    expect(res.body[res.body.length - 1].description).toEqual(sugestion.description);
+  });
 
-  it('Deve permitir a alteração do estado de uma sugestão', () =>
-    sendSuggestion(sugestion._id, 'rejected')
-      .set(token)
-      .then((res) => {
-        expect(res.statusCode).toEqual(200);
-        expect(res.body.status).toEqual('rejected');
-      }));
+  testDoc('Impede que um usuários não autorizado vejam as sugestões', async () => {
+    const res = await request.get('/suggestions');
+    expect(res.statusCode).toEqual(403);
+  });
 
-  it('Deve impedir a edição para um status inválido', () =>
-    sendSuggestion(sugestion._id, 'aaaaaaaaaaaaaaaaaaaaaaaaaaa')
-      .set(token)
-      .then((res) => {
-        expect(res.statusCode).toEqual(400);
-        expect(res.body.error).toEqual('Status para a sugestão inválido!');
-      }));
+  testDoc('Altera o status para aceito', async () => {
+    suggestionId = sugestion._id;
+    const res = await request.put(`/suggestion/${suggestionId}`).set(token).send({ status: 'accepted' });
 
-  it('Deve impedir que um usuário desconhecido delete a sugestão', () =>
-    request.delete(`/suggestion/${sugestion._id}`).then((res) => {
-      expect(res.statusCode).toEqual(403);
-    }));
+    expect(res.statusCode).toEqual(200);
+    expect(res.body.status).toEqual('accepted');
+  });
 
-  it('Deve permitir a deleção de uma sugestão', () =>
-    request
-      .delete(`/suggestion/${sugestion._id}`)
-      .set(token)
-      .then((res) => {
-        expect(res.statusCode).toEqual(200);
-      }));
+  testDoc('Altera o status para rejeitado', async () => {
+    suggestionId = sugestion._id;
+    const res = await request.put(`/suggestion/${suggestionId}`).set(token).send({ status: 'rejected' });
+
+    expect(res.statusCode).toEqual(200);
+    expect(res.body.status).toEqual('rejected');
+  });
+
+  testDoc('Impedir atualização de status sem o token', async () => {
+    suggestionId = sugestion._id;
+    const res = await request.put(`/suggestion/${suggestionId}`).send({ status: 'accepted' });
+
+    expect(res.statusCode).toEqual(403);
+  });
+
+  testDoc('Impede alteração por um status inexistente', async () => {
+    suggestionId = sugestion._id;
+    const res = await request.put(`/suggestion/${suggestionId}`).set(token).send({ status: 'any' });
+
+    expect(res.statusCode).toEqual(400);
+    expect(res.body.error).toEqual('Status para a sugestão inválido!');
+  });
+
+  testDoc('Deleta uma sugestão', async () => {
+    suggestionId = sugestion._id;
+    const res = await request.delete(`/suggestion/${suggestionId}`).set(token);
+
+    expect(res.statusCode).toEqual(200);
+  });
+
+  testDoc('Impede a exclusão de uma sugestão por um desconhecido', async () => {
+    suggestionId = sugestion._id;
+    const res = await request.delete(`/suggestion/${suggestionId}`);
+
+    expect(res.statusCode).toEqual(403);
+  });
 });

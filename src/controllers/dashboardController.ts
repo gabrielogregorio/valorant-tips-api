@@ -2,6 +2,7 @@ import express, { Request, Response, Router } from 'express';
 import dotenv from 'dotenv';
 import { DashboardService, IDashboardServiceType } from '@/service/dashboard';
 import { userAuth } from '@/middlewares/userAuth';
+import statusCode from '../config/statusCode';
 
 dotenv.config();
 
@@ -12,7 +13,7 @@ dashboardController.get('/dashboard', userAuth, async (_req: Request, res: Respo
     const data: IDashboardServiceType = await DashboardService.count();
     return res.json(data);
   } catch (error) {
-    return res.sendStatus(500);
+    return res.sendStatus(statusCode.ERROR_IN_SERVER.code);
   }
 });
 

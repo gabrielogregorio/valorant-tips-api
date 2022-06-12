@@ -1,6 +1,7 @@
 import express, { Request, Response, Router } from 'express';
 import dotenv from 'dotenv';
 import { countViewsType, ViewService } from '@/service/View';
+import statusCode from '../config/statusCode';
 
 dotenv.config();
 
@@ -12,7 +13,7 @@ viewsController.post('/views', async (req: Request, res: Response): Promise<Resp
     await ViewService.Create(ip);
     return res.json({ msg: 'ok' });
   } catch (error) {
-    return res.sendStatus(500);
+    return res.sendStatus(statusCode.ERROR_IN_SERVER.code);
   }
 });
 
@@ -21,7 +22,7 @@ viewsController.get('/views', async (_req: Request, res: Response): Promise<Resp
     const { countAll, countIps }: countViewsType = await ViewService.CountViews();
     return res.json({ countAll, countIps });
   } catch (error) {
-    return res.sendStatus(500);
+    return res.sendStatus(statusCode.ERROR_IN_SERVER.code);
   }
 });
 

@@ -15,43 +15,44 @@ const userTest = {
   password: mockTests.password5,
 };
 
-let idUser = '';
-let token = null;
-let codeGenerate = '';
-let codeGenerate2 = '';
+let idUser = 'UzI1NiIsInR5cCI6IkpXV';
+let token = { Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5c' };
+let codeGenerate = 'código enviado pelos devs';
+let codeGenerate2 = 'código enviado pelos devs';
+
+let newUser = {
+  code: 'código enviado pelos devs',
+  username: 'testSystemAfk37812-++aks22',
+  password: 'testSystemAfk37812-++aks22',
+};
 
 afterAll(async () => {
   await connection.connection.close();
 });
 
-beforeAll(() =>
-  request
-    .post('/generate_code')
-    .send({ GENERATOR_CODE: process.env.GENERATOR_CODE })
-    .then((res) => {
-      codeGenerate = res.body.code;
-      return request
-        .post('/generate_code')
-        .send({ GENERATOR_CODE: process.env.GENERATOR_CODE })
-        .then((res2) => {
-          codeGenerate2 = res2.body.code;
-        });
-    }),
-);
+const testDoc = it;
 
-describe('Testa o CRUD de usuários', () => {
-  it('Deve cadastrar um usuário', async () => {
-    const response = await request.post('/user').send({
-      code: codeGenerate,
-      username: userTest.password,
-      password: userTest.username,
-    });
+beforeAll(async () => {
+  const res = await request.post('/generate_code').send({ GENERATOR_CODE: process.env.GENERATOR_CODE });
+
+  codeGenerate = res.body.code;
+  newUser = { ...newUser, code: codeGenerate };
+  const res2 = await request.post('/generate_code').send({ GENERATOR_CODE: process.env.GENERATOR_CODE });
+
+  codeGenerate2 = res2.body.code;
+});
+
+describe('Gerenciamento de usuários', () => {
+  // doc.description: "O cadastro de usuário precisa ser solicitada aos desenvolvedores"
+
+  testDoc('Cadastrar um usuário', async () => {
+    const response = await request.post('/user').send(newUser);
 
     expect(response.statusCode).toEqual(200);
     idUser = response.body._id;
   });
 
-  it('Deve retornar 409 ao tentar cadastrar um usuário que já existe', async () => {
+  testDoc('Impede o cadastro de um usuário que já existe', async () => {
     const response = await request.post('/user').send({
       code: codeGenerate2,
       username: userTest.username,
@@ -68,51 +69,21 @@ describe('Testa o CRUD de usuários', () => {
     });
 
     expect(response.statusCode).toEqual(200);
+    // @ts-ignore
     token = { authorization: `Bearer ${response.body.token}` };
   });
 
-  it('Deve retornar 404 para um usuário não cadastrado tentando fazer login no sistemas', async () => {
-    const response = await request.post('/auth').send({
-      username: mockTests.username4NotRegistered,
-      password: mockTests.password4NotRegistered,
-    });
-
-    expect(response.statusCode).toEqual(404);
-  });
-
-  it('Deve retornar 403 para um usuário com senha inválida tentando fazer login no sistemas', async () => {
-    const response = await request.post('/auth').send({
-      username: userTest.username,
-      password: mockTests.password4NotRegistered,
-    });
-
-    expect(response.statusCode).toEqual(403);
-  });
-
-  it('Deve impedir um usuário com token inválido de obter os usuários', async () => {
-    const response = await request.get(`/user`);
-
-    expect(response.statusCode).toEqual(403);
-  });
-
-  it('Deve Obter um usuário', async () => {
+  testDoc('Obter a si mesmo', async () => {
     const response = await request.get(`/user`).set(token);
 
     expect(response.statusCode).toEqual(200);
+
+    expect(response.body.username).toEqual('testSystemAfk37812-++aks22');
     expect(response.body._id).toEqual(idUser);
     expect(response.body.password).toBeUndefined();
   });
 
-  it('Deve impedir um usuário com token inválido de Editar um usuário', async () => {
-    const response = await request.put(`/user`).send({
-      username: mockTests.username7,
-      password: mockTests.password7,
-    });
-
-    expect(response.statusCode).toEqual(403);
-  });
-
-  it('Deve Editar um usuário', async () => {
+  testDoc('atualiza dados de si mesmo', async () => {
     const response = await request.put(`/user`).set(token).send({
       username: mockTests.username6,
       password: mockTests.password6,
@@ -121,12 +92,29 @@ describe('Testa o CRUD de usuários', () => {
     expect(response.statusCode).toEqual(200);
   });
 
-  it('Deve impedir um usuário com token inválido de  Deletar um usuário', async () => {
+  testDoc('impede de obter usuário sem token', async () => {
+    const response = await request.get(`/user`);
+
+    expect(response.statusCode).toEqual(403);
+  });
+
+  testDoc('impede edição de usuário sem token', async () => {
+    const response = await request.put(`/user`).send({
+      username: mockTests.username7,
+      password: mockTests.password7,
+    });
+
+    expect(response.statusCode).toEqual(403);
+  });
+
+  testDoc('impede usuário sem token de deletar', async () => {
     const response = await request.delete(`/user`);
     expect(response.statusCode).toEqual(403);
   });
 
-  it('Deve Deletar um usuário', async () => {
+  testDoc('deletar a si mesmo', async () => {
+    // doc.description: "Isso remove a conta do proprio usuário"
+
     const response = await request.delete(`/user`).set(token);
 
     expect(response.statusCode).toEqual(200);

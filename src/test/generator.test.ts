@@ -3,6 +3,7 @@ import supertest from 'supertest';
 import mockTests from '@/mock/mockTests.json';
 import { connection } from './mockMongoose';
 import { app } from '../app';
+import statusCode from '../config/statusCode';
 
 dotenv.config();
 
@@ -19,39 +20,30 @@ describe('Testa a geração de uma chave que permite o registro de um usuário',
       await connection.connection.close();
     } catch (err) {}
   });
-  it('Deve Criar uma chave e retorna-la', () =>
-    request
-      .post('/generate_code')
-      .send({ GENERATOR_CODE })
-      .then((res) => {
-        expect(res.statusCode).toEqual(200);
-        expect(res.body.code.length).toBeGreaterThan(10);
-        codeGenerate = res.body.code;
-      }));
 
-  it('Deve impedir o registro com uma chave inválida', () =>
-    request
-      .post('/generate_code')
-      .send({ GENERATOR_CODE: 'Qualquer chave' })
-      .then((res) => {
-        expect(res.statusCode).toEqual(404);
-      }));
+  it('Deve Criar uma chave e retorna-la', async () => {
+    const res = await request.post('/generate_code').send({ GENERATOR_CODE });
 
-  it('Deve impedir o registro com uma chave inválida Novamente', () =>
-    request
-      .post('/generate_code')
-      .send({ GENERATOR_CODE: 'Qualquer chave novamente' })
-      .then((res) => {
-        expect(res.statusCode).toEqual(404);
-      }));
+    expect(res.statusCode).toEqual(statusCode.SUCCESS.code);
+    expect(res.body.code.length).toBeGreaterThan(10);
+    codeGenerate = res.body.code;
+  });
 
-  it('Deve impedir o registro deu uma nova chave após duas tentativas com erro', () =>
-    request
-      .post('/generate_code')
-      .send({ GENERATOR_CODE })
-      .then((res) => {
-        expect(res.statusCode).toEqual(405);
-      }));
+  it('Deve impedir o registro com uma chave inválida', async () => {
+    const res = await request.post('/generate_code').send({ GENERATOR_CODE: 'Qualquer chave' });
+    expect(res.statusCode).toEqual(statusCode.NOT_FOUND.code);
+  });
+
+  it('Deve impedir o registro com uma chave inválida Novamente', async () => {
+    const res = await request.post('/generate_code').send({ GENERATOR_CODE: 'Qualquer chave novamente' });
+
+    expect(res.statusCode).toEqual(statusCode.NOT_FOUND.code);
+  });
+
+  it('Deve impedir o registro deu uma nova chave após duas tentativas com erro', async () => {
+    const res = await request.post('/generate_code').send({ GENERATOR_CODE });
+    expect(res.statusCode).toEqual(statusCode.NOT_ALLOWED.code);
+  });
 
   it('Deve cadastrar um usuário', async () => {
     try {
@@ -87,15 +79,13 @@ describe('Testa a geração de uma chave que permite o registro de um usuário',
       });
   });
 
-  it('Deve impedir um cadastro com token código repetido', () =>
-    request
-      .post('/user')
-      .send({
-        code: codeGenerate,
-        username: mockTests.username1,
-        password: mockTests.password1,
-      })
-      .then((res) => {
-        expect(res.statusCode).toEqual(403);
-      }));
+  it('Deve impedir um cadastro com token código repetido', async () => {
+    const res = await request.post('/user').send({
+      code: codeGenerate,
+      username: mockTests.username1,
+      password: mockTests.password1,
+    });
+
+    expect(res.statusCode).toEqual(403);
+  });
 });
