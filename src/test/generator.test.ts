@@ -12,7 +12,7 @@ let codeGenerate = '';
 let token = '';
 const { GENERATOR_CODE } = process.env;
 
-describe('Testa a geração de uma chave que permite o registro de um usuário', () => {
+describe('🔑 Testa a geração de uma chave que permite o registro de um usuário', () => {
   afterAll(async () => {
     try {
       await request.delete(`/user`).set(token);
@@ -21,7 +21,7 @@ describe('Testa a geração de uma chave que permite o registro de um usuário',
     } catch (err) {}
   });
 
-  it('Deve Criar uma chave e retorna-la', async () => {
+  it('🚫 Deve Criar uma chave e retorna-la', async () => {
     const res = await request.post('/generate_code').send({ GENERATOR_CODE });
 
     expect(res.statusCode).toEqual(statusCode.SUCCESS.code);
@@ -29,23 +29,23 @@ describe('Testa a geração de uma chave que permite o registro de um usuário',
     codeGenerate = res.body.code;
   });
 
-  it('Deve impedir o registro com uma chave inválida', async () => {
+  it('🚫 Deve impedir o registro com uma chave inválida', async () => {
     const res = await request.post('/generate_code').send({ GENERATOR_CODE: 'Qualquer chave' });
     expect(res.statusCode).toEqual(statusCode.NOT_FOUND.code);
   });
 
-  it('Deve impedir o registro com uma chave inválida Novamente', async () => {
+  it('🚫 Deve impedir o registro com uma chave inválida Novamente', async () => {
     const res = await request.post('/generate_code').send({ GENERATOR_CODE: 'Qualquer chave novamente' });
 
     expect(res.statusCode).toEqual(statusCode.NOT_FOUND.code);
   });
 
-  it('Deve impedir o registro deu uma nova chave após duas tentativas com erro', async () => {
+  it(' 🚫 Deve impedir o registro deu uma nova chave após duas tentativas com erro', async () => {
     const res = await request.post('/generate_code').send({ GENERATOR_CODE });
     expect(res.statusCode).toEqual(statusCode.NOT_ALLOWED.code);
   });
 
-  it('Deve cadastrar um usuário', async () => {
+  it('✅ Deve cadastrar um usuário', async () => {
     try {
       const {
         body: { token: token2 },
@@ -79,7 +79,7 @@ describe('Testa a geração de uma chave que permite o registro de um usuário',
       });
   });
 
-  it('Deve impedir um cadastro com token código repetido', async () => {
+  it('🚫 Deve impedir um cadastro com token código repetido', async () => {
     const res = await request.post('/user').send({
       code: codeGenerate,
       username: mockTests.username1,
