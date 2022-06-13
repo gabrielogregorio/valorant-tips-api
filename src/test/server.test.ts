@@ -9,8 +9,8 @@ afterAll(async () => {
   await connection.connection.close();
 });
 
-describe('Testa se o servidor está rodando', () => {
-  it('A aplicação deve responder', () =>
+describe('💻 Testa se o servidor está rodando', () => {
+  it('✅ A aplicação deve responder', () =>
     request.get('/').then((res) => {
       expect(res.statusCode).toEqual(statusCode.SUCCESS.code);
     }));
