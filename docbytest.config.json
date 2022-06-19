@@ -1,5 +1,5 @@
 {
   "folderTests": "./src/test/",
-  "docFile": "./docs/base.md",
+  "docFile": "./docs",
   "statusCodeErrorFile": "./src/config/statusCode.ts"
 }

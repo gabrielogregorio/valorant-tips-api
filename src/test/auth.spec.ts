@@ -29,7 +29,7 @@ beforeAll(async () => {
   await request.post('/generate_code').send({ GENERATOR_CODE: process.env.GENERATOR_CODE });
 });
 
-describe('🔐 Autenticação', () => {
+describe('[1] 🔐 Autenticação', () => {
   /* doc: O cadastro de usuário precisa ser solicitada aos desenvolvedores */
 
   it('✅ Cadastrar um usuário', async () => {
