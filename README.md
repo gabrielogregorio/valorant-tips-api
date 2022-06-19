@@ -1,9 +1,9 @@
 <div align="center">
   <img height="30" alt="Node" src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white">
   <img height="30" alt="Javascript" src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E">
-  <img height="30" alt="Mongodb" src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white">
+  <img height="30" alt="Typescript" src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white">
+   <img height="30" alt="Mongodb" src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white">
   <img height="30" alt="Heroku" src="https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white">
-  <img height="30" alt="Google Cloud Bucket" src="https://img.shields.io/badge/Google_Cloud-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white">
   <img height="30" alt="Express" src="https://img.shields.io/badge/Express.js-404D59?style=for-the-badge">
 </div>
 
@@ -19,11 +19,9 @@
 
 ## API Valorant tips
 
-test
-
 ### Description
 
-Api of the project Valorant tips.
+Api of the project Valorant tips. [Documentation here](https://backend-valorant.herokuapp.com/docs)
 
 ### Preparing the development environment
 
@@ -78,9 +76,7 @@ password: developer
 
 ### Production Environment
 
-To deploy you need to have knowledge of NodeJs, Google Cloud Buckets, Multer, Heroku, ExpressJs, Jest, MongoDb Local and MongoDb Atlas.
-
-You need to create a file called 'google-credentials.json' with your Google Cloud Bucket credentials. In practice, leave this file only to test the local backend with Google Buckets and in production, because, during the development environment, Google Cloud Bucket as well as mongodb Atlas are not used.
+To deploy you need to have knowledge of NodeJs, cloudinary, Multer, Heroku, ExpressJs, Jest, MongoDb Local and MongoDb Atlas.
 
 ### Tests
 
