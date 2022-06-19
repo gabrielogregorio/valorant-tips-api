@@ -4447,10 +4447,10 @@ dns-packet@^5.2.2:
   dependencies:
     "@leichtgewicht/ip-codec" "^2.0.1"
 
-docbytest-ui@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/docbytest-ui/-/docbytest-ui-0.2.1.tgz#3e98c44543e38e427d86b3c4d693ed1f2f23891b"
-  integrity sha512-rVHxiOW89vBxXBP5u8dV9bBwpW1pKK37rbl6mx2q3sLpcc6pCdEB536YTZySG3S/6hko5wLkWuDXGcNUI+OR6w==
+docbytest-ui@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/docbytest-ui/-/docbytest-ui-0.2.2.tgz#2d80e9c254310bdff9c678698dca5c8abfb5c183"
+  integrity sha512-LaqA5c3gz3B5lOLy3T2mcWV8gZgQseXAiM6Mbse6OvwowWFFAzluZ/u83yxAjbXw2bxTt1sX8ns6ocUAXBPa+A==
   dependencies:
     react "^18.1.0"
     react-dom "^18.1.0"
