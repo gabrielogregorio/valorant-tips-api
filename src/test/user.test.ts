@@ -33,10 +33,14 @@ beforeAll(async () => {
   codeGenerate2 = res2.body.code;
 });
 
-describe('👤 Usuários', () => {
+describe('[2]: 👤 Usuários', () => {
   /* doc: O cadastro de usuário precisa ser solicitada aos desenvolvedores */
 
   it('[doc]: ✅ Cadastrar um usuário', async () => {
+    /* doc:
+     Cadastra um usuário que pode fazer e gerenciar posts no blog
+     */
+
     const response = await request.post('/user').send(newUser);
 
     expect(response.statusCode).toEqual(200);
@@ -65,6 +69,7 @@ describe('👤 Usuários', () => {
   });
 
   it('[doc]: ✅ Obter a si mesmo', async () => {
+    /* Esse endpoint serve para informações como quem está logado, etc. */
     const response = await request.get(`/user`).set(token);
 
     expect(response.statusCode).toEqual(200);
@@ -72,6 +77,12 @@ describe('👤 Usuários', () => {
   });
 
   it('[doc]: ✅ atualiza dados de si mesmo', async () => {
+    /* doc:  Isso é útil para alterar dados pessoais, etc.
+
+    > red # Implementação pouco usada
+    > Atualmente essa funcionalidade não é usada no blog dicas de valorant
+
+    */
     const response = await request.put(`/user`).set(token).send({
       username: 'julia',
       password: 'abc987',

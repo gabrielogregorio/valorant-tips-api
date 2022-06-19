@@ -1,9 +1,7 @@
 import dotenv from 'dotenv';
 import supertest from 'supertest';
-import mockTests from '@/mock/mockTests.json';
 import { connection } from './mockMongoose';
 import { app } from '../app';
-import statusCode from '../config/statusCode';
 
 dotenv.config();
 
@@ -11,8 +9,11 @@ const request = supertest(app);
 let codeGenerate = '';
 let token = '';
 const { GENERATOR_CODE } = process.env;
+let generateCode = 'HA1496FD';
+generateCode = GENERATOR_CODE;
+const validKey = { GENERATOR_CODE: generateCode };
 
-describe('🔑 Testa a geração de uma chave que permite o registro de um usuário', () => {
+describe('[0] 🔑 Geração de chaves', () => {
   afterAll(async () => {
     try {
       await request.delete(`/user`).set(token);
@@ -21,56 +22,54 @@ describe('🔑 Testa a geração de uma chave que permite o registro de um usuá
     } catch (err) {}
   });
 
-  it('🚫 Deve Criar uma chave e retorna-la', async () => {
-    const res = await request.post('/generate_code').send({ GENERATOR_CODE });
+  it('[doc]: ✅ Criar uma chave', async () => {
+    const res = await request.post('/generate_code').send(validKey);
 
-    expect(res.statusCode).toEqual(statusCode.SUCCESS.code);
+    expect(res.statusCode).toEqual(200);
     expect(res.body.code.length).toBeGreaterThan(10);
     codeGenerate = res.body.code;
   });
 
-  it('🚫 Deve impedir o registro com uma chave inválida', async () => {
+  it('[doc]: 🚫 Impede a geração com uma chave inválida', async () => {
     const res = await request.post('/generate_code').send({ GENERATOR_CODE: 'Qualquer chave' });
-    expect(res.statusCode).toEqual(statusCode.NOT_FOUND.code);
+    expect(res.statusCode).toEqual(404);
   });
 
   it('🚫 Deve impedir o registro com uma chave inválida Novamente', async () => {
     const res = await request.post('/generate_code').send({ GENERATOR_CODE: 'Qualquer chave novamente' });
 
-    expect(res.statusCode).toEqual(statusCode.NOT_FOUND.code);
+    expect(res.statusCode).toEqual(404);
   });
 
-  it(' 🚫 Deve impedir o registro deu uma nova chave após duas tentativas com erro', async () => {
-    const res = await request.post('/generate_code').send({ GENERATOR_CODE });
-    expect(res.statusCode).toEqual(statusCode.NOT_ALLOWED.code);
+  it('[doc]: 🚫 Deve impedir o registro deu uma nova chave após duas tentativas com erro', async () => {
+    const res = await request.post('/generate_code').send({ GENERATOR_CODE: generateCode });
+    expect(res.statusCode).toEqual(405);
   });
 
   it('✅ Deve cadastrar um usuário', async () => {
-    try {
-      const {
-        body: { token: token2 },
-      } = await request.post('/auth').send({
-        username: mockTests.username1,
-        password: mockTests.password1,
-      });
+    const {
+      body: { token: token2 },
+    } = await request.post('/auth').send({
+      username: 'username test',
+      password: 'password test',
+    });
 
-      await request.delete(`/user`).set({ authorization: `Bearer ${token2}` });
-    } catch (error) {}
+    await request.delete(`/user`).set({ authorization: `Bearer ${token2}` });
 
     return request
       .post('/user')
       .send({
         code: codeGenerate,
-        username: mockTests.username1,
-        password: mockTests.password1,
+        username: 'username test',
+        password: 'password test',
       })
       .then((res) => {
         expect(res.statusCode).toEqual(200);
         return request
           .post('/auth')
           .send({
-            username: mockTests.username1,
-            password: mockTests.password1,
+            username: 'username test',
+            password: 'password test',
           })
           .then((res2) => {
             // @ts-ignore
@@ -82,8 +81,8 @@ describe('🔑 Testa a geração de uma chave que permite o registro de um usuá
   it('🚫 Deve impedir um cadastro com token código repetido', async () => {
     const res = await request.post('/user').send({
       code: codeGenerate,
-      username: mockTests.username1,
-      password: mockTests.password1,
+      username: 'username test',
+      password: 'password test',
     });
 
     expect(res.statusCode).toEqual(403);

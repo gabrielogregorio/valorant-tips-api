@@ -7,6 +7,18 @@ dotenv.config();
 
 const { JWT_SECRET } = process.env;
 
+export const isAuthenticate = (authorization) => {
+  try {
+    const data = jwt.verify(authorization, JWT_SECRET);
+
+    if (data.username === undefined) {
+      return false;
+    }
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
 export const userAuth = (req: Request, res: Response, next: NextFunction) => {
   const authToken = req.headers.authorization;
 

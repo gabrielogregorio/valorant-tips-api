@@ -13,6 +13,7 @@ let views = 0;
 
 describe('👀 Visualizações', () => {
   it('[doc]: ✅ Retorna quantidade de visualizações', async () => {
+    /* Retorna quantos views a API recebeu */
     const res = await request.get('/views');
     expect(res.body.countAll).toBeDefined();
     expect(res.body.countIps).toBeDefined();
@@ -31,6 +32,7 @@ describe('👀 Visualizações', () => {
   });
 
   it('[doc]: ✅ Cria nova visualização', async () => {
+    /* doc: Essa rota registra a quantidade de visualizações que o site teve, não substituindo claro ferramentas de analytics */
     const res = await request.post('/views').send({});
     expect(res.body).toEqual({ msg: 'ok' });
     expect(res.statusCode).toEqual(200);
