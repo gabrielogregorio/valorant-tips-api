@@ -100,10 +100,7 @@ describe('🙋 Sugestões', () => {
     const res = await request.get('/suggestions').set(token);
 
     const data = {
-      body: [
-        { ...res.body[0], id: '62a6a2074a7b7b6cdc38300a' },
-        { ...res.body[1], id: '62a6a26f15ca75769162bd92' },
-      ],
+      body: [{ ...res.body[0], id: '62a6a2074a7b7b6cdc38300a' }],
     };
 
     expect(data.body).toEqual([
@@ -111,11 +108,6 @@ describe('🙋 Sugestões', () => {
         description: 'Eu acho que seria...',
         email: 'gab@gab.com',
         id: '62a6a2074a7b7b6cdc38300a',
-      },
-      {
-        description: 'Eu acho que seria...',
-        email: 'gab@gab.com',
-        id: '62a6a26f15ca75769162bd92',
       },
     ]);
 
