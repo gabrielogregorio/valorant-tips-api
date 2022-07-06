@@ -8,7 +8,7 @@
     "start": "node dist/server.js",
     "dev": " ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts",
     "format": "yarn prettier --write .",
-    "test": "jest",
+    "test": "jest --coverage",
     "test:watch": "jest --watch",
     "test:coverage": "jest --watchAll --coverage",
     "type-check": "tsc",
@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/gabrielogregorio/Backend-Valorant-Tips#readme",
   "dependencies": {
+    "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
     "cloudinary": "^1.28.1",
     "cors": "^2.8.5",
