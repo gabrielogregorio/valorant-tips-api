@@ -26,7 +26,6 @@
 ## API Valorant tips
 
 
-
 Api of the project Valorant tips. [Documentation here](https://backend-valorant.herokuapp.com/docs)
 
 ### Preparing the development environment
