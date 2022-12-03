@@ -43,8 +43,7 @@ const upload = multer({
 postController.post(
   '/postLoadFile',
   upload.single('image'),
-  async (req: Request, res: Response): Promise<Response> =>
-    res.json({ filename: req.file.path }),
+  async (req: Request, res: Response): Promise<Response> => res.json({ filename: req.file.path }),
 );
 
 postController.post('/post', userAuth, async (req: RequestMiddleware, res: Response): Promise<Response> => {

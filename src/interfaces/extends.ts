@@ -6,7 +6,6 @@ export interface RequestMiddleware extends Request {
   };
 }
 
-
 export interface RequestMulter extends Request {
   data: {
     file: any;
