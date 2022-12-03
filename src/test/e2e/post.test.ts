@@ -1,7 +1,7 @@
 import supertest from 'supertest';
 import mockTests from '@/mock/mockTests.json';
 import { connection } from './mockMongoose';
-import { app } from '../app';
+import { app } from '../../app';
 
 const request = supertest(app);
 let codeGenerate = '';

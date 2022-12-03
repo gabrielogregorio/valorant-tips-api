@@ -1,7 +1,7 @@
 import supertest from 'supertest';
 import { connection } from './mockMongoose';
-import { app } from '../app';
-import statusCode from '../config/statusCode';
+import { app } from '../../app';
+import statusCode from '../../config/statusCode';
 
 const request = supertest(app);
 

@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import supertest from 'supertest';
 import { connection } from './mockMongoose';
-import { app } from '../app';
+import { app } from '../../app';
 
 dotenv.config();
 
