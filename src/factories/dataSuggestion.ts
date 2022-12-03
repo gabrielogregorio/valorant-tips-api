@@ -1,5 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-
 export type factorySuggestionType = {
   description: string;
   email: string;

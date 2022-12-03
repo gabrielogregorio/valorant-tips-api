@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import { DataUser, factoryUserType } from './dataUser';
 import { DataImgs, factoryImgsType } from './dataImgs';
 

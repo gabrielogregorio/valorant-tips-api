@@ -1,8 +1,7 @@
-/* eslint-disable no-underscore-dangle */
 import supertest from 'supertest';
 import mockTests from '@/mock/mockTests.json';
 import { connection } from './mockMongoose';
-import { app } from '../app';
+import { app } from '../../app';
 
 const request = supertest(app);
 let token = { Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5c' };

@@ -35,6 +35,6 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - run: yarn run test
+      - run: yarn test:coverage
       - name: up coverage to codacy
         run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r ./coverage/lcov.info
