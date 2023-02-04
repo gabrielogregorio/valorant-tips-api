@@ -1,4 +1,4 @@
-name: Unit tests and e2e tests
+name: unit tests and e2e tests
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
@@ -29,12 +29,14 @@ jobs:
         with:
           image-version: latest
           port: 27017
-      - name: Test mongo connection
+
+      - name: test mongo connection
         id: test_mongo_connection
         run: 'sudo mongo localhost:27017'
 
-      - name: Install dependencies
+      - name: install dependencies
         run: yarn install --frozen-lockfile
       - run: yarn test:coverage
+
       - name: up coverage to codacy
         run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r ./coverage/lcov.info
