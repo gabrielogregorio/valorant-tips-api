@@ -6,6 +6,7 @@ import ViewsController from '@/controllers/viewsController';
 import CodeController from '@/controllers/codeController';
 import SuggestionController from '@/controllers/suggestionController';
 import PostController from '@/controllers/postController';
+import path from 'path';
 // import const BackupController from '@/controllers/backupController
 // import const DevEnvironmentController from '@/controllers/devEnvironmentController
 import docbytest from 'docbytest';
@@ -39,6 +40,8 @@ app.get('/docs-json', async (_req, res) => {
 });
 
 app.get('/', (_req: Request, res: Response): Response => res.send('api is running'));
+
+app.use('/docs/', express.static(path.join(__dirname, '../node_modules/docbytest-ui/build/')));
 
 app.use(handleErrors);
 
