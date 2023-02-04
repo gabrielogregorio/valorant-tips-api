@@ -1,5 +1,4 @@
 import dotenv from 'dotenv';
-import mongoose from 'mongoose';
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import DashboardController from '@/controllers/dashboardController';
@@ -12,7 +11,6 @@ import path from 'path';
 // import const BackupController from '@/controllers/backupController
 // import const DevEnvironmentController from '@/controllers/devEnvironmentController
 import docbytest from 'docbytest';
-// import { isAuthenticate } from '@/middlewares/userAuth';
 import statusCode from './config/statusCode';
 
 dotenv.config();
@@ -34,12 +32,7 @@ app.use('/', DashboardController);
 // app.use('/', BackupController)
 // app.use('/', DevEnvironmentController)
 
-app.get('/docs-json', async (req, res) =>
-  // const authToken = req?.body?.authorization; // optional
-  // const returnDev = isAuthenticate(authToken); // optional => false to hidden dev docs
-
-  res.json(await docbytest(statusCode)),
-);
+app.get('/docs-json', async (req, res) => res.json(await docbytest(statusCode)));
 
 app.get('/docs', (_req, res) => {
   res.sendFile(path.join(__dirname, '../node_modules/docbytest-ui/build', 'index.html'));
@@ -51,14 +44,4 @@ app.use(
 );
 app.use('/docs/favicon.ico', express.static(path.join(__dirname, '../node_modules/docbytest-ui/build/favicon.ico')));
 
-mongoose
-  .connect(process.env.MONGO_URI, {})
-  .then(() => {
-    console.log('banco conectado!');
-  })
-  .catch((error) => {
-    console.log('erro ao conectar o banco');
-    throw error;
-  });
-
-app.get('/', (_req: Request, res: Response): Response => res.send('oi'));
+app.get('/', (_req: Request, res: Response): Response => res.send('api is running'));
