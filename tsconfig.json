@@ -31,5 +31,5 @@
       "@/helpers/*": ["./src/helpers/*"]
     }
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "src/**.ts"]
 }
