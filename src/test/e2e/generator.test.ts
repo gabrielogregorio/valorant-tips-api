@@ -1,14 +1,11 @@
-import dotenv from 'dotenv';
 import supertest from 'supertest';
+import { GENERATOR_CODE } from '@/config/envs';
 import { connection } from './mockMongoose';
 import { app } from '../../app';
-
-dotenv.config();
 
 const request = supertest(app);
 let codeGenerate = '';
 let token = '';
-const { GENERATOR_CODE } = process.env;
 let generateCode = 'HA1496FD';
 generateCode = GENERATOR_CODE;
 const validKey = { GENERATOR_CODE: generateCode };

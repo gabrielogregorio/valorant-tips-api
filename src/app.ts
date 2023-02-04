@@ -1,4 +1,3 @@
-import dotenv from 'dotenv';
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import DashboardController from '@/controllers/dashboardController';
@@ -12,8 +11,6 @@ import path from 'path';
 // import const DevEnvironmentController from '@/controllers/devEnvironmentController
 import docbytest from 'docbytest';
 import statusCode from './config/statusCode';
-
-dotenv.config();
 
 export const app: Application = express();
 app.disable('x-powered-by');

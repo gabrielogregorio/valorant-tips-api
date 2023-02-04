@@ -1,8 +1,5 @@
-import dotenv from 'dotenv';
 import { Post } from '@/models/Post';
 import { Suggestion } from '@/models/Suggestion';
-
-dotenv.config();
 
 export class BackupService {
   static async start() {

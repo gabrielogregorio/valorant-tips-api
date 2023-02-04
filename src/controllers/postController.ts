@@ -2,13 +2,13 @@ import express, { Request, Response, Router } from 'express';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import multer from 'multer';
 import cloudinary from 'cloudinary';
-import dotenv from 'dotenv';
 import { IPost } from '@/models/Post';
 import { DataPost, factoryPostType } from '@/factories/dataPost';
 import { userAuth } from '@/middlewares/userAuth';
 import { PostService } from '@/service/post';
 import messages from '@/locales/index';
 import { convertMegabytesToBytes } from '@/helpers/conversors';
+import { CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, CLOUDINARY_CLOUD_NAME } from '@/config/envs';
 import statusCode from '../config/statusCode';
 import { RequestMiddleware } from '../interfaces/extends';
 
@@ -16,12 +16,10 @@ const cloudinaryV2 = cloudinary.v2;
 
 const postController: Router = express.Router();
 
-dotenv.config();
-
 cloudinaryV2.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+  cloud_name: CLOUDINARY_CLOUD_NAME,
+  api_key: CLOUDINARY_API_KEY,
+  api_secret: CLOUDINARY_API_SECRET,
 });
 
 const storage = new CloudinaryStorage({

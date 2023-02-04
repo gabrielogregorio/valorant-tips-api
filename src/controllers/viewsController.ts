@@ -1,9 +1,6 @@
 import express, { Request, Response, Router } from 'express';
-import dotenv from 'dotenv';
 import { countViewsType, ViewService } from '@/service/View';
 import statusCode from '../config/statusCode';
-
-dotenv.config();
 
 const viewsController: Router = express.Router();
 

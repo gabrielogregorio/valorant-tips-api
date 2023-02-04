@@ -1,17 +1,18 @@
+import { MONGO_URI, PORT } from '@/config/envs';
 import { Log } from '@/logs/index';
 import mongoose from 'mongoose';
 import { app } from './app';
 
-const PORT = process.env.PORT || 3333;
+const PORT_API = PORT || 3333;
 
 mongoose
-  .connect(process.env.MONGO_URI, {})
+  .connect(MONGO_URI, {})
   .then(() => {
     Log.info('banco conectado!');
 
-    app.listen(PORT);
+    app.listen(PORT_API);
 
-    Log.info(`Aplicação iniciada ${PORT}`);
+    Log.info(`Aplicação iniciada ${PORT_API}`);
   })
   .catch((error) => {
     Log.error('erro ao conectar o banco');

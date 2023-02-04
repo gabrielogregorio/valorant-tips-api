@@ -1,10 +1,7 @@
 import express, { Request, Response, Router } from 'express';
-import dotenv from 'dotenv';
 import { DashboardService, IDashboardServiceType } from '@/service/dashboard';
 import { userAuth } from '@/middlewares/userAuth';
 import statusCode from '../config/statusCode';
-
-dotenv.config();
 
 const dashboardController: Router = express.Router();
 

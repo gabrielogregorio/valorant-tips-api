@@ -1,10 +1,8 @@
-import dotenv from 'dotenv';
 import supertest from 'supertest';
+import { GENERATOR_CODE } from '@/config/envs';
 import { connection } from './mockMongoose';
 
 import { app } from '../../app';
-
-dotenv.config();
 
 const request = supertest(app);
 
@@ -23,11 +21,11 @@ afterAll(async () => {
 });
 
 beforeAll(async () => {
-  const res = await request.post('/generate_code').send({ GENERATOR_CODE: process.env.GENERATOR_CODE });
+  const res = await request.post('/generate_code').send({ GENERATOR_CODE });
 
   codeGenerate = res.body.code;
   newUser = { ...newUser, code: codeGenerate };
-  const res2 = await request.post('/generate_code').send({ GENERATOR_CODE: process.env.GENERATOR_CODE });
+  const res2 = await request.post('/generate_code').send({ GENERATOR_CODE });
 
   codeGenerate2 = res2.body.code;
 });

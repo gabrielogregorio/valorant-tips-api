@@ -1,5 +1,6 @@
 import supertest from 'supertest';
 import mockTests from '@/mock/mockTests.json';
+import { GENERATOR_CODE } from '@/config/envs';
 import { connection } from './mockMongoose';
 import { app } from '../../app';
 
@@ -19,7 +20,7 @@ const sugestion = {
 let suggestionId = '629cfd7adc5df3a582ff57c6';
 
 beforeAll(async () => {
-  const res = await request.post('/generate_code').send({ GENERATOR_CODE: process.env.GENERATOR_CODE });
+  const res = await request.post('/generate_code').send({ GENERATOR_CODE });
 
   codeGenerate = res.body.code;
 

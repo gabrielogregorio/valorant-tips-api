@@ -1,8 +1,5 @@
 import { v4 as uuidV4 } from 'uuid';
-import dotenv from 'dotenv';
 import { Code, ICode } from '@/models/Code';
-
-dotenv.config();
 
 export class CodeService {
   static async Create(): Promise<ICode> {

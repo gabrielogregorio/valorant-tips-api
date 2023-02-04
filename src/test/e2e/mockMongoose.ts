@@ -1,11 +1,9 @@
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import { MONGO_URI } from '@/config/envs';
 
 export const connection = mongoose;
 
 mongoose
-  .connect(process.env.MONGO_URI, {})
+  .connect(MONGO_URI, {})
   .then(() => null)
   .catch((error) => error);

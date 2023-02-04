@@ -1,5 +1,6 @@
 import supertest from 'supertest';
 import mockTests from '@/mock/mockTests.json';
+import { GENERATOR_CODE } from '@/config/envs';
 import { connection } from './mockMongoose';
 import { app } from '../../app';
 
@@ -64,7 +65,7 @@ const postEdited = {
 };
 
 beforeAll(async () => {
-  const res = await request.post('/generate_code').send({ GENERATOR_CODE: process.env.GENERATOR_CODE });
+  const res = await request.post('/generate_code').send({ GENERATOR_CODE });
 
   codeGenerate = res.body.code;
 

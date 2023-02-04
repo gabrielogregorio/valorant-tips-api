@@ -1,7 +1,6 @@
 import express, { Request, Response, Router } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import dotenv from 'dotenv';
 import { IUser } from '@/models/User';
 import { UserService } from '@/service/user';
 import { CodeService } from '@/service/Code';
@@ -10,13 +9,13 @@ import { DataUser } from '@/factories/dataUser';
 import { multerUser } from '@/middlewares/multerUser';
 import { ICode } from '@/models/Code';
 import messages from '@/locales/index';
+import { JWT_SECRET } from '@/config/envs';
 import statusCode from '../config/statusCode';
 import { RequestMiddleware, RequestMulter } from '../interfaces/extends';
 
 const userController: Router = express.Router();
-const jwtSecret: string = process.env.JWT_SECRET;
+const jwtSecret: string = JWT_SECRET;
 
-dotenv.config();
 userController.post(
   '/userLoadFile',
   multerUser.single('image'),

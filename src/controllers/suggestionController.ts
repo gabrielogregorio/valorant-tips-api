@@ -1,13 +1,10 @@
 import express, { Request, Response } from 'express';
-import dotenv from 'dotenv';
 import { ISuggestion } from '@/models/Suggestion';
 import { SuggestionService } from '@/service/suggestion';
 import { userAuth } from '@/middlewares/userAuth';
 import { DataSuggestion, factorySuggestionType } from '@/factories/dataSuggestion';
 import messages from '@/locales/index';
 import statusCode from '../config/statusCode';
-
-dotenv.config();
 
 const suggestionController = express.Router();
 

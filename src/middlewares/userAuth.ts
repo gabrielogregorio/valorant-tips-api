@@ -1,11 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
-import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
+import { JWT_SECRET } from '@/config/envs';
 import statusCode from '../config/statusCode';
-
-dotenv.config();
-
-const { JWT_SECRET } = process.env;
 
 export const isAuthenticate = (authorization) => {
   try {
