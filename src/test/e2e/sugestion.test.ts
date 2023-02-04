@@ -1,8 +1,10 @@
 import supertest from 'supertest';
 import mockTests from '@/mock/mockTests.json';
 import { GENERATOR_CODE } from '@/config/envs';
-import { connection } from './mockMongoose';
+import { Database } from '@/database/database';
 import { app } from '../../app';
+
+const databaseMock = new Database({ verbose: false });
 
 const request = supertest(app);
 let token = { Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5c' };
@@ -19,29 +21,33 @@ const sugestion = {
 
 let suggestionId = '629cfd7adc5df3a582ff57c6';
 
-beforeAll(async () => {
-  const res = await request.post('/generate_code').send({ GENERATOR_CODE });
-
-  codeGenerate = res.body.code;
-
-  const res2 = await request
-    .post('/user')
-    .send({ username: mockTests.username3, password: mockTests.password3, code: codeGenerate });
-
-  idUser = res2.body._id;
-
-  const res3 = await request.post('/auth').send({ username: mockTests.username3, password: mockTests.password3 });
-
-  // @ts-ignore
-  token = { authorization: `Bearer ${res3.body.token}` };
-});
-
-afterAll(async () => {
-  await request.delete(`/user/${idUser}`);
-  await connection.connection.close();
-});
-
 describe('🙋 Sugestões', () => {
+  beforeAll(async () => {
+    await databaseMock.e2eTestConnect();
+
+    const res = await request.post('/generate_code').send({ GENERATOR_CODE });
+
+    codeGenerate = res.body.code;
+
+    const res2 = await request
+      .post('/user')
+      .send({ username: mockTests.username3, password: mockTests.password3, code: codeGenerate });
+
+    idUser = res2.body._id;
+
+    const res3 = await request.post('/auth').send({ username: mockTests.username3, password: mockTests.password3 });
+
+    // @ts-ignore
+    token = { authorization: `Bearer ${res3.body.token}` };
+  });
+
+  afterAll(async () => {
+    await request.delete(`/user/${idUser}`);
+
+    await databaseMock.e2eDrop();
+    await databaseMock.close();
+  });
+
   test('[doc]: ✅ Enviar uma sugestão', async () => {
     const res = await request.post('/suggestion').send({
       post_id: '6158689924fd4f9e1c587851',
@@ -117,7 +123,7 @@ describe('🙋 Sugestões', () => {
 
   test('[doc]: 🚫 Impede que um usuários não autorizado vejam as sugestões', async () => {
     const res = await request.get('/suggestions');
-    expect(res.body).toEqual({});
+    expect(res.body).toEqual({ NAME: 'TOKEN_IS_INVALID_OR_EXPIRED' });
     expect(res.statusCode).toEqual(403);
   });
 
@@ -190,7 +196,7 @@ describe('🙋 Sugestões', () => {
     suggestionId = sugestion._id;
     const res = await request.put(`/suggestion/${suggestionId}`).send({ status: 'accepted' });
 
-    expect(res.body).toEqual({});
+    expect(res.body).toEqual({ NAME: 'TOKEN_IS_INVALID_OR_EXPIRED' });
     expect(res.statusCode).toEqual(403);
   });
 
@@ -214,7 +220,7 @@ describe('🙋 Sugestões', () => {
     suggestionId = sugestion._id;
     const res = await request.delete(`/suggestion/${suggestionId}`);
 
-    expect(res.body).toEqual({});
+    expect(res.body).toEqual({ NAME: 'TOKEN_IS_INVALID_OR_EXPIRED' });
     expect(res.statusCode).toEqual(403);
   });
 });

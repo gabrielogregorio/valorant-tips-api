@@ -1,8 +1,10 @@
 import supertest from 'supertest';
 import { GENERATOR_CODE } from '@/config/envs';
-import { connection } from './mockMongoose';
 
+import { Database } from '@/database/database';
 import { app } from '../../app';
+
+const databaseMock = new Database({ verbose: false });
 
 const request = supertest(app);
 
@@ -16,21 +18,23 @@ let newUser = {
   password: '1234abc',
 };
 
-afterAll(async () => {
-  await connection.connection.close();
-});
-
-beforeAll(async () => {
-  const res = await request.post('/generate_code').send({ GENERATOR_CODE });
-
-  codeGenerate = res.body.code;
-  newUser = { ...newUser, code: codeGenerate };
-  const res2 = await request.post('/generate_code').send({ GENERATOR_CODE });
-
-  codeGenerate2 = res2.body.code;
-});
-
 describe('[2]: 👤 Usuários', () => {
+  beforeAll(async () => {
+    await databaseMock.e2eTestConnect();
+
+    const res = await request.post('/generate_code').send({ GENERATOR_CODE });
+
+    codeGenerate = res.body.code;
+    newUser = { ...newUser, code: codeGenerate };
+    const res2 = await request.post('/generate_code').send({ GENERATOR_CODE });
+
+    codeGenerate2 = res2.body.code;
+  });
+
+  afterAll(async () => {
+    await databaseMock.e2eDrop();
+    await databaseMock.close();
+  });
   /* doc: O cadastro de usuário precisa ser solicitada aos desenvolvedores */
 
   it('[doc]: ✅ Cadastrar um usuário', async () => {
@@ -92,7 +96,7 @@ describe('[2]: 👤 Usuários', () => {
   it('[doc]: 🚫 impede de obter usuário sem token', async () => {
     const response = await request.get(`/user`);
 
-    expect(response.body).toEqual({});
+    expect(response.body).toEqual({ NAME: 'TOKEN_IS_INVALID_OR_EXPIRED' });
     expect(response.statusCode).toEqual(403);
   });
 
@@ -102,14 +106,14 @@ describe('[2]: 👤 Usuários', () => {
       password: 'usuarioNotExists',
     });
 
-    expect(response.body).toEqual({});
+    expect(response.body).toEqual({ NAME: 'TOKEN_IS_INVALID_OR_EXPIRED' });
     expect(response.statusCode).toEqual(403);
   });
 
   it('[doc]: 🚫 impede usuário sem token de deletar', async () => {
     const response = await request.delete(`/user`);
 
-    expect(response.body).toEqual({});
+    expect(response.body).toEqual({ NAME: 'TOKEN_IS_INVALID_OR_EXPIRED' });
     expect(response.statusCode).toEqual(403);
   });
 

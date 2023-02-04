@@ -1,3 +1,5 @@
+import { DISABLE_LOGS } from '@/config/envs';
+
 export const getActualMoment = (): string =>
   new Date().toLocaleString('en-US', { timeStyle: 'medium', hourCycle: 'h24' });
 
@@ -26,19 +28,32 @@ export class Log {
     return level;
   }
 
-  public static info(message: unknown, message2: unknown = ''): void {
-    console.info(`${this.baseStart('INFO ')}`, message, message2);
+  public static info(message: unknown, ...extras: unknown[]): void {
+    this.showLogs('info', `${this.baseStart('INFO ')}`, message, extras);
   }
 
-  public static error(message: unknown, message2: unknown = ''): void {
-    console.error(`${this.baseStart('ERROR')}`, message, message2);
+  public static error(message: unknown, ...extras: unknown[]): void {
+    this.showLogs('error', `${this.baseStart('ERROR')}`, message, extras);
   }
 
-  public static debug(message: unknown, message2: unknown = ''): void {
-    console.debug(`${this.baseStart('DEBUG')}`, message, message2);
+  public static debug(message: unknown, ...extras: unknown[]): void {
+    this.showLogs('debug', `${this.baseStart('DEBUG')}`, message, extras);
   }
 
-  public static warning(message: unknown, message2: unknown = ''): void {
-    console.warn(`${this.baseStart('WARN ')}`, message, message2);
+  public static warning(message: unknown, ...extras: unknown[]): void {
+    this.showLogs('warn', `${this.baseStart('WARN ')}`, message, extras);
+  }
+
+  private static showLogs(
+    level: 'warn' | 'debug' | 'error' | 'info',
+    color: string,
+    message: unknown,
+    extras: unknown[],
+  ) {
+    if (DISABLE_LOGS) {
+      return;
+    }
+
+    console[level](color, message, ...extras);
   }
 }

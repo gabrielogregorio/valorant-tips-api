@@ -1,8 +1,11 @@
 import supertest from 'supertest';
 import mockTests from '@/mock/mockTests.json';
 import { GENERATOR_CODE } from '@/config/envs';
-import { connection } from './mockMongoose';
+
+import { Database } from '@/database/database';
 import { app } from '../../app';
+
+const databaseMock = new Database({ verbose: false });
 
 const request = supertest(app);
 let codeGenerate = '';
@@ -65,6 +68,8 @@ const postEdited = {
 };
 
 beforeAll(async () => {
+  await databaseMock.e2eTestConnect();
+
   const res = await request.post('/generate_code').send({ GENERATOR_CODE });
 
   codeGenerate = res.body.code;
@@ -85,7 +90,9 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await request.delete(`/user`).set(token);
-  await connection.connection.close();
+
+  await databaseMock.e2eDrop();
+  await databaseMock.close();
 });
 
 describe('📔 Posts', () => {
@@ -125,7 +132,7 @@ describe('📔 Posts', () => {
 
   it('[doc] - 🚫 Deve impedir um cadastro de um post por alguém não cadastrado', async () => {
     const res = await request.post('/post').send(post);
-    expect(res.body).toEqual({});
+    expect(res.body).toEqual({ NAME: 'TOKEN_IS_INVALID_OR_EXPIRED' });
     expect(res.statusCode).toEqual(403);
   });
 

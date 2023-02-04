@@ -1,12 +1,12 @@
-import { MONGO_URI, PORT } from '@/config/envs';
+import { PORT } from '@/config/envs';
+import { Database } from '@/database/database';
 import { Log } from '@/logs/index';
-import mongoose from 'mongoose';
 import { app } from './app';
 
 const PORT_API = PORT || 3333;
 
-mongoose
-  .connect(MONGO_URI, {})
+new Database({ verbose: true })
+  .connect()
   .then(() => {
     Log.info('banco conectado!');
 

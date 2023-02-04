@@ -1,9 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from '@/config/envs';
-import { CustomError } from '@/errors/index';
 import { ErrorEnum } from '@/errors/types';
-import statusCode from '../config/statusCode';
+import statusCode from '@/config/statusCode';
 
 export const isAuthenticate = (authorization) => {
   try {
@@ -17,18 +16,18 @@ export const isAuthenticate = (authorization) => {
     return false;
   }
 };
+
 export const userAuth = (req: Request, res: Response, next: NextFunction) => {
   const authToken = req.headers.authorization;
-
   if (authToken === '' || authToken === undefined) {
-    throw new CustomError(ErrorEnum.TOKEN_IS_INVALID_OR_EXPIRED, statusCode.NEED_TOKEN.code);
+    return res.status(statusCode.NEED_TOKEN.code).json({ NAME: ErrorEnum.TOKEN_IS_INVALID_OR_EXPIRED });
   }
 
   const bearer = authToken.split(' ');
   const auth = bearer[1];
 
   if (auth === undefined) {
-    throw new CustomError(ErrorEnum.TOKEN_IS_INVALID_OR_EXPIRED, statusCode.NEED_TOKEN.code);
+    return res.status(statusCode.NEED_TOKEN.code).json({ NAME: ErrorEnum.TOKEN_IS_INVALID_OR_EXPIRED });
   }
 
   try {
@@ -37,13 +36,13 @@ export const userAuth = (req: Request, res: Response, next: NextFunction) => {
     req.data = data;
 
     if (data.username === undefined) {
-      throw new CustomError(ErrorEnum.TOKEN_IS_INVALID_OR_EXPIRED, statusCode.NEED_TOKEN.code);
+      return res.status(statusCode.NEED_TOKEN.code).json({ NAME: ErrorEnum.TOKEN_IS_INVALID_OR_EXPIRED });
     }
     return next();
   } catch (error) {
     if (error.message === 'jwt expired') {
-      throw new CustomError(ErrorEnum.TOKEN_IS_INVALID_OR_EXPIRED, statusCode.NEED_TOKEN.code);
+      return res.status(statusCode.NEED_TOKEN.code).json({ NAME: ErrorEnum.TOKEN_IS_INVALID_OR_EXPIRED });
     }
-    throw new CustomError(ErrorEnum.TOKEN_IS_INVALID_OR_EXPIRED, statusCode.NEED_TOKEN.code);
+    return res.status(statusCode.NEED_TOKEN.code).json({ NAME: ErrorEnum.TOKEN_IS_INVALID_OR_EXPIRED });
   }
 };

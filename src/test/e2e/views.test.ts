@@ -1,17 +1,24 @@
+import { Database } from '@/database/database';
 import supertest from 'supertest';
-import { connection } from './mockMongoose';
+import statusCode from '@/config/statusCode';
 import { app } from '../../app';
-import statusCode from '../../config/statusCode';
+
+const databaseMock = new Database({ verbose: false });
 
 const request = supertest(app);
-
-afterAll(async () => {
-  await connection.connection.close();
-});
 
 let views = 0;
 
 describe('👀 Visualizações', () => {
+  beforeAll(async () => {
+    await databaseMock.e2eTestConnect();
+  });
+
+  afterAll(async () => {
+    await databaseMock.e2eDrop();
+    await databaseMock.close();
+  });
+
   it('[doc]: ✅ Retorna quantidade de visualizações', async () => {
     /* Retorna quantos views a API recebeu */
     const res = await request.get('/views');

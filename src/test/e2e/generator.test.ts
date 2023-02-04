@@ -1,7 +1,9 @@
 import supertest from 'supertest';
 import { GENERATOR_CODE } from '@/config/envs';
-import { connection } from './mockMongoose';
+import { Database } from '@/database/database';
 import { app } from '../../app';
+
+const databaseMock = new Database({ verbose: false });
 
 const request = supertest(app);
 let codeGenerate = '';
@@ -11,12 +13,15 @@ generateCode = GENERATOR_CODE;
 const validKey = { GENERATOR_CODE: generateCode };
 
 describe('[0] 🔑 Geração de chaves', () => {
-  afterAll(async () => {
-    try {
-      await request.delete(`/user`).set(token);
+  beforeAll(async () => {
+    await databaseMock.e2eTestConnect();
+  });
 
-      await connection.connection.close();
-    } catch (err) {}
+  afterAll(async () => {
+    await request.delete(`/user`).set(token);
+
+    await databaseMock.e2eDrop();
+    await databaseMock.close();
   });
 
   it('[doc]: ✅ Criar uma chave', async () => {

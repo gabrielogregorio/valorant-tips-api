@@ -7,4 +7,5 @@ module.exports = async () => {
   process.env.CLOUDINARY_CLOUD_NAME = 'CLOUDINARY_NAME_EXAMPLE';
   process.env.CLOUDINARY_API_KEY = 'CLOUDINARY_KEY_EXAMPLE';
   process.env.CLOUDINARY_API_SECRET = 'CLOUDINARY_SECRET_EXAMPLE';
+  process.env.DISABLE_LOGS = 'true';
 };

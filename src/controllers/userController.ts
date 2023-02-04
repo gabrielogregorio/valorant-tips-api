@@ -9,6 +9,8 @@ import { DataUser } from '@/factories/dataUser';
 import { multerUser } from '@/middlewares/multerUser';
 import { ICode } from '@/models/Code';
 import { JWT_SECRET } from '@/config/envs';
+import { CustomError } from '@/errors/index';
+import { ErrorEnum } from '@/errors/types';
 import statusCode from '../config/statusCode';
 import { RequestMiddleware, RequestMulter } from '../interfaces/extends';
 
@@ -38,13 +40,12 @@ userController.post('/auth', async (req: Request, res: Response): Promise<Respon
   const user: IUser = await UserService.FindByUsername(username);
 
   if (!user) {
-    return res.sendStatus(statusCode.NOT_FOUND.code);
+    throw new CustomError(ErrorEnum.USER_NOT_EXISTS, statusCode.NOT_FOUND.code);
   }
 
   const valid: boolean = await bcrypt.compare(password, user.password);
-
   if (!valid) {
-    return res.sendStatus(statusCode.NEED_TOKEN.code);
+    throw new CustomError(ErrorEnum.PASSWORD_IS_INVALID, statusCode.NOT_FOUND.code);
   }
 
   // @ts-ignore
