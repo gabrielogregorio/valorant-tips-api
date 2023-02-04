@@ -53,7 +53,12 @@ app.use('/docs/favicon.ico', express.static(path.join(__dirname, '../node_module
 
 mongoose
   .connect(process.env.MONGO_URI, {})
-  .then(() => null)
-  .catch((error) => error);
+  .then(() => {
+    console.log('banco conectado!');
+  })
+  .catch((error) => {
+    console.log('erro ao conectar o banco');
+    throw error;
+  });
 
 app.get('/', (_req: Request, res: Response): Response => res.send('oi'));

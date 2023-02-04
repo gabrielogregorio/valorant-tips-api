@@ -26,7 +26,7 @@
 ## API Valorant tips
 
 
-Api of the project Valorant tips. [Documentation here](https://backend-valorant.herokuapp.com/docs)
+Api of the project Valorant tips. [Documentation here](https://valorant-tips-api.onrender.com/docs/)
 
 ### Preparing the development environment
 
@@ -46,7 +46,7 @@ git checkout -b develop origin/develop
 6.   Install the necessary packages
 
 ```shell
-npm install
+yarn
 ```
 
 7.   Copy the ".env.develop.example" file to ".env".
@@ -58,7 +58,7 @@ npm install
 9.   Run the application (consider installing nodemon, or setting package.json to node)
 
 ```shell
-npm run dev
+yarn dev
 ```
 
 10.   Access the address below for the development environment to be created.
@@ -88,7 +88,7 @@ To deploy you need to have knowledge of NodeJs, cloudinary, Multer, Heroku, Expr
 To run the automated tests you need to have just installed globally.
 
 ```shell
-npm run test
+yarn test
 ```
 
 ### Run the project
