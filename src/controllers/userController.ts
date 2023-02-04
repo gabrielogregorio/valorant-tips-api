@@ -8,7 +8,6 @@ import { userAuth } from '@/middlewares/userAuth';
 import { DataUser } from '@/factories/dataUser';
 import { multerUser } from '@/middlewares/multerUser';
 import { ICode } from '@/models/Code';
-import messages from '@/locales/index';
 import { JWT_SECRET } from '@/config/envs';
 import statusCode from '../config/statusCode';
 import { RequestMiddleware, RequestMulter } from '../interfaces/extends';
@@ -93,19 +92,14 @@ userController.post('/user', async (req: Request, res: Response): Promise<Respon
     update.image = image;
   }
 
-  try {
-    const use = await CodeService.UseCode(codeData.code);
-    if (use.available !== false) {
-      return res.sendStatus(statusCode.NEED_TOKEN.code);
-    }
-
-    // @ts-ignore
-    const newUser = DataUser.Build(await UserService.Create(update));
-    return res.json(newUser);
-  } catch (error) {
-    res.statusCode = statusCode.ERROR_IN_SERVER.code;
-    return res.json({ error: messages.error.in.server });
+  const use = await CodeService.UseCode(codeData.code);
+  if (use.available !== false) {
+    return res.sendStatus(statusCode.NEED_TOKEN.code);
   }
+
+  // @ts-ignore
+  const newUser = DataUser.Build(await UserService.Create(update));
+  return res.json(newUser);
 });
 
 userController.put('/user', userAuth, async (req: RequestMiddleware, res: Response): Promise<Response> => {
@@ -132,39 +126,24 @@ userController.put('/user', userAuth, async (req: RequestMiddleware, res: Respon
 
   const update: IUser = { username, password, image: image ?? undefined };
 
-  try {
-    const user: IUser = await UserService.FindByIdAndUpdate(id, update);
-    const userBuilded = DataUser.Build(user);
-    return res.json(userBuilded);
-  } catch (error) {
-    res.statusCode = statusCode.ERROR_IN_SERVER.code;
-    return res.json({ error: messages.error.in.server });
-  }
+  const user: IUser = await UserService.FindByIdAndUpdate(id, update);
+  const userBuilded = DataUser.Build(user);
+  return res.json(userBuilded);
 });
 
 userController.get('/user', userAuth, async (req: RequestMiddleware, res: Response): Promise<Response> => {
   const { id } = req.data;
 
-  try {
-    const user: IUser = await UserService.FindById(id);
-    const userBuilded = DataUser.Build(user);
-    return res.json(userBuilded);
-  } catch (error) {
-    res.statusCode = statusCode.ERROR_IN_SERVER.code;
-    return res.json({ error: messages.error.in.server });
-  }
+  const user: IUser = await UserService.FindById(id);
+  const userBuilded = DataUser.Build(user);
+  return res.json(userBuilded);
 });
 
 userController.delete('/user', userAuth, async (req: RequestMiddleware, res: Response): Promise<Response> => {
   const { id } = req.data;
 
-  try {
-    await UserService.DeleteById(id);
-    return res.json({});
-  } catch (error) {
-    res.statusCode = statusCode.ERROR_IN_SERVER.code;
-    return res.json({ error: messages.error.in.server });
-  }
+  await UserService.DeleteById(id);
+  return res.json({});
 });
 
 export default userController;

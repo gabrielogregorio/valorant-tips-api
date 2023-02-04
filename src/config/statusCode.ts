@@ -3,7 +3,7 @@ const statusCode = {
     code: 200,
     description: 'Tudo ocorreu com sucesso',
   },
-  SUCCESS_NO_CONTENT: {
+  NO_CONTENT: {
     code: 204,
     description: 'Retorno sem conteúdo',
   },

@@ -245,7 +245,7 @@ describe('📔 Posts', () => {
   it('[doc] - ⚠️ Deleta um post', async () => {
     const res = await request.delete(`/post/${postId}`).set(token);
 
-    expect(res.statusCode).toEqual(200);
+    expect(res.statusCode).toEqual(204);
     expect(res.body).toEqual({});
   });
 });

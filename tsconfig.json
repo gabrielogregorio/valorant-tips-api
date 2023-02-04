@@ -22,6 +22,7 @@
       "@/config/*": ["./src/config/*"],
       "@/models/*": ["./src/models/*"],
       "@/shared/*": ["./src/shared/*"],
+      "@/errors/*": ["./src/errors/*"],
       "@/service/*": ["./src/service/*"],
       "@/logs/*": ["./src/logs/*"],
       "@/mock/*": ["./src/mock/*"],

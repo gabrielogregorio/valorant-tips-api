@@ -6,7 +6,6 @@ import { IPost } from '@/models/Post';
 import { DataPost, factoryPostType } from '@/factories/dataPost';
 import { userAuth } from '@/middlewares/userAuth';
 import { PostService } from '@/service/post';
-import messages from '@/locales/index';
 import { convertMegabytesToBytes } from '@/helpers/conversors';
 import { CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, CLOUDINARY_CLOUD_NAME } from '@/config/envs';
 import statusCode from '../config/statusCode';
@@ -53,15 +52,10 @@ postController.post('/post', userAuth, async (req: RequestMiddleware, res: Respo
     return res.json({ error: 'Some value is invalid' });
   }
 
-  try {
-    // @ts-ignore
-    const post: IPost = await PostService.Create({ title, description, user, tags, imgs });
-    const newPost: factoryPostType = DataPost.Build(post);
-    return res.json(newPost);
-  } catch (error) {
-    res.statusCode = statusCode.ERROR_IN_SERVER.code;
-    return res.json({ error: messages.error.in.server });
-  }
+  // @ts-ignore
+  const post: IPost = await PostService.Create({ title, description, user, tags, imgs });
+  const newPost: factoryPostType = DataPost.Build(post);
+  return res.json(newPost);
 });
 
 postController.put('/post/:id', userAuth, async (req: RequestMiddleware, res: Response): Promise<Response> => {
@@ -84,100 +78,66 @@ postController.put('/post/:id', userAuth, async (req: RequestMiddleware, res: Re
     return res.json({ error: 'Some value is invalid' });
   }
 
-  try {
-    const postService: IPost = await PostService.FindByIdAndUpdate(id, {
-      title,
-      description,
-      // @ts-ignore
-      user,
-      tags,
-      imgs: newImgs,
-    });
-    const postUpdate: factoryPostType = DataPost.Build(postService);
-    return res.json(postUpdate);
-  } catch (error) {
-    res.statusCode = statusCode.ERROR_IN_SERVER.code;
-    return res.json({ error: messages.error.in.server });
-  }
+  const postService: IPost = await PostService.FindByIdAndUpdate(id, {
+    title,
+    description,
+    // @ts-ignore
+    user,
+    tags,
+    imgs: newImgs,
+  });
+  const postUpdate: factoryPostType = DataPost.Build(postService);
+  return res.json(postUpdate);
 });
 
 postController.get('/post/:id', async (req: Request, res: Response): Promise<Response> => {
   const { id } = req.params;
 
-  try {
-    const post: IPost = await PostService.FindById(id);
-    const postsBuilded: factoryPostType = DataPost.Build(post);
-    return res.json(postsBuilded);
-  } catch (error) {
-    res.statusCode = statusCode.ERROR_IN_SERVER.code;
-    return res.json({ error: messages.error.in.server });
-  }
+  const post: IPost = await PostService.FindById(id);
+  const postsBuilded: factoryPostType = DataPost.Build(post);
+  return res.json(postsBuilded);
 });
 
 postController.get('/maps', async (_req: Request, res: Response): Promise<Response> => {
-  try {
-    const maps: string[] = await PostService.findAvailableMaps();
-    return res.json({ maps });
-  } catch (error) {
-    res.statusCode = statusCode.ERROR_IN_SERVER.code;
-    return res.json({ error: 'Error in get listing maps' });
-  }
+  const maps: string[] = await PostService.findAvailableMaps();
+  return res.json({ maps });
 });
 
 postController.get('/agents/:map', async (req: Request, res: Response): Promise<Response> => {
-  try {
-    const agents: string[] = await PostService.findAvailableAgents(req.params.map);
-    return res.json({ agents });
-  } catch (error) {
-    res.statusCode = statusCode.ERROR_IN_SERVER.code;
-    return res.json({ error: 'Error in get listing agents by map' });
-  }
+  const agents: string[] = await PostService.findAvailableAgents(req.params.map);
+  return res.json({ agents });
 });
 
 postController.get('/posts', async (_req: Request, res: Response): Promise<Response> => {
-  try {
-    const postService: IPost[] = await PostService.FindAll();
+  const postService: IPost[] = await PostService.FindAll();
 
-    const posts: factoryPostType[] = [];
-    postService.forEach((post) => {
-      posts.push(DataPost.Build(post));
-    });
+  const posts: factoryPostType[] = [];
+  postService.forEach((post) => {
+    posts.push(DataPost.Build(post));
+  });
 
-    return res.json({ posts });
-  } catch (error) {
-    res.statusCode = statusCode.ERROR_IN_SERVER.code;
-    return res.json({ error: messages.error.in.server });
-  }
+  return res.json({ posts });
 });
 
 postController.get('/posts/:map/:agent', async (req: Request, res: Response): Promise<Response> => {
-  try {
-    const { agent, map } = req.params as { agent: string; map: string };
+  const { agent, map } = req.params as { agent: string; map: string };
 
-    const postsService: IPost[] = await PostService.FindAllByMapAndAgent(agent, map);
+  const postsService: IPost[] = await PostService.FindAllByMapAndAgent(agent, map);
 
-    const posts: factoryPostType[] = [];
-    postsService.forEach((post) => {
-      posts.push(DataPost.Build(post));
-    });
+  const posts: factoryPostType[] = [];
+  postsService.forEach((post) => {
+    posts.push(DataPost.Build(post));
+  });
 
-    return res.json({ posts });
-  } catch (error) {
-    res.statusCode = statusCode.ERROR_IN_SERVER.code;
-    return res.json({ error: messages.error.in.server });
-  }
+  return res.status(statusCode.SUCCESS.code).json({ posts });
 });
 
 postController.delete('/post/:id', userAuth, async (req: RequestMiddleware, res: Response): Promise<Response> => {
   const idPost = req.params.id;
 
-  try {
-    await PostService.DeleteById(idPost);
-    return res.json({});
-  } catch (error) {
-    res.statusCode = statusCode.ERROR_IN_SERVER.code;
-    return res.json({ error: messages.error.in.server });
-  }
+  await PostService.DeleteById(idPost);
+
+  return res.status(statusCode.NO_CONTENT.code).send();
 });
 
 export default postController;

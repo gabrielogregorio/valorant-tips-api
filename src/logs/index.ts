@@ -14,8 +14,7 @@ const colors: { [key in levelsType]: string } = {
 
 export class Log {
   private static baseStart(level: levelsType): string {
-    const start = `${level} - tsTypeToGql`;
-    return `[${this.applyColors(start, colors[level])}] ${getActualMoment()}:`;
+    return `[${this.applyColors(level, colors[level])}] ${getActualMoment()}:`;
   }
 
   private static runningInTerminal = (): boolean => Boolean(process.stdout.isTTY);

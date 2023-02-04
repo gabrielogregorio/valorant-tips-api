@@ -10,6 +10,7 @@ import path from 'path';
 // import const BackupController from '@/controllers/backupController
 // import const DevEnvironmentController from '@/controllers/devEnvironmentController
 import docbytest from 'docbytest';
+import { handleErrors } from '@/middlewares/errors';
 import statusCode from './config/statusCode';
 
 export const app: Application = express();
@@ -42,3 +43,5 @@ app.use(
 app.use('/docs/favicon.ico', express.static(path.join(__dirname, '../node_modules/docbytest-ui/build/favicon.ico')));
 
 app.get('/', (_req: Request, res: Response): Response => res.send('api is running'));
+
+app.use(handleErrors);
