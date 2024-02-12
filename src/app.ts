@@ -4,7 +4,6 @@ import DashboardController from '@/controllers/dashboardController';
 import ViewsController from '@/controllers/viewsController';
 import CodeController from '@/controllers/codeController';
 import SuggestionController from '@/controllers/suggestionController';
-import PostController from '@/controllers/postController';
 import path from 'path';
 // import const BackupController from '@/controllers/backupController
 // import const DevEnvironmentController from '@/controllers/devEnvironmentController
@@ -25,7 +24,6 @@ app.use(cors());
 app.use(express.static('public'));
 
 app.use(router);
-app.use('/', PostController);
 app.use('/', SuggestionController);
 app.use('/', CodeController);
 app.use('/', ViewsController);
