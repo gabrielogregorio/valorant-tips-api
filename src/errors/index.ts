@@ -1,6 +1,6 @@
 import { ErrorEnum } from '@/errors/types';
 
-export class CustomError {
+export class AppError {
   name: ErrorEnum;
 
   statusCode: number;

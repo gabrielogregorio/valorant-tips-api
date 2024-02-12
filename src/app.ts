@@ -1,7 +1,6 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import DashboardController from '@/controllers/dashboardController';
-import UserController from '@/controllers/userController';
 import ViewsController from '@/controllers/viewsController';
 import CodeController from '@/controllers/codeController';
 import SuggestionController from '@/controllers/suggestionController';
@@ -12,6 +11,7 @@ import path from 'path';
 import docbytest from 'docbytest';
 import { handleErrors } from '@/middlewares/errors';
 import statusCode from '@/config/statusCode';
+import { router } from './routes';
 
 const docbytestTest = docbytest(statusCode);
 
@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 app.use(express.static('public'));
 
-app.use('/', UserController);
+app.use(router);
 app.use('/', PostController);
 app.use('/', SuggestionController);
 app.use('/', CodeController);

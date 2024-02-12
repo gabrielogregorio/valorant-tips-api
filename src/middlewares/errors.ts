@@ -1,10 +1,10 @@
 import statusCode from '@/config/statusCode';
-import { CustomError } from '@/errors/index';
+import { AppError } from '@/errors/index';
 import { Log } from '@/logs/index';
 import { NextFunction, Request, Response } from 'express';
 
 export const handleErrors = (error, req: Request, res: Response, next: NextFunction) => {
-  if (error instanceof CustomError) {
+  if (error instanceof AppError) {
     Log.error(`Erro ${error?.statusCode} - ${error?.name}`);
     res.status(error?.statusCode).send({ NAME: error?.name });
   } else {
