@@ -15,7 +15,5 @@ new Database({ verbose: true })
     Log.info(`Aplicação iniciada ${PORT_API}`);
   })
   .catch((error) => {
-    Log.error('erro ao conectar o banco');
-
-    throw error;
+    Log.error('erro ao conectar o banco', error);
   });

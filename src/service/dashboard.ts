@@ -1,7 +1,9 @@
-import { IPost, Post } from '@/models/Post';
-import { Suggestion } from '@/models/Suggestion';
-import { User } from '@/models/User';
-import { IView, View } from '@/models/View';
+import { IPost } from '@/interfaces/post';
+import { IView } from '@/interfaces/view';
+import { PostRepository } from '@/repositories/postRepository';
+import { SuggestionRepository } from '@/repositories/suggestionRepository';
+import { UserRepository } from '@/repositories/userRepository';
+import { ViewRepository } from '@/repositories/viewRepository';
 
 export type IDashboardServiceType = {
   countAll: number;
@@ -14,14 +16,34 @@ export type IDashboardServiceType = {
 };
 
 export class DashboardService {
-  async count(): Promise<IDashboardServiceType> {
-    const countAllPosts: number = await Post.countDocuments({});
-    const countAlMaps: IPost[] = await Post.find().distinct('tags.map');
-    const countAlAgents: IPost[] = await Post.find().distinct('tags.agent');
-    const countAllSuggestions: number = await Suggestion.countDocuments({});
-    const countAllUsers: number = await User.countDocuments({});
-    const count2: IView[] = await View.find().distinct('ip');
-    const count: IView[] = await View.find();
+  private userRepository: UserRepository;
+
+  private postRepository: PostRepository;
+
+  private suggestionRepository: SuggestionRepository;
+
+  private viewsRepository: ViewRepository;
+
+  constructor(
+    userRepository: UserRepository,
+    postRepository: PostRepository,
+    suggestionRepository: SuggestionRepository,
+    viewsRepository: ViewRepository,
+  ) {
+    this.userRepository = userRepository;
+    this.postRepository = postRepository;
+    this.suggestionRepository = suggestionRepository;
+    this.viewsRepository = viewsRepository;
+  }
+
+  count = async (): Promise<IDashboardServiceType> => {
+    const countAllPosts: number = await this.postRepository.countAll();
+    const countAlMaps: IPost[] = await this.postRepository.findMaps();
+    const countAlAgents: IPost[] = await this.postRepository.findAgents();
+    const countAllSuggestions: number = await this.suggestionRepository.count();
+    const countAllUsers: number = await this.userRepository.countDocuments();
+    const count2: IView[] = await this.viewsRepository.findAllDistinctIp();
+    const count: IView[] = await this.viewsRepository.findAll();
 
     return {
       countAll: count.length,
@@ -32,5 +54,5 @@ export class DashboardService {
       countAllSuggestions,
       countAllUsers,
     };
-  }
+  };
 }

@@ -71,7 +71,7 @@ describe('[1] 🔐 Autenticação', () => {
       password: 'test',
     });
 
-    expect(responseUser.body).toEqual({ NAME: 'USER_NOT_EXISTS' });
+    expect(responseUser.body).toEqual({ NAME: 'RESOURCE_NOT_EXISTS' });
     expect(responseUser.statusCode).toEqual(404);
   });
 

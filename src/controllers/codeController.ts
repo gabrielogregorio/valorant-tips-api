@@ -1,30 +1,36 @@
 import { Request, Response } from 'express';
 import { CodeService } from '@/service/Code';
-import { ICode } from '@/models/Code';
-import { GENERATOR_CODE } from '@/config/envs';
+import { GENERATOR_CODE as GENERATOR_CODE_ENV } from '@/config/envs';
 import statusCode from '../config/statusCode';
 
 let tryCreateCode: number = 0;
 
 export class CodeController {
-  codeService: CodeService;
+  private codeService: CodeService;
 
   constructor(codeService: CodeService) {
     this.codeService = codeService;
   }
 
-  async generate(req: Request, res: Response): Promise<Response> {
-    const { GENERATOR_CODE: GENERATOR_CODE_REQUEST } = req.body as { GENERATOR_CODE: string };
-
-    if (tryCreateCode === 2) {
-      return res.sendStatus(statusCode.NOT_ALLOWED.code);
-    }
-
-    if (GENERATOR_CODE_REQUEST === GENERATOR_CODE && GENERATOR_CODE_REQUEST.length > 15) {
-      const codeGenerated: ICode = await this.codeService.Create();
-      return res.json({ code: codeGenerated.code });
-    }
+  generate = async (req: Request, res: Response) => {
+    const { GENERATOR_CODE } = req.body;
     tryCreateCode += 1;
-    return res.sendStatus(statusCode.NOT_FOUND.code);
-  }
+    if (tryCreateCode === 5) {
+      res.sendStatus(statusCode.NOT_ALLOWED.code);
+      return;
+    }
+
+    if (!GENERATOR_CODE) {
+      res.sendStatus(statusCode.NEED_TOKEN.code);
+      return;
+    }
+
+    if (GENERATOR_CODE === GENERATOR_CODE_ENV && GENERATOR_CODE.length > 15) {
+      const codeGenerated = await this.codeService.create();
+      res.json({ code: codeGenerated.code });
+      return;
+    }
+
+    res.sendStatus(statusCode.NOT_ALLOWED.code);
+  };
 }

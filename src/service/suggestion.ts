@@ -1,25 +1,25 @@
-import { Suggestion, ISuggestion } from '@/models/Suggestion';
+import { ISuggestion } from '@/interfaces/suggestion';
+import { SuggestionRepository } from '../repositories/suggestionRepository';
 
 export class SuggestionService {
-  async Create({ post_id, email, description }: ISuggestion): Promise<ISuggestion> {
-    const newSuggestion = new Suggestion({
+  private suggestionRepository: SuggestionRepository;
+
+  constructor(suggestionRepository: SuggestionRepository) {
+    this.suggestionRepository = suggestionRepository;
+  }
+
+  Create = async ({ post_id, email, description }: ISuggestion): Promise<ISuggestion> =>
+    this.suggestionRepository.create({
       post_id,
       email,
       description,
+      status: undefined,
     });
-    await newSuggestion.save();
-    return newSuggestion;
-  }
 
-  async FindAll(): Promise<ISuggestion[]> {
-    return Suggestion.find();
-  }
+  FindAll = async (): Promise<ISuggestion[]> => this.suggestionRepository.findAll();
 
-  async UpdateById(_id: string, status: 'accepted' | 'rejected'): Promise<ISuggestion> {
-    return Suggestion.findOneAndUpdate({ _id }, { $set: { status } }, { new: true });
-  }
+  UpdateById = async (id: string, status: 'accepted' | 'rejected'): Promise<ISuggestion> =>
+    this.suggestionRepository.updateById(id, status);
 
-  async DeleteById(_id: string): Promise<any> {
-    return Suggestion.findOneAndDelete({ _id });
-  }
+  DeleteById = async (id: string): Promise<any> => this.suggestionRepository.deleteById(id);
 }

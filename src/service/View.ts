@@ -1,26 +1,25 @@
-import { View, IView } from '@/models/View';
-
-export type countViewsType = {
-  countAll: number;
-  countIps: number;
-};
+import { IView } from '@/interfaces/view';
+import { ViewRepository, countViewsType } from '@/repositories/viewRepository';
 
 export class ViewService {
-  async Create(ip: string): Promise<IView> {
-    const newView = new View({
-      ip,
-      dateAccess: Date.now(),
-    });
-    await newView.save();
-    return newView;
+  private viewRepository: ViewRepository;
+
+  constructor(viewRepository: ViewRepository) {
+    this.viewRepository = viewRepository;
   }
 
-  async CountViews(): Promise<countViewsType> {
-    const count2 = await View.find().distinct('ip');
-    const count = await View.find();
+  create = async (ip: string): Promise<IView> =>
+    this.viewRepository.create({
+      ip,
+      dateAccess: new Date(),
+    });
+
+  countViews = async (): Promise<countViewsType> => {
+    const count2 = await this.viewRepository.findAllDistinctIp().distinct('ip');
+    const count = await this.viewRepository.findAll();
     const countAll = count.length;
     const countIps = count2.length;
 
     return { countAll, countIps };
-  }
+  };
 }

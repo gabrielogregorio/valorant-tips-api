@@ -1,44 +1,44 @@
-import { Post, IPost } from '@/models/Post';
+import { AppError } from '@/errors/index';
+import { ErrorEnum } from '@/errors/types';
+import { IPost } from '@/interfaces/post';
+import { PostRepository } from '@/repositories/postRepository';
 
 export class PostService {
-  async Create({ title, description, user, tags, imgs }: IPost): Promise<IPost> {
-    const newPost = new Post({ title, description, user, tags, imgs });
-    await newPost.save();
-    return newPost;
+  private postRepository: PostRepository;
+
+  constructor(postRepository: PostRepository) {
+    this.postRepository = postRepository;
   }
 
-  async FindByIdAndUpdate(id: string, { title, description, user, tags, imgs }: IPost): Promise<IPost> {
-    return Post.findOneAndUpdate({ _id: id }, { $set: { title, description, user, tags, imgs } }, { new: true });
-  }
+  create = async ({ title, description, user, tags, imgs }: IPost): Promise<IPost> =>
+    this.postRepository.create({ title, description, user, tags, imgs });
 
-  async FindById(id: string): Promise<IPost> {
-    return Post.findById(id).populate('user');
-  }
+  findByIdAndUpdate = async (id: string, { title, description, user, tags, imgs }: IPost): Promise<IPost> => {
+    const post = await this.postRepository.findByIdAndUpdate(id, { title, description, user, tags, imgs });
+    if (!post) {
+      throw new AppError(ErrorEnum.RESOURCE_NOT_EXISTS, 404);
+    }
 
-  async findAvailableMaps(): Promise<string[]> {
-    const maps: string[] = await Post.find().distinct('tags.map');
-    return maps;
-  }
+    return post;
+  };
 
-  async findAvailableAgents(map: string): Promise<string[]> {
-    return Post.find({ 'tags.map': map }).distinct('tags.agent');
-  }
+  findById = async (id: string): Promise<IPost> => {
+    const post = await this.postRepository.findById(id);
+    if (!post) {
+      throw new AppError(ErrorEnum.RESOURCE_NOT_EXISTS, 404);
+    }
 
-  async FindAll(): Promise<IPost[]> {
-    const posts = await Post.find({}, null, {
-      sort: {
-        updatedAt: -1,
-      },
-    }).populate('user');
+    return post;
+  };
 
-    return posts;
-  }
+  findAvailableMaps = async (): Promise<string[]> => this.postRepository.findAvailableMaps();
 
-  async FindAllByMapAndAgent(agent: string, map: string): Promise<IPost[]> {
-    return Post.find({ 'tags.agent': agent, 'tags.map': map }, null, { sort: { updatedAt: -1 } }).populate('user');
-  }
+  findAvailableAgents = async (map: string): Promise<string[]> => this.postRepository.findAvailableAgents(map);
 
-  async DeleteById(idPost: string): Promise<any> {
-    return Post.findOneAndDelete({ _id: idPost });
-  }
+  FindAll = async (): Promise<IPost[]> => this.postRepository.findAll();
+
+  FindAllByMapAndAgent = async (agent: string, map: string): Promise<IPost[]> =>
+    this.postRepository.findAllByMapAndAgent(agent, map);
+
+  DeleteById = async (idPost: string): Promise<any> => this.postRepository.deleteById(idPost);
 }

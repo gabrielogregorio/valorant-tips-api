@@ -1,13 +1,17 @@
-import { User, IUser } from '@/models/User';
+import { IUser } from '@/interfaces/user';
+import { UserRepository } from '@/repositories/userRepository';
 
 export class UserService {
-  async Create({ username, password, image }: IUser): Promise<IUser> {
-    const newUser = new User({ username, password, image });
-    await newUser.save();
-    return newUser;
+  private userRepository: UserRepository;
+
+  constructor(userRepository: UserRepository) {
+    this.userRepository = userRepository;
   }
 
-  async FindByIdAndUpdate(id: string, { username, password, image }: IUser) {
+  create = async ({ username, password, image }: IUser): Promise<IUser> =>
+    this.userRepository.create({ username, password, image });
+
+  findByIdAndUpdate = async (id: string, { username, password, image }: IUser) => {
     const update: any = {};
     const passwordHasChanged = password !== '' && password !== undefined && password !== null;
     const usernameHasChanged = username !== '' && username !== undefined && username !== null;
@@ -25,15 +29,13 @@ export class UserService {
       update.image = image;
     }
 
-    return User.findOneAndUpdate({ _id: id }, { $set: update });
-  }
+    return this.userRepository.findOneAndUpdate(id, update);
+  };
 
-  async FindById(id: string): Promise<IUser> {
-    return User.findById(id);
-  }
+  findById = async (id: string): Promise<IUser | null> => this.userRepository.findById(id);
 
-  async UserExistsByUsername(username: string, id: string): Promise<IUser> {
-    const user: IUser = await User.findOne({ username });
+  userExistsByUsername = async (username: string, id: string): Promise<IUser | null> => {
+    const user = await this.userRepository.findOneByUsername(username);
 
     if (user === null) {
       return undefined;
@@ -44,14 +46,12 @@ export class UserService {
     }
 
     return user;
-  }
+  };
 
-  async FindByUsername(username: string): Promise<IUser> {
-    const user = await User.find({ username });
+  findByUsername = async (username: string): Promise<IUser> => {
+    const user = await this.userRepository.findOneByUsername(username);
     return user[0];
-  }
+  };
 
-  async DeleteById(id: string) {
-    return User.findOneAndDelete({ _id: id });
-  }
+  deleteById = async (id: string) => this.userRepository.findOneAndDelete(id);
 }

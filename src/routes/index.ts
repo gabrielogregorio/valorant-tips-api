@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import { codeRouter } from 'src/routes/codeRouter';
-import { dashboardRouter } from 'src/routes/dashboardRouter';
-import { postRouter } from 'src/routes/postRouter';
-import { suggestionRouter } from 'src/routes/suggestionRouter';
-import { userRouter } from 'src/routes/userRouter';
-import { viewsRouter } from 'src/routes/viewsRouter';
+import { codeRouter } from './codeRouter';
+import { dashboardRouter } from './dashboardRouter';
+import { postRouter } from './postRouter';
+import { suggestionRouter } from './suggestionRouter';
+import { userRouter } from './userRouter';
+import { viewsRouter } from './viewsRouter';
 
 export const router = Router();
 

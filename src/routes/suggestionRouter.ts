@@ -1,12 +1,12 @@
 import { userAuth } from '@/middlewares/userAuth';
 import { Router } from 'express';
-import { DependencyController } from 'src/container';
+import { DependencyController } from '../container';
 
 export const suggestionRouter = Router();
 
-const { SuggestionController } = DependencyController;
+const { suggestionController } = DependencyController;
 
-suggestionRouter.post('/suggestion', SuggestionController.createSuggestion);
-suggestionRouter.get('/suggestions', userAuth, SuggestionController.getSuggestions);
-suggestionRouter.put('/suggestion/:id', userAuth, SuggestionController.editSuggestion);
-suggestionRouter.delete('/suggestion/:id', userAuth, SuggestionController.delete);
+suggestionRouter.post('/suggestion', suggestionController.createSuggestion);
+suggestionRouter.get('/suggestions', userAuth, suggestionController.getSuggestions);
+suggestionRouter.put('/suggestion/:id', userAuth, suggestionController.editSuggestion);
+suggestionRouter.delete('/suggestion/:id', userAuth, suggestionController.delete);

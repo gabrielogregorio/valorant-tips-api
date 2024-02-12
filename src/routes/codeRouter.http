@@ -1,0 +1,16 @@
+### Success example
+POST http://localhost:3333/generate_code HTTP/1.1
+content-type: application/json
+
+{
+  "GENERATOR_CODE":"GENERATOR_CODE_EXAMPLE"
+}
+
+#### Invalid token example
+
+POST http://localhost:3333/generate_code HTTP/1.1
+content-type: application/json
+
+{
+  "GENERATOR_CODE":"INVALID TOKEN"
+}

@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { DependencyController } from 'src/container';
+import { DependencyController } from '../container';
 
 export const viewsRouter = Router();
 
-const { ViewsController } = DependencyController;
+const { viewsController } = DependencyController;
 
-viewsRouter.post('/views', ViewsController.create);
-viewsRouter.get('/views', ViewsController.get);
+viewsRouter.post('/views', viewsController.create);
+viewsRouter.get('/views', viewsController.get);

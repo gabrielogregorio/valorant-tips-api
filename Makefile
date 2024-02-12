@@ -31,4 +31,4 @@ lint:
 	@docker compose -f ./docker-compose.yml run -it api yarn lint
 
 start-setup:
-	@if [ ! -f .env ]; then cp .env.example .env; fi
+#	@if [ ! -f .env ]; then cp .env.example .env; fi

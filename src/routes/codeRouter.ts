@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { DependencyController } from 'src/container';
+import { DependencyController } from '../container';
 
-const { CodeController } = DependencyController;
+const { codeController } = DependencyController;
 
 export const codeRouter = Router();
 
-codeRouter.post('/generate_code', CodeController.generate);
+codeRouter.post('/generate_code', codeController.generate);

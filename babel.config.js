@@ -25,6 +25,8 @@ module.exports = {
           '@/errors': './src/errors',
           '@/service': './src/service',
           '@/logs': './src/logs',
+          '@/repositories': './src/repositories',
+          '@/interfaces': './src/interfaces',
           '@/mock': './src/mock',
           '@/locales': './src/locales',
           '@/helpers': './src/helpers',

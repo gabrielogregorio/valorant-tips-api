@@ -4,12 +4,17 @@ import { PostController } from '@/controllers/postController';
 import { SuggestionController } from '@/controllers/suggestionController';
 import { UserController } from '@/controllers/userController';
 import { ViewsController } from '@/controllers/viewsController';
+import { CodeRepository } from '@/repositories/codeRepository';
+import { PostRepository } from '@/repositories/postRepository';
+import { ViewsRepository } from '@/repositories/viewsRepository';
 import { CodeService } from '@/service/Code';
 import { ViewService } from '@/service/View';
 import { DashboardService } from '@/service/dashboard';
 import { PostService } from '@/service/post';
 import { SuggestionService } from '@/service/suggestion';
 import { UserService } from '@/service/user';
+import { SuggestionRepository } from 'src/repositories/suggestionRepository';
+import { UserRepository } from 'src/repositories/userRepository';
 
 export class DependencyController {
   private static userControllerInstance: UserController;
@@ -36,92 +41,147 @@ export class DependencyController {
 
   private static viewServiceInstance: ViewService;
 
+  private static suggestionRepositoryInstance: SuggestionRepository;
+
+  private static userRepositoryInstance: UserRepository;
+
+  private static codeRepositoryInstance: CodeRepository;
+
+  private static postRepositoryInstance: PostRepository;
+
+  private static viewsRepositoryInstance: ViewsRepository;
+
   static get userController(): UserController {
     if (!this.userControllerInstance) {
-      this.userControllerInstance = new UserController(this.codeServiceInstance, this.userServiceInstance);
+      this.userControllerInstance = new UserController(this.codeService, this.userService);
     }
-    return this.userController;
+    return this.userControllerInstance;
   }
 
-  static get PostController(): PostController {
+  static get postController(): PostController {
     if (!this.postControllerInstance) {
-      this.postControllerInstance = new PostController(this.postServiceInstance);
+      this.postControllerInstance = new PostController(this.postService);
     }
     return this.postControllerInstance;
   }
 
-  static get SuggestionController(): SuggestionController {
+  static get suggestionController(): SuggestionController {
     if (!this.suggestionControllerInstance) {
-      this.suggestionControllerInstance = new SuggestionController(this.suggestionServiceInstance);
+      this.suggestionControllerInstance = new SuggestionController(this.suggestionService);
     }
     return this.suggestionControllerInstance;
   }
 
-  static get CodeController(): CodeController {
+  static get codeController(): CodeController {
     if (!this.codeControllerInstance) {
-      this.codeControllerInstance = new CodeController(this.codeServiceInstance);
+      this.codeControllerInstance = new CodeController(this.codeService);
     }
     return this.codeControllerInstance;
   }
 
-  static get DashboardController(): DashboardController {
+  static get dashboardController(): DashboardController {
     if (!this.dashboardControllerInstance) {
-      this.dashboardControllerInstance = new DashboardController(this.dashboardServiceInstance);
+      this.dashboardControllerInstance = new DashboardController(this.dashboardService);
     }
     return this.dashboardControllerInstance;
   }
 
-  static get ViewsController(): ViewsController {
+  static get viewsController(): ViewsController {
     if (!this.viewsControllerInstance) {
-      this.viewsControllerInstance = new ViewsController(this.viewServiceInstance);
+      this.viewsControllerInstance = new ViewsController(this.viewService);
     }
     return this.viewsControllerInstance;
   }
 
-  static get CodeService(): CodeService {
+  static get codeService(): CodeService {
     if (!this.codeServiceInstance) {
-      this.codeServiceInstance = new CodeService();
+      this.codeServiceInstance = new CodeService(this.codeRepository);
     }
     return this.codeServiceInstance;
   }
 
-  static get DashboardService(): DashboardService {
+  static get dashboardService(): DashboardService {
     if (!this.dashboardServiceInstance) {
-      this.dashboardServiceInstance = new DashboardService();
+      this.dashboardServiceInstance = new DashboardService(
+        this.userRepositoryInstance,
+        this.postRepositoryInstance,
+        this.suggestionRepositoryInstance,
+        this.viewsRepositoryInstance,
+      );
     }
 
     return this.dashboardServiceInstance;
   }
 
-  static get PostService(): PostService {
+  static get postService(): PostService {
     if (!this.postServiceInstance) {
-      this.postServiceInstance = new PostService();
+      this.postServiceInstance = new PostService(this.postRepository);
     }
 
     return this.postServiceInstance;
   }
 
-  static get SuggestionService(): SuggestionService {
+  static get suggestionService(): SuggestionService {
     if (!this.suggestionServiceInstance) {
-      this.suggestionServiceInstance = new SuggestionService();
+      this.suggestionServiceInstance = new SuggestionService(this.suggestionRepository);
     }
 
     return this.suggestionServiceInstance;
   }
 
-  static get UserService(): UserService {
+  static get userService(): UserService {
     if (!this.userServiceInstance) {
-      this.userServiceInstance = new UserService();
+      this.userServiceInstance = new UserService(this.userRepository);
     }
 
     return this.userServiceInstance;
   }
 
-  static get ViewService(): ViewService {
+  static get viewService(): ViewService {
     if (!this.viewServiceInstance) {
-      this.viewServiceInstance = new ViewService();
+      this.viewServiceInstance = new ViewService(this.viewsRepository);
     }
 
     return this.viewServiceInstance;
+  }
+
+  static get suggestionRepository(): SuggestionRepository {
+    if (!this.suggestionRepositoryInstance) {
+      this.suggestionRepositoryInstance = new SuggestionRepository();
+    }
+
+    return this.suggestionRepositoryInstance;
+  }
+
+  static get userRepository(): UserRepository {
+    if (!this.userRepositoryInstance) {
+      this.userRepositoryInstance = new UserRepository();
+    }
+
+    return this.userRepositoryInstance;
+  }
+
+  static get codeRepository(): CodeRepository {
+    if (!this.codeRepositoryInstance) {
+      this.codeRepositoryInstance = new CodeRepository();
+    }
+
+    return this.codeRepositoryInstance;
+  }
+
+  static get postRepository(): PostRepository {
+    if (!this.postRepositoryInstance) {
+      this.postRepositoryInstance = new PostRepository();
+    }
+
+    return this.postRepositoryInstance;
+  }
+
+  static get viewsRepository(): ViewsRepository {
+    if (!this.viewsRepositoryInstance) {
+      this.viewsRepositoryInstance = new ViewsRepository();
+    }
+
+    return this.viewsRepositoryInstance;
   }
 }

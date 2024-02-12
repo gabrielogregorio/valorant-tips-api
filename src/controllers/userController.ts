@@ -1,30 +1,30 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { IUser } from '@/models/User';
 import { UserService } from '@/service/user';
 import { DataUser } from '@/factories/dataUser';
-import { ICode } from '@/models/Code';
 import { JWT_SECRET } from '@/config/envs';
 import { AppError } from '@/errors/index';
 import { ErrorEnum } from '@/errors/types';
 import { CodeService } from '@/service/Code';
+import { IUser } from '@/interfaces/user';
+import { ICode } from '@/interfaces/code';
 import statusCode from '../config/statusCode';
 import { RequestMiddleware, RequestMulter } from '../interfaces/extends';
 
 const jwtSecret: string = JWT_SECRET;
 
 export class UserController {
-  codeService: CodeService;
+  private codeService: CodeService;
 
-  userService: UserService;
+  private userService: UserService;
 
   constructor(codeService: CodeService, userService: UserService) {
     this.codeService = codeService;
     this.userService = userService;
   }
 
-  async uploadImage(req: RequestMulter, res: Response): Promise<Response> {
+  uploadImage = async (req: RequestMulter, res: Response): Promise<Response> => {
     let filename = '';
 
     if (!req.file) {
@@ -35,15 +35,15 @@ export class UserController {
       filename = req.file.filename;
     }
     return res.json({ filename });
-  }
+  };
 
-  async auth(req: Request, res: Response): Promise<Response> {
+  auth = async (req: Request, res: Response) => {
     const { username, password } = req.body as { username: string; password: string };
 
-    const user: IUser = await this.userService.FindByUsername(username);
+    const user: IUser = await this.userService.findByUsername(username);
 
     if (!user) {
-      throw new AppError(ErrorEnum.USER_NOT_EXISTS, statusCode.NOT_FOUND.code);
+      throw new AppError(ErrorEnum.RESOURCE_NOT_EXISTS, statusCode.NOT_FOUND.code);
     }
 
     const valid: boolean = await bcrypt.compare(password, user.password);
@@ -51,17 +51,16 @@ export class UserController {
       throw new AppError(ErrorEnum.PASSWORD_IS_INVALID, statusCode.NOT_FOUND.code);
     }
 
-    // @ts-ignore
-    return jwt.sign({ username, name: user.name, id: user._id }, jwtSecret, { expiresIn: '128h' }, (error, token) => {
+    jwt.sign({ username, name: user.username, id: user._id }, jwtSecret, { expiresIn: '128h' }, (error, token) => {
       if (error) {
         return res.sendStatus(statusCode.ERROR_IN_SERVER.code);
       }
-      // @ts-ignore
+
       return res.json({ token, id: user._id });
     });
-  }
+  };
 
-  async createUser(req: Request, res: Response): Promise<Response> {
+  createUser = async (req: Request, res: Response): Promise<Response> => {
     const { username, password, image, code } = req.body as {
       username: string;
       password: string;
@@ -69,7 +68,7 @@ export class UserController {
       code: string;
     };
 
-    const codeData: ICode = await this.codeService.FindCode(code);
+    const codeData: ICode = await this.codeService.findCode(code);
 
     if (codeData?.code?.length < 10 || codeData === null) {
       res.statusCode = statusCode.NEED_TOKEN.code;
@@ -80,7 +79,7 @@ export class UserController {
       return res.sendStatus(statusCode.BAD_REQUEST.code);
     }
 
-    const userExists = await this.userService.UserExistsByUsername(username, '');
+    const userExists = await this.userService.userExistsByUsername(username, '');
 
     if (userExists !== undefined) {
       res.statusCode = statusCode.CONFLICT.code;
@@ -96,7 +95,7 @@ export class UserController {
       update.image = image;
     }
 
-    const use = await this.codeService.UseCode(codeData.code);
+    const use = await this.codeService.useCode(codeData.code);
     if (use.available !== false) {
       return res.sendStatus(statusCode.NEED_TOKEN.code);
     }
@@ -104,16 +103,16 @@ export class UserController {
     // @ts-ignore
     const newUser = DataUser.Build(await this.userService.Create(update));
     return res.json(newUser);
-  }
+  };
 
-  async updateUser(req: RequestMiddleware, res: Response): Promise<Response> {
+  updateUser = async (req: RequestMiddleware, res: Response): Promise<Response> => {
     let { password } = req.body;
     const { username, image } = req.body;
     const { id } = req.data;
 
     const usernameIsAlreadyRegistered = username !== '' && username !== undefined && username !== null;
     if (usernameIsAlreadyRegistered) {
-      const userExists: IUser = await this.userService.UserExistsByUsername(username, id);
+      const userExists: IUser = await this.userService.userExistsByUsername(username, id);
 
       if (userExists !== undefined) {
         res.statusCode = statusCode.CONFLICT.code;
@@ -130,23 +129,23 @@ export class UserController {
 
     const update: IUser = { username, password, image: image ?? undefined };
 
-    const user: IUser = await this.userService.FindByIdAndUpdate(id, update);
+    const user = await this.userService.findByIdAndUpdate(id, update);
     const userBuilded = DataUser.Build(user);
     return res.json(userBuilded);
-  }
+  };
 
-  async get(req: RequestMiddleware, res: Response) {
+  get = async (req: RequestMiddleware, res: Response) => {
     const { id } = req.data;
 
-    const user: IUser = await this.userService.FindById(id);
+    const user: IUser = await this.userService.findById(id);
     const userBuilded = DataUser.Build(user);
     return res.json(userBuilded);
-  }
+  };
 
-  async delete(req: RequestMiddleware, res: Response): Promise<Response> {
+  delete = async (req: RequestMiddleware, res: Response): Promise<Response> => {
     const { id } = req.data;
 
-    await this.userService.DeleteById(id);
+    await this.userService.deleteById(id);
     return res.json({});
-  }
+  };
 }

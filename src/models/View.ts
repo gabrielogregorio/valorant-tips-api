@@ -1,9 +1,5 @@
 import mongoose from 'mongoose';
-
-export interface IView {
-  ip: string;
-  dateAccess: Date;
-}
+import { IView } from 'src/interfaces/view';
 
 const viewSchema = new mongoose.Schema<IView>(
   {

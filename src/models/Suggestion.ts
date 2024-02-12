@@ -1,11 +1,5 @@
 import mongoose from 'mongoose';
-
-export interface ISuggestion {
-  post_id: string;
-  email: string;
-  description: string;
-  status: 'accepted' | 'rejected';
-}
+import { ISuggestion } from 'src/interfaces/suggestion';
 
 const suggestionSchema = new mongoose.Schema<ISuggestion>(
   {

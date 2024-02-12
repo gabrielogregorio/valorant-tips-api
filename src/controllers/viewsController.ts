@@ -1,21 +1,27 @@
 import { Request, Response } from 'express';
-import { countViewsType, ViewService } from '@/service/View';
+import { ViewService } from '@/service/View';
+import { AppError } from '@/errors/index';
+import { ErrorEnum } from '@/errors/types';
 
 export class ViewsController {
-  viewService: ViewService;
+  private viewService: ViewService;
 
   constructor(viewService: ViewService) {
     this.viewService = viewService;
   }
 
-  async create(req: Request, res: Response): Promise<Response> {
-    const ip = req.socket.remoteAddress.split(`:`).pop();
-    await this.viewService.Create(ip);
-    return res.json({ msg: 'ok' });
-  }
+  create = async (req: Request, res: Response): Promise<Response> => {
+    const ip = req.socket.remoteAddress?.split(`:`).pop();
+    if (!ip) {
+      throw new AppError(ErrorEnum.NOT_POSSIBLE_GET_IP, 400);
+    }
 
-  async get(_req: Request, res: Response): Promise<Response> {
-    const { countAll, countIps }: countViewsType = await this.viewService.CountViews();
+    await this.viewService.create(ip);
+    return res.status(200).send();
+  };
+
+  get = async (_req: Request, res: Response): Promise<Response> => {
+    const { countAll, countIps } = await this.viewService.countViews();
     return res.json({ countAll, countIps });
-  }
+  };
 }

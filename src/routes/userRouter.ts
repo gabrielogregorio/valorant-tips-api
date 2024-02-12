@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
 import { userAuth } from '@/middlewares/userAuth';
 import { multerUser } from '@/middlewares/multerUser';
-import { DependencyController } from 'src/container';
+import { DependencyController } from '../container';
 
 export const userRouter: Router = express.Router();
 

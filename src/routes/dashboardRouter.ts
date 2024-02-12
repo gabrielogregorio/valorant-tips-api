@@ -1,9 +1,9 @@
 import { userAuth } from '@/middlewares/userAuth';
 import { Router } from 'express';
-import { DependencyController } from 'src/container';
+import { DependencyController } from '../container';
 
 export const dashboardRouter = Router();
 
-const { DashboardController } = DependencyController;
+const { dashboardController } = DependencyController;
 
-dashboardRouter.get('/dashboard', userAuth, DashboardController.get);
+dashboardRouter.get('/dashboard', userAuth, dashboardController.get);

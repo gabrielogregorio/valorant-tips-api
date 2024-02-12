@@ -5,7 +5,7 @@ import cloudinary from 'cloudinary';
 import { userAuth } from '@/middlewares/userAuth';
 import { convertMegabytesToBytes } from '@/helpers/conversors';
 import { CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, CLOUDINARY_CLOUD_NAME } from '@/config/envs';
-import { DependencyController } from 'src/container';
+import { DependencyController } from '../container';
 
 const cloudinaryV2 = cloudinary.v2;
 
@@ -33,14 +33,14 @@ const upload = multer({
 
 export const postRouter: Router = express.Router();
 
-const { PostController } = DependencyController;
+const { postController } = DependencyController;
 
-postRouter.post('/postLoadFile', upload.single('image'), PostController.uploadFile);
-postRouter.post('/post', userAuth, PostController.createPost);
-postRouter.put('/post/:id', userAuth, PostController.updatePost);
-postRouter.get('/post/:id', userAuth, PostController.get);
-postRouter.get('/maps', PostController.getMaps);
-postRouter.get('/agents/:map', PostController.getAgents);
-postRouter.get('/posts', PostController.getPosts);
-postRouter.get('/posts/:map/:agent', PostController.getPostsByMapAndAgent);
-postRouter.delete('/post/:id', userAuth, PostController.delete);
+postRouter.post('/postLoadFile', upload.single('image'), postController.uploadFile);
+postRouter.post('/post', userAuth, postController.createPost);
+postRouter.put('/post/:id', userAuth, postController.updatePost);
+postRouter.get('/post/:id', userAuth, postController.get);
+postRouter.get('/maps', postController.getMaps);
+postRouter.get('/agents/:map', postController.getAgents);
+postRouter.get('/posts', postController.getPosts);
+postRouter.get('/posts/:map/:agent', postController.getPostsByMapAndAgent);
+postRouter.delete('/post/:id', userAuth, postController.delete);
