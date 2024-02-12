@@ -5,6 +5,12 @@ import { DataSuggestion, factorySuggestionType } from '@/factories/dataSuggestio
 import statusCode from '../config/statusCode';
 
 export class SuggestionController {
+  suggestionService: SuggestionService;
+
+  constructor(suggestionService: SuggestionService) {
+    this.suggestionService = suggestionService;
+  }
+
   async createSuggestion(req: Request, res: Response) {
     const { post_id, email, description } = req.body;
 
@@ -13,7 +19,7 @@ export class SuggestionController {
       return res.json({ erro: 'Parametros inválidos ou faltantes' });
     }
 
-    const suggestion: ISuggestion = await SuggestionService.Create({
+    const suggestion: ISuggestion = await this.suggestionService.Create({
       post_id,
       email,
       description,
@@ -24,7 +30,7 @@ export class SuggestionController {
   }
 
   async getSuggestions(_req: Request, res: Response): Promise<Response> {
-    const suggestions: ISuggestion[] = await SuggestionService.FindAll();
+    const suggestions: ISuggestion[] = await this.suggestionService.FindAll();
 
     const suggestionsFactory: factorySuggestionType[] = [];
     suggestions.forEach((suggestion) => {
@@ -43,14 +49,14 @@ export class SuggestionController {
       return res.json({ error: 'Status para a sugestão inválido!' });
     }
 
-    const suggestionEdited: ISuggestion = await SuggestionService.UpdateById(suggestionId, newStatus);
+    const suggestionEdited: ISuggestion = await this.suggestionService.UpdateById(suggestionId, newStatus);
     return res.json(suggestionEdited);
   }
 
   async delete(req: Request, res: Response): Promise<Response> {
     const suggestionId = req.params.id;
 
-    await SuggestionService.DeleteById(suggestionId);
+    await this.suggestionService.DeleteById(suggestionId);
     return res.json({});
   }
 }

@@ -14,7 +14,7 @@ export type IDashboardServiceType = {
 };
 
 export class DashboardService {
-  static async count(): Promise<IDashboardServiceType> {
+  async count(): Promise<IDashboardServiceType> {
     const countAllPosts: number = await Post.countDocuments({});
     const countAlMaps: IPost[] = await Post.find().distinct('tags.map');
     const countAlAgents: IPost[] = await Post.find().distinct('tags.agent');

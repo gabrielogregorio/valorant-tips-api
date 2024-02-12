@@ -3,18 +3,27 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { IUser } from '@/models/User';
 import { UserService } from '@/service/user';
-import { CodeService } from '@/service/Code';
 import { DataUser } from '@/factories/dataUser';
 import { ICode } from '@/models/Code';
 import { JWT_SECRET } from '@/config/envs';
 import { AppError } from '@/errors/index';
 import { ErrorEnum } from '@/errors/types';
+import { CodeService } from '@/service/Code';
 import statusCode from '../config/statusCode';
 import { RequestMiddleware, RequestMulter } from '../interfaces/extends';
 
 const jwtSecret: string = JWT_SECRET;
 
 export class UserController {
+  codeService: CodeService;
+
+  userService: UserService;
+
+  constructor(codeService: CodeService, userService: UserService) {
+    this.codeService = codeService;
+    this.userService = userService;
+  }
+
   async uploadImage(req: RequestMulter, res: Response): Promise<Response> {
     let filename = '';
 
@@ -31,7 +40,7 @@ export class UserController {
   async auth(req: Request, res: Response): Promise<Response> {
     const { username, password } = req.body as { username: string; password: string };
 
-    const user: IUser = await UserService.FindByUsername(username);
+    const user: IUser = await this.userService.FindByUsername(username);
 
     if (!user) {
       throw new AppError(ErrorEnum.USER_NOT_EXISTS, statusCode.NOT_FOUND.code);
@@ -60,7 +69,7 @@ export class UserController {
       code: string;
     };
 
-    const codeData: ICode = await CodeService.FindCode(code);
+    const codeData: ICode = await this.codeService.FindCode(code);
 
     if (codeData?.code?.length < 10 || codeData === null) {
       res.statusCode = statusCode.NEED_TOKEN.code;
@@ -71,7 +80,7 @@ export class UserController {
       return res.sendStatus(statusCode.BAD_REQUEST.code);
     }
 
-    const userExists = await UserService.UserExistsByUsername(username, '');
+    const userExists = await this.userService.UserExistsByUsername(username, '');
 
     if (userExists !== undefined) {
       res.statusCode = statusCode.CONFLICT.code;
@@ -87,13 +96,13 @@ export class UserController {
       update.image = image;
     }
 
-    const use = await CodeService.UseCode(codeData.code);
+    const use = await this.codeService.UseCode(codeData.code);
     if (use.available !== false) {
       return res.sendStatus(statusCode.NEED_TOKEN.code);
     }
 
     // @ts-ignore
-    const newUser = DataUser.Build(await UserService.Create(update));
+    const newUser = DataUser.Build(await this.userService.Create(update));
     return res.json(newUser);
   }
 
@@ -104,7 +113,7 @@ export class UserController {
 
     const usernameIsAlreadyRegistered = username !== '' && username !== undefined && username !== null;
     if (usernameIsAlreadyRegistered) {
-      const userExists: IUser = await UserService.UserExistsByUsername(username, id);
+      const userExists: IUser = await this.userService.UserExistsByUsername(username, id);
 
       if (userExists !== undefined) {
         res.statusCode = statusCode.CONFLICT.code;
@@ -121,7 +130,7 @@ export class UserController {
 
     const update: IUser = { username, password, image: image ?? undefined };
 
-    const user: IUser = await UserService.FindByIdAndUpdate(id, update);
+    const user: IUser = await this.userService.FindByIdAndUpdate(id, update);
     const userBuilded = DataUser.Build(user);
     return res.json(userBuilded);
   }
@@ -129,7 +138,7 @@ export class UserController {
   async get(req: RequestMiddleware, res: Response) {
     const { id } = req.data;
 
-    const user: IUser = await UserService.FindById(id);
+    const user: IUser = await this.userService.FindById(id);
     const userBuilded = DataUser.Build(user);
     return res.json(userBuilded);
   }
@@ -137,7 +146,7 @@ export class UserController {
   async delete(req: RequestMiddleware, res: Response): Promise<Response> {
     const { id } = req.data;
 
-    await UserService.DeleteById(id);
+    await this.userService.DeleteById(id);
     return res.json({});
   }
 }

@@ -6,7 +6,7 @@ export type countViewsType = {
 };
 
 export class ViewService {
-  static async Create(ip: string): Promise<IView> {
+  async Create(ip: string): Promise<IView> {
     const newView = new View({
       ip,
       dateAccess: Date.now(),
@@ -15,7 +15,7 @@ export class ViewService {
     return newView;
   }
 
-  static async CountViews(): Promise<countViewsType> {
+  async CountViews(): Promise<countViewsType> {
     const count2 = await View.find().distinct('ip');
     const count = await View.find();
     const countAll = count.length;

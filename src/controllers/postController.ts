@@ -6,6 +6,12 @@ import statusCode from '../config/statusCode';
 import { RequestMiddleware } from '../interfaces/extends';
 
 export class PostController {
+  postService: PostService;
+
+  constructor(postService: PostService) {
+    this.postService = postService;
+  }
+
   async uploadFile(req: Request, res: Response): Promise<Response> {
     return res.json({ filename: req.file.path });
   }
@@ -45,7 +51,7 @@ export class PostController {
       return res.json({ error: 'Some value is invalid' });
     }
 
-    const postService: IPost = await PostService.FindByIdAndUpdate(id, {
+    const postService: IPost = await this.postService.FindByIdAndUpdate(id, {
       title,
       description,
       // @ts-ignore
@@ -60,23 +66,23 @@ export class PostController {
   async get(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
 
-    const post: IPost = await PostService.FindById(id);
+    const post: IPost = await this.postService.FindById(id);
     const postsBuilded: factoryPostType = DataPost.Build(post);
     return res.json(postsBuilded);
   }
 
   async getMaps(_req: Request, res: Response): Promise<Response> {
-    const maps: string[] = await PostService.findAvailableMaps();
+    const maps: string[] = await this.postService.findAvailableMaps();
     return res.json({ maps });
   }
 
   async getAgents(req: Request, res: Response): Promise<Response> {
-    const agents: string[] = await PostService.findAvailableAgents(req.params.map);
+    const agents: string[] = await this.postService.findAvailableAgents(req.params.map);
     return res.json({ agents });
   }
 
   async getPosts(_req: Request, res: Response): Promise<Response> {
-    const postService: IPost[] = await PostService.FindAll();
+    const postService: IPost[] = await this.postService.FindAll();
 
     const posts: factoryPostType[] = [];
     postService.forEach((post) => {
@@ -89,7 +95,7 @@ export class PostController {
   async getPostsByMapAndAgent(req: Request, res: Response): Promise<Response> {
     const { agent, map } = req.params as { agent: string; map: string };
 
-    const postsService: IPost[] = await PostService.FindAllByMapAndAgent(agent, map);
+    const postsService: IPost[] = await this.postService.FindAllByMapAndAgent(agent, map);
 
     const posts: factoryPostType[] = [];
     postsService.forEach((post) => {
@@ -102,7 +108,7 @@ export class PostController {
   async delete(req: RequestMiddleware, res: Response): Promise<Response> {
     const idPost = req.params.id;
 
-    await PostService.DeleteById(idPost);
+    await this.postService.DeleteById(idPost);
 
     return res.status(statusCode.NO_CONTENT.code).send();
   }
