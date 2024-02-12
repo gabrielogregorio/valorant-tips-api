@@ -10,8 +10,7 @@
     "format": "yarn prettier --write .",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "lint": "eslint -c ./.eslintrc.json --ext .ts src/",
-    "tsc-lint": "tsc --noEmit",
+    "lint": "eslint -c ./.eslintrc.json --ext .ts src/* && tsc --noEmit",
     "prepare": "husky install"
   },
   "engines": {

@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  api:
+    container_name: api
+    env_file: .env.example
+    build: .
+    ports:
+      - '3333:3333'
+    volumes:
+      - ./:/usr/src/app/
+    depends_on:
+      - database
+
+  database:
+    container_name: database
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
