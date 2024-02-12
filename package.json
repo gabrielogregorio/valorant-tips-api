@@ -1,6 +1,6 @@
 {
   "name": "valorant-tips-api",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -16,7 +16,7 @@
   },
   "engines": {
     "yarn": ">=1.2",
-    "node": ">=16.x <=18.0.0"
+    "node": ">=16.x"
   },
   "repository": {
     "type": "git",
