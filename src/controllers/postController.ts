@@ -1,4 +1,3 @@
-/* eslint-disable class-methods-use-this */
 import { Request, Response } from 'express';
 import { IPost } from '@/models/Post';
 import { DataPost, factoryPostType } from '@/factories/dataPost';
