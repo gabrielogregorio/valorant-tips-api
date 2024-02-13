@@ -9,7 +9,7 @@ export interface IImagePost {
 export interface IPost {
   title: string;
   description: string;
-  user: mongoose.Schema.Types.ObjectId;
+  user: mongoose.Types.ObjectId;
   tags: {
     moment: string;
     difficult: string;

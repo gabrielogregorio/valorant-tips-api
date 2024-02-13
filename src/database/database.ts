@@ -13,7 +13,6 @@ export class Database {
     this.mongoose = mongoose;
     this.verbose = verbose;
     this.code = new Date().getTime().toString();
-
     this.mongoose.set('strictQuery', false);
   }
 
@@ -22,12 +21,12 @@ export class Database {
       .connect(uri, {})
       .then(() => {
         if (this.verbose) {
-          Log.info('banco conectado!');
+          Log.info('db connected');
         }
       })
       .catch((error) => {
         if (this.verbose) {
-          Log.error('erro ao conectar o banco');
+          Log.error('error on connect db', error);
         }
         throw error;
       });

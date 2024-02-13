@@ -30,8 +30,19 @@ Make version 4.4.1
 
 ### Description
 
-## API Valorant tips
+## For Devs
 
+> Reminder: Mongodb has intelligence
+> - Don't try to remove pluralization, accept it!
+> - In the template, you type "Code"
+> - In populate, you enter a "code"
+> - To access the registry in the mongo environment they are “codes”, outside it can be “code”
+> - In Ref, it is Code, even if in populate it is code
+> - Don't try to change this magic, it's a trap, there's a bug that creates more problems
+
+
+
+## API Valorant tips
 
 Api of the project Valorant tips. [Documentation here](https://valorant-tips-api.onrender.com/docs/)
 

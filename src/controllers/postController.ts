@@ -70,7 +70,7 @@ export class PostController {
   get = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
 
-    const post: IPost = await this.postService.findById(id);
+    const post = await this.postService.findByIdOrThrow(id);
     const postsBuilded: factoryPostType = DataPost.Build(post);
     return res.json(postsBuilded);
   };

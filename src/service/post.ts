@@ -22,10 +22,10 @@ export class PostService {
     return post;
   };
 
-  findById = async (id: string): Promise<IPost> => {
+  findByIdOrThrow = async (id: string): Promise<IPost> => {
     const post = await this.postRepository.findById(id);
     if (!post) {
-      throw new AppError(ErrorEnum.RESOURCE_NOT_EXISTS, 404);
+      throw new AppError(errorStates.RESOURCE_NOT_EXISTS, `post ${id} not exists`);
     }
 
     return post;

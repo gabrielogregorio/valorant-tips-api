@@ -1,0 +1,22 @@
+#### create user
+
+POST http://localhost:3333/user HTTP/1.1
+content-type: application/json
+
+{
+  "username":"greg",
+  "password":"greg",
+  "code": "2d469b1e-422b-466d-8c49-2e25d89b1476"
+}
+
+#### should make auth
+
+POST http://localhost:3333/auth HTTP/1.1
+content-type: application/json
+
+{
+  "username":"greg",
+  "password":"greg"
+}
+
+

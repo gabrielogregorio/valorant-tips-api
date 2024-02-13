@@ -16,7 +16,7 @@ export class SuggestionRepository {
   updateById = async (_id: string, status: 'accepted' | 'rejected'): Promise<ISuggestion | null> =>
     Suggestion.findOneAndUpdate({ _id }, { $set: { status } }, { new: true });
 
-  deleteById = async (_id: string): Promise<any> => Suggestion.findOneAndDelete({ _id });
+  deleteById = async (_id: string): Promise<void | null> => Suggestion.findOneAndDelete({ _id });
 
   count = async (): Promise<number> => Suggestion.countDocuments({});
 }

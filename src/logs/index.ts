@@ -1,7 +1,13 @@
 import { DISABLE_LOGS } from '@/config/envs';
 
-export const getActualMoment = (): string =>
-  new Date().toLocaleString('en-US', { timeStyle: 'medium', hourCycle: 'h24' });
+export const getActualMoment = (): string => {
+  const date = new Date();
+
+  return `${date.toLocaleDateString().replace(/\//g, '-')} ${date.toLocaleString('en-US', {
+    timeStyle: 'medium',
+    hourCycle: 'h24',
+  })}`;
+};
 
 type levelsType = 'ERROR' | 'INFO ' | 'WARN ' | 'DEBUG';
 
@@ -16,14 +22,14 @@ const colors: { [key in levelsType]: string } = {
 
 export class Log {
   private static baseStart(level: levelsType): string {
-    return `[${this.applyColors(level, colors[level])}] ${getActualMoment()}:`;
+    return `[${this.applyColors(level, colors[level])}] ${getActualMoment()}`;
   }
 
   private static runningInTerminal = (): boolean => Boolean(process.stdout.isTTY);
 
   private static applyColors(level: string, color: string): string {
     if (this.runningInTerminal()) {
-      return `\x1B[${color}m${level}\x1B[0m`;
+      return `\x1B[${color}m${level}\x1B[0m`.replace(' ', '');
     }
     return level;
   }

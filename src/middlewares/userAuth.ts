@@ -24,26 +24,19 @@ export const userAuth = (req: Request, res: Response, next: NextFunction) => {
     throw new AppError(errorStates.TOKEN_IS_INVALID_OR_EXPIRED);
   }
 
-  const bearer = authToken.split(' ');
-  const auth = bearer[1];
-
-  if (auth === undefined) {
-    throw new AppError(errorStates.TOKEN_IS_INVALID_OR_EXPIRED);
-  }
-
   try {
-    const data = jwt.verify(auth, JWT_SECRET);
+    const data = jwt.verify(authToken, JWT_SECRET);
     // @ts-ignore
     req.data = data;
 
     if (data.username === undefined) {
-      throw new AppError(errorStates.TOKEN_IS_INVALID_OR_EXPIRED);
+      throw new AppError(errorStates.TOKEN_IS_INVALID_OR_EXPIRED, 'no username');
     }
     return next();
   } catch (error) {
     if (error.message === 'jwt expired') {
-      throw new AppError(errorStates.TOKEN_IS_INVALID_OR_EXPIRED);
+      throw new AppError(errorStates.TOKEN_IS_INVALID_OR_EXPIRED, 'jwt expirated');
     }
-    throw new AppError(errorStates.TOKEN_IS_INVALID_OR_EXPIRED);
+    throw new AppError(errorStates.TOKEN_IS_INVALID_OR_EXPIRED, 'unknow error');
   }
 };

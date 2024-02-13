@@ -36,7 +36,7 @@ export class UserService {
 
   findById = async (id: string): Promise<IUser | null> => this.userRepository.findById(id);
 
-  userExistsByUsername = async (username: string, id: string): Promise<IUser | null> => {
+  userExistsByUsernameOrThrown = async (username: string, id: string): Promise<IUser | null> => {
     const user = await this.userRepository.findOneByUsername(username);
 
     if (user === null) {
@@ -50,10 +50,8 @@ export class UserService {
     return user;
   };
 
-  findByUsername = async (username: string): Promise<IUser> => {
-    const user = await this.userRepository.findOneByUsername(username);
-    return user[0];
-  };
+  findOneByUsername = async (username: string): Promise<IUser | null> =>
+    this.userRepository.findOneByUsername(username);
 
   deleteById = async (id: string) => this.userRepository.findOneAndDelete(id);
 }

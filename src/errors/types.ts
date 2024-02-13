@@ -35,4 +35,9 @@ export const errorStates = {
     code: 500,
     message: 'INTERNAL_ERROR',
   },
+  CONFLICT_ALREADY_EXISTS: {
+    name: 'CONFLICT_ALREADY_EXISTS',
+    code: 409,
+    message: 'Resource already exists',
+  },
 };

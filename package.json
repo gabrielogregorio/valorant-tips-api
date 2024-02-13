@@ -34,14 +34,20 @@
     "bcrypt": "^5.1.0",
     "cloudinary": "^1.33.0",
     "cors": "^2.8.5",
-    "dotenv": "^16.0.3",
+    "docbytest": "^3.1.0",
+    "docbytest-ui": "^3.1.0",
+    "dotenv": "^16.4.3",
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^7.1.5",
+    "helmet": "^7.1.0",
     "joi": "^17.12.1",
     "jsonwebtoken": "^9.0.0",
-    "mongoose": "^6.9.0",
+    "mongoose": "^8.1.2",
     "multer": "^1.4.5-lts.1",
     "multer-storage-cloudinary": "^4.0.0",
+    "sanitize-html": "^2.11.0",
     "uuid": "^9.0.0",
     "uuidv4": "^6.2.12"
   },
@@ -58,8 +64,10 @@
     "@types/jest": "^29.4.0",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/mime-types": "^2.1.1",
+    "@types/mongo-sanitize": "^1.0.3",
     "@types/multer": "^1.4.7",
     "@types/node": "^18.11.18",
+    "@types/sanitize-html": "^2.11.0",
     "@types/supertest": "^6.0.2",
     "@typescript-eslint/eslint-plugin": "^5.50.0",
     "@typescript-eslint/parser": "^5.50.0",
@@ -83,7 +91,7 @@
     "ts-jest": "^29.0.5",
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.1.2",
-    "typescript": "^4.9.5"
+    "typescript": "^5.3.3"
   },
   "lint-staged": {
     "src/**/*.{js,ts}": [

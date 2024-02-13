@@ -8,9 +8,10 @@ import 'express-async-errors';
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 export const handleErrors = (error: Error, req: Request, res: Response, next: NextFunction) => {
   if (error instanceof AppError) {
-    const context = ERROR_WITH_DEBUG ? { context: error.debug } : undefined;
+    const { debug } = error;
+    const context = ERROR_WITH_DEBUG ? { debug } : undefined;
 
-    Log.warning(`AppError ${error?.error.code} - ${error?.name}`);
+    Log.warning(`AppError ${error?.error.code} - ${error?.error.name} ${debug?.trim() ? `- ${debug}` : ''} `);
     res.status(error?.error.code).json({ ...context, error: error?.name, message: error.error.message });
     return;
   }

@@ -1,4 +1,4 @@
-.PHONY: dev stop
+.PHONY: dev
 
 dev: d
 build: b
@@ -7,10 +7,14 @@ tests: t
 log: l
 stop: s
 
-
 d: start-setup
 	@yarn
 	@docker compose -f ./docker-compose.dev.yml up --build -d
+
+db: start-setup
+	@yarn
+	@docker compose -f ./docker-compose.dev.yml down --remove-orphans --volumes
+	@docker compose -f ./docker-compose.dev.yml up --build vavatips-api-mongodb
 
 t: start-setup
 	@docker compose -f ./docker-compose.test.yaml down --remove-orphans --volumes
@@ -27,16 +31,19 @@ s:
 	@docker compose -f ./docker-compose.dev.yml down
 
 bash:
-	@docker exec -it api /bin/bash
+	@docker exec -it vavatips-api /bin/bash
 
 bash-mongo:
-	@docker exec -it database /bin/bash
+	@docker exec -it vavatips-api-mongodb /bin/bash
 
 l:
 	@docker compose -f ./docker-compose.dev.yml logs -f
 
+la:
+	@docker compose -f ./docker-compose.dev.yml  logs -f vavatips-api
+
 lint:
-	@docker compose -f ./docker-compose.dev.yml run -it api yarn lint
+	@docker compose -f ./docker-compose.dev.yml run -it vavatips-api yarn lint
 
 start-setup:
 	@if [ ! -f .env ]; then cp .env.example .env; fi

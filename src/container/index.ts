@@ -13,8 +13,8 @@ import { DashboardService } from '@/service/dashboard';
 import { PostService } from '@/service/post';
 import { SuggestionService } from '@/service/suggestion';
 import { UserService } from '@/service/user';
-import { SuggestionRepository } from 'src/repositories/suggestionRepository';
-import { UserRepository } from 'src/repositories/userRepository';
+import { SuggestionRepository } from '@/repositories/suggestionRepository';
+import { UserRepository } from '@/repositories/userRepository';
 
 export class DependencyController {
   private static userControllerInstance: UserController;
@@ -123,7 +123,7 @@ export class DependencyController {
 
   static get suggestionService(): SuggestionService {
     if (!this.suggestionServiceInstance) {
-      this.suggestionServiceInstance = new SuggestionService(this.suggestionRepository);
+      this.suggestionServiceInstance = new SuggestionService(this.suggestionRepository, this.postService);
     }
 
     return this.suggestionServiceInstance;

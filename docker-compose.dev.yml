@@ -1,8 +1,8 @@
 version: '3'
 
 services:
-  api:
-    container_name: api
+  vavatips-api:
+    container_name: vavatips-api
     env_file: .env.dev
     build:
       context: ./
@@ -12,12 +12,12 @@ services:
     volumes:
       - ./:/usr/src/app/
     depends_on:
-      - database
+      - vavatips-api-mongodb
     networks:
       - main
 
-  database:
-    container_name: database
+  vavatips-api-mongodb:
+    container_name: vavatips-api-mongodb
     env_file: .env.dev
     image: mongo:latest
     build:
@@ -27,6 +27,8 @@ services:
       - '27017:27017'
     volumes:
       - mongo_data:/data/db
+    networks:
+      - main
 
 networks:
   main:

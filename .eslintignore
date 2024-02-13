@@ -2,3 +2,4 @@ dist
 /*.js
 /*.json
 node_modules
+mongo-init.js

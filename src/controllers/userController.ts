@@ -7,8 +7,8 @@ import { JWT_SECRET } from '@/config/envs';
 import { AppError } from '@/errors/index';
 import { CodeService } from '@/service/Code';
 import { IUser } from '@/interfaces/user';
-import { ICode } from '@/interfaces/code';
 import { errorStates } from '@/errors/types';
+import { CreateUserBodyType } from '@/schemas/createUser';
 import statusCode from '../config/statusCode';
 import { RequestMiddleware, RequestMulter } from '../interfaces/extends';
 
@@ -40,7 +40,7 @@ export class UserController {
   auth = async (req: Request, res: Response) => {
     const { username, password } = req.body as { username: string; password: string };
 
-    const user: IUser = await this.userService.findByUsername(username);
+    const user = await this.userService.findOneByUsername(username);
 
     if (!user) {
       throw new AppError(errorStates.RESOURCE_NOT_EXISTS);
@@ -60,30 +60,18 @@ export class UserController {
     });
   };
 
-  createUser = async (req: Request, res: Response): Promise<Response> => {
-    const { username, password, image, code } = req.body as {
-      username: string;
-      password: string;
-      image: string;
-      code: string;
-    };
+  createUser = async (req: Request<undefined, undefined, CreateUserBodyType>, res: Response): Promise<Response> => {
+    const { username, password, image, code } = req.body;
 
-    const codeData: ICode = await this.codeService.findCode(code);
+    const codeData = await this.codeService.findCode(code);
 
-    if (codeData?.code?.length < 10 || codeData === null) {
-      res.statusCode = statusCode.NEED_TOKEN.code;
-      return res.json({ msg: 'invalid code' });
+    if (codeData === null) {
+      throw new AppError(errorStates.TOKEN_IS_INVALID_OR_EXPIRED);
     }
 
-    if (!username || !password) {
-      return res.sendStatus(statusCode.BAD_REQUEST.code);
-    }
-
-    const userExists = await this.userService.userExistsByUsername(username, '');
-
-    if (userExists !== undefined) {
-      res.statusCode = statusCode.CONFLICT.code;
-      return res.json({ error: 'Username is already registered' });
+    const userExists = await this.userService.findOneByUsername(username);
+    if (userExists) {
+      throw new AppError(errorStates.CONFLICT_ALREADY_EXISTS);
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -101,7 +89,7 @@ export class UserController {
     }
 
     // @ts-ignore
-    const newUser = DataUser.Build(await this.userService.Create(update));
+    const newUser = DataUser.Build(await this.userService.create(update));
     return res.json(newUser);
   };
 
@@ -112,7 +100,7 @@ export class UserController {
 
     const usernameIsAlreadyRegistered = username !== '' && username !== undefined && username !== null;
     if (usernameIsAlreadyRegistered) {
-      const userExists: IUser = await this.userService.userExistsByUsername(username, id);
+      const userExists = await this.userService.userExistsByUsernameOrThrown(username, id);
 
       if (userExists !== undefined) {
         res.statusCode = statusCode.CONFLICT.code;
@@ -137,7 +125,7 @@ export class UserController {
   get = async (req: RequestMiddleware, res: Response) => {
     const { id } = req.data;
 
-    const user: IUser = await this.userService.findById(id);
+    const user = await this.userService.findById(id);
     const userBuilded = DataUser.Build(user);
     return res.json(userBuilded);
   };
