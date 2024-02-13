@@ -30,6 +30,7 @@ module.exports = {
           '@/mock': './src/mock',
           '@/locales': './src/locales',
           '@/helpers': './src/helpers',
+          '@/schemas': './src/schemas',
         },
       },
     ],

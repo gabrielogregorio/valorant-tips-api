@@ -1,5 +1,5 @@
 import supertest from 'supertest';
-import { GENERATOR_CODE } from '@/config/envs';
+import { SECURITY_CODE } from '@/config/envs';
 import { Database } from '@/database/database';
 import { app } from '../../app';
 
@@ -9,8 +9,8 @@ const request = supertest(app);
 let codeGenerate = '';
 let token = '';
 let generateCode = 'HA1496FD';
-generateCode = GENERATOR_CODE;
-const validKey = { GENERATOR_CODE: generateCode };
+generateCode = SECURITY_CODE;
+const validKey = { securityCode: generateCode };
 
 describe('[0] 🔑 Geração de chaves', () => {
   beforeAll(async () => {
@@ -33,18 +33,18 @@ describe('[0] 🔑 Geração de chaves', () => {
   });
 
   it('[doc]: 🚫 Impede a geração com uma chave inválida', async () => {
-    const res = await request.post('/generate_code').send({ GENERATOR_CODE: 'Qualquer chave' });
+    const res = await request.post('/generate_code').send({ securityCode: 'Qualquer chave' });
     expect(res.statusCode).toEqual(404);
   });
 
   it('🚫 Deve impedir o registro com uma chave inválida Novamente', async () => {
-    const res = await request.post('/generate_code').send({ GENERATOR_CODE: 'Qualquer chave novamente' });
+    const res = await request.post('/generate_code').send({ securityCode: 'Qualquer chave novamente' });
 
     expect(res.statusCode).toEqual(404);
   });
 
   it('[doc]: 🚫 Deve impedir o registro deu uma nova chave após duas tentativas com erro', async () => {
-    const res = await request.post('/generate_code').send({ GENERATOR_CODE: generateCode });
+    const res = await request.post('/generate_code').send({ securityCode: generateCode });
     expect(res.statusCode).toEqual(405);
   });
 

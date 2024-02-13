@@ -1,3 +1,5 @@
+import { AppError } from '@/errors/index';
+import { errorStates } from '@/errors/types';
 import { IUser } from '@/interfaces/user';
 import { UserRepository } from '@/repositories/userRepository';
 
@@ -38,11 +40,11 @@ export class UserService {
     const user = await this.userRepository.findOneByUsername(username);
 
     if (user === null) {
-      return undefined;
+      throw new AppError(errorStates.RESOURCE_NOT_EXISTS);
     }
-    // @ts-ignore
-    if (user._id.toString() === id) {
-      return undefined;
+
+    if (user?._id?.toString() !== id) {
+      throw new AppError(errorStates.FORBIDDEN);
     }
 
     return user;

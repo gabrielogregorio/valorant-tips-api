@@ -1,5 +1,5 @@
 import { AppError } from '@/errors/index';
-import { ErrorEnum } from '@/errors/types';
+import { errorStates } from '@/errors/types';
 import { IPost } from '@/interfaces/post';
 import { PostRepository } from '@/repositories/postRepository';
 
@@ -16,7 +16,7 @@ export class PostService {
   findByIdAndUpdate = async (id: string, { title, description, user, tags, imgs }: IPost): Promise<IPost> => {
     const post = await this.postRepository.findByIdAndUpdate(id, { title, description, user, tags, imgs });
     if (!post) {
-      throw new AppError(ErrorEnum.RESOURCE_NOT_EXISTS, 404);
+      throw new AppError(errorStates.RESOURCE_NOT_EXISTS);
     }
 
     return post;

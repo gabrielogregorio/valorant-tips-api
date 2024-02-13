@@ -19,6 +19,8 @@
 <div align="center">
 
 download docker https://www.docker.com/products/docker-desktop/
+Docker version 25.0.2
+Make version 4.4.1
 
 // await BackupService.start()
 //     await DevEnvironmentService.Create();

@@ -11,7 +11,7 @@ export class CodeService {
 
   create = async (): Promise<ICode> =>
     this.codeRepository.create({
-      code: `${uuidV4()}${Math.random()}${uuidV4()}${Math.random()}`,
+      code: uuidV4(),
       available: true,
     });
 

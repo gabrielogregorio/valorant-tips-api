@@ -3,8 +3,8 @@ import { DataPost, factoryPostType } from '@/factories/dataPost';
 import { PostService } from '@/service/post';
 import { IImagePost, IPost } from '@/interfaces/post';
 import { AppError } from '@/errors/index';
-import { ErrorEnum } from '@/errors/types';
 import { ObjectId } from 'mongoose';
+import { errorStates } from '@/errors/types';
 import statusCode from '../config/statusCode';
 import { RequestMiddleware } from '../interfaces/extends';
 
@@ -17,7 +17,7 @@ export class PostController {
 
   uploadFile = async (req: Request, res: Response): Promise<Response> => {
     if (!req?.file?.path) {
-      throw new AppError(ErrorEnum.INVALID_PAYLOAD, 400);
+      throw new AppError(errorStates.PAYLOAD_IS_INVALID, "req.file.path don't exists");
     }
 
     return res.json({ filename: req.file.path });

@@ -1,22 +1,30 @@
 .PHONY: dev stop
 
 dev: d
-stop: s
-log: l
 build: b
+test: t
+tests: t
+log: l
+stop: s
 
 
 d: start-setup
 	@yarn
-	@docker compose up --build -d
+	@docker compose -f ./docker-compose.dev.yml up --build -d
+
+t: start-setup
+	@docker compose -f ./docker-compose.test.yaml down --remove-orphans --volumes
+	@docker compose -f ./docker-compose.test.yaml up -d --build database-test
+	@docker compose -f ./docker-compose.test.yaml run -T api-test yarn test:docker
+	@docker compose -f ./docker-compose.test.yaml rm -f -s -v database-test api-test
 
 b: start-setup
 	@yarn
-	@docker compose -f ./docker-compose.yml down --remove-orphans --volumes
-	@docker compose -f ./docker-compose.yml up --build --force-recreate -d
+	@docker compose -f ./docker-compose.dev.yml down --remove-orphans --volumes
+	@docker compose -f ./docker-compose.dev.yml up --build --force-recreate -d
 
 s:
-	@docker compose down
+	@docker compose -f ./docker-compose.dev.yml down
 
 bash:
 	@docker exec -it api /bin/bash
@@ -25,10 +33,10 @@ bash-mongo:
 	@docker exec -it database /bin/bash
 
 l:
-	@docker compose -f ./docker-compose.yml logs -f
+	@docker compose -f ./docker-compose.dev.yml logs -f
 
 lint:
-	@docker compose -f ./docker-compose.yml run -it api yarn lint
+	@docker compose -f ./docker-compose.dev.yml run -it api yarn lint
 
 start-setup:
-#	@if [ ! -f .env ]; then cp .env.example .env; fi
+	@if [ ! -f .env ]; then cp .env.example .env; fi

@@ -5,10 +5,10 @@ import { UserService } from '@/service/user';
 import { DataUser } from '@/factories/dataUser';
 import { JWT_SECRET } from '@/config/envs';
 import { AppError } from '@/errors/index';
-import { ErrorEnum } from '@/errors/types';
 import { CodeService } from '@/service/Code';
 import { IUser } from '@/interfaces/user';
 import { ICode } from '@/interfaces/code';
+import { errorStates } from '@/errors/types';
 import statusCode from '../config/statusCode';
 import { RequestMiddleware, RequestMulter } from '../interfaces/extends';
 
@@ -43,17 +43,17 @@ export class UserController {
     const user: IUser = await this.userService.findByUsername(username);
 
     if (!user) {
-      throw new AppError(ErrorEnum.RESOURCE_NOT_EXISTS, statusCode.NOT_FOUND.code);
+      throw new AppError(errorStates.RESOURCE_NOT_EXISTS);
     }
 
     const valid: boolean = await bcrypt.compare(password, user.password);
     if (!valid) {
-      throw new AppError(ErrorEnum.PASSWORD_IS_INVALID, statusCode.NOT_FOUND.code);
+      throw new AppError(errorStates.PASSWORD_IS_INVALID, 'encrypt is invalid');
     }
 
     jwt.sign({ username, name: user.username, id: user._id }, jwtSecret, { expiresIn: '128h' }, (error, token) => {
       if (error) {
-        return res.sendStatus(statusCode.ERROR_IN_SERVER.code);
+        throw new AppError(errorStates.INTERNAL_ERROR, JSON.stringify(error));
       }
 
       return res.json({ token, id: user._id });

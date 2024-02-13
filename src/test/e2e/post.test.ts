@@ -1,6 +1,6 @@
 import supertest from 'supertest';
 import mockTests from '@/mock/mockTests.json';
-import { GENERATOR_CODE } from '@/config/envs';
+import { SECURITY_CODE } from '@/config/envs';
 
 import { Database } from '@/database/database';
 import { app } from '../../app';
@@ -70,7 +70,7 @@ const postEdited = {
 beforeAll(async () => {
   await databaseMock.e2eTestConnect();
 
-  const res = await request.post('/generate_code').send({ GENERATOR_CODE });
+  const res = await request.post('/generate_code').send({ securityCode: SECURITY_CODE });
 
   codeGenerate = res.body.code;
 

@@ -3,7 +3,7 @@ POST http://localhost:3333/generate_code HTTP/1.1
 content-type: application/json
 
 {
-  "GENERATOR_CODE":"GENERATOR_CODE_EXAMPLE"
+  "securityCode":"SECURITY_CODE"
 }
 
 #### Invalid token example
@@ -12,5 +12,25 @@ POST http://localhost:3333/generate_code HTTP/1.1
 content-type: application/json
 
 {
-  "GENERATOR_CODE":"INVALID TOKEN"
+  "securityCode":"INVALID TOKEN"
+}
+
+
+#### Invalid token example
+
+POST http://localhost:3333/generate_code HTTP/1.1
+content-type: application/json
+
+{
+}
+
+
+#### Invalid with extra values
+
+POST http://localhost:3333/generate_code HTTP/1.1
+content-type: application/json
+
+{
+    "securityCode":"SECURITY_CODE",
+    "EXTRA_ITEM":""
 }

@@ -35,7 +35,9 @@
       "@/logs/*": ["./src/logs/*"],
       "@/mock/*": ["./src/mock/*"],
       "@/locales/*": ["./src/locales/*"],
-      "@/helpers/*": ["./src/helpers/*"]
+      "@/helpers/*": ["./src/helpers/*"],
+
+      "@/schemas/*": ["./src/schemas/*"]
     }
   },
   "include": ["src/**/*", "src/**.ts"]

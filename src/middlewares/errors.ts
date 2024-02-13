@@ -1,3 +1,4 @@
+import { ERROR_WITH_DEBUG } from '@/config/envs';
 import statusCode from '@/config/statusCode';
 import { AppError } from '@/errors/index';
 import { Log } from '@/logs/index';
@@ -7,8 +8,10 @@ import 'express-async-errors';
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 export const handleErrors = (error: Error, req: Request, res: Response, next: NextFunction) => {
   if (error instanceof AppError) {
-    Log.warning(`AppError ${error?.statusCode} - ${error?.name}`);
-    res.status(error?.statusCode).send({ NAME: error?.name });
+    const context = ERROR_WITH_DEBUG ? { context: error.debug } : undefined;
+
+    Log.warning(`AppError ${error?.error.code} - ${error?.name}`);
+    res.status(error?.error.code).json({ ...context, error: error?.name, message: error.error.message });
     return;
   }
 
@@ -18,6 +21,6 @@ export const handleErrors = (error: Error, req: Request, res: Response, next: Ne
     return;
   }
 
-  Log.error(`Unknown Error ${error}`);
+  Log.error(error);
   res.status(statusCode.ERROR_IN_SERVER.code).json({ message: 'Internal Error' });
 };

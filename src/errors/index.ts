@@ -1,12 +1,12 @@
-import { ErrorEnum } from '@/errors/types';
+import { errorStateItemType } from '@/errors/types';
 
 export class AppError {
-  name: ErrorEnum;
+  error: errorStateItemType;
 
-  statusCode: number;
+  debug: unknown;
 
-  constructor(name: ErrorEnum, statusCode: number) {
-    this.name = name;
-    this.statusCode = statusCode;
+  constructor(error: errorStateItemType, debug?: unknown) {
+    this.error = error;
+    this.debug = debug;
   }
 }

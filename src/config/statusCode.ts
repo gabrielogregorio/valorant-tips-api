@@ -11,7 +11,7 @@ const statusCode = {
     code: 400,
     description: 'Você esqueceu de passar algum parâmetro na requisição',
   },
-  NOT_AUT: {
+  UNAUTHORIZED: {
     code: 401,
     description: 'Você precisa de um token de autenticação, ou o seu token expirou',
   },
