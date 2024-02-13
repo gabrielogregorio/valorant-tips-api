@@ -22,7 +22,7 @@ services:
     image: mongo:latest
     build:
       context: ./
-      dockerfile: ./Dockerfile.dev
+      dockerfile: ./database/Dockerfile.dev
     ports:
       - '27017:27017'
     volumes:
