@@ -71,12 +71,10 @@ export class UserController {
 
     const userExists = await this.userService.findOneByUsername(username);
     if (userExists) {
-      throw new AppError(errorStates.CONFLICT_ALREADY_EXISTS);
+      throw new AppError(errorStates.CONFLICT_ALREADY_EXISTS, 'username already exists');
     }
 
-    const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(password, salt);
-
+    const hash = await this.userService.createPasswordHash(password);
     const update = { username, password: hash };
     if (image !== undefined && image !== '') {
       // @ts-ignore
@@ -94,32 +92,13 @@ export class UserController {
   };
 
   updateUser = async (req: RequestMiddleware, res: Response): Promise<Response> => {
-    let { password } = req.body;
+    const { password } = req.body;
     const { username, image } = req.body;
     const { id } = req.data;
 
-    const usernameIsAlreadyRegistered = username !== '' && username !== undefined && username !== null;
-    if (usernameIsAlreadyRegistered) {
-      const userExists = await this.userService.userExistsByUsernameOrThrown(username, id);
+    const userUpdated = await this.userService.updateUser({ id, username, image, password });
 
-      if (userExists !== undefined) {
-        res.statusCode = statusCode.CONFLICT.code;
-        return res.json({ error: 'Username is already registered' });
-      }
-    }
-
-    if (password !== '' && password !== undefined && password !== null) {
-      const salt = await bcrypt.genSalt(10);
-      password = await bcrypt.hash(password, salt);
-    } else {
-      password = undefined;
-    }
-
-    const update: IUser = { username, password, image: image ?? undefined };
-
-    const user = await this.userService.findByIdAndUpdate(id, update);
-    const userBuilded = DataUser.Build(user);
-    return res.json(userBuilded);
+    return res.json(userUpdated);
   };
 
   get = async (req: RequestMiddleware, res: Response) => {
@@ -133,7 +112,10 @@ export class UserController {
   delete = async (req: RequestMiddleware, res: Response): Promise<Response> => {
     const { id } = req.data;
 
-    await this.userService.deleteById(id);
-    return res.json({});
+    const user = await this.userService.deleteById(id);
+    if (!user) {
+      throw new AppError(errorStates.RESOURCE_NOT_EXISTS);
+    }
+    return res.json({ message: 'user deleted with success' });
   };
 }

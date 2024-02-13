@@ -1,6 +1,6 @@
 db = db.getSiblingDB('vavatips');
 
-db.user.insertMany([
+db.users.insertMany([
   {
     _id: ObjectId('61a3ae838fe6df463e7bc1cf'),
     username: 'developer',
@@ -11,7 +11,7 @@ db.user.insertMany([
   },
 ]);
 
-db.report.insertMany([
+db.reports.insertMany([
   {
     _id: ObjectId('61590f04f294ee0162a18e00'),
     email: 'userTest@userTest.com',

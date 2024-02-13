@@ -9,7 +9,8 @@ export class UserRepository {
     return newUser;
   };
 
-  findOneAndUpdate = async (id: string, user: Partial<IUser>) => User.findOneAndUpdate({ _id: id }, { $set: user });
+  findOneAndUpdate = async (id: string, user: Partial<IUser>) =>
+    User.findOneAndUpdate({ _id: id }, { $set: user }, { new: true });
 
   findById = async (id: string): Promise<IUser | null> => User.findById(id);
 

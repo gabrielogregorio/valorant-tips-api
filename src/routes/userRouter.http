@@ -6,12 +6,13 @@ content-type: application/json
 {
   "username":"greg",
   "password":"greg",
-  "code": "2d469b1e-422b-466d-8c49-2e25d89b1476"
+  "code": "a5439836-4f8f-4e84-8157-db32b8df4e95"
 }
 
 #### should make auth
 
 POST http://localhost:3333/auth HTTP/1.1
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdyZWciLCJuYW1lIjoiZ3JlZyIsImlkIjoiNjVjYmVkZTRiNmFhOTU1YjdkY2E2NzQzIiwiaWF0IjoxNzA3ODYzNTI2LCJleHAiOjE3MDgzMjQzMjZ9.TiAyWMiQjDc-0OyhyDjZAWY1eOw5y6DtkWBbu_rCo2w
 content-type: application/json
 
 {
@@ -19,4 +20,29 @@ content-type: application/json
   "password":"greg"
 }
 
+
+## userLoadFile
+#### get user
+
+GET http://localhost:3333/user HTTP/1.1
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdyZWciLCJuYW1lIjoiZ3JlZyIsImlkIjoiNjVjYmY2MzVlZDllODY2ODlhNjkwMjI1IiwiaWF0IjoxNzA3ODY1NjYyLCJleHAiOjE3MDgzMjY0NjJ9.9WdyAMsJn3WXA3Sng-YffX3mDiTIXFgpYSi_GiaaU6k
+
+
+#### update user
+
+PATCH  http://localhost:3333/user HTTP/1.1
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdyZWciLCJuYW1lIjoiZ3JlZyIsImlkIjoiNjVjYmY2MzVlZDllODY2ODlhNjkwMjI1IiwiaWF0IjoxNzA3ODY1NjYyLCJleHAiOjE3MDgzMjY0NjJ9.9WdyAMsJn3WXA3Sng-YffX3mDiTIXFgpYSi_GiaaU6k
+content-type: application/json
+
+{
+  "username":"greg2",
+  "password":"ssssssssssssss",
+  "image":"omage example"
+}
+
+
+#### update user
+
+DELETE  http://localhost:3333/user HTTP/1.1
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdyZWciLCJuYW1lIjoiZ3JlZyIsImlkIjoiNjVjYmY3NjJkY2RiNTc5Nzg0MWQ2NDM4IiwiaWF0IjoxNzA3ODY1OTYwLCJleHAiOjE3MDgzMjY3NjB9.FUUDSKUG8hH3gXR26muKzeUiW6YB_VI8FzkmM0519Ms
 
