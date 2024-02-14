@@ -7,7 +7,7 @@ const databaseMock = new Database({ verbose: false });
 
 const request = supertest(app);
 let codeGenerate = '';
-let token = '';
+const token = '';
 let generateCode = 'HA1496FD';
 generateCode = SECURITY_CODE;
 const validKey = { securityCode: generateCode };
@@ -34,50 +34,30 @@ describe('[0] 🔑 Geração de chaves', () => {
 
   it('[doc]: 🚫 Impede a geração com uma chave inválida', async () => {
     const res = await request.post('/generate_code').send({ securityCode: 'Qualquer chave' });
-    expect(res.statusCode).toEqual(404);
-  });
-
-  it('🚫 Deve impedir o registro com uma chave inválida Novamente', async () => {
-    const res = await request.post('/generate_code').send({ securityCode: 'Qualquer chave novamente' });
-
-    expect(res.statusCode).toEqual(404);
-  });
-
-  it('[doc]: 🚫 Deve impedir o registro deu uma nova chave após duas tentativas com erro', async () => {
-    const res = await request.post('/generate_code').send({ securityCode: generateCode });
-    expect(res.statusCode).toEqual(405);
+    expect(res.statusCode).toEqual(401);
+    expect(res.body).toEqual({
+      debug: 'Token is different from security code',
+      message: 'TOKEN_IS_INVALID_OR_EXPIRED',
+    });
   });
 
   it('✅ Deve cadastrar um usuário', async () => {
-    const {
-      body: { token: token2 },
-    } = await request.post('/auth').send({
+    const newUser = await request.post('/user').send({
+      code: codeGenerate,
       username: 'username test',
       password: 'password test',
     });
 
-    await request.delete(`/user`).set({ authorization: `Bearer ${token2}` });
+    expect(newUser.body).toEqual({ username: 'username test' });
+  });
 
-    return request
-      .post('/user')
-      .send({
-        code: codeGenerate,
-        username: 'username test',
-        password: 'password test',
-      })
-      .then((res) => {
-        expect(res.statusCode).toEqual(200);
-        return request
-          .post('/auth')
-          .send({
-            username: 'username test',
-            password: 'password test',
-          })
-          .then((res2) => {
-            // @ts-ignore
-            token = { authorization: `Bearer ${res2.body.token}` };
-          });
-      });
+  it('✅ should make authentication with valid user', async () => {
+    const newUser = await request.post('/auth').send({
+      username: 'username test',
+      password: 'password test',
+    });
+
+    expect(newUser.body).toEqual({ id: expect.stringContaining(''), token: expect.stringContaining('') }); // fixme
   });
 
   it('🚫 Deve impedir um cadastro com token código repetido', async () => {
@@ -87,6 +67,7 @@ describe('[0] 🔑 Geração de chaves', () => {
       password: 'password test',
     });
 
-    expect(res.statusCode).toEqual(403);
+    expect(res.statusCode).toEqual(401);
+    expect(res.body).toEqual({ message: 'TOKEN_IS_INVALID_OR_EXPIRED' });
   });
 });

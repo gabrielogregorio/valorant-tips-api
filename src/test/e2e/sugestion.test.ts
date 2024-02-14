@@ -1,158 +1,117 @@
 import supertest from 'supertest';
-import mockTests from '@/mock/mockTests.json';
-import { SECURITY_CODE } from '@/config/envs';
 import { Database } from '@/database/database';
+import { createPostMocker, createUserMocker } from './utils';
 import { app } from '../../app';
 
 const databaseMock = new Database({ verbose: false });
 
 const request = supertest(app);
-let token = { Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5c' };
-let idUser = '';
-let codeGenerate = '';
-
-const sugestion = {
-  _id: '',
-  post_id: '6158689924fd4f9e1c587851',
-  email: 'gab@gab.com',
-  description: 'Eu acho que seria...',
-  status: '',
+let authorization: Record<string, string> = { Authorization: '' };
+let postIdReal = '';
+let idCreatedSuggestion = '';
+let suggestionPayload = {
+  post_id: '',
+  email: '',
+  description: '',
 };
 
-let suggestionId = '629cfd7adc5df3a582ff57c6';
+// needs add time control
 
-describe('🙋 Sugestões', () => {
+describe('🙋 Suggestions', () => {
   beforeAll(async () => {
     await databaseMock.e2eTestConnect();
 
-    const res = await request.post('/generate_code').send({ securityCode: SECURITY_CODE });
+    const userMock = await createUserMocker();
+    const { postId } = await createPostMocker(userMock.authorization);
 
-    codeGenerate = res.body.code;
+    authorization = userMock.authorization;
+    postIdReal = postId;
 
-    const res2 = await request
-      .post('/user')
-      .send({ username: mockTests.username3, password: mockTests.password3, code: codeGenerate });
-
-    idUser = res2.body._id;
-
-    const res3 = await request.post('/auth').send({ username: mockTests.username3, password: mockTests.password3 });
-
-    // @ts-ignore
-    token = { authorization: `Bearer ${res3.body.token}` };
+    suggestionPayload = {
+      post_id: postIdReal,
+      email: 'gab@gab.com',
+      description: 'Eu acho que seria...',
+    };
   });
 
   afterAll(async () => {
-    await request.delete(`/user/${idUser}`);
-
     await databaseMock.e2eDrop();
     await databaseMock.close();
   });
 
-  test('[doc]: ✅ Enviar uma sugestão', async () => {
-    const res = await request.post('/suggestion').send({
-      post_id: '6158689924fd4f9e1c587851',
-      email: 'gab@gab.com',
-      description: 'Eu acho que seria...',
-    });
+  test('[doc]: ✅ should send a suggestion ', async () => {
+    const res = await request.post('/suggestion').send(suggestionPayload);
 
-    expect(res.body.post_id).toBeDefined();
-    expect(res.body._id).toBeDefined();
-    expect(res.body.createdAt).toBeDefined();
-    expect(res.body.updatedAt).toBeDefined();
-
-    const data = {
-      body: {
-        ...res.body,
-        post_id: '6158689924fd4f9e1c587851',
-        _id: '62a6a19ff002eb4d4b33fdfe',
-        createdAt: '2022-06-13T02:31:59.098Z',
-        updatedAt: '2022-06-13T02:31:59.098Z',
-      },
-    };
-
-    expect(data.body).toEqual({
-      post_id: '6158689924fd4f9e1c587851',
-      email: 'gab@gab.com',
-      description: 'Eu acho que seria...',
-      _id: '62a6a19ff002eb4d4b33fdfe',
-      createdAt: '2022-06-13T02:31:59.098Z',
-      updatedAt: '2022-06-13T02:31:59.098Z',
-      __v: 0,
+    expect(res.body).toEqual({
+      post_id: postIdReal,
+      email: suggestionPayload.email,
+      description: suggestionPayload.description,
+      status: 'waiting',
+      _id: expect.stringContaining(''),
+      createdAt: expect.stringContaining(''),
+      updatedAt: expect.stringContaining(''),
+      __v: 0, // need added builder to remove extras values
     });
 
     expect(res.statusCode).toEqual(200);
-    sugestion._id = res.body._id;
+    idCreatedSuggestion = res.body._id;
   });
 
-  test('[doc]: 🚫 Impede o registro de uma sugestão sem conteúdo correto', async () => {
+  test('[doc]: 🚫 should prevents the recording of a suggestion without correct content', async () => {
     const res = await request.post('/suggestion').send({
-      post_id: '12345123145',
-      email: 'gab@gab.com',
+      ...suggestionPayload,
       description: '',
     });
 
-    expect(res.body).toEqual({ erro: 'Parametros inválidos ou faltantes' });
+    expect(res.body).toEqual({ debug: '"description" is not allowed to be empty', message: 'PAYLOAD_IS_INVALID' });
     expect(res.statusCode).toEqual(400);
   });
 
-  test('🚫 Deve retornar 400 quando não passar parâmetros', async () => {
+  test('🚫 should return 400 when not passing parameters', async () => {
     const res = await request.post('/suggestion').send();
 
-    expect(res.body).toEqual({ erro: 'Parametros inválidos ou faltantes' });
+    expect(res.body).toEqual({
+      debug: '"post_id" is required',
+      message: 'PAYLOAD_IS_INVALID',
+    });
     expect(res.statusCode).toEqual(400);
   });
 
-  test('[doc]: ✅ Retorna sugestões', async () => {
-    const res = await request.get('/suggestions').set(token);
+  test('[doc]: ✅ should returns all suggestions if authorized', async () => {
+    const response = await request.get('/suggestions').set(authorization);
 
-    const data = {
-      body: [{ ...res.body[0], id: '62a6a2074a7b7b6cdc38300a' }],
+    const expectedResponse = {
+      ...suggestionPayload,
+      id: idCreatedSuggestion,
+      status: 'waiting',
     };
 
-    expect(data.body).toEqual([
-      {
-        description: 'Eu acho que seria...',
-        email: 'gab@gab.com',
-        id: '62a6a2074a7b7b6cdc38300a',
-      },
-    ]);
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { post_id, ...rest } = expectedResponse; // needs added post_id in returns
 
-    expect(res.statusCode).toEqual(200);
-    expect(res.body[res.body.length - 1].description).toEqual(sugestion.description);
+    expect(response.body).toEqual([rest]);
+
+    expect(response.statusCode).toEqual(200);
   });
 
-  test('[doc]: 🚫 Impede que um usuários não autorizado vejam as sugestões', async () => {
+  test('[doc]: 🚫 should prevents unauthorized users from see suggestions', async () => {
     const res = await request.get('/suggestions');
-    expect(res.body).toEqual({ NAME: 'TOKEN_IS_INVALID_OR_EXPIRED' });
-    expect(res.statusCode).toEqual(403);
+
+    expect(res.body).toEqual({ message: 'TOKEN_IS_INVALID_OR_EXPIRED' });
+    expect(res.statusCode).toEqual(401);
   });
 
-  test('[doc]: ✅ Altera o status para aceito', async () => {
-    suggestionId = sugestion._id;
-    const res = await request.put(`/suggestion/${suggestionId}`).set(token).send({ status: 'accepted' });
+  test('[doc]: ✅ update status suggestion to accepted', async () => {
+    const res = await request.put(`/suggestion/${idCreatedSuggestion}`).set(authorization).send({ status: 'accepted' });
 
-    expect(res.body._id).toBeDefined();
-    expect(res.body.post_id).toBeDefined();
-    expect(res.body.createdAt).toBeDefined();
-    expect(res.body.updatedAt).toBeDefined();
-
-    const data = {
-      body: {
-        ...res.body,
-        _id: '62a6a313dc62b56d992afd47',
-        post_id: '6158689924fd4f9e1c587851',
-        createdAt: '2022-06-13T02:38:11.170Z',
-        updatedAt: '2022-06-13T02:38:11.204Z',
-      },
-    };
-
-    expect(data.body).toEqual({
-      _id: '62a6a313dc62b56d992afd47',
-      post_id: '6158689924fd4f9e1c587851',
-      email: 'gab@gab.com',
-      description: 'Eu acho que seria...',
-      createdAt: '2022-06-13T02:38:11.170Z',
-      updatedAt: '2022-06-13T02:38:11.204Z',
+    expect(res.body).toEqual({
+      _id: idCreatedSuggestion,
+      post_id: postIdReal,
+      email: suggestionPayload.email,
+      description: suggestionPayload.description,
+      createdAt: expect.stringContaining(''), // fix this
+      updatedAt: expect.stringContaining(''), // fix this
       __v: 0,
       status: 'accepted',
     });
@@ -160,67 +119,56 @@ describe('🙋 Sugestões', () => {
     expect(res.statusCode).toEqual(200);
   });
 
-  test('[doc]: ✅ Altera o status para rejeitado', async () => {
-    suggestionId = sugestion._id;
-    const res = await request.put(`/suggestion/${suggestionId}`).set(token).send({ status: 'rejected' });
+  test('[doc]: ✅ should update status to rejected', async () => {
+    const response = await request
+      .put(`/suggestion/${idCreatedSuggestion}`)
+      .set(authorization)
+      .send({ status: 'rejected' });
 
-    expect(res.body._id).toBeDefined();
-    expect(res.body.post_id).toBeDefined();
-    expect(res.body.createdAt).toBeDefined();
-    expect(res.body.updatedAt).toBeDefined();
-
-    const data = {
-      body: {
-        ...res.body,
-        _id: '62a6a37e3b7a5abccb60bd95',
-        post_id: '6158689924fd4f9e1c587851',
-        createdAt: '2022-06-13T02:39:58.270Z',
-        updatedAt: '2022-06-13T02:39:58.380Z',
-      },
-    };
-
-    expect(res.statusCode).toEqual(200);
-    expect(data.body).toEqual({
-      _id: '62a6a37e3b7a5abccb60bd95',
-      post_id: '6158689924fd4f9e1c587851',
-      email: 'gab@gab.com',
-      description: 'Eu acho que seria...',
-      createdAt: '2022-06-13T02:39:58.270Z',
-      updatedAt: '2022-06-13T02:39:58.380Z',
+    const responseBodyExpected = {
+      _id: idCreatedSuggestion,
+      post_id: postIdReal,
+      email: suggestionPayload.email,
+      description: suggestionPayload.description,
+      createdAt: expect.stringContaining(''), // fix this
+      updatedAt: expect.stringContaining(''), // fix this
       __v: 0,
       status: 'rejected',
+    };
+
+    expect(response.body).toEqual(responseBodyExpected);
+
+    expect(response.statusCode).toEqual(200);
+  });
+
+  test('[doc]: 🚫 should prevent update status without token', async () => {
+    const response = await request.put(`/suggestion/${idCreatedSuggestion}`).send({ status: 'accepted' });
+
+    expect(response.body).toEqual({ message: 'TOKEN_IS_INVALID_OR_EXPIRED' });
+    expect(response.statusCode).toEqual(401);
+  });
+
+  test('[doc]: 🚫 should prevent update status to invalid status', async () => {
+    const res = await request.put(`/suggestion/${idCreatedSuggestion}`).set(authorization).send({ status: 'any' });
+
+    expect(res.body).toEqual({
+      debug: '"status" must be one of [accepted, rejected, waiting]',
+      message: 'PAYLOAD_IS_INVALID',
     });
-  });
-
-  test('[doc]: 🚫 Impedir atualização de status sem o token', async () => {
-    suggestionId = sugestion._id;
-    const res = await request.put(`/suggestion/${suggestionId}`).send({ status: 'accepted' });
-
-    expect(res.body).toEqual({ NAME: 'TOKEN_IS_INVALID_OR_EXPIRED' });
-    expect(res.statusCode).toEqual(403);
-  });
-
-  test('[doc]: 🚫 Impede alteração por um status inexistente', async () => {
-    suggestionId = sugestion._id;
-    const res = await request.put(`/suggestion/${suggestionId}`).set(token).send({ status: 'any' });
-
     expect(res.statusCode).toEqual(400);
-    expect(res.body).toEqual({ error: 'Status para a sugestão inválido!' });
   });
 
-  test('[doc]: ⚠️ Deleta uma sugestão', async () => {
-    suggestionId = sugestion._id;
-    const res = await request.delete(`/suggestion/${suggestionId}`).set(token);
+  test('[doc]: ⚠️ should delete suggestion', async () => {
+    const res = await request.delete(`/suggestion/${idCreatedSuggestion}`).set(authorization);
 
     expect(res.body).toEqual({});
-    expect(res.statusCode).toEqual(200);
+    expect(res.statusCode).toEqual(204);
   });
 
-  test('[doc]: 🚫 Impede a exclusão de uma sugestão por um desconhecido', async () => {
-    suggestionId = sugestion._id;
-    const res = await request.delete(`/suggestion/${suggestionId}`);
+  test('[doc]: 🚫 should prevent delete suggestion if not has token', async () => {
+    const res = await request.delete(`/suggestion/${idCreatedSuggestion}`);
 
-    expect(res.body).toEqual({ NAME: 'TOKEN_IS_INVALID_OR_EXPIRED' });
-    expect(res.statusCode).toEqual(403);
+    expect(res.body).toEqual({ message: 'TOKEN_IS_INVALID_OR_EXPIRED' });
+    expect(res.statusCode).toEqual(401);
   });
 });

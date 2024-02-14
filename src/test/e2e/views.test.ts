@@ -41,8 +41,8 @@ describe('👀 Visualizações', () => {
   it('[doc]: ✅ Cria nova visualização', async () => {
     /* doc: Essa rota registra a quantidade de visualizações que o site teve, não substituindo claro ferramentas de analytics */
     const res = await request.post('/views').send({});
-    expect(res.body).toEqual({ msg: 'ok' });
-    expect(res.statusCode).toEqual(200);
+    expect(res.body).toEqual({});
+    expect(res.statusCode).toEqual(204);
   });
 
   it('✅ Retorna visualizações + 1', async () => {

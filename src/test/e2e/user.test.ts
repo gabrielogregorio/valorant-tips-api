@@ -24,11 +24,11 @@ describe('[2]: 👤 Usuários', () => {
 
     const res = await request.post('/generate_code').send({ securityCode: SECURITY_CODE });
 
-    codeGenerate = res.body.code;
+    codeGenerate = res.body.token;
     newUser = { ...newUser, code: codeGenerate };
     const res2 = await request.post('/generate_code').send({ securityCode: SECURITY_CODE });
 
-    codeGenerate2 = res2.body.code;
+    codeGenerate2 = res2.body.token;
   });
 
   afterAll(async () => {
@@ -55,7 +55,10 @@ describe('[2]: 👤 Usuários', () => {
       password: '1234abc',
     });
 
-    expect(response.body).toEqual({ error: 'Username is already registered' });
+    expect(response.body).toEqual({
+      debug: 'username already exists',
+      message: 'Resource already exists',
+    });
     expect(response.statusCode).toEqual(409);
   });
 
@@ -66,7 +69,7 @@ describe('[2]: 👤 Usuários', () => {
     });
 
     // @ts-ignore
-    token = { authorization: `Bearer ${response.body.token}` };
+    token = { authorization: `${response.body.token}` };
   });
 
   it('[doc]: ✅ Obter a si mesmo', async () => {
@@ -84,37 +87,37 @@ describe('[2]: 👤 Usuários', () => {
     > Atualmente essa funcionalidade não é usada no blog dicas de valorant
 
     */
-    const response = await request.put(`/user`).set(token).send({
+    const response = await request.patch(`/user`).set(token).send({
       username: 'julia',
       password: 'abc987',
     });
 
-    expect(response.body).toEqual({ username: 'lucia santos teste' });
+    expect(response.body).toEqual({ username: 'julia' });
     expect(response.statusCode).toEqual(200);
   });
 
   it('[doc]: 🚫 impede de obter usuário sem token', async () => {
     const response = await request.get(`/user`);
 
-    expect(response.body).toEqual({ NAME: 'TOKEN_IS_INVALID_OR_EXPIRED' });
-    expect(response.statusCode).toEqual(403);
+    expect(response.body).toEqual({ message: 'TOKEN_IS_INVALID_OR_EXPIRED' });
+    expect(response.statusCode).toEqual(401);
   });
 
   it('[doc]: 🚫 impede edição de usuário sem token', async () => {
-    const response = await request.put(`/user`).send({
+    const response = await request.patch(`/user`).send({
       username: 'testeQualquerCoisa',
       password: 'usuarioNotExists',
     });
 
-    expect(response.body).toEqual({ NAME: 'TOKEN_IS_INVALID_OR_EXPIRED' });
-    expect(response.statusCode).toEqual(403);
+    expect(response.body).toEqual({ message: 'TOKEN_IS_INVALID_OR_EXPIRED' });
+    expect(response.statusCode).toEqual(401);
   });
 
   it('[doc]: 🚫 impede usuário sem token de deletar', async () => {
     const response = await request.delete(`/user`);
 
-    expect(response.body).toEqual({ NAME: 'TOKEN_IS_INVALID_OR_EXPIRED' });
-    expect(response.statusCode).toEqual(403);
+    expect(response.body).toEqual({ message: 'TOKEN_IS_INVALID_OR_EXPIRED' });
+    expect(response.statusCode).toEqual(401);
   });
 
   it('[doc]: ⚠️ deletar a si mesmo', async () => {
@@ -122,6 +125,6 @@ describe('[2]: 👤 Usuários', () => {
     const response = await request.delete(`/user`).set(token);
 
     expect(response.body).toEqual({});
-    expect(response.statusCode).toEqual(200);
+    expect(response.statusCode).toEqual(204);
   });
 });

@@ -17,7 +17,7 @@ export class ViewsController {
     }
 
     await this.viewService.create(ip);
-    return res.status(200).send();
+    return res.sendStatus(204);
   };
 
   get = async (_req: Request, res: Response): Promise<Response> => {
