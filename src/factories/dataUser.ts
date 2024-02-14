@@ -4,7 +4,7 @@ import { IUser } from '@/interfaces/user';
 
 export type factoryUserType = {
   username: string;
-  image: string;
+  image?: string;
 };
 
 export class DataUser {

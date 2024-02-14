@@ -7,17 +7,15 @@ export const middlewareSanitizedBody = (req: Request, res: Response, next: NextF
     next();
     return;
   }
-  const sanitizedHtmlBody = Object.keys(req.body).reduce((acc, key) => {
-    // @ts-ignore
+  const sanitizedHtmlBody = Object.keys(req.body).reduce((acc: any, key) => {
     const value = req.body?.[key];
-    // @ts-ignore
+
     acc[key] = typeof value === 'string' ? sanitizeHtml(value) : value;
     return acc;
   }, {});
 
   const sanitizedMongoBody = mongoSanitize.sanitize(sanitizedHtmlBody);
 
-  // @ts-ignore
   req.body = sanitizedMongoBody;
 
   next();

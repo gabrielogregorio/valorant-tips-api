@@ -8,7 +8,7 @@ const databaseMock = new Database({ verbose: false });
 
 const request = supertest(app);
 
-let token = { Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5c' };
+let token = { authorization: 'eyJhbGciOiJIUzI1NiIsInR5c' };
 let codeGenerate = 'código enviado pelos devs';
 let codeGenerate2 = 'código enviado pelos devs';
 
@@ -68,7 +68,6 @@ describe('[2]: 👤 Usuários', () => {
       password: '1234abc',
     });
 
-    // @ts-ignore
     token = { authorization: `${response.body.token}` };
   });
 

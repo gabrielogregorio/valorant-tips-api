@@ -86,11 +86,7 @@ describe('🙋 Suggestions', () => {
       status: 'waiting',
     };
 
-    // @ts-ignore
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { post_id, ...rest } = expectedResponse; // needs added post_id in returns
-
-    expect(response.body).toEqual([rest]);
+    expect(response.body).toEqual([expectedResponse]);
 
     expect(response.statusCode).toEqual(200);
   });

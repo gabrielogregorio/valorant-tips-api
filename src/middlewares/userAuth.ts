@@ -26,7 +26,7 @@ export const userAuth = (req: Request, res: Response, next: NextFunction) => {
 
   try {
     const data = jwt.verify(authToken, JWT_SECRET) as any;
-    // @ts-ignore
+
     req.data = data;
 
     if (data.username === undefined) {

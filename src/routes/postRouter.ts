@@ -21,9 +21,8 @@ cloudinaryV2.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinaryV2,
   params: {
-    // @ts-ignore
     folder: 'tips',
-  },
+  } as any,
 });
 
 const LIMIT_SIZE_UPLOAD_IN_BYTES = convertMegabytesToBytes(10);

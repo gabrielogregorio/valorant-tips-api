@@ -9,7 +9,7 @@ const databaseMock = new Database({ verbose: false });
 
 const request = supertest(app);
 let codeGenerate = '';
-let token = { Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5c' };
+let token = { authorization: '' };
 let postId = '213';
 
 const post = {
@@ -77,7 +77,6 @@ beforeAll(async () => {
 
   const res3 = await request.post('/auth').send({ username: mockTests.username2, password: mockTests.password2 });
 
-  // @ts-ignore
   token = { authorization: `${res3.body.token}` };
 });
 

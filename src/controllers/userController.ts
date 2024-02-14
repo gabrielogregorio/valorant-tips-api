@@ -8,6 +8,7 @@ import { AppError } from '@/errors/index';
 import { CodeService } from '@/service/Code';
 import { errorStates } from '@/errors/types';
 import { CreateUserBodyType } from '@/schemas/createUser';
+import { IUser } from '@/interfaces/user';
 import statusCode from '../config/statusCode';
 
 const jwtSecret: string = JWT_SECRET;
@@ -73,9 +74,8 @@ export class UserController {
     }
 
     const hash = await this.userService.createPasswordHash(password);
-    const update = { username, password: hash };
+    const update: IUser = { username, password: hash };
     if (image !== undefined && image !== '') {
-      // @ts-ignore
       update.image = image;
     }
 
@@ -84,7 +84,6 @@ export class UserController {
       return res.sendStatus(statusCode.NEED_TOKEN.code);
     }
 
-    // @ts-ignore
     const newUser = DataUser.Build(await this.userService.create(update));
     return res.json(newUser);
   };

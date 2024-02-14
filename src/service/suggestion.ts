@@ -1,4 +1,4 @@
-import { ISuggestion } from '@/interfaces/suggestion';
+import { ISuggestionMongo } from '@/interfaces/suggestion';
 import { PostService } from '@/service/post';
 import { SuggestionRepository } from '../repositories/suggestionRepository';
 
@@ -12,15 +12,16 @@ export class SuggestionService {
     this.postService = postService;
   }
 
-  create = async (suggestion: ISuggestion): Promise<ISuggestion> => {
+  create = async (suggestion: Omit<ISuggestionMongo, '_id'>): Promise<ISuggestionMongo> => {
     await this.postService.findByIdOrThrow(suggestion.post_id as unknown as string);
 
     return this.suggestionRepository.create(suggestion);
   };
 
-  FindAll = async (): Promise<ISuggestion[]> => this.suggestionRepository.findAll();
+  FindAll = async (): Promise<ISuggestionMongo[]> => this.suggestionRepository.findAll();
 
-  UpdateById = async (id: string, status: ISuggestion['status']) => this.suggestionRepository.updateById(id, status);
+  UpdateById = async (id: string, status: ISuggestionMongo['status']) =>
+    this.suggestionRepository.updateById(id, status);
 
   deleteById = async (id: string) => this.suggestionRepository.deleteById(id);
 }

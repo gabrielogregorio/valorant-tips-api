@@ -11,7 +11,6 @@ export const middlewareValidation =
       throw new AppError(errorStates.PAYLOAD_IS_INVALID, validate.error.details[0].message);
     }
 
-    // @ts-ignore
     req.body = validate.value;
     next();
   };

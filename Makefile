@@ -32,8 +32,8 @@ build-db-test: start-setup
 
 tests: start-setup
 	@docker compose -f ./docker-compose.test.yaml down --remove-orphans --volumes
-	@docker compose -f ./docker-compose.test.yaml up --build --force-recreate -d valorant-tips-database-test
-	@docker compose -f ./docker-compose.test.yaml run -T api-test yarn test:docker
+	@docker compose -f ./docker-compose.test.yaml up --build -d valorant-tips-database-test
+	@docker compose -f ./docker-compose.test.yaml run -T api-test yarn run test:docker
 	@docker compose -f ./docker-compose.test.yaml rm -f -s -v valorant-tips-database-test api-test
 
 bash:

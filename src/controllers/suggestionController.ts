@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { SuggestionService } from '@/service/suggestion';
 import { DataSuggestion, factorySuggestionType } from '@/factories/dataSuggestion';
-import { ISuggestion } from '@/interfaces/suggestion';
+import { ISuggestionMongo } from '@/interfaces/suggestion';
 import { CreateSuggestionBodyType } from '@/schemas/createSuggestions';
 import { AppError } from '@/errors/index';
 import { errorStates } from '@/errors/types';
@@ -31,7 +31,7 @@ export class SuggestionController {
   };
 
   getSuggestions = async (_req: Request, res: Response): Promise<Response> => {
-    const suggestions: ISuggestion[] = await this.suggestionService.FindAll();
+    const suggestions: ISuggestionMongo[] = await this.suggestionService.FindAll();
 
     const suggestionsFactory: factorySuggestionType[] = [];
     suggestions.forEach((suggestion) => {
