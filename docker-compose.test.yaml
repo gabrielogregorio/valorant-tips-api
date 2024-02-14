@@ -22,11 +22,11 @@ services:
     image: mongo:latest
     build:
       context: ./
-      dockerfile: ./Dockerfile.test
+      dockerfile: ./database/Dockerfile.test
     ports:
       - '27017:27017'
     volumes:
-      - mongo_data:/data/db
+      - mongo_data_test:/data/db
     networks:
       - test
 
@@ -34,4 +34,4 @@ networks:
   test:
 
 volumes:
-  mongo_data:
+  mongo_data_test:

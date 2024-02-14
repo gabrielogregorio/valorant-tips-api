@@ -18,7 +18,7 @@ describe('[0] 🔑 Geração de chaves', () => {
   });
 
   afterAll(async () => {
-    await request.delete(`/user`).set(token as any);
+    await request.delete(`/user`).set('Authorization', `${token}`);
 
     await databaseMock.e2eDrop();
     await databaseMock.close();
@@ -28,8 +28,8 @@ describe('[0] 🔑 Geração de chaves', () => {
     const res = await request.post('/generate_code').send(validKey);
 
     expect(res.statusCode).toEqual(200);
-    expect(res.body.code.length).toBeGreaterThan(10);
-    codeGenerate = res.body.code;
+    expect(res.body.token.length).toBeGreaterThan(10);
+    codeGenerate = res.body.token;
   });
 
   it('[doc]: 🚫 Impede a geração com uma chave inválida', async () => {
