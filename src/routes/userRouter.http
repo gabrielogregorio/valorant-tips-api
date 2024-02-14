@@ -6,13 +6,12 @@ content-type: application/json
 {
   "username":"greg",
   "password":"greg",
-  "code": "a5439836-4f8f-4e84-8157-db32b8df4e95"
+  "code": "dda21e66-6bcd-481b-8106-aa9932d5cfe8"
 }
 
 #### should make auth
 
 POST http://localhost:3333/auth HTTP/1.1
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdyZWciLCJuYW1lIjoiZ3JlZyIsImlkIjoiNjVjYmVkZTRiNmFhOTU1YjdkY2E2NzQzIiwiaWF0IjoxNzA3ODYzNTI2LCJleHAiOjE3MDgzMjQzMjZ9.TiAyWMiQjDc-0OyhyDjZAWY1eOw5y6DtkWBbu_rCo2w
 content-type: application/json
 
 {

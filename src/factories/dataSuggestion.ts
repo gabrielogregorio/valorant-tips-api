@@ -11,6 +11,7 @@ export class DataSuggestion {
     return {
       description: suggestion?.description,
       email: suggestion?.email,
+      // @ts-ignore
       id: suggestion?._id?.toString(),
       status: suggestion.status,
     };

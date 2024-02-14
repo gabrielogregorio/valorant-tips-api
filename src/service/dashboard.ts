@@ -1,9 +1,7 @@
-import { IPost } from '@/interfaces/post';
-import { IView } from '@/interfaces/view';
 import { PostRepository } from '@/repositories/postRepository';
 import { SuggestionRepository } from '@/repositories/suggestionRepository';
 import { UserRepository } from '@/repositories/userRepository';
-import { ViewRepository } from '@/repositories/viewRepository';
+import { ViewsRepository } from '@/repositories/viewsRepository';
 
 export type IDashboardServiceType = {
   countAll: number;
@@ -22,13 +20,13 @@ export class DashboardService {
 
   private suggestionRepository: SuggestionRepository;
 
-  private viewsRepository: ViewRepository;
+  private viewsRepository: ViewsRepository;
 
   constructor(
     userRepository: UserRepository,
     postRepository: PostRepository,
     suggestionRepository: SuggestionRepository,
-    viewsRepository: ViewRepository,
+    viewsRepository: ViewsRepository,
   ) {
     this.userRepository = userRepository;
     this.postRepository = postRepository;
@@ -37,13 +35,16 @@ export class DashboardService {
   }
 
   count = async (): Promise<IDashboardServiceType> => {
-    const countAllPosts: number = await this.postRepository.countAll();
-    const countAlMaps: IPost[] = await this.postRepository.findMaps();
-    const countAlAgents: IPost[] = await this.postRepository.findAgents();
-    const countAllSuggestions: number = await this.suggestionRepository.count();
-    const countAllUsers: number = await this.userRepository.countDocuments();
-    const count2: IView[] = await this.viewsRepository.findAllDistinctIp();
-    const count: IView[] = await this.viewsRepository.findAll();
+    const [countAllPosts, countAlMaps, countAlAgents, countAllSuggestions, countAllUsers, count2, count] =
+      await Promise.all([
+        await this.postRepository.countAll(),
+        await this.postRepository.findMaps(),
+        await this.postRepository.findAgents(),
+        await this.suggestionRepository.count(),
+        await this.userRepository.countDocuments(),
+        await this.viewsRepository.findAllDistinctIp(),
+        await this.viewsRepository.findAll(),
+      ]);
 
     return {
       countAll: count.length,

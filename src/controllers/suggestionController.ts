@@ -5,6 +5,8 @@ import { ISuggestion } from '@/interfaces/suggestion';
 import { CreateSuggestionBodyType } from '@/schemas/createSuggestions';
 import { AppError } from '@/errors/index';
 import { errorStates } from '@/errors/types';
+import statusCode from '@/config/statusCode';
+import mongoose from 'mongoose';
 
 export class SuggestionController {
   private suggestionService: SuggestionService;
@@ -16,8 +18,10 @@ export class SuggestionController {
   createSuggestion = async (req: Request<undefined, undefined, CreateSuggestionBodyType>, res: Response) => {
     const { post_id, email, description } = req.body;
 
+    const postId = post_id as unknown as mongoose.Types.ObjectId;
+
     const suggestion = await this.suggestionService.create({
-      post_id,
+      post_id: postId,
       email,
       description,
       status: 'waiting',
@@ -53,6 +57,6 @@ export class SuggestionController {
     if (result === null) {
       throw new AppError(errorStates.RESOURCE_NOT_EXISTS);
     }
-    return res.sendStatus(200);
+    return res.sendStatus(statusCode.NO_CONTENT.code);
   };
 }

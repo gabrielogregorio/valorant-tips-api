@@ -13,15 +13,14 @@ export class SuggestionService {
   }
 
   create = async (suggestion: ISuggestion): Promise<ISuggestion> => {
-    await this.postService.findByIdOrThrow(suggestion.post_id);
+    await this.postService.findByIdOrThrow(suggestion.post_id as unknown as string);
 
     return this.suggestionRepository.create(suggestion);
   };
 
   FindAll = async (): Promise<ISuggestion[]> => this.suggestionRepository.findAll();
 
-  UpdateById = async (id: string, status: ISuggestion['status']): Promise<ISuggestion> =>
-    this.suggestionRepository.updateById(id, status);
+  UpdateById = async (id: string, status: ISuggestion['status']) => this.suggestionRepository.updateById(id, status);
 
   deleteById = async (id: string) => this.suggestionRepository.deleteById(id);
 }

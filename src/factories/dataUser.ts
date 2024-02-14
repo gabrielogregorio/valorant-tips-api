@@ -1,3 +1,5 @@
+import { AppError } from '@/errors/index';
+import { errorStates } from '@/errors/types';
 import { IUser } from '@/interfaces/user';
 
 export type factoryUserType = {
@@ -8,13 +10,12 @@ export type factoryUserType = {
 export class DataUser {
   static Build(user: IUser | null): factoryUserType {
     if (!user) {
-      return null;
+      throw new AppError(errorStates.RESOURCE_NOT_EXISTS);
     }
 
     return {
       username: user?.username,
       image: user?.image,
-      password: user.password,
     };
   }
 }

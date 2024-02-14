@@ -20,6 +20,7 @@ const postSchema = new mongoose.Schema<IPost>(
     },
     imgs: [
       {
+        _id: String,
         description: String,
         image: String,
       },

@@ -1,10 +1,10 @@
 import { IView } from '@/interfaces/view';
-import { ViewRepository, countViewsType } from '@/repositories/viewRepository';
+import { ViewsRepository, countViewsType } from '@/repositories/viewsRepository';
 
 export class ViewService {
-  private viewRepository: ViewRepository;
+  private viewRepository: ViewsRepository;
 
-  constructor(viewRepository: ViewRepository) {
+  constructor(viewRepository: ViewsRepository) {
     this.viewRepository = viewRepository;
   }
 

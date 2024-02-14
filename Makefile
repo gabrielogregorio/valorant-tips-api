@@ -18,9 +18,9 @@ db: start-setup
 
 t: start-setup
 	@docker compose -f ./docker-compose.test.yaml down --remove-orphans --volumes
-	@docker compose -f ./docker-compose.test.yaml up -d --build database-test
+	@docker compose -f ./docker-compose.test.yaml up -d --build valorant-tips-database-test
 	@docker compose -f ./docker-compose.test.yaml run -T api-test yarn test:docker
-	@docker compose -f ./docker-compose.test.yaml rm -f -s -v database-test api-test
+	@docker compose -f ./docker-compose.test.yaml rm -f -s -v valorant-tips-database-test api-test
 
 b: start-setup
 	@yarn

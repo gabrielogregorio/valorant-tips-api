@@ -3,10 +3,11 @@ import { DataPost, factoryPostType } from '@/factories/dataPost';
 import { PostService } from '@/service/post';
 import { IImagePost, IPost } from '@/interfaces/post';
 import { AppError } from '@/errors/index';
-import { ObjectId } from 'mongoose';
+import mongoose from 'mongoose';
 import { errorStates } from '@/errors/types';
+import { CreatePostBodyType } from '@/schemas/createPost';
+import { updatePostBodyType } from '@/schemas/updatePost';
 import statusCode from '../config/statusCode';
-import { RequestMiddleware } from '../interfaces/extends';
 
 export class PostController {
   private postService: PostService;
@@ -23,9 +24,9 @@ export class PostController {
     return res.json({ filename: req.file.path });
   };
 
-  createPost = async (req: RequestMiddleware, res: Response) => {
-    const { title, description, tags, imgs } = req.body as IPost;
-    const user = req.data.id as unknown as ObjectId;
+  createPost = async (req: Request<undefined, undefined, CreatePostBodyType>, res: Response) => {
+    const { title, description, tags, imgs } = req.body;
+    const user = req.data.id as unknown as mongoose.Types.ObjectId;
 
     if (!title || !description) {
       res.statusCode = statusCode.BAD_REQUEST.code;
@@ -37,13 +38,12 @@ export class PostController {
     return res.json(newPost);
   };
 
-  updatePost = async (req: RequestMiddleware, res: Response): Promise<Response> => {
-    const { title, description, tags, imgs } = req.body as IPost;
-    const { id } = req.params;
-    const user = req.data.id as unknown as ObjectId;
+  updatePost = async (req: Request<undefined, undefined, updatePostBodyType>, res: Response): Promise<Response> => {
+    const { title, description, tags, imgs } = req.body;
+    const { id } = req.params as unknown as { id: string };
 
     const newImgs: IImagePost[] = [];
-    imgs.forEach((img) => {
+    imgs?.forEach((img) => {
       newImgs.push({
         description: img.description,
         _id: img._id,
@@ -51,17 +51,15 @@ export class PostController {
       });
     });
 
-    if (!title || !description) {
-      res.statusCode = statusCode.BAD_REQUEST.code;
-      return res.json({ error: 'Some value is invalid' });
-    }
+    const updatePayload = {
+      ...(title !== undefined ? { title } : {}),
+      ...(description !== undefined ? { description } : {}),
+      ...(tags !== undefined ? { tags } : {}),
+      ...(imgs !== undefined ? { imgs: newImgs } : {}),
+    };
 
     const postService: IPost = await this.postService.findByIdAndUpdate(id, {
-      title,
-      description,
-      user,
-      tags,
-      imgs: newImgs,
+      ...updatePayload,
     });
     const postUpdate: factoryPostType = DataPost.Build(postService);
     return res.json(postUpdate);
@@ -109,11 +107,16 @@ export class PostController {
     return res.status(statusCode.SUCCESS.code).json({ posts });
   };
 
-  delete = async (req: RequestMiddleware, res: Response): Promise<Response> => {
+  delete = async (req: Request, res: Response): Promise<Response> => {
     const idPost = req.params.id;
+    const userId = req.data.id as string;
 
-    await this.postService.DeleteById(idPost);
+    const postDeleted = await this.postService.deleteById(idPost, userId);
 
-    return res.status(statusCode.NO_CONTENT.code).send();
+    if (postDeleted === null) {
+      throw new AppError(errorStates.RESOURCE_NOT_EXISTS);
+    }
+
+    return res.sendStatus(statusCode.NO_CONTENT.code);
   };
 }

@@ -5,9 +5,9 @@ import { JWT_SECRET } from '@/config/envs';
 import { AppError } from '@/errors/index';
 import { errorStates } from '@/errors/types';
 
-export const isAuthenticate = (authorization) => {
+export const isAuthenticate = (authorization: string) => {
   try {
-    const data = jwt.verify(authorization, JWT_SECRET);
+    const data = jwt.verify(authorization, JWT_SECRET) as any;
 
     if (data.username === undefined) {
       return false;
@@ -25,7 +25,7 @@ export const userAuth = (req: Request, res: Response, next: NextFunction) => {
   }
 
   try {
-    const data = jwt.verify(authToken, JWT_SECRET);
+    const data = jwt.verify(authToken, JWT_SECRET) as any;
     // @ts-ignore
     req.data = data;
 
@@ -33,7 +33,7 @@ export const userAuth = (req: Request, res: Response, next: NextFunction) => {
       throw new AppError(errorStates.TOKEN_IS_INVALID_OR_EXPIRED, 'no username');
     }
     return next();
-  } catch (error) {
+  } catch (error: any) {
     if (error.message === 'jwt expired') {
       throw new AppError(errorStates.TOKEN_IS_INVALID_OR_EXPIRED, 'jwt expirated');
     }

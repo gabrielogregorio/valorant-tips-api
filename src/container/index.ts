@@ -103,10 +103,10 @@ export class DependencyController {
   static get dashboardService(): DashboardService {
     if (!this.dashboardServiceInstance) {
       this.dashboardServiceInstance = new DashboardService(
-        this.userRepositoryInstance,
-        this.postRepositoryInstance,
-        this.suggestionRepositoryInstance,
-        this.viewsRepositoryInstance,
+        this.userRepository,
+        this.postRepository,
+        this.suggestionRepository,
+        this.viewsRepository,
       );
     }
 

@@ -13,7 +13,7 @@ export class SuggestionRepository {
 
   findAll = async (): Promise<ISuggestion[]> => Suggestion.find();
 
-  updateById = async (_id: string, status: 'accepted' | 'rejected'): Promise<ISuggestion | null> =>
+  updateById = async (_id: string, status: ISuggestion['status']): Promise<ISuggestion | null> =>
     Suggestion.findOneAndUpdate({ _id }, { $set: { status } }, { new: true });
 
   deleteById = async (_id: string): Promise<void | null> => Suggestion.findOneAndDelete({ _id });

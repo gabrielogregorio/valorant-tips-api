@@ -18,7 +18,7 @@ describe('[0] 🔑 Geração de chaves', () => {
   });
 
   afterAll(async () => {
-    await request.delete(`/user`).set(token);
+    await request.delete(`/user`).set(token as any);
 
     await databaseMock.e2eDrop();
     await databaseMock.close();

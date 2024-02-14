@@ -11,7 +11,7 @@
     "test": "jest",
     "test:docker": "jest",
     "test:coverage": "jest --coverage",
-    "lint": "eslint -c ./.eslintrc.json --ext .ts src/* && tsc --noEmit",
+    "lint": "eslint -c ./.eslintrc.json --ext .ts ./src && tsc --noEmit",
     "prepare": "husky install"
   },
   "engines": {

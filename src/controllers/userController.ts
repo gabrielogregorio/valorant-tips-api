@@ -6,7 +6,6 @@ import { DataUser } from '@/factories/dataUser';
 import { JWT_SECRET } from '@/config/envs';
 import { AppError } from '@/errors/index';
 import { CodeService } from '@/service/Code';
-import { IUser } from '@/interfaces/user';
 import { errorStates } from '@/errors/types';
 import { CreateUserBodyType } from '@/schemas/createUser';
 import statusCode from '../config/statusCode';
@@ -82,7 +81,7 @@ export class UserController {
     }
 
     const use = await this.codeService.useCode(codeData.code);
-    if (use.available !== false) {
+    if (use?.available !== false) {
       return res.sendStatus(statusCode.NEED_TOKEN.code);
     }
 
@@ -116,6 +115,6 @@ export class UserController {
     if (!user) {
       throw new AppError(errorStates.RESOURCE_NOT_EXISTS);
     }
-    return res.json({ message: 'user deleted with success' });
+    return res.sendStatus(statusCode.NO_CONTENT.code);
   };
 }
