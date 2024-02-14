@@ -10,15 +10,15 @@ let authorization: Record<string, string> = { Authorization: '' };
 let postIdReal = '';
 let idCreatedSuggestion = '';
 let suggestionPayload = {
-  post_id: '',
+  postId: '',
   email: '',
   description: '',
 };
 
-// needs add time control
-
 describe('🙋 Suggestions', () => {
   beforeAll(async () => {
+    jest.useRealTimers();
+
     await databaseMock.e2eTestConnect();
 
     const userMock = await createUserMocker();
@@ -28,7 +28,7 @@ describe('🙋 Suggestions', () => {
     postIdReal = postId;
 
     suggestionPayload = {
-      post_id: postIdReal,
+      postId: postIdReal,
       email: 'gab@gab.com',
       description: 'Eu acho que seria...',
     };
@@ -43,18 +43,17 @@ describe('🙋 Suggestions', () => {
     const res = await request.post('/suggestion').send(suggestionPayload);
 
     expect(res.body).toEqual({
-      post_id: postIdReal,
+      postId: postIdReal,
       email: suggestionPayload.email,
       description: suggestionPayload.description,
       status: 'waiting',
-      _id: expect.stringContaining(''),
+      id: expect.stringContaining(''),
       createdAt: expect.stringContaining(''),
       updatedAt: expect.stringContaining(''),
-      __v: 0, // need added builder to remove extras values
     });
 
     expect(res.statusCode).toEqual(200);
-    idCreatedSuggestion = res.body._id;
+    idCreatedSuggestion = res.body.id;
   });
 
   test('[doc]: 🚫 should prevents the recording of a suggestion without correct content', async () => {
@@ -71,7 +70,7 @@ describe('🙋 Suggestions', () => {
     const res = await request.post('/suggestion').send();
 
     expect(res.body).toEqual({
-      debug: '"post_id" is required',
+      debug: '"postId" is required',
       message: 'PAYLOAD_IS_INVALID',
     });
     expect(res.statusCode).toEqual(400);
@@ -84,6 +83,8 @@ describe('🙋 Suggestions', () => {
       ...suggestionPayload,
       id: idCreatedSuggestion,
       status: 'waiting',
+      createdAt: expect.stringContaining(''),
+      updatedAt: expect.stringContaining(''),
     };
 
     expect(response.body).toEqual([expectedResponse]);
@@ -102,14 +103,13 @@ describe('🙋 Suggestions', () => {
     const res = await request.put(`/suggestion/${idCreatedSuggestion}`).set(authorization).send({ status: 'accepted' });
 
     expect(res.body).toEqual({
-      _id: idCreatedSuggestion,
-      post_id: postIdReal,
+      id: idCreatedSuggestion,
+      postId: postIdReal,
       email: suggestionPayload.email,
       description: suggestionPayload.description,
-      createdAt: expect.stringContaining(''), // fix this
-      updatedAt: expect.stringContaining(''), // fix this
-      __v: 0,
       status: 'accepted',
+      createdAt: expect.stringContaining(''),
+      updatedAt: expect.stringContaining(''),
     });
 
     expect(res.statusCode).toEqual(200);
@@ -122,14 +122,13 @@ describe('🙋 Suggestions', () => {
       .send({ status: 'rejected' });
 
     const responseBodyExpected = {
-      _id: idCreatedSuggestion,
-      post_id: postIdReal,
+      id: idCreatedSuggestion,
+      postId: postIdReal,
       email: suggestionPayload.email,
       description: suggestionPayload.description,
-      createdAt: expect.stringContaining(''), // fix this
-      updatedAt: expect.stringContaining(''), // fix this
-      __v: 0,
       status: 'rejected',
+      createdAt: expect.stringContaining(''),
+      updatedAt: expect.stringContaining(''),
     };
 
     expect(response.body).toEqual(responseBodyExpected);

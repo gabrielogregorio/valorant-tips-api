@@ -3,7 +3,7 @@ import { ISuggestionMongo } from '@/interfaces/suggestion';
 
 const suggestionSchema = new mongoose.Schema<ISuggestionMongo>(
   {
-    post_id: {
+    postId: {
       type: mongoose.Schema.Types.ObjectId,
       index: true,
       background: true,

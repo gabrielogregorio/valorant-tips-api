@@ -1,12 +1,10 @@
 import { Request, Response } from 'express';
 import { SuggestionService } from '@/service/suggestion';
-import { DataSuggestion, factorySuggestionType } from '@/factories/dataSuggestion';
-import { ISuggestionMongo } from '@/interfaces/suggestion';
-import { CreateSuggestionBodyType } from '@/schemas/createSuggestions';
+import { DataSuggestion } from '@/factories/dataSuggestion';
+import { ISuggestionCreate, ISuggestionMongo, ISuggestionResponse } from '@/interfaces/suggestion';
 import { AppError } from '@/errors/index';
 import { errorStates } from '@/errors/types';
 import statusCode from '@/config/statusCode';
-import mongoose from 'mongoose';
 
 export class SuggestionController {
   private suggestionService: SuggestionService;
@@ -15,25 +13,23 @@ export class SuggestionController {
     this.suggestionService = suggestionService;
   }
 
-  createSuggestion = async (req: Request<undefined, undefined, CreateSuggestionBodyType>, res: Response) => {
-    const { post_id, email, description } = req.body;
-
-    const postId = post_id as unknown as mongoose.Types.ObjectId;
+  createSuggestion = async (req: Request<undefined, undefined, Omit<ISuggestionCreate, 'status'>>, res: Response) => {
+    const { postId, email, description } = req.body;
 
     const suggestion = await this.suggestionService.create({
-      post_id: postId,
+      postId,
       email,
       description,
       status: 'waiting',
     });
 
-    return res.json(suggestion);
+    return res.json(DataSuggestion.Build(suggestion));
   };
 
   getSuggestions = async (_req: Request, res: Response): Promise<Response> => {
     const suggestions: ISuggestionMongo[] = await this.suggestionService.FindAll();
 
-    const suggestionsFactory: factorySuggestionType[] = [];
+    const suggestionsFactory: ISuggestionResponse[] = [];
     suggestions.forEach((suggestion) => {
       suggestionsFactory.push(DataSuggestion.Build(suggestion));
     });
@@ -47,7 +43,7 @@ export class SuggestionController {
     const newStatus = req.body.status;
 
     const suggestionEdited = await this.suggestionService.UpdateById(suggestionId, newStatus);
-    return res.json(suggestionEdited);
+    return res.json(DataSuggestion.Build(suggestionEdited));
   };
 
   delete = async (req: Request, res: Response): Promise<Response> => {

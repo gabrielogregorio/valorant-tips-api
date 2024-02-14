@@ -1,13 +1,10 @@
+import { ISuggestionCreate } from '@/interfaces/suggestion';
 import Joi from 'joi';
 
-export type CreateSuggestionBodyType = {
-  post_id: string;
-  email: string;
-  description: string;
-};
+type typeSchema = Omit<ISuggestionCreate, 'status'>;
 
-export const schemaCreateSuggestion = Joi.object<CreateSuggestionBodyType, true>().keys({
-  post_id: Joi.string().required(),
+export const schemaCreateSuggestion = Joi.object<typeSchema, true>().keys({
+  postId: Joi.string().required(),
   email: Joi.string().required(),
   description: Joi.string().required(),
 });

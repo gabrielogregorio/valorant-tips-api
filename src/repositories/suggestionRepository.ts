@@ -1,9 +1,9 @@
 /* eslint-disable import/no-restricted-paths */
-import { ISuggestionMongo } from '@/interfaces/suggestion';
+import { ISuggestionCreate, ISuggestionMongo } from '@/interfaces/suggestion';
 import { Suggestion } from '@/models/Suggestion';
 
 export class SuggestionRepository {
-  create = async (suggestion: Omit<ISuggestionMongo, '_id'>): Promise<ISuggestionMongo> => {
+  create = async (suggestion: ISuggestionCreate): Promise<ISuggestionMongo> => {
     const newSuggestion = new Suggestion(suggestion);
 
     await newSuggestion.save();

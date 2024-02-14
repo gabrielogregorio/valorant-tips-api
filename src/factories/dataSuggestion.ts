@@ -1,20 +1,15 @@
-import { ISuggestionMongo } from '@/interfaces/suggestion';
+import { ISuggestionMongo, ISuggestionResponse } from '@/interfaces/suggestion';
 
-export type factorySuggestionType = {
-  description: string;
-  email: string;
-  post_id: string;
-  id: string;
-  status: string;
-};
 export class DataSuggestion {
-  static Build(suggestion: ISuggestionMongo): factorySuggestionType {
+  static Build(suggestion: ISuggestionMongo): ISuggestionResponse {
     return {
       description: suggestion?.description,
       email: suggestion?.email,
-      post_id: suggestion.post_id.toString(),
+      postId: suggestion.postId.toString(),
       id: suggestion?._id?.toString(),
       status: suggestion.status,
+      createdAt: suggestion.createdAt,
+      updatedAt: suggestion.updatedAt,
     };
   }
 }

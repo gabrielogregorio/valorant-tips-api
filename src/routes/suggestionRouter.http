@@ -4,7 +4,7 @@ POST http://localhost:3333/suggestion?$12 HTTP/1.1
 content-type: application/json
 
 {
-  "post_id":"23",
+  "postId":"23",
   "email": { "$gt": "x" },
   "description":".$extra$_"
 }
@@ -17,7 +17,7 @@ POST http://localhost:3333/suggestion HTTP/1.1
 content-type: application/json
 
 {
-  "post_id":"61590639cd9902fad4021cc5",
+  "postId":"61590639cd9902fad4021cc5",
   "email": "example email",
   "description":"example description"
 }
