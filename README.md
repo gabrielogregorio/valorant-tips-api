@@ -1,9 +1,7 @@
 <div align="center">
   <img height="30" alt="Node" src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white">
-  <img height="30" alt="Javascript" src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E">
   <img height="30" alt="Typescript" src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white">
    <img height="30" alt="Mongodb" src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white">
-  <img height="30" alt="Heroku" src="https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white">
   <img height="30" alt="Express" src="https://img.shields.io/badge/Express.js-404D59?style=for-the-badge">
 </div>
 
@@ -18,30 +16,12 @@
 
 <div align="center">
 
-download docker https://www.docker.com/products/docker-desktop/
-Docker version 25.0.2
-Make version 4.4.1
-
-// await BackupService.start()
-//     await DevEnvironmentService.Create();
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/7b87ad678dc34a92b1f1a7dea10d1f9e)](https://www.codacy.com/gh/gabrielogregorio/valorant-tips-api/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=gabrielogregorio/valorant-tips-api&amp;utm_campaign=Badge_Grade) [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/7b87ad678dc34a92b1f1a7dea10d1f9e)](https://www.codacy.com/gh/gabrielogregorio/valorant-tips-api/dashboard?utm_source=github.com&utm_medium=referral&utm_content=gabrielogregorio/valorant-tips-api&utm_campaign=Badge_Coverage)
 </div>
 
 ### Description
 
-## For Devs
-
-> Reminder: Mongodb has intelligence
-> - Don't try to remove pluralization, accept it!
-> - In the template, you type "Code"
-> - In populate, you enter a "code"
-> - To access the registry in the mongo environment they are “codes”, outside it can be “code”
-> - In Ref, it is Code, even if in populate it is code
-> - Don't try to change this magic, it's a trap, there's a bug that creates more problems
-
-
-// jest --runInBand  - running suit by suit, sem paralelismo
 ## API Valorant tips
 
 Api of the project Valorant tips. [Documentation here](https://valorant-tips-api.onrender.com/docs/)
@@ -50,7 +30,7 @@ Api of the project Valorant tips. [Documentation here](https://valorant-tips-api
 
 If your goal is to be on the front-end, just worry about that topic.
 
-1.   Install the [mongodb community server](https://www.mongodb.com/try/download/community?tck=docs_server)
+1.   Run make build, make version 4.4.1 and Docker version 25.0.2
 2.   Start mongodb
 > On windows, open the Command Prompt as administrator, run the command "net start mongodb", this should start mongodb. Then run the command "mongo" to access the database, if you can access it, you can continue the steps. On Linux the process is similar, but I won't document it here.
 3.   With everything working, fork the project
@@ -79,7 +59,7 @@ yarn
 yarn dev
 ```
 
-10.   Access the address below for the development environment to be created.
+10.   Access the address below for the development environment to be created. (DEPRECATED)
 
 ```shell
 http://127.0.0.1:3333/prepare_dev_environment

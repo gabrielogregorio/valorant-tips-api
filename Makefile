@@ -48,7 +48,6 @@ logs:
 logs-api:
 	@docker compose -f ./docker-compose.dev.yaml logs -f vavatips-api
 
-c
 start-setup:
 	@if [ ! -f .env ]; then cp .env.example .env; fi
 
