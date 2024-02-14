@@ -11,7 +11,8 @@
     "test": "jest",
     "test:docker": "jest",
     "test:coverage": "jest --coverage",
-    "lint": "eslint -c ./.eslintrc.json --ext .ts ./src && tsc --noEmit",
+    "lint": "eslint -c ./.eslintrc.json --ext '.ts' 'src/**'",
+    "lint-tsc": "tsc --noEmit",
     "prepare": "husky install"
   },
   "engines": {
@@ -93,10 +94,6 @@
     "typescript": "^4.9.5"
   },
   "lint-staged": {
-    "src/**/*.{js,ts}": [
-      "yarn format",
-      "yarn lint",
-      "yarn test --passWithNoTests"
-    ]
+    "src/**/*.{js,ts}": []
   }
 }

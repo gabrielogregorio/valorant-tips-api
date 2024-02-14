@@ -9,7 +9,6 @@ import { CodeService } from '@/service/Code';
 import { errorStates } from '@/errors/types';
 import { CreateUserBodyType } from '@/schemas/createUser';
 import statusCode from '../config/statusCode';
-import { RequestMiddleware, RequestMulter } from '../interfaces/extends';
 
 const jwtSecret: string = JWT_SECRET;
 
@@ -23,7 +22,7 @@ export class UserController {
     this.userService = userService;
   }
 
-  uploadImage = async (req: RequestMulter, res: Response): Promise<Response> => {
+  uploadImage = async (req: Request, res: Response): Promise<Response> => {
     let filename = '';
 
     if (!req.file) {
@@ -90,7 +89,7 @@ export class UserController {
     return res.json(newUser);
   };
 
-  updateUser = async (req: RequestMiddleware, res: Response): Promise<Response> => {
+  updateUser = async (req: Request, res: Response): Promise<Response> => {
     const { password } = req.body;
     const { username, image } = req.body;
     const { id } = req.data;
@@ -100,7 +99,7 @@ export class UserController {
     return res.json(userUpdated);
   };
 
-  get = async (req: RequestMiddleware, res: Response) => {
+  get = async (req: Request, res: Response) => {
     const { id } = req.data;
 
     const user = await this.userService.findById(id);
@@ -108,7 +107,7 @@ export class UserController {
     return res.json(userBuilded);
   };
 
-  delete = async (req: RequestMiddleware, res: Response): Promise<Response> => {
+  delete = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.data;
 
     const user = await this.userService.deleteById(id);

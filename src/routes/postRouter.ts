@@ -6,7 +6,7 @@ import { userAuth } from '@/middlewares/userAuth';
 import { convertMegabytesToBytes } from '@/helpers/conversors';
 import { CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, CLOUDINARY_CLOUD_NAME } from '@/config/envs';
 import { middlewareValidation } from '@/middlewares/validator';
-import {  schemaCreatePost } from '@/schemas/createPost';
+import { schemaCreatePost } from '@/schemas/createPost';
 import { schemaUpdatePosts } from '@/schemas/updatePost';
 import { DependencyController } from '../container';
 

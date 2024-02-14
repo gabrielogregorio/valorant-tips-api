@@ -2,8 +2,8 @@ import Joi from 'joi';
 
 export type updateUserBodyType = {
   password?: string;
-  username?: string
-  image?: string
+  username?: string;
+  image?: string;
 };
 
 export const schemaUpdateUser = Joi.object<updateUserBodyType, true>().keys({

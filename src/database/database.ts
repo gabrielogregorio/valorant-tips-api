@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 import { MONGO_URI } from '@/config/envs';
 import { Log } from '@/logs/index';
 
-
 export class Database {
   mongoose: typeof mongoose;
 

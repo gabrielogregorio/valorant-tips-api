@@ -40,5 +40,5 @@
       "@/schemas/*": ["./src/schemas/*"]
     }
   },
-  "include": ["src/**/*", "src/**.ts"]
+  "include": ["src/**/*", "src/**.ts", "./src"]
 }
