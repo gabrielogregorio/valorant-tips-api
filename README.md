@@ -41,7 +41,7 @@ Make version 4.4.1
 > - Don't try to change this magic, it's a trap, there's a bug that creates more problems
 
 
-
+// jest --runInBand  - running suit by suit, sem paralelismo
 ## API Valorant tips
 
 Api of the project Valorant tips. [Documentation here](https://valorant-tips-api.onrender.com/docs/)

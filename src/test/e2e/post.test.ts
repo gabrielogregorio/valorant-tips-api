@@ -82,8 +82,6 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await request.delete(`/user`).set(token);
-
   await databaseMock.e2eDrop();
   await databaseMock.close();
 });

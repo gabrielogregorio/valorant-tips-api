@@ -8,9 +8,9 @@
     "start": "node dist/server.js",
     "dev": " yarn && ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts",
     "format": "yarn prettier --write .",
-    "test": "jest",
-    "test:docker": "jest",
-    "test:coverage": "jest --coverage",
+    "test": "jest --runInBand",
+    "test:docker": "jest --runInBand",
+    "test:coverage": "jest --coverage --runInBand",
     "lint": "eslint -c ./.eslintrc.json --ext '.ts' 'src/**'",
     "lint-tsc": "tsc --noEmit",
     "prepare": "husky install"
