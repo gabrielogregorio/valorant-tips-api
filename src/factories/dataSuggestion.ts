@@ -1,7 +1,7 @@
-import { ISuggestionMongo, ISuggestionResponse } from '@/interfaces/suggestion';
+import { IDatabaseSuggestion, IResponseSuggestion } from '@/interfaces/suggestion';
 
 export class DataSuggestion {
-  static Build(suggestion: ISuggestionMongo): ISuggestionResponse {
+  static Build(suggestion: IDatabaseSuggestion): IResponseSuggestion {
     return {
       description: suggestion?.description,
       email: suggestion?.email,

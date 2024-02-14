@@ -2,29 +2,26 @@ import mongoose from 'mongoose';
 
 type statusSuggestionType = 'accepted' | 'rejected' | 'waiting';
 
-export interface ISuggestionCreate {
-  postId: string;
+interface ISuggestion {
+  status: statusSuggestionType;
   email: string;
   description: string;
-  status: statusSuggestionType;
 }
 
-export interface ISuggestionMongo {
-  _id: string;
+export interface ICreateSuggestion extends ISuggestion {
+  postId: string;
+}
+
+export interface IDatabaseSuggestion extends ISuggestion {
+  _id: mongoose.Types.ObjectId;
+  postId: mongoose.Types.ObjectId;
   createdAt: string;
   updatedAt: string;
-  postId: mongoose.Types.ObjectId;
-  email: string;
-  description: string;
-  status: statusSuggestionType;
 }
 
-export interface ISuggestionResponse {
+export interface IResponseSuggestion extends ISuggestion {
   id: string;
   createdAt: string;
   updatedAt: string;
   postId: string;
-  email: string;
-  description: string;
-  status: statusSuggestionType;
 }

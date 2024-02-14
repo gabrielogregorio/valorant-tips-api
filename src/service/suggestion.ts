@@ -1,4 +1,4 @@
-import { ISuggestionCreate, ISuggestionMongo } from '@/interfaces/suggestion';
+import { ICreateSuggestion, IDatabaseSuggestion } from '@/interfaces/suggestion';
 import { PostService } from '@/service/post';
 import { AppError } from '@/errors/index';
 import { errorStates } from '@/errors/types';
@@ -14,15 +14,15 @@ export class SuggestionService {
     this.postService = postService;
   }
 
-  create = async (suggestion: ISuggestionCreate): Promise<ISuggestionMongo> => {
+  create = async (suggestion: ICreateSuggestion): Promise<IDatabaseSuggestion> => {
     await this.postService.findByIdOrThrow(suggestion.postId as unknown as string);
 
     return this.suggestionRepository.create(suggestion);
   };
 
-  FindAll = async (): Promise<ISuggestionMongo[]> => this.suggestionRepository.findAll();
+  FindAll = async (): Promise<IDatabaseSuggestion[]> => this.suggestionRepository.findAll();
 
-  UpdateById = async (id: string, status: ISuggestionMongo['status']): Promise<ISuggestionMongo> => {
+  UpdateById = async (id: string, status: IDatabaseSuggestion['status']): Promise<IDatabaseSuggestion> => {
     const suggestionUpdated = await this.suggestionRepository.updateById(id, status);
     if (suggestionUpdated === null) {
       throw new AppError(errorStates.RESOURCE_NOT_EXISTS);

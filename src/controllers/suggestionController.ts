@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { SuggestionService } from '@/service/suggestion';
 import { DataSuggestion } from '@/factories/dataSuggestion';
-import { ISuggestionCreate, ISuggestionMongo, ISuggestionResponse } from '@/interfaces/suggestion';
+import { ICreateSuggestion, IDatabaseSuggestion, IResponseSuggestion } from '@/interfaces/suggestion';
 import { AppError } from '@/errors/index';
 import { errorStates } from '@/errors/types';
 import statusCode from '@/config/statusCode';
@@ -13,7 +13,10 @@ export class SuggestionController {
     this.suggestionService = suggestionService;
   }
 
-  createSuggestion = async (req: Request<undefined, undefined, Omit<ISuggestionCreate, 'status'>>, res: Response) => {
+  createSuggestion = async (
+    req: Request<undefined, undefined, Omit<ICreateSuggestion, 'status'>>,
+    res: Response<IResponseSuggestion>,
+  ) => {
     const { postId, email, description } = req.body;
 
     const suggestion = await this.suggestionService.create({
@@ -26,10 +29,10 @@ export class SuggestionController {
     return res.json(DataSuggestion.Build(suggestion));
   };
 
-  getSuggestions = async (_req: Request, res: Response): Promise<Response> => {
-    const suggestions: ISuggestionMongo[] = await this.suggestionService.FindAll();
+  getSuggestions = async (_req: Request, res: Response<IResponseSuggestion[]>): Promise<Response> => {
+    const suggestions: IDatabaseSuggestion[] = await this.suggestionService.FindAll();
 
-    const suggestionsFactory: ISuggestionResponse[] = [];
+    const suggestionsFactory: IResponseSuggestion[] = [];
     suggestions.forEach((suggestion) => {
       suggestionsFactory.push(DataSuggestion.Build(suggestion));
     });
@@ -38,7 +41,7 @@ export class SuggestionController {
   };
 
   // added middleware in params
-  editSuggestion = async (req: Request, res: Response): Promise<Response> => {
+  editSuggestion = async (req: Request, res: Response<IResponseSuggestion>): Promise<Response> => {
     const suggestionId = req.params.id;
     const newStatus = req.body.status;
 

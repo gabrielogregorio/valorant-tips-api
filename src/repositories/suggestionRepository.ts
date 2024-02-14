@@ -1,9 +1,9 @@
 /* eslint-disable import/no-restricted-paths */
-import { ISuggestionCreate, ISuggestionMongo } from '@/interfaces/suggestion';
+import { ICreateSuggestion, IDatabaseSuggestion } from '@/interfaces/suggestion';
 import { Suggestion } from '@/models/Suggestion';
 
 export class SuggestionRepository {
-  create = async (suggestion: ISuggestionCreate): Promise<ISuggestionMongo> => {
+  create = async (suggestion: ICreateSuggestion): Promise<IDatabaseSuggestion> => {
     const newSuggestion = new Suggestion(suggestion);
 
     await newSuggestion.save();
@@ -11,9 +11,9 @@ export class SuggestionRepository {
     return newSuggestion;
   };
 
-  findAll = async (): Promise<ISuggestionMongo[]> => Suggestion.find();
+  findAll = async (): Promise<IDatabaseSuggestion[]> => Suggestion.find();
 
-  updateById = async (_id: string, status: ISuggestionMongo['status']): Promise<ISuggestionMongo | null> =>
+  updateById = async (_id: string, status: IDatabaseSuggestion['status']): Promise<IDatabaseSuggestion | null> =>
     Suggestion.findOneAndUpdate({ _id }, { $set: { status } }, { new: true });
 
   deleteById = async (_id: string): Promise<void | null> => Suggestion.findOneAndDelete({ _id });

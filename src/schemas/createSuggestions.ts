@@ -1,7 +1,7 @@
-import { ISuggestionCreate } from '@/interfaces/suggestion';
+import { ICreateSuggestion } from '@/interfaces/suggestion';
 import Joi from 'joi';
 
-type typeSchema = Omit<ISuggestionCreate, 'status'>;
+type typeSchema = Omit<ICreateSuggestion, 'status'>;
 
 export const schemaCreateSuggestion = Joi.object<typeSchema, true>().keys({
   postId: Joi.string().required(),

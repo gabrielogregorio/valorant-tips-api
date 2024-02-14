@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
-import { ISuggestionMongo } from '@/interfaces/suggestion';
+import { IDatabaseSuggestion } from '@/interfaces/suggestion';
 
-const suggestionSchema = new mongoose.Schema<ISuggestionMongo>(
+const suggestionSchema = new mongoose.Schema<IDatabaseSuggestion>(
   {
     postId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -31,4 +31,4 @@ const suggestionSchema = new mongoose.Schema<ISuggestionMongo>(
   },
 );
 
-export const Suggestion = mongoose.model<ISuggestionMongo>('Suggestion', suggestionSchema);
+export const Suggestion = mongoose.model<IDatabaseSuggestion>('Suggestion', suggestionSchema);
