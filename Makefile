@@ -16,6 +16,28 @@ down:
 	@docker compose -f ./docker-compose.dev.yaml down --remove-orphans --volumes
 	@docker compose -f ./docker-compose.test.yaml down --remove-orphans --volumes
 
+delete-universe:
+	@make down-all
+	@make delete-all-containers
+	@make delete-all-networks
+	@make delete-all-volumes
+	@make delete-all-images
+
+down-all:
+	@docker ps -q | xargs -r docker stop
+
+delete-all-containers:
+	@docker ps -aq | xargs -r docker rm
+
+delete-all-networks:
+	@docker network ls -q | grep -v -e "bridge" -e "host" -e "none" | xargs -r docker network rm
+
+delete-all-volumes:
+	@docker volume ls -q | xargs -r docker volume rm
+
+delete-all-images:
+	@docker images -q | xargs -r docker rmi
+
 stop:
 	@docker compose -f ./docker-compose.dev.yaml stop
 	@docker compose -f ./docker-compose.test.yaml stop
@@ -28,13 +50,14 @@ build-db: start-setup
 
 
 build-db-test: start-setup
-	@docker compose -f ./docker-compose.test.yaml up --build --force-recreate -d valorant-tips-database-test
+	@docker compose -f ./docker-compose.test.yaml up --build --force-recreate -d vavatips-db-test
 
 tests: start-setup
 	@docker compose -f ./docker-compose.test.yaml down --remove-orphans --volumes
 	@docker compose -f ./docker-compose.test.yaml up --build -d valorant-tips-database-test
 	@docker compose -f ./docker-compose.test.yaml run -T api-test yarn run test:docker
 	@docker compose -f ./docker-compose.test.yaml rm -f -s -v valorant-tips-database-test api-test
+
 
 bash:
 	@docker exec -it vavatips-api /bin/bash

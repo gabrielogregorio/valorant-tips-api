@@ -96,3 +96,7 @@ To run the application, run the command below
 ```shell
 node src/server.js
 ```
+
+
+docker volume rm  vavatips-db-test-mongo_data_test
+docker volume ls
