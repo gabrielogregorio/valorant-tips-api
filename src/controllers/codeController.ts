@@ -1,26 +1,26 @@
-import express, { Request, Response, Router } from 'express';
+import { Request, Response } from 'express';
 import { CodeService } from '@/service/Code';
-import { ICode } from '@/models/Code';
-import { GENERATOR_CODE } from '@/config/envs';
-import statusCode from '../config/statusCode';
+import { SECURITY_CODE } from '@/config/envs';
+import { AppError } from '@/errors/index';
+import { errorStates } from '@/errors/types';
+import { CodeBodyType } from '@/schemas/code';
 
-const codeController: Router = express.Router();
+export class CodeController {
+  private codeService: CodeService;
 
-let tryCreateCode: number = 0;
-
-codeController.post('/generate_code', async (req: Request, res: Response): Promise<Response> => {
-  const { GENERATOR_CODE: GENERATOR_CODE_REQUEST } = req.body as { GENERATOR_CODE: string };
-
-  if (tryCreateCode === 2) {
-    return res.sendStatus(statusCode.NOT_ALLOWED.code);
+  constructor(codeService: CodeService) {
+    this.codeService = codeService;
   }
 
-  if (GENERATOR_CODE_REQUEST === GENERATOR_CODE && GENERATOR_CODE_REQUEST.length > 15) {
-    const codeGenerated: ICode = await CodeService.Create();
-    return res.json({ code: codeGenerated.code });
-  }
-  tryCreateCode += 1;
-  return res.sendStatus(statusCode.NOT_FOUND.code);
-});
+  generate = async (req: Request<undefined, undefined, CodeBodyType>, res: Response<{ token: string }>) => {
+    const { securityCode } = req.body;
 
-export default codeController;
+    if (securityCode !== SECURITY_CODE) {
+      throw new AppError(errorStates.TOKEN_IS_INVALID_OR_EXPIRED, 'Token is different from security code');
+    }
+
+    const token = await this.codeService.create();
+
+    res.json({ token: token.code });
+  };
+}

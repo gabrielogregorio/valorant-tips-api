@@ -1,12 +1,15 @@
-import express, { Request, Response, Router } from 'express';
+import { Request, Response } from 'express';
 import { DashboardService, IDashboardServiceType } from '@/service/dashboard';
-import { userAuth } from '@/middlewares/userAuth';
 
-const dashboardController: Router = express.Router();
+export class DashboardController {
+  private dashboardService: DashboardService;
 
-dashboardController.get('/dashboard', userAuth, async (_req: Request, res: Response): Promise<Response> => {
-  const data: IDashboardServiceType = await DashboardService.count();
-  return res.json(data);
-});
+  constructor(dashboardService: DashboardService) {
+    this.dashboardService = dashboardService;
+  }
 
-export default dashboardController;
+  get = async (_req: Request, res: Response): Promise<Response> => {
+    const data: IDashboardServiceType = await this.dashboardService.count();
+    return res.json(data);
+  };
+}

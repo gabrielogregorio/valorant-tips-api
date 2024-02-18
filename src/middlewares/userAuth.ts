@@ -1,12 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from '@/config/envs';
-import { ErrorEnum } from '@/errors/types';
-import statusCode from '@/config/statusCode';
 
-export const isAuthenticate = (authorization) => {
+import { AppError } from '@/errors/index';
+import { errorStates } from '@/errors/types';
+
+export const isAuthenticate = (authorization: string) => {
   try {
-    const data = jwt.verify(authorization, JWT_SECRET);
+    const data = jwt.verify(authorization, JWT_SECRET) as any;
 
     if (data.username === undefined) {
       return false;
@@ -20,29 +21,22 @@ export const isAuthenticate = (authorization) => {
 export const userAuth = (req: Request, res: Response, next: NextFunction) => {
   const authToken = req.headers.authorization;
   if (authToken === '' || authToken === undefined) {
-    return res.status(statusCode.NEED_TOKEN.code).json({ NAME: ErrorEnum.TOKEN_IS_INVALID_OR_EXPIRED });
-  }
-
-  const bearer = authToken.split(' ');
-  const auth = bearer[1];
-
-  if (auth === undefined) {
-    return res.status(statusCode.NEED_TOKEN.code).json({ NAME: ErrorEnum.TOKEN_IS_INVALID_OR_EXPIRED });
+    throw new AppError(errorStates.TOKEN_IS_INVALID_OR_EXPIRED);
   }
 
   try {
-    const data = jwt.verify(auth, JWT_SECRET);
-    // @ts-ignore
+    const data = jwt.verify(authToken, JWT_SECRET) as any;
+
     req.data = data;
 
     if (data.username === undefined) {
-      return res.status(statusCode.NEED_TOKEN.code).json({ NAME: ErrorEnum.TOKEN_IS_INVALID_OR_EXPIRED });
+      throw new AppError(errorStates.TOKEN_IS_INVALID_OR_EXPIRED, 'no username');
     }
     return next();
-  } catch (error) {
+  } catch (error: any) {
     if (error.message === 'jwt expired') {
-      return res.status(statusCode.NEED_TOKEN.code).json({ NAME: ErrorEnum.TOKEN_IS_INVALID_OR_EXPIRED });
+      throw new AppError(errorStates.TOKEN_IS_INVALID_OR_EXPIRED, 'jwt expirated');
     }
-    return res.status(statusCode.NEED_TOKEN.code).json({ NAME: ErrorEnum.TOKEN_IS_INVALID_OR_EXPIRED });
+    throw new AppError(errorStates.TOKEN_IS_INVALID_OR_EXPIRED, 'unknow error');
   }
 };

@@ -1,24 +1,5 @@
 import mongoose from 'mongoose';
-
-export interface IPost {
-  title: string;
-  description: string;
-  user: mongoose.Schema.Types.ObjectId;
-  tags: {
-    moment: string;
-    difficult: string;
-    ability: string;
-    side: string;
-    map: string;
-    mapPosition: string;
-    agent: string;
-  };
-  imgs: {
-    _id: string;
-    description: string;
-    image: string;
-  }[];
-}
+import { IPost } from 'src/interfaces/post';
 
 const postSchema = new mongoose.Schema<IPost>(
   {

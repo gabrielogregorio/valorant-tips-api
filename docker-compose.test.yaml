@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  vavatips-api-test:
+    container_name: vavatips-api-test
+    env_file: .env.test
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '1.0'
+    image: node:16-alpine
+    build:
+      context: ./
+      dockerfile: ./Dockerfile.test
+    volumes:
+      - ./:/usr/src/app/
+    depends_on:
+      - vavatips-db-test
+    networks:
+      - test
+
+  vavatips-db-test:
+    container_name: vavatips-db-test
+    env_file: .env.test
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo_data_test:/data/db
+    networks:
+      - test
+
+networks:
+  test:
+
+volumes:
+  mongo_data_test:

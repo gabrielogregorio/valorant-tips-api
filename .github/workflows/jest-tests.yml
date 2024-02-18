@@ -13,6 +13,11 @@ jobs:
 
     env:
       CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+      MONGO_URI: mongodb://127.0.0.1:27017/dbVavatips
+      DISABLE_LOGS: false
+      ERROR_WITH_DEBUG: true
+      SECURITY_CODE: SECURITY_CODE
+      JWT_SECRET: JWT_SECRET_EXAMPLE
 
     strategy:
       matrix:
@@ -29,12 +34,10 @@ jobs:
         with:
           image-version: latest
           port: 27017
-      - name: Test mongo connection
-        id: test_mongo_connection
-        run: 'sudo mongo localhost:27017'
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - run: yarn test:coverage
+      - run: yarn test:workflow:coverage
+
       - name: up coverage to codacy
         run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r ./coverage/lcov.info

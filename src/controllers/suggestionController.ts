@@ -1,59 +1,61 @@
-import express, { Request, Response } from 'express';
-import { ISuggestion } from '@/models/Suggestion';
+import { Request, Response } from 'express';
 import { SuggestionService } from '@/service/suggestion';
-import { userAuth } from '@/middlewares/userAuth';
-import { DataSuggestion, factorySuggestionType } from '@/factories/dataSuggestion';
-import statusCode from '../config/statusCode';
+import { DataSuggestion } from '@/factories/dataSuggestion';
+import { ICreateSuggestion, IDatabaseSuggestion, IResponseSuggestion } from '@/interfaces/suggestion';
+import { AppError } from '@/errors/index';
+import { errorStates } from '@/errors/types';
+import statusCode from '@/config/statusCode';
 
-const suggestionController = express.Router();
+export class SuggestionController {
+  private suggestionService: SuggestionService;
 
-suggestionController.post('/suggestion', async (req: Request, res: Response): Promise<Response> => {
-  const { post_id, email, description } = req.body;
-
-  if (description === null || description === undefined || description === '') {
-    res.statusCode = statusCode.BAD_REQUEST.code;
-    return res.json({ erro: 'Parametros inválidos ou faltantes' });
+  constructor(suggestionService: SuggestionService) {
+    this.suggestionService = suggestionService;
   }
 
-  const suggestion: ISuggestion = await SuggestionService.Create({
-    post_id,
-    email,
-    description,
-    status: 'accepted',
-  });
+  createSuggestion = async (
+    req: Request<undefined, undefined, Omit<ICreateSuggestion, 'status'>>,
+    res: Response<IResponseSuggestion>,
+  ) => {
+    const { postId, email, description } = req.body;
 
-  return res.json(suggestion);
-});
+    const suggestion = await this.suggestionService.create({
+      postId,
+      email,
+      description,
+      status: 'waiting',
+    });
 
-suggestionController.get('/suggestions', userAuth, async (_req: Request, res: Response): Promise<Response> => {
-  const suggestions: ISuggestion[] = await SuggestionService.FindAll();
+    return res.json(DataSuggestion.Build(suggestion));
+  };
 
-  const suggestionsFactory: factorySuggestionType[] = [];
-  suggestions.forEach((suggestion) => {
-    suggestionsFactory.push(DataSuggestion.Build(suggestion));
-  });
+  getSuggestions = async (_req: Request, res: Response<IResponseSuggestion[]>): Promise<Response> => {
+    const suggestions: IDatabaseSuggestion[] = await this.suggestionService.FindAll();
 
-  return res.json(suggestionsFactory);
-});
+    const suggestionsFactory: IResponseSuggestion[] = [];
+    suggestions.forEach((suggestion) => {
+      suggestionsFactory.push(DataSuggestion.Build(suggestion));
+    });
 
-suggestionController.put('/suggestion/:id', userAuth, async (req: Request, res: Response): Promise<Response> => {
-  const suggestionId = req.params.id;
-  const newStatus = req.body.status;
+    return res.json(suggestionsFactory);
+  };
 
-  if (newStatus !== 'accepted' && newStatus !== 'rejected') {
-    res.statusCode = statusCode.BAD_REQUEST.code;
-    return res.json({ error: 'Status para a sugestão inválido!' });
-  }
+  // added middleware in params
+  editSuggestion = async (req: Request, res: Response<IResponseSuggestion>): Promise<Response> => {
+    const suggestionId = req.params.id;
+    const newStatus = req.body.status;
 
-  const suggestionEdited: ISuggestion = await SuggestionService.UpdateById(suggestionId, newStatus);
-  return res.json(suggestionEdited);
-});
+    const suggestionEdited = await this.suggestionService.UpdateById(suggestionId, newStatus);
+    return res.json(DataSuggestion.Build(suggestionEdited));
+  };
 
-suggestionController.delete('/suggestion/:id', userAuth, async (req: Request, res: Response): Promise<Response> => {
-  const suggestionId = req.params.id;
+  delete = async (req: Request, res: Response): Promise<Response> => {
+    const suggestionId = req.params.id;
 
-  await SuggestionService.DeleteById(suggestionId);
-  return res.json({});
-});
-
-export default suggestionController;
+    const result = await this.suggestionService.deleteById(suggestionId);
+    if (result === null) {
+      throw new AppError(errorStates.RESOURCE_NOT_EXISTS);
+    }
+    return res.sendStatus(statusCode.NO_CONTENT.code);
+  };
+}

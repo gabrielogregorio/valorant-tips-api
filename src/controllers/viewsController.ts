@@ -1,17 +1,27 @@
-import express, { Request, Response, Router } from 'express';
-import { countViewsType, ViewService } from '@/service/View';
+import { Request, Response } from 'express';
+import { ViewService } from '@/service/View';
+import { AppError } from '@/errors/index';
+import { errorStates } from '@/errors/types';
 
-const viewsController: Router = express.Router();
+export class ViewsController {
+  private viewService: ViewService;
 
-viewsController.post('/views', async (req: Request, res: Response): Promise<Response> => {
-  const ip = req.socket.remoteAddress.split(`:`).pop();
-  await ViewService.Create(ip);
-  return res.json({ msg: 'ok' });
-});
+  constructor(viewService: ViewService) {
+    this.viewService = viewService;
+  }
 
-viewsController.get('/views', async (_req: Request, res: Response): Promise<Response> => {
-  const { countAll, countIps }: countViewsType = await ViewService.CountViews();
-  return res.json({ countAll, countIps });
-});
+  create = async (req: Request, res: Response): Promise<Response> => {
+    const ip = req.socket.remoteAddress?.split(`:`).pop();
+    if (!ip) {
+      throw new AppError(errorStates.PAYLOAD_IS_INVALID, "ip don't found");
+    }
 
-export default viewsController;
+    await this.viewService.create(ip);
+    return res.sendStatus(204);
+  };
+
+  get = async (_req: Request, res: Response): Promise<Response> => {
+    const { countAll, countIps } = await this.viewService.countViews();
+    return res.json({ countAll, countIps });
+  };
+}

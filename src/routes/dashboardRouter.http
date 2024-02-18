@@ -1,0 +1,4 @@
+#### get dashboard
+
+GET http://localhost:3333/dashboard HTTP/1.1
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdyZWciLCJuYW1lIjoiZ3JlZyIsImlkIjoiNjVjYmY4MzA0MzExY2Q1MTg5NzRhMWUxIiwiaWF0IjoxNzA3ODY2MTYzLCJleHAiOjE3MDgzMjY5NjN9.liwtSEKK4OurmtZ7fjy_mKVUtl1jRKtaKojIO29xnZY

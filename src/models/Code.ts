@@ -1,9 +1,5 @@
 import mongoose from 'mongoose';
-
-export interface ICode {
-  code: string;
-  available: boolean;
-}
+import { ICode } from 'src/interfaces/code';
 
 const codeSchema = new mongoose.Schema<ICode>(
   {

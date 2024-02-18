@@ -1,57 +1,98 @@
-import { User, IUser } from '@/models/User';
+import { AppError } from '@/errors/index';
+import { errorStates } from '@/errors/types';
+import { DataUser } from '@/factories/dataUser';
+import { IUser } from '@/interfaces/user';
+import { UserRepository } from '@/repositories/userRepository';
+import bcrypt from 'bcrypt';
 
 export class UserService {
-  static async Create({ username, password, image }: IUser): Promise<IUser> {
-    const newUser = new User({ username, password, image });
-    await newUser.save();
-    return newUser;
+  private userRepository: UserRepository;
+
+  constructor(userRepository: UserRepository) {
+    this.userRepository = userRepository;
   }
 
-  static async FindByIdAndUpdate(id: string, { username, password, image }: IUser) {
-    const update: any = {};
-    const passwordHasChanged = password !== '' && password !== undefined && password !== null;
-    const usernameHasChanged = username !== '' && username !== undefined && username !== null;
-    const imageHasChanged = image !== undefined && image !== '';
+  create = async ({ username, password, image }: IUser): Promise<IUser> =>
+    this.userRepository.create({ username, password, image });
 
-    if (passwordHasChanged) {
+  async createPasswordHash(password: string): Promise<string> {
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
+
+    return hash;
+  }
+
+  findByIdAndUpdate = async (id: string, { username, password, image }: Partial<IUser>) => {
+    const update: Partial<IUser> = {};
+
+    if (password) {
       update.password = password;
     }
 
-    if (usernameHasChanged) {
+    if (username) {
       update.username = username;
     }
 
-    if (imageHasChanged) {
+    if (image) {
       update.image = image;
     }
 
-    return User.findOneAndUpdate({ _id: id }, { $set: update });
-  }
+    return this.userRepository.findOneAndUpdate(id, update);
+  };
 
-  static async FindById(id: string): Promise<IUser> {
-    return User.findById(id);
-  }
-
-  static async UserExistsByUsername(username: string, id: string): Promise<IUser> {
-    const user: IUser = await User.findOne({ username });
+  updateUser = async ({
+    id,
+    username,
+    image,
+    password,
+  }: {
+    id: string;
+    username?: string;
+    image?: string;
+    password?: string;
+  }) => {
+    const user = await this.findById(id);
 
     if (user === null) {
-      return undefined;
-    }
-    // @ts-ignore
-    if (user._id.toString() === id) {
-      return undefined;
+      throw new AppError(errorStates.RESOURCE_NOT_EXISTS);
     }
 
-    return user;
-  }
+    let payloadUpdateUser: Partial<IUser> = {};
 
-  static async FindByUsername(username: string): Promise<IUser> {
-    const user = await User.find({ username });
-    return user[0];
-  }
+    if (username) {
+      const userFounded = await this.findOneByUsername(username);
+      if (userFounded === null || userFounded._id?.toString() === id) {
+        payloadUpdateUser = {
+          ...payloadUpdateUser,
+          username,
+        };
+      } else {
+        throw new AppError(errorStates.CONFLICT_ALREADY_EXISTS);
+      }
+    }
 
-  static async DeleteById(id: string) {
-    return User.findOneAndDelete({ _id: id });
-  }
+    if (password) {
+      payloadUpdateUser = {
+        ...payloadUpdateUser,
+        password: await this.createPasswordHash(password),
+      };
+    }
+
+    if (image) {
+      payloadUpdateUser = {
+        ...payloadUpdateUser,
+        image,
+      };
+    }
+
+    const userUpdated = await this.findByIdAndUpdate(id, payloadUpdateUser);
+    return DataUser.Build(userUpdated);
+  };
+
+  findById = async (id: string): Promise<IUser | null> => this.userRepository.findById(id);
+
+  findOneByUsername = async (username: string): Promise<IUser | null> =>
+    this.userRepository.findOneByUsername(username);
+
+  deleteById = async (id: string) => this.userRepository.findOneAndDelete(id);
 }

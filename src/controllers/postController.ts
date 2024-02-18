@@ -1,143 +1,122 @@
-import express, { Request, Response, Router } from 'express';
-import { CloudinaryStorage } from 'multer-storage-cloudinary';
-import multer from 'multer';
-import cloudinary from 'cloudinary';
-import { IPost } from '@/models/Post';
+import { Request, Response } from 'express';
 import { DataPost, factoryPostType } from '@/factories/dataPost';
-import { userAuth } from '@/middlewares/userAuth';
 import { PostService } from '@/service/post';
-import { convertMegabytesToBytes } from '@/helpers/conversors';
-import { CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, CLOUDINARY_CLOUD_NAME } from '@/config/envs';
+import { IImagePost, IPost } from '@/interfaces/post';
+import { AppError } from '@/errors/index';
+import mongoose from 'mongoose';
+import { errorStates } from '@/errors/types';
+import { CreatePostBodyType } from '@/schemas/createPost';
+import { updatePostBodyType } from '@/schemas/updatePost';
 import statusCode from '../config/statusCode';
-import { RequestMiddleware } from '../interfaces/extends';
 
-const cloudinaryV2 = cloudinary.v2;
+export class PostController {
+  private postService: PostService;
 
-const postController: Router = express.Router();
-
-cloudinaryV2.config({
-  cloud_name: CLOUDINARY_CLOUD_NAME,
-  api_key: CLOUDINARY_API_KEY,
-  api_secret: CLOUDINARY_API_SECRET,
-});
-
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinaryV2,
-  params: {
-    // @ts-ignore
-    folder: 'tips',
-  },
-});
-
-const LIMIT_SIZE_UPLOAD_IN_BYTES = convertMegabytesToBytes(10);
-const upload = multer({
-  storage,
-  limits: {
-    fileSize: LIMIT_SIZE_UPLOAD_IN_BYTES,
-  },
-});
-
-postController.post(
-  '/postLoadFile',
-  upload.single('image'),
-  async (req: Request, res: Response): Promise<Response> => res.json({ filename: req.file.path }),
-);
-
-postController.post('/post', userAuth, async (req: RequestMiddleware, res: Response): Promise<Response> => {
-  const { title, description, tags, imgs } = req.body as IPost;
-  const user = req.data.id;
-
-  if (!title || !description) {
-    res.statusCode = statusCode.BAD_REQUEST.code;
-    return res.json({ error: 'Some value is invalid' });
+  constructor(postService: PostService) {
+    this.postService = postService;
   }
 
-  // @ts-ignore
-  const post: IPost = await PostService.Create({ title, description, user, tags, imgs });
-  const newPost: factoryPostType = DataPost.Build(post);
-  return res.json(newPost);
-});
+  uploadFile = async (req: Request, res: Response): Promise<Response> => {
+    if (!req?.file?.path) {
+      throw new AppError(errorStates.PAYLOAD_IS_INVALID, "req.file.path don't exists");
+    }
 
-postController.put('/post/:id', userAuth, async (req: RequestMiddleware, res: Response): Promise<Response> => {
-  const { title, description, tags, imgs } = req.body as IPost;
-  const { id } = req.params;
-  const user = req.data.id;
+    return res.json({ filename: req.file.path });
+  };
 
-  const newImgs = [];
-  imgs.forEach((img) => {
-    newImgs.push({
-      description: img.description,
-      // @ts-ignore
-      _id: img.id,
-      image: img.image,
+  createPost = async (req: Request<undefined, undefined, CreatePostBodyType>, res: Response) => {
+    const { title, description, tags, imgs } = req.body;
+    const user = req.data.id as unknown as mongoose.Types.ObjectId;
+
+    if (!title || !description) {
+      res.statusCode = statusCode.BAD_REQUEST.code;
+      return res.json({ error: 'Some value is invalid' });
+    }
+
+    const post: IPost = await this.postService.create({ title, description, user, tags, imgs });
+    const newPost: factoryPostType = DataPost.Build(post);
+    return res.json(newPost);
+  };
+
+  updatePost = async (req: Request<undefined, undefined, updatePostBodyType>, res: Response): Promise<Response> => {
+    const { title, description, tags, imgs } = req.body;
+    const { id } = req.params as unknown as { id: string };
+
+    const newImgs: IImagePost[] = [];
+    imgs?.forEach((img) => {
+      newImgs.push({
+        description: img.description,
+        _id: img._id,
+        image: img.image,
+      });
     });
-  });
 
-  if (!title || !description) {
-    res.statusCode = statusCode.BAD_REQUEST.code;
-    return res.json({ error: 'Some value is invalid' });
-  }
+    const updatePayload = {
+      ...(title !== undefined ? { title } : {}),
+      ...(description !== undefined ? { description } : {}),
+      ...(tags !== undefined ? { tags } : {}),
+      ...(imgs !== undefined ? { imgs: newImgs } : {}),
+    };
 
-  const postService: IPost = await PostService.FindByIdAndUpdate(id, {
-    title,
-    description,
-    // @ts-ignore
-    user,
-    tags,
-    imgs: newImgs,
-  });
-  const postUpdate: factoryPostType = DataPost.Build(postService);
-  return res.json(postUpdate);
-});
+    const postService: IPost = await this.postService.findByIdAndUpdate(id, {
+      ...updatePayload,
+    });
+    const postUpdate: factoryPostType = DataPost.Build(postService);
+    return res.json(postUpdate);
+  };
 
-postController.get('/post/:id', async (req: Request, res: Response): Promise<Response> => {
-  const { id } = req.params;
+  get = async (req: Request, res: Response): Promise<Response> => {
+    const { id } = req.params;
 
-  const post: IPost = await PostService.FindById(id);
-  const postsBuilded: factoryPostType = DataPost.Build(post);
-  return res.json(postsBuilded);
-});
+    const post = await this.postService.findByIdOrThrow(id);
+    const postsBuilded: factoryPostType = DataPost.Build(post);
+    return res.json(postsBuilded);
+  };
 
-postController.get('/maps', async (_req: Request, res: Response): Promise<Response> => {
-  const maps: string[] = await PostService.findAvailableMaps();
-  return res.json({ maps });
-});
+  getMaps = async (_req: Request, res: Response): Promise<Response> => {
+    const maps: string[] = await this.postService.findAvailableMaps();
+    return res.json({ maps });
+  };
 
-postController.get('/agents/:map', async (req: Request, res: Response): Promise<Response> => {
-  const agents: string[] = await PostService.findAvailableAgents(req.params.map);
-  return res.json({ agents });
-});
+  getAgents = async (req: Request, res: Response): Promise<Response> => {
+    const agents: string[] = await this.postService.findAvailableAgents(req.params.map);
+    return res.json({ agents });
+  };
 
-postController.get('/posts', async (_req: Request, res: Response): Promise<Response> => {
-  const postService: IPost[] = await PostService.FindAll();
+  getPosts = async (_req: Request, res: Response): Promise<Response> => {
+    const postService: IPost[] = await this.postService.FindAll();
 
-  const posts: factoryPostType[] = [];
-  postService.forEach((post) => {
-    posts.push(DataPost.Build(post));
-  });
+    const posts: factoryPostType[] = [];
+    postService.forEach((post) => {
+      posts.push(DataPost.Build(post));
+    });
 
-  return res.json({ posts });
-});
+    return res.json({ posts });
+  };
 
-postController.get('/posts/:map/:agent', async (req: Request, res: Response): Promise<Response> => {
-  const { agent, map } = req.params as { agent: string; map: string };
+  getPostsByMapAndAgent = async (req: Request, res: Response): Promise<Response> => {
+    const { agent, map } = req.params as { agent: string; map: string };
 
-  const postsService: IPost[] = await PostService.FindAllByMapAndAgent(agent, map);
+    const postsService: IPost[] = await this.postService.FindAllByMapAndAgent(agent, map);
 
-  const posts: factoryPostType[] = [];
-  postsService.forEach((post) => {
-    posts.push(DataPost.Build(post));
-  });
+    const posts: factoryPostType[] = [];
+    postsService.forEach((post) => {
+      posts.push(DataPost.Build(post));
+    });
 
-  return res.status(statusCode.SUCCESS.code).json({ posts });
-});
+    return res.status(statusCode.SUCCESS.code).json({ posts });
+  };
 
-postController.delete('/post/:id', userAuth, async (req: RequestMiddleware, res: Response): Promise<Response> => {
-  const idPost = req.params.id;
+  delete = async (req: Request, res: Response): Promise<Response> => {
+    const idPost = req.params.id;
+    const userId = req.data.id as string;
 
-  await PostService.DeleteById(idPost);
+    const postDeleted = await this.postService.deleteById(idPost, userId);
 
-  return res.status(statusCode.NO_CONTENT.code).send();
-});
+    if (postDeleted === null) {
+      throw new AppError(errorStates.RESOURCE_NOT_EXISTS);
+    }
 
-export default postController;
+    return res.sendStatus(statusCode.NO_CONTENT.code);
+  };
+}

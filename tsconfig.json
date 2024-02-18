@@ -13,6 +13,11 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noErrorTruncation": true,
+    "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
@@ -22,14 +27,18 @@
       "@/config/*": ["./src/config/*"],
       "@/models/*": ["./src/models/*"],
       "@/shared/*": ["./src/shared/*"],
+      "@/repositories/*": ["./src/repositories/*"],
+      "@/interfaces/*": ["./src/interfaces/*"],
       "@/database/*": ["./src/database/*"],
       "@/errors/*": ["./src/errors/*"],
       "@/service/*": ["./src/service/*"],
       "@/logs/*": ["./src/logs/*"],
       "@/mock/*": ["./src/mock/*"],
       "@/locales/*": ["./src/locales/*"],
-      "@/helpers/*": ["./src/helpers/*"]
+      "@/helpers/*": ["./src/helpers/*"],
+
+      "@/schemas/*": ["./src/schemas/*"]
     }
   },
-  "include": ["src/**/*", "src/**.ts"]
+  "include": ["src/**/*", "src/**.ts", "./src"]
 }

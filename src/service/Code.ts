@@ -1,21 +1,33 @@
 import { v4 as uuidV4 } from 'uuid';
-import { Code, ICode } from '@/models/Code';
+import { ICode } from '@/interfaces/code';
+import { CodeRepository } from '@/repositories/codeRepository';
+import { AppError } from '@/errors/index';
+import { errorStates } from '@/errors/types';
 
 export class CodeService {
-  static async Create(): Promise<ICode> {
-    const newCode = new Code({
-      code: `${uuidV4()}${Math.random()}${uuidV4()}${Math.random()}`,
+  private codeRepository: CodeRepository;
+
+  constructor(codeRepository: CodeRepository) {
+    this.codeRepository = codeRepository;
+  }
+
+  create = async (): Promise<ICode> =>
+    this.codeRepository.create({
+      code: uuidV4(),
       available: true,
     });
-    await newCode.save();
-    return newCode;
-  }
 
-  static async FindCode(code: string): Promise<ICode> {
-    return Code.findOne({ code, available: true });
-  }
+  findCodeAndThrown = async (code: string): Promise<ICode> => {
+    const codeResult = await this.findCode(code);
 
-  static async UseCode(code: string): Promise<ICode> {
-    return Code.findOneAndUpdate({ code, available: true }, { $set: { available: false } }, { new: true });
-  }
+    if (codeResult === null) {
+      throw new AppError(errorStates.RESOURCE_NOT_EXISTS);
+    }
+
+    return codeResult;
+  };
+
+  findCode = async (code: string): Promise<ICode | null> => this.codeRepository.findByCode(code);
+
+  useCode = async (code: string): Promise<ICode | null> => this.codeRepository.updateToAvailable(code);
 }

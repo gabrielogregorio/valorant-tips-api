@@ -1,22 +1,34 @@
 import mongoose from 'mongoose';
+import { IDatabaseSuggestion } from '@/interfaces/suggestion';
 
-export interface ISuggestion {
-  post_id: string;
-  email: string;
-  description: string;
-  status: 'accepted' | 'rejected';
-}
-
-const suggestionSchema = new mongoose.Schema<ISuggestion>(
+const suggestionSchema = new mongoose.Schema<IDatabaseSuggestion>(
   {
-    post_id: String,
-    email: String,
-    description: String,
-    status: String,
+    postId: {
+      type: mongoose.Schema.Types.ObjectId,
+      index: true,
+      background: true,
+      required: true,
+    },
+    email: {
+      type: String,
+      maxlength: 100,
+    },
+    description: {
+      type: String,
+      required: true,
+      maxlength: 500,
+    },
+    status: {
+      type: String,
+      index: true,
+      background: true,
+      required: true,
+      enum: ['accepted', 'rejected', 'waiting'],
+    },
   },
   {
     timestamps: true,
   },
 );
 
-export const Suggestion = mongoose.model<ISuggestion>('Suggestion', suggestionSchema);
+export const Suggestion = mongoose.model<IDatabaseSuggestion>('Suggestion', suggestionSchema);

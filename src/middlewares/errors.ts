@@ -1,16 +1,27 @@
+import { ERROR_WITH_DEBUG } from '@/config/envs';
 import statusCode from '@/config/statusCode';
-import { CustomError } from '@/errors/index';
+import { AppError } from '@/errors/index';
 import { Log } from '@/logs/index';
 import { NextFunction, Request, Response } from 'express';
+import 'express-async-errors';
 
-export const handleErrors = (error, req: Request, res: Response, next: NextFunction) => {
-  if (error instanceof CustomError) {
-    Log.error(`Erro ${error?.statusCode} - ${error?.name}`);
-    res.status(error?.statusCode).send({ NAME: error?.name });
-  } else {
-    Log.error(`Erro interno ${error} ${error?.stack}`);
-    res.status(statusCode.ERROR_IN_SERVER.code).send('Internal Error');
+// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+export const handleErrors = (error: Error, req: Request, res: Response, next: NextFunction) => {
+  if (error instanceof AppError) {
+    const { debug } = error;
+    const context = ERROR_WITH_DEBUG ? { debug } : undefined;
+
+    Log.warning(`AppError ${error?.error.code} - ${error?.error.name} ${debug?.trim() ? `- ${debug}` : ''} `);
+    res.status(error?.error.code).json({ ...context, error: error?.name, message: error.error.message });
+    return;
   }
 
-  next();
+  if (error instanceof Error) {
+    Log.error(`Error ${error.name} ${error.message} ${JSON.stringify(error?.stack)}`);
+    res.status(statusCode.ERROR_IN_SERVER.code).json({ message: 'Internal Error' });
+    return;
+  }
+
+  Log.error(error);
+  res.status(statusCode.ERROR_IN_SERVER.code).json({ message: 'Internal Error' });
 };

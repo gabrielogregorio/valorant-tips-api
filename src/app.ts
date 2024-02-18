@@ -1,37 +1,36 @@
-import express, { Application, Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
-import DashboardController from '@/controllers/dashboardController';
-import UserController from '@/controllers/userController';
-import ViewsController from '@/controllers/viewsController';
-import CodeController from '@/controllers/codeController';
-import SuggestionController from '@/controllers/suggestionController';
-import PostController from '@/controllers/postController';
 import path from 'path';
-// import const BackupController from '@/controllers/backupController
-// import const DevEnvironmentController from '@/controllers/devEnvironmentController
 import docbytest from 'docbytest';
 import { handleErrors } from '@/middlewares/errors';
 import statusCode from '@/config/statusCode';
+import { middlewareSanitizedBody } from '@/middlewares/sanetize';
+import helmet from 'helmet';
+import { useSanetizeMongo } from '@/middlewares/useSanetizeMongo';
+import { useLimiter } from '@/middlewares/useLimiter';
+import { router } from './routes';
 
 const docbytestTest = docbytest(statusCode);
 
-const app: Application = express();
+const app = express();
+app.use(helmet());
+app.use(useSanetizeMongo);
+app.use(useLimiter);
 
 app.disable('x-powered-by');
 
+const corsOptions = {
+  origin: ['https://valorant-tips.vercel.app/'],
+  optionsSuccessStatus: 200,
+};
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.static('public'));
 
-app.use('/', UserController);
-app.use('/', PostController);
-app.use('/', SuggestionController);
-app.use('/', CodeController);
-app.use('/', ViewsController);
-app.use('/', DashboardController);
-// app.use('/', BackupController)
-// app.use('/', DevEnvironmentController)
+app.use(middlewareSanitizedBody);
+app.use(router);
 
 app.use(express.static('public'));
 app.get('/docs-json', async (_req, res) => {
