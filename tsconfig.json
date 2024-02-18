@@ -30,6 +30,7 @@
       "@/repositories/*": ["./src/repositories/*"],
       "@/interfaces/*": ["./src/interfaces/*"],
       "@/database/*": ["./src/database/*"],
+      "@/test/*": ["./src/test/*"],
       "@/errors/*": ["./src/errors/*"],
       "@/service/*": ["./src/service/*"],
       "@/logs/*": ["./src/logs/*"],

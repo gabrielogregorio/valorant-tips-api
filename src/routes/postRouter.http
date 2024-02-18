@@ -17,7 +17,7 @@ GET http://localhost:3333/posts/Bind/Sova HTTP/1.1
 ### create post
 
 POST http://localhost:3333/post HTTP/1.1
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdyZWciLCJuYW1lIjoiZ3JlZyIsImlkIjoiNjVjYmY4MzA0MzExY2Q1MTg5NzRhMWUxIiwiaWF0IjoxNzA3ODY3MTYxLCJleHAiOjE3MDgzMjc5NjF9.0tkYD5l4i2qdhebGwK2ZiGlaASdMW_-aeRh17LFy5Ao
+Authorization: <jwt>
 content-type: application/json
 
 {
@@ -43,14 +43,14 @@ content-type: application/json
 
 ### get a post
 
-GET http://localhost:3333/post/65cbfd33487b6367886303b7 HTTP/1.1
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdyZWciLCJuYW1lIjoiZ3JlZyIsImlkIjoiNjVjYmY4MzA0MzExY2Q1MTg5NzRhMWUxIiwiaWF0IjoxNzA3ODY3MTYxLCJleHAiOjE3MDgzMjc5NjF9.0tkYD5l4i2qdhebGwK2ZiGlaASdMW_-aeRh17LFy5Ao
+GET http://localhost:3333/post/<postId> HTTP/1.1
+Authorization: <jwt>
 content-type: application/json
 
 ### update post
 
-PUT http://localhost:3333/post/65cbfd33487b6367886303b7 HTTP/1.1
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdyZWciLCJuYW1lIjoiZ3JlZyIsImlkIjoiNjVjYmY4MzA0MzExY2Q1MTg5NzRhMWUxIiwiaWF0IjoxNzA3ODY3MTYxLCJleHAiOjE3MDgzMjc5NjF9.0tkYD5l4i2qdhebGwK2ZiGlaASdMW_-aeRh17LFy5Ao
+PUT http://localhost:3333/post/<postId> HTTP/1.1
+Authorization: <jwt>
 content-type: application/json
 
 {
@@ -76,7 +76,7 @@ content-type: application/json
 
 ###  delete post
 
-DELETE http://localhost:3333/post/6161a2fdce40a7938c9cecc0 HTTP/1.1
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IngyIiwibmFtZSI6IngyIiwiaWQiOiI2NWNjMDM1YmYwNjE1OWJmNTgyZTlmN2YiLCJpYXQiOjE3MDc4NjkwMjQsImV4cCI6MTcwODMyOTgyNH0.nI05jGQZsv05HTZLw508oNijEZn2zN4g4ZDhBnnEOho
+DELETE http://localhost:3333/post/<postId> HTTP/1.1
+Authorization: <jwt>
 
 

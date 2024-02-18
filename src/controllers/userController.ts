@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt';
 import { UserService } from '@/service/user';
 import { DataUser } from '@/factories/dataUser';
 import { JWT_SECRET } from '@/config/envs';
@@ -63,7 +63,6 @@ export class UserController {
     const { username, password, image, code } = req.body;
 
     const codeData = await this.codeService.findCode(code);
-
     if (codeData === null) {
       throw new AppError(errorStates.TOKEN_IS_INVALID_OR_EXPIRED);
     }

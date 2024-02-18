@@ -1,13 +1,7 @@
-import supertest from 'supertest';
 import mockTests from '@/mock/mockTests.json';
 import { SECURITY_CODE } from '@/config/envs';
+import { databaseMock, requestMock } from '@/test/e2e/utils';
 
-import { Database } from '@/database/database';
-import { app } from '../../app';
-
-const databaseMock = new Database({ verbose: false });
-
-const request = supertest(app);
 let codeGenerate = '';
 let token = { authorization: '' };
 let postId = '213';
@@ -67,15 +61,15 @@ const postEdited = {
 beforeAll(async () => {
   await databaseMock.e2eTestConnect();
 
-  const res = await request.post('/generate_code').send({ securityCode: SECURITY_CODE });
+  const res = await requestMock.post('/generate_code').send({ securityCode: SECURITY_CODE });
 
   codeGenerate = res.body.token;
 
-  await request
+  await requestMock
     .post('/user')
     .send({ username: mockTests.username2, password: mockTests.password2, code: codeGenerate });
 
-  const res3 = await request.post('/auth').send({ username: mockTests.username2, password: mockTests.password2 });
+  const res3 = await requestMock.post('/auth').send({ username: mockTests.username2, password: mockTests.password2 });
 
   token = { authorization: `${res3.body.token}` };
 });
@@ -87,7 +81,7 @@ afterAll(async () => {
 
 describe('📔 Posts', () => {
   it('[doc] - ✅ Cria um post', async () => {
-    const res = await request.post('/post').set(token).send(post);
+    const res = await requestMock.post('/post').set(token).send(post);
 
     postId = res.body.id;
 
@@ -119,19 +113,19 @@ describe('📔 Posts', () => {
   });
 
   it('[doc] - 🚫 Deve impedir um cadastro de um post por alguém não cadastrado', async () => {
-    const res = await request.post('/post').send(post);
+    const res = await requestMock.post('/post').send(post);
     expect(res.body).toEqual({ message: 'TOKEN_IS_INVALID_OR_EXPIRED' });
     expect(res.statusCode).toEqual(401);
   });
 
   it('[doc] - 🚫 Impede o cadastro sem informar os dados corretos', async () => {
-    const res = await request.post('/post').set(token).send({});
+    const res = await requestMock.post('/post').set(token).send({});
     expect(res.body).toEqual({ message: 'PAYLOAD_IS_INVALID', debug: expect.stringContaining('') }); // remove debug
     expect(res.statusCode).toEqual(400);
   });
 
   it('[doc] - ✅Edita um post', async () => {
-    const res = await request.put(`/post/${postId}`).set(token).send(postEdited);
+    const res = await requestMock.put(`/post/${postId}`).set(token).send(postEdited);
     expect(res.statusCode).toEqual(200);
 
     expect(res.body.id).toBeDefined();
@@ -142,7 +136,9 @@ describe('📔 Posts', () => {
       id: postId,
       title: 'Titulo de um post maluco Editado',
       description: 'Descrição maluca 2',
-      user: {},
+      user: {
+        username: 'userTest',
+      },
       tags: {
         moment: 'ComeçoPartida',
         difficult: 'Facil',
@@ -160,7 +156,7 @@ describe('📔 Posts', () => {
   });
 
   it('✅ Deve Obter um post Editado', async () => {
-    const res = await request.get(`/post/${postId}`).set(token);
+    const res = await requestMock.get(`/post/${postId}`).set(token);
 
     const bodyExpected = {
       ...res.body,
@@ -189,7 +185,7 @@ describe('📔 Posts', () => {
   });
 
   it('[doc] - ✅ Retorna todos posts', async () => {
-    const res = await request.get(`/posts`);
+    const res = await requestMock.get(`/posts`);
 
     expect(res.body).toEqual({
       posts: [
@@ -229,7 +225,7 @@ describe('📔 Posts', () => {
   });
 
   it('[doc] - ⚠️ Deleta um post', async () => {
-    const res = await request.delete(`/post/${postId}`).set(token);
+    const res = await requestMock.delete(`/post/${postId}`).set(token);
 
     expect(res.statusCode).toEqual(204);
     expect(res.body).toEqual({});

@@ -1,47 +1,48 @@
 #### create user
 
-POST http://localhost:3333/user HTTP/1.1
+POST http://0.0.0.0:3333/user HTTP/1.1
 content-type: application/json
 
 {
-  "username":"greg",
-  "password":"greg",
-  "code": "dda21e66-6bcd-481b-8106-aa9932d5cfe8"
+  "username":"ademir",
+  "password":"ademir",
+  "code": "<code>"
 }
 
-#### should make auth
+#### make auth
 
-POST http://localhost:3333/auth HTTP/1.1
+POST http://0.0.0.0:3333/auth HTTP/1.1
 content-type: application/json
 
 {
-  "username":"greg",
-  "password":"greg"
+  "username":"developer",
+  "password":"developer"
 }
 
 
-## userLoadFile
-#### get user
+#### userLoadFile
 
-GET http://localhost:3333/user HTTP/1.1
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdyZWciLCJuYW1lIjoiZ3JlZyIsImlkIjoiNjVjYmY2MzVlZDllODY2ODlhNjkwMjI1IiwiaWF0IjoxNzA3ODY1NjYyLCJleHAiOjE3MDgzMjY0NjJ9.9WdyAMsJn3WXA3Sng-YffX3mDiTIXFgpYSi_GiaaU6k
+#### get this
+
+GET http://0.0.0.0:3333/user HTTP/1.1
+Authorization: <jwt>
 
 
-#### update user
+#### update this
 
-PATCH  http://localhost:3333/user HTTP/1.1
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdyZWciLCJuYW1lIjoiZ3JlZyIsImlkIjoiNjVjYmY2MzVlZDllODY2ODlhNjkwMjI1IiwiaWF0IjoxNzA3ODY1NjYyLCJleHAiOjE3MDgzMjY0NjJ9.9WdyAMsJn3WXA3Sng-YffX3mDiTIXFgpYSi_GiaaU6k
+PATCH  http://0.0.0.0:3333/user HTTP/1.1
+Authorization: <jwt>
 content-type: application/json
 
 {
-  "username":"greg2",
-  "password":"ssssssssssssss",
-  "image":"omage example"
+  "username":"ademir2",
+  "password":"ademir2",
+  "image":"https://image-ademir.com/image.jpg"
 }
 
 
-#### update user
+#### delte this
 
-DELETE  http://localhost:3333/user HTTP/1.1
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdyZWciLCJuYW1lIjoiZ3JlZyIsImlkIjoiNjVjYmY3NjJkY2RiNTc5Nzg0MWQ2NDM4IiwiaWF0IjoxNzA3ODY1OTYwLCJleHAiOjE3MDgzMjY3NjB9.FUUDSKUG8hH3gXR26muKzeUiW6YB_VI8FzkmM0519Ms
+DELETE  http://0.0.0.0:3333/user HTTP/1.1
+Authorization: <jwt>
 

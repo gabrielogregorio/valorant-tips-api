@@ -41,6 +41,7 @@ export class PostController {
   updatePost = async (req: Request<undefined, undefined, updatePostBodyType>, res: Response): Promise<Response> => {
     const { title, description, tags, imgs } = req.body;
     const { id } = req.params as unknown as { id: string };
+    const user = req.data.id as unknown as mongoose.Types.ObjectId;
 
     const newImgs: IImagePost[] = [];
     imgs?.forEach((img) => {
@@ -54,6 +55,7 @@ export class PostController {
     const updatePayload = {
       ...(title !== undefined ? { title } : {}),
       ...(description !== undefined ? { description } : {}),
+      user,
       ...(tags !== undefined ? { tags } : {}),
       ...(imgs !== undefined ? { imgs: newImgs } : {}),
     };
@@ -85,7 +87,6 @@ export class PostController {
 
   getPosts = async (_req: Request, res: Response): Promise<Response> => {
     const postService: IPost[] = await this.postService.FindAll();
-
     const posts: factoryPostType[] = [];
     postService.forEach((post) => {
       posts.push(DataPost.Build(post));

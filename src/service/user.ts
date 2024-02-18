@@ -3,7 +3,7 @@ import { errorStates } from '@/errors/types';
 import { DataUser } from '@/factories/dataUser';
 import { IUser } from '@/interfaces/user';
 import { UserRepository } from '@/repositories/userRepository';
-import bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt';
 
 export class UserService {
   private userRepository: UserRepository;
