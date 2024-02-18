@@ -8,6 +8,7 @@ import { middlewareSanitizedBody } from '@/middlewares/sanetize';
 import helmet from 'helmet';
 import { useSanetizeMongo } from '@/middlewares/useSanetizeMongo';
 import { useLimiter } from '@/middlewares/useLimiter';
+import { API_VERSION } from '@/config/envs';
 import { router } from './routes';
 
 const docbytestTest = docbytest(statusCode);
@@ -38,7 +39,7 @@ app.get('/docs-json', async (_req, res) => {
   return res.json(docs);
 });
 
-app.get('/', (_req: Request, res: Response): Response => res.send('api is running'));
+app.get('/', (_req: Request, res: Response): Response => res.send(`api is running in version ${API_VERSION}`));
 
 app.use('/docs/', express.static(path.join(__dirname, '../node_modules/docbytest-ui/build/')));
 

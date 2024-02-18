@@ -1,12 +1,12 @@
 {
   "name": "valorant-tips-api",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored",
-    "start": "node dist/server.js",
-    "dev": " yarn && ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts",
+    "start": "API_VERSION=$(node -p -e \"require('./package.json').version\") node dist/server.js",
+    "dev": " yarn && API_VERSION=$(node -p -e \"require('./package.json').version\") ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts",
     "format": "yarn prettier --write .",
     "test": "make build-db-test && jest --runInBand --verbose",
     "test:workflow:coverage": "jest --coverage --runInBand",
