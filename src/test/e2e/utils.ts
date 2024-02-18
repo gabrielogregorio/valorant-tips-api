@@ -31,7 +31,8 @@ const post = {
   ],
 };
 
-export const request = supertest(app);
+export const requestMock = supertest(app);
+export const databaseMock = new Database({ verbose: false });
 
 export const createUserMocker = async (): Promise<{
   userId: string;
@@ -39,15 +40,15 @@ export const createUserMocker = async (): Promise<{
     authorization: string;
   };
 }> => {
-  const responseGenerateCode = await request.post('/generate_code').send({ securityCode: SECURITY_CODE });
+  const responseGenerateCode = await requestMock.post('/generate_code').send({ securityCode: SECURITY_CODE });
 
   const codeGenerate = responseGenerateCode.body.token;
 
-  await request
+  await requestMock
     .post('/user')
     .send({ username: mockTests.username2, password: mockTests.password2, code: codeGenerate });
 
-  const responseCreateUser = await request
+  const responseCreateUser = await requestMock
     .post('/auth')
     .send({ username: mockTests.username2, password: mockTests.password2 });
 
@@ -61,8 +62,7 @@ export const createPostMocker = async (authorization: {
 }): Promise<{
   postId: string;
 }> => {
-  const response = await request.post('/post').set(authorization).send(post);
+  const response = await requestMock.post('/post').set(authorization).send(post);
 
   return { postId: response.body.id };
 };
-export const databaseMock = new Database({ verbose: false });

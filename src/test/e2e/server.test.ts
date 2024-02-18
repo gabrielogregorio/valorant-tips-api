@@ -1,11 +1,5 @@
-import { Database } from '@/database/database';
-import supertest from 'supertest';
 import statusCode from '@/config/statusCode';
-import { app } from '../../app';
-
-const databaseMock = new Database({ verbose: false });
-
-const request = supertest(app);
+import { databaseMock, requestMock } from '@/test/e2e/utils';
 
 describe('💻 Testa se o servidor está rodando', () => {
   beforeAll(async () => {
@@ -18,7 +12,7 @@ describe('💻 Testa se o servidor está rodando', () => {
   });
 
   it('✅ A aplicação deve responder', () =>
-    request.get('/').then((res) => {
+    requestMock.get('/').then((res) => {
       expect(res.statusCode).toEqual(statusCode.SUCCESS.code);
     }));
 });

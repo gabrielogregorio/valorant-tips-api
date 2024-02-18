@@ -1,11 +1,5 @@
-import { Database } from '@/database/database';
-import supertest from 'supertest';
 import statusCode from '@/config/statusCode';
-import { app } from '../../app';
-
-const databaseMock = new Database({ verbose: false });
-
-const request = supertest(app);
+import { databaseMock, requestMock } from '@/test/e2e/utils';
 
 let views = 0;
 
@@ -21,7 +15,7 @@ describe('👀 Visualizações', () => {
 
   it('[doc]: ✅ Retorna quantidade de visualizações', async () => {
     /* Retorna quantos views a API recebeu */
-    const res = await request.get('/views');
+    const res = await requestMock.get('/views');
     expect(res.body.countAll).toBeDefined();
     expect(res.body.countIps).toBeDefined();
 
@@ -40,13 +34,13 @@ describe('👀 Visualizações', () => {
 
   it('[doc]: ✅ Cria nova visualização', async () => {
     /* doc: Essa rota registra a quantidade de visualizações que o site teve, não substituindo claro ferramentas de analytics */
-    const res = await request.post('/views').send({});
+    const res = await requestMock.post('/views').send({});
     expect(res.body).toEqual({});
     expect(res.statusCode).toEqual(204);
   });
 
   it('✅ Retorna visualizações + 1', async () => {
-    const res = await request.get('/views');
+    const res = await requestMock.get('/views');
     expect(res.statusCode).toEqual(statusCode.SUCCESS.code);
     expect(res.body.countAll).toEqual(views + 1);
   });

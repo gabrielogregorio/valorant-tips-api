@@ -38,3 +38,6 @@ To run the automated tests you need to have just installed globally.
 ```shell
 yarn test
 ```
+
+### Aprendizados com esse projeto
+- Se tudo estiver dando errado no docker, experimente usar outra compilação, saia do ALPINE, tente o SLIM, BULLSEYE ou BUSTER, principalmente se os erros não tiverem nenhum contexto, nem mensagem, nem consumirem muitos recursos, nem darem nenhum tipo de erro detectável.

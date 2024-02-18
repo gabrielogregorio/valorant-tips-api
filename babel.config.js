@@ -24,6 +24,7 @@ module.exports = {
           '@/database': './src/database',
           '@/errors': './src/errors',
           '@/service': './src/service',
+          '@/test': './src/test',
           '@/logs': './src/logs',
           '@/repositories': './src/repositories',
           '@/interfaces': './src/interfaces',

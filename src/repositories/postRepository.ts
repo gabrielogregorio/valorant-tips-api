@@ -10,7 +10,7 @@ export class PostRepository {
   };
 
   findByIdAndUpdate = async (id: string, post: Partial<IPost>): Promise<IPost | null> =>
-    Post.findOneAndUpdate({ _id: id }, { $set: { ...post } }, { new: true });
+    Post.findOneAndUpdate({ _id: id }, { $set: { ...post } }, { new: true }).populate('user');
 
   findById = async (id: string): Promise<IPost | null> => Post.findById(id).populate('user');
 

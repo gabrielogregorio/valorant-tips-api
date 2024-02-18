@@ -8,7 +8,7 @@ la: logs-api
 
 dev: start-setup
 	make stop
-	@docker compose -f ./docker-compose.dev.yaml up -d
+	docker compose -f ./docker-compose.dev.yaml up -d
 
 build: start-setup
 	@docker compose -f ./docker-compose.dev.yaml up --build --force-recreate -d
@@ -22,6 +22,9 @@ delete-universe:
 
 delete-all-unsed-images:
 	@docker image prune -a
+
+status:
+	@docker stats
 
 down-all:
 	@docker ps -q | xargs -r docker stop
@@ -52,12 +55,11 @@ build-db-test: start-setup
 	make stop
 	@docker compose -f ./docker-compose.test.yaml up --build --force-recreate -d vavatips-db-test
 
-# this cause broken in docker
 tests: start-setup
-	@docker compose -f ./docker-compose.test.yaml down --remove-orphans --volumes
-	@docker compose -f ./docker-compose.test.yaml up --build -d vavatips-db-test
-	@docker compose -f ./docker-compose.test.yaml run -T vavatips-api-test yarn run test
-#	@docker compose -f ./docker-compose.test.yaml rm -f -s -v vavatips-db-test vavatips-api-test
+	docker compose -f ./docker-compose.test.yaml down --remove-orphans --volumes
+	docker compose -f ./docker-compose.test.yaml up --build -d vavatips-db-test
+	docker compose -f ./docker-compose.test.yaml run -T vavatips-api-test yarn run test
+	docker compose -f ./docker-compose.test.yaml rm -f -s -v vavatips-db-test vavatips-api-test
 
 bash:
 	@docker exec -it vavatips-api /bin/bash

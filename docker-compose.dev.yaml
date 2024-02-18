@@ -4,6 +4,11 @@ services:
   vavatips-api:
     container_name: vavatips-api
     env_file: .env.dev
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '2.0'
     build:
       context: ./
       dockerfile: ./Dockerfile.dev

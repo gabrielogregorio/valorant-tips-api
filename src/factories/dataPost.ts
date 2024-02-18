@@ -5,7 +5,7 @@ export type factoryPostType = {
   id: string;
   title: string;
   description: string;
-  user: factoryUserType;
+  user: factoryUserType | null;
   tags: string;
   imgs: factoryImgsType[];
 };
@@ -21,7 +21,7 @@ export class DataPost {
       id: post?._id.toString(),
       title: post?.title,
       description: post?.description,
-      user: DataUser.Build(post?.user),
+      user: post?.user ? DataUser.Build(post?.user) : null,
       tags: post?.tags,
       imgs,
     };
