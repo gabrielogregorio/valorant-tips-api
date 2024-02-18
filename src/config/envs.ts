@@ -11,3 +11,4 @@ export const CLOUDINARY_API_SECRET = process.env?.CLOUDINARY_API_SECRET?.toStrin
 export const MODE_RUN = process.env?.MODE_RUN?.toString() || '';
 export const DISABLE_LOGS = process.env.DISABLE_LOGS === 'true';
 export const ERROR_WITH_DEBUG = process.env.ERROR_WITH_DEBUG?.toString() === 'true';
+export const API_VERSION = process.env.API_VERSION?.toString();
