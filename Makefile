@@ -17,11 +17,10 @@ down:
 	@docker compose -f ./docker-compose.test.yaml down --remove-orphans --volumes
 
 delete-universe:
-	@make down-all
-	@make delete-all-containers
-	@make delete-all-networks
-	@make delete-all-volumes
-	@make delete-all-images
+	@make down-all & make delete-all-containers & make delete-all-networks & make delete-all-volumes & make delete-all-images & make delete-all-unsed-images & yarn cache clean
+
+delete-all-unsed-images:
+	@docker image prune -a
 
 down-all:
 	@docker ps -q | xargs -r docker stop
@@ -52,11 +51,12 @@ build-db: start-setup
 build-db-test: start-setup
 	@docker compose -f ./docker-compose.test.yaml up --build --force-recreate -d vavatips-db-test
 
+# this cause broken in docker
 tests: start-setup
 	@docker compose -f ./docker-compose.test.yaml down --remove-orphans --volumes
-	@docker compose -f ./docker-compose.test.yaml up --build -d valorant-tips-database-test
-	@docker compose -f ./docker-compose.test.yaml run -T api-test yarn run test:docker
-	@docker compose -f ./docker-compose.test.yaml rm -f -s -v valorant-tips-database-test api-test
+	@docker compose -f ./docker-compose.test.yaml up --build -d vavatips-db-test
+	@docker compose -f ./docker-compose.test.yaml run -T vavatips-api-test yarn run test:docker
+#	@docker compose -f ./docker-compose.test.yaml rm -f -s -v vavatips-db-test vavatips-api-test
 
 
 bash:

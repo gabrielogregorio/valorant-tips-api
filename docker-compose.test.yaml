@@ -8,7 +8,8 @@ services:
       resources:
         limits:
           memory: 1G
-    image: node:18-alpine
+          cpus: '1.0'
+    image: node:16-alpine
     build:
       context: ./
       dockerfile: ./Dockerfile.test
@@ -18,7 +19,6 @@ services:
       - vavatips-db-test
     networks:
       - test
-      - main
 
   vavatips-db-test:
     container_name: vavatips-db-test
@@ -28,10 +28,11 @@ services:
       - '27017:27017'
     volumes:
       - mongo_data_test:/data/db
+    networks:
+      - test
 
 networks:
   test:
-  main:
 
 volumes:
   mongo_data_test:

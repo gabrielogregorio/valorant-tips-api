@@ -7,17 +7,14 @@ export class Database {
 
   verbose;
 
-  code;
-
   constructor({ verbose }: { verbose: boolean }) {
     this.mongoose = mongoose;
     this.verbose = verbose;
-    this.code = new Date().getTime().toString();
     this.mongoose.set('strictQuery', false);
   }
 
   private async mongoConnect(uri: string) {
-    await this.mongoose
+    return this.mongoose
       .connect(uri, {})
       .then(() => {
         if (this.verbose) {
@@ -37,7 +34,7 @@ export class Database {
   }
 
   public async e2eTestConnect() {
-    await this.mongoConnect(MONGO_URI + this.code);
+    await this.mongoConnect(MONGO_URI);
   }
 
   public async close() {

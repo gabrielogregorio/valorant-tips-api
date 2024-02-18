@@ -4,6 +4,7 @@
 yarn format
 yarn lint
 yarn lint-tsc
-yarn test --passWithNoTests
+
+yarn test:docker
 
 npx lint-staged

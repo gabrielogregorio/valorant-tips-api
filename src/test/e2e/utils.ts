@@ -2,6 +2,7 @@ import supertest from 'supertest';
 import mockTests from '@/mock/mockTests.json';
 import { SECURITY_CODE } from '@/config/envs';
 
+import { Database } from '@/database/database';
 import { app } from '../../app';
 
 const post = {
@@ -30,7 +31,7 @@ const post = {
   ],
 };
 
-const request = supertest(app);
+export const request = supertest(app);
 
 export const createUserMocker = async (): Promise<{
   userId: string;
@@ -64,3 +65,4 @@ export const createPostMocker = async (authorization: {
 
   return { postId: response.body.id };
 };
+export const databaseMock = new Database({ verbose: false });
