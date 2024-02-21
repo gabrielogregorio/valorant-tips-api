@@ -37,12 +37,12 @@ export const postRouter: Router = express.Router();
 
 const { postController } = DependencyController;
 
-postRouter.post('/postLoadFile', upload.single('image'), postController.uploadFile);
-postRouter.post('/post', userAuth, middlewareValidation(schemaCreatePost), postController.createPost as any);
-postRouter.put('/post/:id', userAuth, middlewareValidation(schemaUpdatePosts), postController.updatePost as any);
-postRouter.get('/post/:id', userAuth, postController.get);
+postRouter.post('/load-file', upload.single('image'), postController.uploadFile);
+postRouter.post('/', userAuth, middlewareValidation(schemaCreatePost), postController.createPost as any);
+postRouter.put('/:id', userAuth, middlewareValidation(schemaUpdatePosts), postController.updatePost as any);
+postRouter.get('/:id', userAuth, postController.get);
 postRouter.get('/maps', postController.getMaps);
 postRouter.get('/agents/:map', postController.getAgents);
-postRouter.get('/posts', postController.getPosts);
-postRouter.get('/posts/:map/:agent', postController.getPostsByMapAndAgent);
-postRouter.delete('/post/:id', userAuth, postController.delete);
+postRouter.get('/', postController.getPosts);
+postRouter.get('/:map/:agent', postController.getPostsByMapAndAgent);
+postRouter.delete('/:id', userAuth, postController.delete);

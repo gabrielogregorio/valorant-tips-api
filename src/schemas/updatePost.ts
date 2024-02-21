@@ -1,5 +1,5 @@
-import { IImagePost, IPost } from '@/interfaces/post';
 import Joi from 'joi';
+import { IImagePost, IPost } from '@/interfaces/post';
 
 export type updatePostBodyType = {
   title?: string;

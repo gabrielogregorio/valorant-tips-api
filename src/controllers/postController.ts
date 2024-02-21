@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 import { DataPost, factoryPostType } from '@/factories/dataPost';
-import { PostService } from '@/service/post';
-import { IImagePost, IPost } from '@/interfaces/post';
 import { AppError } from '@/errors/index';
 import mongoose from 'mongoose';
 import { errorStates } from '@/errors/types';
 import { CreatePostBodyType } from '@/schemas/createPost';
 import { updatePostBodyType } from '@/schemas/updatePost';
+import { IImagePost, IPost } from '@/interfaces/post';
+import { PostService } from '@/service/post';
 import statusCode from '../config/statusCode';
 
 export class PostController {

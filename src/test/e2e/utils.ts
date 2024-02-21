@@ -62,7 +62,7 @@ export const createPostMocker = async (authorization: {
 }): Promise<{
   postId: string;
 }> => {
-  const response = await requestMock.post('/post').set(authorization).send(post);
+  const response = await requestMock.post('/posts').set(authorization).send(post);
 
   return { postId: response.body.id };
 };

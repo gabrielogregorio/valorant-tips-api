@@ -10,13 +10,13 @@ import { ViewsRepository } from '@/repositories/viewsRepository';
 import { CodeService } from '@/service/Code';
 import { ViewService } from '@/service/View';
 import { DashboardService } from '@/service/dashboard';
-import { PostService } from '@/service/post';
 import { SuggestionService } from '@/service/suggestion';
 import { UserService } from '@/service/user';
 import { SuggestionRepository } from '@/repositories/suggestionRepository';
 import { UserRepository } from '@/repositories/userRepository';
 import { AuthController } from '@/controllers/authController';
 import { AuthService } from '@/service/auth';
+import { PostService } from '@/service/post';
 
 export class DependencyController {
   private static userControllerInstance: UserController;

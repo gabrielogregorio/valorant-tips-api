@@ -12,10 +12,11 @@ import { viewsRouter } from './viewsRouter';
 export const router = Router();
 
 router.use(express.static('public'));
+
 router.use('/', baseRouter);
 router.use('/', docsRouter);
 router.use('/users', userRouter);
-router.use('/', postRouter);
+router.use('/posts', postRouter);
 router.use('/auth', authRouter);
 router.use('/suggestions', suggestionRouter);
 router.use('/code', codeRouter);

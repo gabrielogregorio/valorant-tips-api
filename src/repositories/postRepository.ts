@@ -1,6 +1,6 @@
 /* eslint-disable import/no-restricted-paths */
-import { IPost } from '@/interfaces/post';
 import { Post } from '@/models/Post';
+import { IPost } from '@/interfaces/post';
 
 export class PostRepository {
   create = async (post: IPost): Promise<IPost> => {

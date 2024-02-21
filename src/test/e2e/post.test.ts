@@ -79,7 +79,7 @@ afterAll(async () => {
 
 describe('📔 Posts', () => {
   it('[doc] - ✅ Cria um post', async () => {
-    const res = await requestMock.post('/post').set(token).send(post);
+    const res = await requestMock.post('/posts').set(token).send(post);
     postId = res.body.id;
 
     const bodyResponse = {
@@ -109,19 +109,19 @@ describe('📔 Posts', () => {
   });
 
   it('[doc] - 🚫 Deve impedir um cadastro de um post por alguém não cadastrado', async () => {
-    const res = await requestMock.post('/post').send(post);
+    const res = await requestMock.post('/posts').send(post);
     expect(res.body).toEqual({ message: 'TOKEN_IS_INVALID_OR_EXPIRED' });
     expect(res.statusCode).toEqual(401);
   });
 
   it('[doc] - 🚫 Impede o cadastro sem informar os dados corretos', async () => {
-    const res = await requestMock.post('/post').set(token).send({});
+    const res = await requestMock.post('/posts').set(token).send({});
     expect(res.body).toEqual({ message: 'PAYLOAD_IS_INVALID', debug: expect.stringContaining('') }); // remove debug
     expect(res.statusCode).toEqual(400);
   });
 
   it('[doc] - ✅Edita um post', async () => {
-    const res = await requestMock.put(`/post/${postId}`).set(token).send(postEdited);
+    const res = await requestMock.put(`/posts/${postId}`).set(token).send(postEdited);
     expect(res.statusCode).toEqual(200);
 
     expect(res.body.id).toBeDefined();
@@ -152,7 +152,7 @@ describe('📔 Posts', () => {
   });
 
   it('✅ Deve Obter um post Editado', async () => {
-    const res = await requestMock.get(`/post/${postId}`).set(token);
+    const res = await requestMock.get(`/posts/${postId}`).set(token);
 
     const bodyExpected = {
       ...res.body,
@@ -221,7 +221,7 @@ describe('📔 Posts', () => {
   });
 
   it('[doc] - ⚠️ Deleta um post', async () => {
-    const res = await requestMock.delete(`/post/${postId}`).set(token);
+    const res = await requestMock.delete(`/posts/${postId}`).set(token);
 
     expect(res.statusCode).toEqual(204);
     expect(res.body).toEqual({});

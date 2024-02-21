@@ -1,7 +1,7 @@
 import { AppError } from '@/errors/index';
 import { errorStates } from '@/errors/types';
-import { IPost } from '@/interfaces/post';
 import { PostRepository } from '@/repositories/postRepository';
+import { IPost } from '@/interfaces/post';
 
 export class PostService {
   private postRepository: PostRepository;

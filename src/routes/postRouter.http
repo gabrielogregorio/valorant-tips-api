@@ -3,11 +3,11 @@ GET http://localhost:3333/posts HTTP/1.1
 
 ### get maps
 
-GET http://localhost:3333/maps HTTP/1.1
+GET http://localhost:3333/posts/maps HTTP/1.1
 
 ### get agents by map
 
-GET http://localhost:3333/agents/Bind HTTP/1.1
+GET http://localhost:3333/posts/agents/Bind HTTP/1.1
 
 
 ### get posts by agents and map
@@ -16,7 +16,7 @@ GET http://localhost:3333/posts/Bind/Sova HTTP/1.1
 
 ### create post
 
-POST http://localhost:3333/post HTTP/1.1
+POST http://localhost:3333/posts HTTP/1.1
 Authorization: <jwt>
 content-type: application/json
 
@@ -43,13 +43,13 @@ content-type: application/json
 
 ### get a post
 
-GET http://localhost:3333/post/<postId> HTTP/1.1
+GET http://localhost:3333/posts/<postId> HTTP/1.1
 Authorization: <jwt>
 content-type: application/json
 
 ### update post
 
-PUT http://localhost:3333/post/<postId> HTTP/1.1
+PUT http://localhost:3333/posts/<postId> HTTP/1.1
 Authorization: <jwt>
 content-type: application/json
 
@@ -76,7 +76,7 @@ content-type: application/json
 
 ###  delete post
 
-DELETE http://localhost:3333/post/<postId> HTTP/1.1
+DELETE http://localhost:3333/posts/<postId> HTTP/1.1
 Authorization: <jwt>
 
 
