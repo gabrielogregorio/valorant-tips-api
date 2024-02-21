@@ -17,7 +17,7 @@ describe('[0] 🔑 Geração de chaves', () => {
   });
 
   it('[doc]: ✅ Criar uma chave', async () => {
-    const res = await requestMock.post('/generate_code').send(validKey);
+    const res = await requestMock.post('/code').send(validKey);
 
     expect(res.statusCode).toEqual(200);
     expect(res.body.token.length).toBeGreaterThan(10);
@@ -25,7 +25,7 @@ describe('[0] 🔑 Geração de chaves', () => {
   });
 
   it('[doc]: 🚫 Impede a geração com uma chave inválida', async () => {
-    const res = await requestMock.post('/generate_code').send({ securityCode: 'Qualquer chave' });
+    const res = await requestMock.post('/code').send({ securityCode: 'Qualquer chave' });
     expect(res.statusCode).toEqual(401);
     expect(res.body).toEqual({
       debug: 'Token is different from security code',
@@ -34,7 +34,7 @@ describe('[0] 🔑 Geração de chaves', () => {
   });
 
   it('✅ Deve cadastrar um usuário', async () => {
-    const newUser = await requestMock.post('/user').send({
+    const newUser = await requestMock.post('/users').send({
       code: codeGenerate,
       username: 'username test',
       password: 'password test',
@@ -53,7 +53,7 @@ describe('[0] 🔑 Geração de chaves', () => {
   });
 
   it('🚫 Deve impedir um cadastro com token código repetido', async () => {
-    const res = await requestMock.post('/user').send({
+    const res = await requestMock.post('/users').send({
       code: codeGenerate,
       username: 'username test',
       password: 'password test',

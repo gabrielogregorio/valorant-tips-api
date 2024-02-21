@@ -13,9 +13,11 @@ export class DataUser {
       throw new AppError(errorStates.RESOURCE_NOT_EXISTS);
     }
 
+    const image = user?.image ? { image: user?.image } : {};
+
     return {
+      ...image,
       username: user?.username,
-      image: user?.image,
     };
   }
 }

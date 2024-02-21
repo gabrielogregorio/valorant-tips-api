@@ -40,12 +40,12 @@ export const createUserMocker = async (): Promise<{
     authorization: string;
   };
 }> => {
-  const responseGenerateCode = await requestMock.post('/generate_code').send({ securityCode: SECURITY_CODE });
+  const responseGenerateCode = await requestMock.post('/code').send({ securityCode: SECURITY_CODE });
 
   const codeGenerate = responseGenerateCode.body.token;
 
   await requestMock
-    .post('/user')
+    .post('/users')
     .send({ username: mockTests.username2, password: mockTests.password2, code: codeGenerate });
 
   const responseCreateUser = await requestMock

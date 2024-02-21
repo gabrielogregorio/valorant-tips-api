@@ -10,9 +10,9 @@ new Database({ verbose: true })
   .then(() => {
     Log.info('db connected');
 
-    app.listen(PORT_API);
-
-    Log.info(`app started in ${PORT_API}`);
+    app.listen(PORT_API, () => {
+      Log.info(`app started in ${PORT_API}`);
+    });
   })
   .catch((error) => {
     Log.error('🚨 error on connect db', error);

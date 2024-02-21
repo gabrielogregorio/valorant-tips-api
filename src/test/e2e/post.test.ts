@@ -61,14 +61,12 @@ const postEdited = {
 beforeAll(async () => {
   await databaseMock.e2eTestConnect();
 
-  const res = await requestMock.post('/generate_code').send({ securityCode: SECURITY_CODE });
+  const res = await requestMock.post('/code').send({ securityCode: SECURITY_CODE });
 
   codeGenerate = res.body.token;
-
   await requestMock
-    .post('/user')
+    .post('/users')
     .send({ username: mockTests.username2, password: mockTests.password2, code: codeGenerate });
-
   const res3 = await requestMock.post('/auth').send({ username: mockTests.username2, password: mockTests.password2 });
 
   token = { authorization: `${res3.body.token}` };
@@ -82,14 +80,12 @@ afterAll(async () => {
 describe('📔 Posts', () => {
   it('[doc] - ✅ Cria um post', async () => {
     const res = await requestMock.post('/post').set(token).send(post);
-
     postId = res.body.id;
 
     const bodyResponse = {
       ...res.body,
       id: postId,
     };
-
     expect(bodyResponse).toMatchObject({
       id: postId,
       title: 'Titulo de um post maluco',

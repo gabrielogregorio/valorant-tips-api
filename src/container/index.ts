@@ -15,6 +15,8 @@ import { SuggestionService } from '@/service/suggestion';
 import { UserService } from '@/service/user';
 import { SuggestionRepository } from '@/repositories/suggestionRepository';
 import { UserRepository } from '@/repositories/userRepository';
+import { AuthController } from '@/controllers/authController';
+import { AuthService } from '@/service/auth';
 
 export class DependencyController {
   private static userControllerInstance: UserController;
@@ -29,6 +31,8 @@ export class DependencyController {
 
   private static viewsControllerInstance: ViewsController;
 
+  private static authControllerInstance: AuthController;
+
   private static codeServiceInstance: CodeService;
 
   private static dashboardServiceInstance: DashboardService;
@@ -40,6 +44,8 @@ export class DependencyController {
   private static userServiceInstance: UserService;
 
   private static viewServiceInstance: ViewService;
+
+  private static authServiceInstance: AuthService;
 
   private static suggestionRepositoryInstance: SuggestionRepository;
 
@@ -93,6 +99,13 @@ export class DependencyController {
     return this.viewsControllerInstance;
   }
 
+  static get authController(): AuthController {
+    if (!this.authControllerInstance) {
+      this.authControllerInstance = new AuthController(this.authService);
+    }
+    return this.authControllerInstance;
+  }
+
   static get codeService(): CodeService {
     if (!this.codeServiceInstance) {
       this.codeServiceInstance = new CodeService(this.codeRepository);
@@ -143,6 +156,14 @@ export class DependencyController {
     }
 
     return this.viewServiceInstance;
+  }
+
+  static get authService(): AuthService {
+    if (!this.authServiceInstance) {
+      this.authServiceInstance = new AuthService(this.userService);
+    }
+
+    return this.authServiceInstance;
   }
 
   static get suggestionRepository(): SuggestionRepository {

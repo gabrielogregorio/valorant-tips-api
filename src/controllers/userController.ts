@@ -1,17 +1,12 @@
 import { Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
-import * as bcrypt from 'bcrypt';
 import { UserService } from '@/service/user';
 import { DataUser } from '@/factories/dataUser';
-import { JWT_SECRET } from '@/config/envs';
 import { AppError } from '@/errors/index';
 import { CodeService } from '@/service/Code';
 import { errorStates } from '@/errors/types';
 import { CreateUserBodyType } from '@/schemas/createUser';
 import { IUser } from '@/interfaces/user';
 import statusCode from '../config/statusCode';
-
-const jwtSecret: string = JWT_SECRET;
 
 export class UserController {
   private codeService: CodeService;
@@ -34,29 +29,6 @@ export class UserController {
       filename = req.file.filename;
     }
     return res.json({ filename });
-  };
-
-  auth = async (req: Request, res: Response) => {
-    const { username, password } = req.body as { username: string; password: string };
-
-    const user = await this.userService.findOneByUsername(username);
-
-    if (!user) {
-      throw new AppError(errorStates.RESOURCE_NOT_EXISTS);
-    }
-
-    const valid: boolean = await bcrypt.compare(password, user.password);
-    if (!valid) {
-      throw new AppError(errorStates.PASSWORD_IS_INVALID, 'encrypt is invalid');
-    }
-
-    jwt.sign({ username, name: user.username, id: user._id }, jwtSecret, { expiresIn: '128h' }, (error, token) => {
-      if (error) {
-        throw new AppError(errorStates.INTERNAL_ERROR, JSON.stringify(error));
-      }
-
-      return res.json({ token, id: user._id });
-    });
   };
 
   createUser = async (req: Request<undefined, undefined, CreateUserBodyType>, res: Response): Promise<Response> => {
@@ -84,6 +56,7 @@ export class UserController {
     }
 
     const newUser = DataUser.Build(await this.userService.create(update));
+
     return res.json(newUser);
   };
 
