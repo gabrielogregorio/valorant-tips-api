@@ -9,16 +9,7 @@ export const suggestionRouter = Router();
 
 const { suggestionController } = DependencyController;
 
-suggestionRouter.post(
-  '/suggestion',
-  middlewareValidation(schemaCreateSuggestion),
-  suggestionController.createSuggestion,
-);
-suggestionRouter.get('/suggestions', userAuth, suggestionController.getSuggestions);
-suggestionRouter.put(
-  '/suggestion/:id',
-  userAuth,
-  middlewareValidation(schemaEditSuggestion),
-  suggestionController.editSuggestion,
-);
-suggestionRouter.delete('/suggestion/:id', userAuth, suggestionController.delete);
+suggestionRouter.post('/', middlewareValidation(schemaCreateSuggestion), suggestionController.createSuggestion);
+suggestionRouter.get('/', userAuth, suggestionController.getSuggestions);
+suggestionRouter.put('/:id', userAuth, middlewareValidation(schemaEditSuggestion), suggestionController.editSuggestion);
+suggestionRouter.delete('/:id', userAuth, suggestionController.delete);

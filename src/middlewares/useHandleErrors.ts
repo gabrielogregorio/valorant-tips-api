@@ -6,7 +6,7 @@ import { NextFunction, Request, Response } from 'express';
 import 'express-async-errors';
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-export const handleErrors = (error: Error, req: Request, res: Response, next: NextFunction) => {
+export const useHandleErrors = (error: Error, req: Request, res: Response, next: NextFunction) => {
   if (error instanceof AppError) {
     const { debug } = error;
     const context = ERROR_WITH_DEBUG ? { debug } : undefined;

@@ -3,7 +3,7 @@ import { IUser } from 'src/interfaces/user';
 
 const userSchema = new mongoose.Schema<IUser>(
   {
-    username: { type: String, unique: true, required: true },
+    username: { type: String, unique: true, required: true }, // expand use
     password: String,
     image: String,
   },

@@ -1,7 +1,7 @@
 import { ICreateSuggestion, IDatabaseSuggestion } from '@/interfaces/suggestion';
-import { PostService } from '@/service/post';
 import { AppError } from '@/errors/index';
 import { errorStates } from '@/errors/types';
+import { PostService } from '@/service/post';
 import { SuggestionRepository } from '../repositories/suggestionRepository';
 
 export class SuggestionService {

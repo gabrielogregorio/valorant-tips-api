@@ -31,7 +31,6 @@ export class SuggestionController {
 
   getSuggestions = async (_req: Request, res: Response<IResponseSuggestion[]>): Promise<Response> => {
     const suggestions: IDatabaseSuggestion[] = await this.suggestionService.FindAll();
-
     const suggestionsFactory: IResponseSuggestion[] = [];
     suggestions.forEach((suggestion) => {
       suggestionsFactory.push(DataSuggestion.Build(suggestion));

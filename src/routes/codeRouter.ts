@@ -7,4 +7,4 @@ const { codeController } = DependencyController;
 
 export const codeRouter = Router();
 
-codeRouter.post('/generate_code', middlewareValidation(schemaCode), codeController.generate);
+codeRouter.post('/', middlewareValidation(schemaCode), codeController.generate);

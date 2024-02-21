@@ -5,5 +5,5 @@ export const viewsRouter = Router();
 
 const { viewsController } = DependencyController;
 
-viewsRouter.post('/views', viewsController.create);
-viewsRouter.get('/views', viewsController.get);
+viewsRouter.post('/', viewsController.create);
+viewsRouter.get('/', viewsController.get);

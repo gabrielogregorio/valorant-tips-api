@@ -1,4 +1,7 @@
-import { Router } from 'express';
+import express, { Router } from 'express';
+import { baseRouter } from './base';
+import { authRouter } from './authRouter';
+import { docsRouter } from './docs';
 import { codeRouter } from './codeRouter';
 import { dashboardRouter } from './dashboardRouter';
 import { postRouter } from './postRouter';
@@ -8,9 +11,14 @@ import { viewsRouter } from './viewsRouter';
 
 export const router = Router();
 
-router.use('/', userRouter);
-router.use('/', postRouter);
-router.use('/', suggestionRouter);
-router.use('/', codeRouter);
-router.use('/', dashboardRouter);
-router.use('/', viewsRouter);
+router.use(express.static('public'));
+
+router.use('/', baseRouter);
+router.use('/', docsRouter);
+router.use('/users', userRouter);
+router.use('/posts', postRouter);
+router.use('/auth', authRouter);
+router.use('/suggestions', suggestionRouter);
+router.use('/code', codeRouter);
+router.use('/dashboards', dashboardRouter);
+router.use('/views', viewsRouter);

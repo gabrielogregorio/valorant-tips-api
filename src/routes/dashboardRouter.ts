@@ -6,4 +6,4 @@ export const dashboardRouter = Router();
 
 const { dashboardController } = DependencyController;
 
-dashboardRouter.get('/dashboard', userAuth, dashboardController.get);
+dashboardRouter.get('/', userAuth, dashboardController.get);

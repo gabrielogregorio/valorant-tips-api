@@ -19,6 +19,10 @@ const statusCode = {
     code: 403,
     description: 'Você não tem permissão para acessar essa região.',
   },
+  TOO_MANY_REQUESTS: {
+    code: 429,
+    describe: 'Many requests',
+  },
   NOT_FOUND: {
     code: 404,
     description: 'Nenhum arquivo encontrado',
