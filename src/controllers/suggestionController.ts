@@ -13,6 +13,8 @@ export class SuggestionController {
     this.suggestionService = suggestionService;
   }
 
+  // fixme
+
   createSuggestion = async (
     req: Request<undefined, undefined, Omit<ICreateSuggestion, 'status'>>,
     res: Response<IResponseSuggestion>,

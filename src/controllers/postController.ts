@@ -1,11 +1,8 @@
 import { Request, Response } from 'express';
 import { DataPost, factoryPostType } from '@/factories/dataPost';
-import { AppError } from '@/errors/index';
 import mongoose from 'mongoose';
-import { errorStates } from '@/errors/types';
 import { CreatePostBodyType } from '@/schemas/createPost';
 import { updatePostBodyType } from '@/schemas/updatePost';
-import { IImagePost, IPost } from '@/interfaces/post';
 import { PostService } from '@/service/post';
 import statusCode from '../config/statusCode';
 
@@ -16,26 +13,15 @@ export class PostController {
     this.postService = postService;
   }
 
-  uploadFile = async (req: Request, res: Response): Promise<Response> => {
-    if (!req?.file?.path) {
-      throw new AppError(errorStates.PAYLOAD_IS_INVALID, "req.file.path don't exists");
-    }
-
-    return res.json({ filename: req.file.path });
-  };
+  uploadFile = async (req: Request, res: Response): Promise<Response> => res.json({ filename: req!.file!.path });
 
   createPost = async (req: Request<undefined, undefined, CreatePostBodyType>, res: Response) => {
     const { title, description, tags, imgs } = req.body;
     const user = req.data.id as unknown as mongoose.Types.ObjectId;
 
-    if (!title || !description) {
-      res.statusCode = statusCode.BAD_REQUEST.code;
-      return res.json({ error: 'Some value is invalid' });
-    }
+    const post = await this.postService.create({ title, description, user, tags, imgs });
 
-    const post: IPost = await this.postService.create({ title, description, user, tags, imgs });
-    const newPost: factoryPostType = DataPost.Build(post);
-    return res.json(newPost);
+    return res.json(DataPost.Build(post));
   };
 
   updatePost = async (req: Request<undefined, undefined, updatePostBodyType>, res: Response): Promise<Response> => {
@@ -43,54 +29,40 @@ export class PostController {
     const { id } = req.params as unknown as { id: string };
     const user = req.data.id as unknown as mongoose.Types.ObjectId;
 
-    const newImgs: IImagePost[] = [];
-    imgs?.forEach((img) => {
-      newImgs.push({
-        description: img.description,
-        _id: img._id,
-        image: img.image,
-      });
-    });
-
-    const updatePayload = {
-      ...(title !== undefined ? { title } : {}),
-      ...(description !== undefined ? { description } : {}),
+    const post = await this.postService.updatePost({
+      tags,
+      title,
+      description,
+      imgs,
       user,
-      ...(tags !== undefined ? { tags } : {}),
-      ...(imgs !== undefined ? { imgs: newImgs } : {}),
-    };
-
-    const postService: IPost = await this.postService.findByIdAndUpdate(id, {
-      ...updatePayload,
+      postId: id,
     });
-    const postUpdate: factoryPostType = DataPost.Build(postService);
-    return res.json(postUpdate);
+
+    return res.json(post);
   };
 
   get = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
 
     const post = await this.postService.findByIdOrThrow(id);
-    const postsBuilded: factoryPostType = DataPost.Build(post);
-    return res.json(postsBuilded);
+
+    return res.json(post);
   };
 
-  getMaps = async (_req: Request, res: Response): Promise<Response> => {
-    const maps: string[] = await this.postService.findAvailableMaps();
+  getMaps = async (_req: Request, res: Response<{ maps: string[] }>) => {
+    const maps = await this.postService.findAvailableMaps();
+
     return res.json({ maps });
   };
 
-  getAgents = async (req: Request, res: Response): Promise<Response> => {
-    const agents: string[] = await this.postService.findAvailableAgents(req.params.map);
+  getAgents = async (req: Request, res: Response<{ agents: string[] }>) => {
+    const agents = await this.postService.findAvailableAgents(req.params.map);
+
     return res.json({ agents });
   };
 
-  getPosts = async (_req: Request, res: Response): Promise<Response> => {
-    const postService: IPost[] = await this.postService.FindAll();
-    const posts: factoryPostType[] = [];
-    postService.forEach((post) => {
-      posts.push(DataPost.Build(post));
-    });
+  getPosts = async (_req: Request, res: Response<{ posts: factoryPostType[] }>) => {
+    const posts = await this.postService.FindAll();
 
     return res.json({ posts });
   };
@@ -98,12 +70,7 @@ export class PostController {
   getPostsByMapAndAgent = async (req: Request, res: Response): Promise<Response> => {
     const { agent, map } = req.params as { agent: string; map: string };
 
-    const postsService: IPost[] = await this.postService.FindAllByMapAndAgent(agent, map);
-
-    const posts: factoryPostType[] = [];
-    postsService.forEach((post) => {
-      posts.push(DataPost.Build(post));
-    });
+    const posts = await this.postService.FindAllByMapAndAgent(agent, map);
 
     return res.status(statusCode.SUCCESS.code).json({ posts });
   };
@@ -112,11 +79,7 @@ export class PostController {
     const idPost = req.params.id;
     const userId = req.data.id as string;
 
-    const postDeleted = await this.postService.deleteById(idPost, userId);
-
-    if (postDeleted === null) {
-      throw new AppError(errorStates.RESOURCE_NOT_EXISTS);
-    }
+    await this.postService.deleteById(idPost, userId);
 
     return res.sendStatus(statusCode.NO_CONTENT.code);
   };

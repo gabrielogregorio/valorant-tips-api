@@ -18,7 +18,7 @@ import { AuthController } from '@/controllers/authController';
 import { AuthService } from '@/service/auth';
 import { PostService } from '@/service/post';
 
-export class DependencyController {
+export class AppDependencyInjector {
   private static userControllerInstance: UserController;
 
   private static postControllerInstance: PostController;

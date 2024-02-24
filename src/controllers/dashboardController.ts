@@ -8,8 +8,9 @@ export class DashboardController {
     this.dashboardService = dashboardService;
   }
 
-  get = async (_req: Request, res: Response): Promise<Response> => {
-    const data: IDashboardServiceType = await this.dashboardService.count();
+  get = async (_req: Request, res: Response<IDashboardServiceType>) => {
+    const data = await this.dashboardService.count();
+
     return res.json(data);
   };
 }
