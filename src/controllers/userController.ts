@@ -19,15 +19,7 @@ export class UserController {
   }
 
   uploadImage = async (req: Request, res: Response): Promise<Response> => {
-    let filename = '';
-
-    if (!req.file) {
-      return res.status(statusCode.BAD_REQUEST.code).send('No file uploaded.');
-    }
-
-    if (req.file) {
-      filename = req.file.filename;
-    }
+    const filename = req.file?.filename;
     return res.json({ filename });
   };
 

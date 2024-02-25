@@ -8,9 +8,17 @@ export class AuthController {
     this.authService = authService;
   }
 
-  auth = async (req: Request, res: Response) => {
-    const { username, password } = req.body as { username: string; password: string };
+  auth = async (
+    req: Request<never, never, { username: string; password: string }>,
+    res: Response<{
+      token: string;
+      id: string;
+    }>,
+  ) => {
+    const { username, password } = req.body;
+
     const response = await this.authService.auth({ username, password });
+
     return res.json(response);
   };
 }

@@ -8,7 +8,8 @@ import { CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, CLOUDINARY_CLOUD_NAME } from
 import { middlewareValidation } from '@/middlewares/validator';
 import { schemaCreatePost } from '@/schemas/createPost';
 import { schemaUpdatePosts } from '@/schemas/updatePost';
-import { DependencyController } from '../container';
+import { useHasFile } from '@/middlewares/userHasFile';
+import { AppDependencyInjector } from '../container';
 
 const cloudinaryV2 = cloudinary.v2;
 
@@ -35,9 +36,9 @@ const upload = multer({
 
 export const postRouter: Router = express.Router();
 
-const { postController } = DependencyController;
+const { postController } = AppDependencyInjector;
 
-postRouter.post('/load-file', upload.single('image'), postController.uploadFile);
+postRouter.post('/load-file', useHasFile, upload.single('image'), postController.uploadFile);
 postRouter.post('/', userAuth, middlewareValidation(schemaCreatePost), postController.createPost as any);
 postRouter.put('/:id', userAuth, middlewareValidation(schemaUpdatePosts), postController.updatePost as any);
 postRouter.get('/:id', userAuth, postController.get);

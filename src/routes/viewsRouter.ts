@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { DependencyController } from '../container';
+import { AppDependencyInjector } from '../container';
 
 export const viewsRouter = Router();
 
-const { viewsController } = DependencyController;
+const { viewsController } = AppDependencyInjector;
 
 viewsRouter.post('/', viewsController.create);
 viewsRouter.get('/', viewsController.get);

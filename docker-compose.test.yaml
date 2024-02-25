@@ -24,6 +24,9 @@ services:
     container_name: vavatips-db-test
     env_file: .env.test
     image: mongo:latest
+    build:
+      context: ./
+      dockerfile: ./database/Dockerfile.test
     ports:
       - '27017:27017'
     volumes:

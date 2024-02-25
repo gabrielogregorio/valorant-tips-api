@@ -3,11 +3,11 @@ import { Router } from 'express';
 import { middlewareValidation } from '@/middlewares/validator';
 import { schemaCreateSuggestion } from '@/schemas/createSuggestions';
 import { schemaEditSuggestion } from '@/schemas/updateSuggestion';
-import { DependencyController } from '../container';
+import { AppDependencyInjector } from '../container';
 
 export const suggestionRouter = Router();
 
-const { suggestionController } = DependencyController;
+const { suggestionController } = AppDependencyInjector;
 
 suggestionRouter.post('/', middlewareValidation(schemaCreateSuggestion), suggestionController.createSuggestion);
 suggestionRouter.get('/', userAuth, suggestionController.getSuggestions);

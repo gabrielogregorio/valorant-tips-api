@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import { middlewareValidation } from '@/middlewares/validator';
 import { schemaCode } from '@/schemas/code';
-import { DependencyController } from '../container';
+import { userAuthCodeIsCorrect } from '@/middlewares/userCodeIsCorrect';
+import { AppDependencyInjector } from '../container';
 
-const { codeController } = DependencyController;
+const { codeController } = AppDependencyInjector;
 
 export const codeRouter = Router();
 
-codeRouter.post('/', middlewareValidation(schemaCode), codeController.generate);
+codeRouter.post('/', userAuthCodeIsCorrect, middlewareValidation(schemaCode), codeController.generate);
