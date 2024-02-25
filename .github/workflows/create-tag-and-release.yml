@@ -34,7 +34,7 @@ jobs:
           echo "RELEASE_NAME=$RELEASE_NAME" >> $GITHUB_ENV
 
       - name: create tag and release
-        uses: gabrielogregorio/create-tag-and-release@v1.0.2
+        uses: gabrielogregorio/create-tag-and-release@v2.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
