@@ -20,7 +20,7 @@ module.exports = {
           '@/middlewares': './src/middlewares',
           '@/config': './src/config',
           '@/models': './src/models',
-          '@/shared': './src/shared',
+          '@/wrappers': './src/wrappers',
           '@/database': './src/database',
           '@/errors': './src/errors',
           '@/service': './src/service',

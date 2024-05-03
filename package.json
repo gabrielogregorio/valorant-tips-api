@@ -8,6 +8,7 @@
     "start": "API_VERSION=$(node -p -e \"require('./package.json').version\") node dist/server.js",
     "dev": " yarn && API_VERSION=$(node -p -e \"require('./package.json').version\") ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts",
     "format": "yarn prettier --write .",
+    "doc": "npx typedoc",
     "test:outside": "make build-db-test && jest --runInBand --verbose",
     "test": "jest --runInBand --verbose",
     "test:workflow:coverage": "jest --coverage --runInBand",
@@ -94,6 +95,7 @@
     "ts-jest": "^29.1.2",
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.2.0",
+    "typedoc": "^0.25.10",
     "typescript": "^5.3.3"
   },
   "lint-staged": {

@@ -4,16 +4,16 @@ import statusCode from '@/config/statusCode';
 import path from 'path';
 
 import fs from 'fs';
+import { Log } from '@/logs/index';
 
 let docRouter = {};
 docbytest(statusCode)
   .then((res) => {
-    console.log(res);
     docRouter = res;
     fs.writeFileSync('./docs.json', JSON.stringify(docRouter, undefined, 2));
   })
   .catch((error) => {
-    console.error('erro ao carregar documentação', error);
+    Log.error('erro ao carregar documentação', error);
   });
 
 export const docsRouter: Router = express.Router();

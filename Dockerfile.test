@@ -1,12 +1,18 @@
 from node:16.20.1-bullseye
 WORKDIR /usr/src/app
 
-RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update
+RUN apt-get install -y git
+# Remove unused downloaded list
+RUN rm -rf /var/lib/apt/lists/*
+
+# add workdir as safe directory for running husky
 RUN git config --global --add safe.directory /usr/src/app
 
-COPY ./package.json ./yarn.lock ./
 
-RUN yarn
-
+#COPY ./package.json ./yarn.lock ./
 
 
+
+# RUN yarn

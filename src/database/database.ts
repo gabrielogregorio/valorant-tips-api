@@ -5,7 +5,7 @@ import { Log } from '@/logs/index';
 export class Database {
   mongoose: typeof mongoose;
 
-  verbose;
+  verbose: boolean;
 
   constructor({ verbose }: { verbose: boolean }) {
     this.mongoose = mongoose;
