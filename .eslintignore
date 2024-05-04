@@ -4,3 +4,4 @@ mongo-init.js
 *.http
 *.json
 *.js
+*.log

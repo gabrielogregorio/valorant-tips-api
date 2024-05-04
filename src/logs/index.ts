@@ -1,4 +1,5 @@
 import { DISABLE_LOGS } from '@/config/envs';
+import { asyncLocalStorage } from '../container/globalState';
 
 export const getActualMoment = (): string => {
   const date = new Date();
@@ -9,33 +10,39 @@ export const getActualMoment = (): string => {
   })}`;
 };
 
-type levelsType = 'ERROR' | 'INFO ' | 'WARN ' | 'DEBUG';
+export const getContext = () => {
+  const traceId = asyncLocalStorage.getStore();
 
-const colors: { [key in levelsType]: string } = {
-  'INFO ': '36',
+  return `${getActualMoment()} ${String(traceId).padEnd(20)}`;
+};
+
+export type levelsType = 'ERROR' | 'INFO' | 'WARN' | 'DEBUG';
+
+export const colors: { [key in levelsType]: string } = {
+  INFO: '36',
   ERROR: '31;1',
-  'WARN ': '33',
+  WARN: '33',
   DEBUG: '37;1',
 };
 
 /* eslint-disable no-console */
 
+export const runningInTerminal = (): boolean => Boolean(process.stdout.isTTY);
+
+export const applyColors = (level: levelsType, color: string): string => {
+  if (runningInTerminal()) {
+    return `\x1B[${color}m${level}\x1B[0m`.replace(' ', '');
+  }
+  return level;
+};
+
 export class Log {
   private static baseStart(level: levelsType): string {
-    return `[${this.applyColors(level, colors[level])}] ${getActualMoment()}`;
-  }
-
-  private static runningInTerminal = (): boolean => Boolean(process.stdout.isTTY);
-
-  private static applyColors(level: string, color: string): string {
-    if (this.runningInTerminal()) {
-      return `\x1B[${color}m${level}\x1B[0m`.replace(' ', '');
-    }
-    return level;
+    return `[${applyColors(level, colors[level])}]`;
   }
 
   public static info(message: unknown, ...extras: unknown[]): void {
-    this.showLogs('info', `${this.baseStart('INFO ')}`, message, extras);
+    this.showLogs('info', `${this.baseStart('INFO')}`, message, extras);
   }
 
   public static error(message: unknown, ...extras: unknown[]): void {
@@ -47,7 +54,7 @@ export class Log {
   }
 
   public static warning(message: unknown, ...extras: unknown[]): void {
-    this.showLogs('warn', `${this.baseStart('WARN ')}`, message, extras);
+    this.showLogs('warn', `${this.baseStart('WARN')}`, message, extras);
   }
 
   private static showLogs(
@@ -60,6 +67,6 @@ export class Log {
       return;
     }
 
-    console[level](color, message, ...extras);
+    console[level](color, getContext(), message, ...extras);
   }
 }
