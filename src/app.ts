@@ -5,13 +5,16 @@ import helmet from 'helmet';
 import { useSanitizeMongo } from '@/middlewares/useSanitizeMongo';
 import { useIpRequestLimiter } from '@/middlewares/useIpRequestLimiter';
 import { useCors } from '@/middlewares/useCors';
+import { useAddTraceId } from '@/middlewares/useAddTraceId';
+import { useLogger } from '@/middlewares/logger';
 import { router } from './routes';
 
 const app = express();
 app.disable('x-powered-by');
 
+app.use(useAddTraceId);
 app.use(useCors());
-
+app.use(useLogger);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

@@ -11,7 +11,7 @@ export type factoryPostType = {
 };
 
 export class DataPost {
-  static Build(post: any): factoryPostType {
+  static Build(post: any, options?: { returnUserId: boolean }): factoryPostType {
     const imgs: factoryImgsType[] = [];
     for (let x = 0; x < post?.imgs?.length; x += 1) {
       imgs.push(DataImgs.Build(post?.imgs[x]));
@@ -21,7 +21,7 @@ export class DataPost {
       id: post?._id.toString(),
       title: post?.title,
       description: post?.description,
-      user: post?.user ? DataUser.Build(post?.user) : null,
+      user: post?.user ? DataUser.Build(post?.user, options) : null,
       tags: post?.tags,
       imgs,
     };

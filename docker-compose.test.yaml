@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   vavatips-api-test:
     container_name: vavatips-api-test

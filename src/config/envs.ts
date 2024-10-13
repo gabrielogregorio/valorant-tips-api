@@ -1,4 +1,4 @@
-import '@/shared/envs';
+import '@/wrappers/envs';
 
 export const { PORT } = process.env;
 
