@@ -17,6 +17,7 @@ import { UserRepository } from '@/repositories/userRepository';
 import { AuthController } from '@/controllers/authController';
 import { AuthService } from '@/service/auth';
 import { PostService } from '@/service/post';
+import { CryptoPasswordHasher, PasswordHasher } from '@/service/passwordHasher';
 
 export class AppDependencyInjector {
   private static userControllerInstance: UserController;
@@ -44,6 +45,8 @@ export class AppDependencyInjector {
   private static userServiceInstance: UserService;
 
   private static viewServiceInstance: ViewService;
+
+  private static passwordHasherServiceInstance: PasswordHasher;
 
   private static authServiceInstance: AuthService;
 
@@ -144,7 +147,7 @@ export class AppDependencyInjector {
 
   static get userService(): UserService {
     if (!this.userServiceInstance) {
-      this.userServiceInstance = new UserService(this.userRepository);
+      this.userServiceInstance = new UserService(this.userRepository, this.passwordHasher);
     }
 
     return this.userServiceInstance;
@@ -160,10 +163,18 @@ export class AppDependencyInjector {
 
   static get authService(): AuthService {
     if (!this.authServiceInstance) {
-      this.authServiceInstance = new AuthService(this.userService);
+      this.authServiceInstance = new AuthService(this.userService, this.passwordHasher);
     }
 
     return this.authServiceInstance;
+  }
+
+  static get passwordHasher(): PasswordHasher {
+    if (!this.passwordHasherServiceInstance) {
+      this.passwordHasherServiceInstance = new CryptoPasswordHasher();
+    }
+
+    return this.passwordHasherServiceInstance;
   }
 
   static get suggestionRepository(): SuggestionRepository {

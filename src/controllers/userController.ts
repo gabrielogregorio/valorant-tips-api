@@ -32,11 +32,13 @@ export class UserController {
     }
 
     const userExists = await this.userService.findOneByUsername(username);
+
     if (userExists) {
       throw new AppError(errorStates.CONFLICT_ALREADY_EXISTS, 'username already exists');
     }
 
     const hash = await this.userService.createPasswordHash(password);
+
     const update: IUser = { username, password: hash };
     if (image !== undefined && image !== '') {
       update.image = image;

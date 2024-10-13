@@ -1,16 +1,15 @@
 import { JWT_SECRET } from '@/config/envs';
 import { AppError } from '@/errors/index';
 import { errorStates } from '@/errors/types';
+import { PasswordHasher } from '@/service/passwordHasher';
 import { UserService } from '@/service/user';
-import * as bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 export class AuthService {
-  private userService: UserService;
-
-  constructor(userService: UserService) {
-    this.userService = userService;
-  }
+  constructor(
+    private userService: UserService,
+    private passwordHasher: PasswordHasher,
+  ) {}
 
   auth = async ({ username, password }: { username: string; password: string }) => {
     const user = await this.userService.findOneByUsername(username);
@@ -19,8 +18,7 @@ export class AuthService {
       throw new AppError(errorStates.RESOURCE_NOT_EXISTS);
     }
 
-    const valid = await bcrypt.compare(password, user.password);
-    if (!valid) {
+    if (!this.passwordHasher.validatePassword(password, user.password)) {
       throw new AppError(errorStates.PASSWORD_IS_INVALID, 'encrypt is invalid');
     }
 

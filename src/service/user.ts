@@ -3,23 +3,19 @@ import { errorStates } from '@/errors/types';
 import { DataUser } from '@/factories/dataUser';
 import { IUser } from '@/interfaces/user';
 import { UserRepository } from '@/repositories/userRepository';
-import * as bcrypt from 'bcrypt';
+import { PasswordHasher } from '@/service/passwordHasher';
 
 export class UserService {
-  private userRepository: UserRepository;
-
-  constructor(userRepository: UserRepository) {
-    this.userRepository = userRepository;
-  }
+  constructor(
+    private userRepository: UserRepository,
+    private passwordHasher: PasswordHasher,
+  ) {}
 
   create = async ({ username, password, image }: IUser): Promise<IUser> =>
     this.userRepository.create({ username, password, image });
 
   async createPasswordHash(password: string): Promise<string> {
-    const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(password, salt);
-
-    return hash;
+    return this.passwordHasher.generateHashPassword(password);
   }
 
   findByIdAndUpdate = async (id: string, { username, password, image }: Partial<IUser>) => {

@@ -51,15 +51,14 @@ dev-db: start-setup
 build-db: start-setup
 	@docker compose -f ./docker-compose.dev.yaml up --build --force-recreate -d vavatips-api-mongodb
 
-build-db-test: start-setup
-	make stop
-	@docker compose -f ./docker-compose.test.yaml up --build --force-recreate -d vavatips-db-test
+build-test: start-setup
+	@docker compose --env-file .env.test -f ./docker-compose.test.yaml down --remove-orphans --volumes
+	@docker compose --env-file .env.test -f ./docker-compose.test.yaml up --build -d
 
 tests: start-setup
-	docker compose -f ./docker-compose.test.yaml down --remove-orphans --volumes
-	docker compose -f ./docker-compose.test.yaml up --build -d vavatips-db-test
-	docker compose -f ./docker-compose.test.yaml run -T vavatips-api-test yarn run test
-	docker compose -f ./docker-compose.test.yaml rm -f -s -v vavatips-db-test vavatips-api-test
+	make build-test
+	@docker compose --env-file .env.test -f ./docker-compose.test.yaml run -T vavatips-api-test yarn test
+	@docker compose --env-file .env.test -f ./docker-compose.test.yaml rm -f -s -v vavatips-db-test vavatips-api-test
 
 bash:
 	@docker exec -it vavatips-api /bin/bash

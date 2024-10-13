@@ -1,5 +1,6 @@
-import { createPostMocker, createUserMocker, databaseMock, requestMock } from './utils';
+import { createPostMocker, createUserMocker, createDatabaseMock, requestMock } from './utils';
 
+const databaseMock = createDatabaseMock();
 let authorization: Record<string, string> = { Authorization: '' };
 let postIdReal = '';
 let idCreatedSuggestion = '';

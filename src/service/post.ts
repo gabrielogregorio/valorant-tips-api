@@ -49,13 +49,13 @@ export class PostService {
     return post;
   };
 
-  findByIdOrThrow = async (id: string): Promise<factoryPostType> => {
+  findByIdOrThrow = async (id: string, options?: { returnUserId: boolean }): Promise<factoryPostType> => {
     const post = await this.postRepository.findById(id);
     if (!post) {
       throw new AppError(errorStates.RESOURCE_NOT_EXISTS, `post ${id} not exists`);
     }
 
-    return DataPost.Build(post);
+    return DataPost.Build(post, options);
   };
 
   findAvailableMaps = async (): Promise<string[]> => this.postRepository.findAvailableMaps();
@@ -85,9 +85,8 @@ export class PostService {
   };
 
   deleteById = async (idPost: string, userId: string) => {
-    const post = await this.findByIdOrThrow(idPost);
-    // @ts-ignore
-    if (post?.user?._id?.toString() !== userId) {
+    const post = await this.findByIdOrThrow(idPost, { returnUserId: true });
+    if (post?.user?.id !== userId) {
       throw new AppError(errorStates.FORBIDDEN);
     }
 

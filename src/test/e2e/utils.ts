@@ -32,7 +32,7 @@ const post = {
 };
 
 export const requestMock = supertest(app);
-export const databaseMock = new Database({ verbose: false });
+export const createDatabaseMock = () => new Database({ verbose: false });
 
 export const createUserMocker = async (): Promise<{
   userId: string;

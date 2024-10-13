@@ -4,11 +4,12 @@ import { IUser } from '@/interfaces/user';
 
 export type factoryUserType = {
   username: string;
+  id?: string;
   image?: string;
 };
 
 export class DataUser {
-  static Build(user: IUser | null): factoryUserType {
+  static Build(user: IUser | null, options?: { returnUserId: boolean }): factoryUserType {
     if (!user) {
       throw new AppError(errorStates.RESOURCE_NOT_EXISTS);
     }
@@ -18,6 +19,7 @@ export class DataUser {
     return {
       ...image,
       username: user?.username,
+      ...(options?.returnUserId ? { id: user._id?.toString() } : {}),
     };
   }
 }

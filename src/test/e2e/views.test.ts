@@ -1,6 +1,7 @@
 import statusCode from '@/config/statusCode';
-import { databaseMock, requestMock } from '@/test/e2e/utils';
+import { createDatabaseMock, requestMock } from '@/test/e2e/utils';
 
+const databaseMock = createDatabaseMock();
 let views = 0;
 
 describe('👀 Visualizações', () => {
