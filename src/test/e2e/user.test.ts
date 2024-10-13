@@ -1,6 +1,12 @@
 import { SECURITY_CODE } from '@/config/envs';
-import { databaseMock, requestMock } from '@/test/e2e/utils';
+import { createDatabaseMock } from '@/test/e2e/utils';
 
+import supertest from 'supertest';
+import { app } from '../../app';
+
+const databaseMock = createDatabaseMock();
+
+const requestMock = supertest(app);
 let token = { authorization: 'eyJhbGciOiJIUzI1NiIsInR5c' };
 let codeGenerate = 'código enviado pelos devs';
 let codeGenerate2 = 'código enviado pelos devs';
@@ -26,7 +32,6 @@ describe('[2]: 👤 Usuários', () => {
 
   afterAll(async () => {
     await databaseMock.e2eDrop();
-    await databaseMock.close();
   });
   /* doc: O cadastro de usuário precisa ser solicitada aos desenvolvedores */
 
@@ -36,7 +41,6 @@ describe('[2]: 👤 Usuários', () => {
      */
 
     const response = await requestMock.post('/users').send(newUser);
-
     expect(response.statusCode).toEqual(200);
     expect(response.body).toEqual({ username: 'lucia santos teste' });
   });

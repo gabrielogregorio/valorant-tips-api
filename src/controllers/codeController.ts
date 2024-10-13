@@ -11,6 +11,6 @@ export class CodeController {
   generate = async (_req: Request, res: Response<{ token: string }>) => {
     const token = await this.codeService.create();
 
-    res.json({ token: token.code });
+    return res.json({ token: token.code });
   };
 }

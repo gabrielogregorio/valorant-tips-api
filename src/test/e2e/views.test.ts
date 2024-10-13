@@ -5,12 +5,16 @@ let views = 0;
 
 describe('👀 Visualizações', () => {
   beforeAll(async () => {
+
     await databaseMock.e2eTestConnect();
+
   });
 
   afterAll(async () => {
+
     await databaseMock.e2eDrop();
     await databaseMock.close();
+
   });
 
   it('[doc]: ✅ Retorna quantidade de visualizações', async () => {

@@ -1,4 +1,5 @@
 import express from 'express';
+import 'express-async-errors';
 import { useHandleErrors } from '@/middlewares/useHandleErrors';
 import { useSanitizedBody } from '@/middlewares/useSanitizedBody';
 import helmet from 'helmet';
@@ -15,7 +16,6 @@ app.disable('x-powered-by');
 app.use(useAddTraceId);
 app.use(useCors());
 app.use(useLogger);
-app.use((res, test,des) => {});
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

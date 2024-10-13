@@ -35,6 +35,12 @@
       }
     ],
 
+    "no-useless-constructor": "off",
+    "@typescript-eslint/no-useless-constructor": "error",
+
+    "no-empty-function": "off",
+    "@typescript-eslint/no-empty-function": "error",
+
     "no-underscore-dangle": "off",
     "no-shadow": "off",
     "class-methods-use-this": "off",
