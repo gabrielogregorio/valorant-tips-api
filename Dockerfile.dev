@@ -1,4 +1,4 @@
-from node:16.20.1-bullseye
+FROM node:20-alpine
 WORKDIR /usr/src/app
 
 

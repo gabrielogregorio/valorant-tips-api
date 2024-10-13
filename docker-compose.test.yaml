@@ -7,7 +7,6 @@ services:
         limits:
           memory: 1G
           cpus: '1.0'
-    image: node:16-bullseye
     build:
       context: ./
       dockerfile: ./Dockerfile.test

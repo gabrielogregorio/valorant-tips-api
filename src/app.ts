@@ -15,6 +15,7 @@ app.disable('x-powered-by');
 app.use(useAddTraceId);
 app.use(useCors());
 app.use(useLogger);
+app.use((res, test,des) => {});
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
