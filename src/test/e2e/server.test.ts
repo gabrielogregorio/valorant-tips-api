@@ -1,5 +1,7 @@
 import statusCode from '@/config/statusCode';
-import { databaseMock, requestMock } from '@/test/e2e/utils';
+import { requestMock, createDatabaseMock } from '@/test/e2e/utils';
+
+const databaseMock = createDatabaseMock();
 
 describe('💻 Testa se o servidor está rodando', () => {
   beforeAll(async () => {

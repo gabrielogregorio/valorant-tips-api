@@ -28,6 +28,7 @@ const storage = new CloudinaryStorage({
 
 const LIMIT_SIZE_UPLOAD_IN_BYTES = convertMegabytesToBytes(10);
 const upload = multer({
+  // @ts-ignore
   storage,
   limits: {
     fileSize: LIMIT_SIZE_UPLOAD_IN_BYTES,
@@ -38,6 +39,7 @@ export const postRouter: Router = express.Router();
 
 const { postController } = AppDependencyInjector;
 
+// @ts-ignore
 postRouter.post('/load-file', useHasFile, upload.single('image'), postController.uploadFile);
 postRouter.post('/', userAuth, useValidation({ body: schemaCreatePost }), postController.createPost as any);
 postRouter.put('/:id', userAuth, useValidation({ body: schemaUpdatePosts }), postController.updatePost as any);

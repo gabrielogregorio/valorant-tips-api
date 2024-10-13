@@ -11,6 +11,7 @@ export const userRouter: Router = express.Router();
 
 const { userController } = AppDependencyInjector;
 
+// @ts-ignore
 userRouter.post('/loadImageProfile', useHasFile, useMulterUser.single('image'), userController.uploadImage);
 userRouter.post('/', useValidation({ body: schemaCreateUser }), userController.createUser);
 userRouter.patch('/', useValidation({ body: schemaUpdateUser }), userAuth, userController.updateUser);

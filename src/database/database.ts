@@ -39,7 +39,7 @@ export class Database {
   }
 
   public async e2eDrop() {
-    await mongoose.connection.db.dropDatabase();
+    await mongoose.connection.db!.dropDatabase();
 
     this.close();
   }

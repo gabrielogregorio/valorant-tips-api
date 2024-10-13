@@ -1,6 +1,8 @@
 import mockTests from '@/mock/mockTests.json';
 import { SECURITY_CODE } from '@/config/envs';
-import { databaseMock, requestMock } from '@/test/e2e/utils';
+import { createDatabaseMock, requestMock } from '@/test/e2e/utils';
+
+const databaseMock = createDatabaseMock();
 
 let codeGenerate = '';
 let token = { authorization: '' };

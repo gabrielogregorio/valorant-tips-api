@@ -1,20 +1,17 @@
 import statusCode from '@/config/statusCode';
-import { databaseMock, requestMock } from '@/test/e2e/utils';
+import { createDatabaseMock, requestMock } from '@/test/e2e/utils';
 
+const databaseMock = createDatabaseMock();
 let views = 0;
 
 describe('👀 Visualizações', () => {
   beforeAll(async () => {
-
     await databaseMock.e2eTestConnect();
-
   });
 
   afterAll(async () => {
-
     await databaseMock.e2eDrop();
     await databaseMock.close();
-
   });
 
   it('[doc]: ✅ Retorna quantidade de visualizações', async () => {
