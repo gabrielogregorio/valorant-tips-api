@@ -5,7 +5,7 @@ import { SuggestionController } from '@/controllers/suggestionController';
 import { UserController } from '@/controllers/userController';
 import { ViewsController } from '@/controllers/viewsController';
 import { CodeRepository } from '@/repositories/codeRepository';
-import { PostRepository } from '@/repositories/postRepository';
+import { PostInfraRepository } from '@/repositories/postRepository';
 import { ViewsRepository } from '@/repositories/viewsRepository';
 import { CodeService } from '@/service/Code';
 import { ViewService } from '@/service/View';
@@ -56,7 +56,7 @@ export class AppDependencyInjector {
 
   private static codeRepositoryInstance: CodeRepository;
 
-  private static postRepositoryInstance: PostRepository;
+  private static postRepositoryInstance: PostInfraRepository;
 
   private static viewsRepositoryInstance: ViewsRepository;
 
@@ -201,9 +201,9 @@ export class AppDependencyInjector {
     return this.codeRepositoryInstance;
   }
 
-  static get postRepository(): PostRepository {
+  static get postRepository(): PostInfraRepository {
     if (!this.postRepositoryInstance) {
-      this.postRepositoryInstance = new PostRepository();
+      this.postRepositoryInstance = new PostInfraRepository();
     }
 
     return this.postRepositoryInstance;

@@ -1,4 +1,4 @@
-import { PostRepository } from '@/repositories/postRepository';
+import { PostInfraRepository } from '@/repositories/postRepository';
 import { SuggestionRepository } from '@/repositories/suggestionRepository';
 import { UserRepository } from '@/repositories/userRepository';
 import { ViewsRepository } from '@/repositories/viewsRepository';
@@ -16,7 +16,7 @@ export type IDashboardServiceType = {
 export class DashboardService {
   private userRepository: UserRepository;
 
-  private postRepository: PostRepository;
+  private postRepository: PostInfraRepository;
 
   private suggestionRepository: SuggestionRepository;
 
@@ -24,7 +24,7 @@ export class DashboardService {
 
   constructor(
     userRepository: UserRepository,
-    postRepository: PostRepository,
+    postRepository: PostInfraRepository,
     suggestionRepository: SuggestionRepository,
     viewsRepository: ViewsRepository,
   ) {

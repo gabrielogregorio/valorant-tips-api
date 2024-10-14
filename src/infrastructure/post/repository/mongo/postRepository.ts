@@ -1,12 +1,19 @@
-/* eslint-disable import/no-restricted-paths */
-import { Post } from '@/models/Post';
 import { IPost } from '@/interfaces/post';
+import { PostEntity } from '../../../../domain/post/entity/post';
+import { PostAggregateRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
+import { Post } from './Post';
 
-export class PostRepository {
-  create = async (post: IPost): Promise<IPost> => {
-    const newPost = new Post(post);
+export class PostInfraRepository implements PostAggregateRepositoryInterface {
+  create = async (post: PostEntity): Promise<void> => {
+    const newPost = new Post({
+      description: post.description,
+      imgs: post.imgs,
+      tags: post.tags,
+      title: post.title,
+      user: post.userId,
+      _id: post.id,
+    });
     await newPost.save();
-    return newPost;
   };
 
   findByIdAndUpdate = async (id: string, post: Partial<IPost>): Promise<IPost | null> =>

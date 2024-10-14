@@ -1,13 +1,13 @@
-import { AppError } from '@/errors/index';
-import { errorStates } from '@/errors/types';
-import { PostRepository } from '@/repositories/postRepository';
 import { IImagePost, IPost } from '@/interfaces/post';
 import { DataPost, factoryPostType } from '@/factories/dataPost';
+import { AppError } from '@/errors/index';
+import { errorStates } from '@/errors/types';
+import { PostInfraRepository } from '@/repositories/postRepository';
 
 export class PostService {
-  private postRepository: PostRepository;
+  private postRepository: PostInfraRepository;
 
-  constructor(postRepository: PostRepository) {
+  constructor(postRepository: PostInfraRepository) {
     this.postRepository = postRepository;
   }
 
