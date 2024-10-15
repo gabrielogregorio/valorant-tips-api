@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 export interface IImagePost {
-  _id: string;
+  id: string;
   description: string;
   image: string;
 }

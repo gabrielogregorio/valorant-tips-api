@@ -1,25 +1,36 @@
-export interface PostInterface {
+export type PostInterfaceImage = {
   id: string;
-
-  title: string;
-
   description: string;
+  image: string;
+};
 
-  userId: string;
+export type PostInterfaceTags = {
+  moment: string;
+  difficult: string;
+  ability: string;
+  side: string;
+  map: string;
+  mapPosition: string;
+  agent: string;
+};
 
-  tags: {
-    moment: string;
-    difficult: string;
-    ability: string;
-    side: string;
-    map: string;
-    mapPosition: string;
-    agent: string;
-  };
+export interface PostInterface {
+  get id(): string;
 
-  imgs: {
-    id: String;
-    description: String;
-    image: String;
-  }[];
+  get title(): string;
+
+  get description(): string;
+
+  get userId(): string;
+
+  get tags(): PostInterfaceTags;
+
+  get imgs(): PostInterfaceImage[];
+
+  changeTags(tags: PostInterfaceTags): void;
+
+  changeDescription(description: string): void;
+  changeImgs(imgs: PostInterfaceImage[]): void;
+
+  validate(): void;
 }

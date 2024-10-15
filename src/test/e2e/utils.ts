@@ -19,12 +19,12 @@ const post = {
   },
   imgs: [
     {
-      _id: '1',
+      id: '1',
       description: 'Primeiro mire no pontinho roxo indicado',
       image: 'image/pontinho.png',
     },
     {
-      _id: '2',
+      id: '2',
       description: 'Depois solte a flexa com 1.5 de força',
       image: 'img/pontinho2.png',
     },

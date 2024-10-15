@@ -5,7 +5,7 @@ import { SuggestionController } from '@/controllers/suggestionController';
 import { UserController } from '@/controllers/userController';
 import { ViewsController } from '@/controllers/viewsController';
 import { CodeRepository } from '@/repositories/codeRepository';
-import { PostInfraRepository } from '@/repositories/postRepository';
+import { PostRepository } from '@/repositories/postRepository';
 import { ViewsRepository } from '@/repositories/viewsRepository';
 import { CodeService } from '@/service/Code';
 import { ViewService } from '@/service/View';
@@ -13,11 +13,11 @@ import { DashboardService } from '@/service/dashboard';
 import { SuggestionService } from '@/service/suggestion';
 import { UserService } from '@/service/user';
 import { SuggestionRepository } from '@/repositories/suggestionRepository';
-import { UserRepository } from '@/repositories/userRepository';
+import { UserRepository } from '@/repositories/UserRepository';
 import { AuthController } from '@/controllers/authController';
 import { AuthService } from '@/service/auth';
 import { PostService } from '@/service/post';
-import { CryptoPasswordHasher, PasswordHasher } from '@/service/passwordHasher';
+import { PasswordHasher, PasswordHasherInterface } from '@/service/PasswordHasherInterface';
 
 export class AppDependencyInjector {
   private static userControllerInstance: UserController;
@@ -46,17 +46,17 @@ export class AppDependencyInjector {
 
   private static viewServiceInstance: ViewService;
 
-  private static passwordHasherServiceInstance: PasswordHasher;
+  private static PasswordHasherInterfaceServiceInstance: PasswordHasherInterface;
 
   private static authServiceInstance: AuthService;
 
   private static suggestionRepositoryInstance: SuggestionRepository;
 
-  private static userRepositoryInstance: UserRepository;
+  private static UserRepositoryInstance: UserRepository;
 
   private static codeRepositoryInstance: CodeRepository;
 
-  private static postRepositoryInstance: PostInfraRepository;
+  private static postRepositoryInstance: PostRepository;
 
   private static viewsRepositoryInstance: ViewsRepository;
 
@@ -119,7 +119,7 @@ export class AppDependencyInjector {
   static get dashboardService(): DashboardService {
     if (!this.dashboardServiceInstance) {
       this.dashboardServiceInstance = new DashboardService(
-        this.userRepository,
+        this.UserRepository,
         this.postRepository,
         this.suggestionRepository,
         this.viewsRepository,
@@ -147,7 +147,7 @@ export class AppDependencyInjector {
 
   static get userService(): UserService {
     if (!this.userServiceInstance) {
-      this.userServiceInstance = new UserService(this.userRepository, this.passwordHasher);
+      this.userServiceInstance = new UserService(this.UserRepository, this.PasswordHasherInterface);
     }
 
     return this.userServiceInstance;
@@ -163,18 +163,18 @@ export class AppDependencyInjector {
 
   static get authService(): AuthService {
     if (!this.authServiceInstance) {
-      this.authServiceInstance = new AuthService(this.userService, this.passwordHasher);
+      this.authServiceInstance = new AuthService(this.userService, this.PasswordHasherInterface);
     }
 
     return this.authServiceInstance;
   }
 
-  static get passwordHasher(): PasswordHasher {
-    if (!this.passwordHasherServiceInstance) {
-      this.passwordHasherServiceInstance = new CryptoPasswordHasher();
+  static get PasswordHasherInterface(): PasswordHasherInterface {
+    if (!this.PasswordHasherInterfaceServiceInstance) {
+      this.PasswordHasherInterfaceServiceInstance = new PasswordHasher();
     }
 
-    return this.passwordHasherServiceInstance;
+    return this.PasswordHasherInterfaceServiceInstance;
   }
 
   static get suggestionRepository(): SuggestionRepository {
@@ -185,12 +185,12 @@ export class AppDependencyInjector {
     return this.suggestionRepositoryInstance;
   }
 
-  static get userRepository(): UserRepository {
-    if (!this.userRepositoryInstance) {
-      this.userRepositoryInstance = new UserRepository();
+  static get UserRepository(): UserRepository {
+    if (!this.UserRepositoryInstance) {
+      this.UserRepositoryInstance = new UserRepository();
     }
 
-    return this.userRepositoryInstance;
+    return this.UserRepositoryInstance;
   }
 
   static get codeRepository(): CodeRepository {
@@ -201,9 +201,9 @@ export class AppDependencyInjector {
     return this.codeRepositoryInstance;
   }
 
-  static get postRepository(): PostInfraRepository {
+  static get postRepository(): PostRepository {
     if (!this.postRepositoryInstance) {
-      this.postRepositoryInstance = new PostInfraRepository();
+      this.postRepositoryInstance = new PostRepository();
     }
 
     return this.postRepositoryInstance;

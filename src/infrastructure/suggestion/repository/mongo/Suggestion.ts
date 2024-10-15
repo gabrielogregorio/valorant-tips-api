@@ -1,8 +1,10 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import { IDatabaseSuggestion } from '@/interfaces/suggestion';
 
 const suggestionSchema = new mongoose.Schema<IDatabaseSuggestion>(
   {
+    // @ts-ignore
+    _id: { type: Schema.Types.ObjectId, alias: 'id' },
     postId: {
       type: mongoose.Schema.Types.ObjectId,
       index: true,

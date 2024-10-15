@@ -7,7 +7,7 @@ export type factoryImgsType = {
 export class DataImgs {
   static Build(img: any): factoryImgsType {
     return {
-      id: img?._id,
+      id: img?.id,
       description: img?.description,
       image: img?.image,
     };

@@ -1,8 +1,10 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import { IPost } from 'src/interfaces/post';
 
 const postSchema = new mongoose.Schema<IPost>(
   {
+    // @ts-ignore
+    _id: { type: Schema.Types.ObjectId, alias: 'id' },
     title: String,
     description: String,
     user: {
@@ -20,7 +22,7 @@ const postSchema = new mongoose.Schema<IPost>(
     },
     imgs: [
       {
-        _id: String,
+        id: String,
         description: String,
         image: String,
       },

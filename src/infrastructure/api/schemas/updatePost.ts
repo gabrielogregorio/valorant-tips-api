@@ -24,7 +24,7 @@ export const schemaUpdatePosts = Joi.object<updatePostBodyType, true>().keys({
     Joi.object({
       description: Joi.string().required(),
       image: Joi.string().required(),
-      _id: Joi.string().required(),
+      id: Joi.string().required(),
     }),
   ),
 });

@@ -34,7 +34,7 @@ content-type: application/json
   },
   "imgs":[
     {
-      "_id":"example",
+      "id":"example",
       "description":"descImage",
       "image":"link"
     }
@@ -67,7 +67,7 @@ content-type: application/json
   },
   "imgs":[
     {
-      "_id":"example2222",
+      "id":"example2222",
       "description":"desc2",
       "image":"image2"
     }

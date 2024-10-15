@@ -1,22 +1,26 @@
-/* eslint-disable import/no-restricted-paths */
-import { IUser } from '@/interfaces/user';
-import { User } from '@/models/User';
+import { UserEntity } from '../../../../domain/user/entity/user';
+import { UserRepositoryInterface } from '../../../../domain/user/repository/userRepository.interface';
+import { User } from './User';
 
-export class UserRepository {
-  create = async (user: IUser): Promise<IUser> => {
+export class UserRepository implements UserRepositoryInterface {
+  save = async (user: UserEntity): Promise<UserEntity> => {
     const newUser = new User(user);
     await newUser.save();
-    return newUser;
+
+    return user;
   };
 
-  findOneAndUpdate = async (id: string, user: Partial<IUser>) =>
-    User.findOneAndUpdate({ _id: id }, { $set: user }, { new: true });
+  update = async (id: string, user: Partial<UserEntity>) => {
+    await User.findOneAndUpdate({ id }, { $set: user }, { new: true });
+  };
 
-  findById = async (id: string): Promise<IUser | null> => User.findById(id);
+  findById = async (id: string): Promise<UserEntity | null> => User.findById(id);
 
-  findOneByUsername = async (username: string): Promise<IUser | null> => User.findOne({ username });
+  findOneByUsername = async (username: string): Promise<UserEntity | null> => User.findOne({ username });
 
-  findOneAndDelete = async (id: string) => User.findOneAndDelete({ _id: id });
+  findOneAndDelete = async (id: string): Promise<void> => {
+    await User.findOneAndDelete({ id });
+  };
 
-  countDocuments = async () => User.countDocuments({});
+  countDocuments = async (): Promise<number> => User.countDocuments({});
 }

@@ -1,4 +1,4 @@
-import { errorStateItemType } from '@/errors/types';
+import { errorStateItemType } from './types';
 
 export class AppError {
   error: errorStateItemType;

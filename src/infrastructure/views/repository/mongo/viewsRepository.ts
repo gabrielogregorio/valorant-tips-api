@@ -1,20 +1,31 @@
-/* eslint-disable import/no-restricted-paths */
-import { IView } from '@/interfaces/view';
-import { View } from '@/models/View';
+import { ViewsAggregateRepositoryInterface } from '../../../../domain/views/repository/inteface';
+import { ViewsEntity } from '../../../../domain/views/enttity';
+import { View } from './View';
 
 export type countViewsType = {
   countAll: number;
   countIps: number;
 };
 
-export class ViewsRepository {
-  create = async (view: IView): Promise<IView> => {
+export class ViewsRepository implements ViewsAggregateRepositoryInterface {
+  save = async (view: ViewsEntity): Promise<ViewsEntity> => {
     const newView = new View(view);
     await newView.save();
-    return newView;
+    return new ViewsEntity({
+      dateAccess: newView.dateAccess,
+      ip: newView.ip,
+    });
   };
 
-  findAll = () => View.find();
+  findAll = async (): Promise<ViewsEntity[]> => {
+    const views = await View.find();
 
-  findAllDistinctIp = () => View.find().distinct('ip');
+    return views.map((item) => new ViewsEntity({ dateAccess: item.dateAccess, ip: item.ip }));
+  };
+
+  findAllDistinctIp = async () => {
+    // etennder o que retorna aqui
+    const views = await View.find().distinct('ip');
+    return views;
+  };
 }

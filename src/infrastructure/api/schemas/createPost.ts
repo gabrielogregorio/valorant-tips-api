@@ -25,7 +25,7 @@ export const schemaCreatePost = Joi.object<CreatePostBodyType, true>().keys({
       Joi.object({
         description: Joi.string().required(),
         image: Joi.string().required(),
-        _id: Joi.string().required(),
+        id: Joi.string().required(),
       }),
     )
     .required(),

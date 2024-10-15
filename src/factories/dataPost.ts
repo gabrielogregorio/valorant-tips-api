@@ -18,7 +18,7 @@ export class DataPost {
     }
 
     return {
-      id: post?._id.toString(),
+      id: post?.id.toString(),
       title: post?.title,
       description: post?.description,
       user: post?.user ? DataUser.Build(post?.user, options) : null,
