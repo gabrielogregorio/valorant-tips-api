@@ -4,12 +4,17 @@ import { Code } from './Code';
 
 export class CodeRepository implements CodeAggregateRepositoryInterface {
   save = async (code: CodeEntity): Promise<CodeEntity> => {
-    const newCode = new Code(code);
+    const newCode = new Code({
+      available: code.available,
+      code: code.code,
+      id: code.id,
+    });
     await newCode.save();
 
     return new CodeEntity({
       available: newCode.available,
       code: newCode.code,
+      id: newCode.id,
     });
   };
 

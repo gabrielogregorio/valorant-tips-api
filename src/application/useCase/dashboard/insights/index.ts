@@ -2,7 +2,7 @@ import { PostAggregateRepositoryInterface } from '../../../../domain/post/reposi
 import { SuggestionAggregateRepositoryInterface } from '../../../../domain/suggestion/repository';
 import { UserRepositoryInterface } from '../../../../domain/user/repository/userRepository.interface';
 import { ViewsAggregateRepositoryInterface } from '../../../../domain/views/repository/inteface';
-import { InsightsUseCaseInterface, OutputInsightsDto } from '../../../interfaces/InsightsUseCaseInterface';
+import { InsightsUseCaseInterface, OutputInsightsDto } from './InsightsUseCaseInterface';
 
 export class InsightsUseCase implements InsightsUseCaseInterface {
   constructor(

@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
-import { Entity } from '../../@shared/entity/entity.abstract';
-import { NotificationError } from '../../@shared/notification/notification.error';
+import { Entity } from '../../common/entity/entity.abstract';
+import { NotificationError } from '../../common/notification/notification.error';
 import { UserValidatorFactory } from '../factory/user.validator';
 import { UserEntityInterface } from './user.interface';
 

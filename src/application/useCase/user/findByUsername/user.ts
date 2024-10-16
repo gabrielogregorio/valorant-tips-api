@@ -1,8 +1,5 @@
 import { UserRepositoryInterface } from '../../../../domain/user/repository/userRepository.interface';
-import {
-  FindUserByUsernameUseCaseInterface,
-  OutputFindUserByUsernameDto,
-} from '../../../interfaces/FindUserByUsernameUseCaseInterface';
+import { FindUserByUsernameUseCaseInterface, OutputFindUserByUsernameDto } from './FindUserByUsernameUseCaseInterface';
 
 export class FindUserByUsernameUseCase implements FindUserByUsernameUseCaseInterface {
   constructor(private UserRepository: UserRepositoryInterface) {}

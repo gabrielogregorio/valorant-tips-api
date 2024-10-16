@@ -1,29 +1,49 @@
 import { v4 as uuidV4 } from 'uuid';
-import { Entity } from '../../@shared/entity/entity.abstract';
-import { NotificationError } from '../../@shared/notification/notification.error';
 import { CodeValidatorFactory } from '../factory/validator';
+import { Entity } from '../../common/entity/entity.abstract';
+import { NotificationError } from '../../common/notification/notification.error';
 
 export interface CodeEntityInterface {
   get code(): string;
   get available(): boolean;
+  get id(): string;
 
   useCode(): void;
   validate(): void;
 }
 
 export class CodeEntity extends Entity implements CodeEntityInterface {
-  code: string;
+  _code: string;
 
-  available: boolean;
+  _id: string;
 
-  constructor({ available = true, code = uuidV4() }: { code?: string; available?: boolean } = {}) {
+  _available: boolean;
+
+  constructor({
+    available = true,
+    code = uuidV4(),
+    id = uuidV4(),
+  }: { code?: string; available?: boolean; id?: string } = {}) {
     super();
-    this.available = available;
-    this.code = code;
+    this._available = available;
+    this._code = code;
+    this._id = id;
+  }
+
+  get id(): string {
+    return this._id;
+  }
+
+  get available(): boolean {
+    return this._available;
+  }
+
+  get code(): string {
+    return this._code;
   }
 
   useCode() {
-    this.available = false;
+    this._available = false;
     this.validate();
   }
 

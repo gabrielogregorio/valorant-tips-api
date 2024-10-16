@@ -1,7 +1,7 @@
 import express from 'express';
 import { useValidation } from '@/middlewares/useValidation';
-import { schemaAuth } from '@/schemas/makeAuth';
 import { AppDependencyInjector } from '../container';
+import { schemaAuth } from '../schemas/makeAuth.schema';
 
 export const authRouter = express.Router();
 

@@ -1,5 +1,5 @@
-import { ICreateSuggestion } from '@/interfaces/suggestion';
 import Joi from 'joi';
+import { ICreateSuggestion } from '../interfaces/suggestion';
 
 type typeSchema = Omit<ICreateSuggestion, 'status'>;
 

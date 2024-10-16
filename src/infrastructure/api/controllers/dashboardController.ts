@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { InsightsUseCaseInterface } from '../../../application/interfaces/InsightsUseCaseInterface';
+import { InsightsUseCaseInterface } from '../../../application/useCase/dashboard/insights/InsightsUseCaseInterface';
 
 type IDashboardServiceType = {
   countAll: number;

@@ -1,8 +1,5 @@
 import { SuggestionAggregateRepositoryInterface } from '../../../../domain/suggestion/repository';
-import {
-  FindAllSuggestionsUseCaseInterface,
-  OutputFindAllSuggestionsDto,
-} from '../../../interfaces/FindAllSuggestionsUseCaseInterface';
+import { FindAllSuggestionsUseCaseInterface, OutputFindAllSuggestionsDto } from './FindAllSuggestionsUseCaseInterface';
 
 export class FindAllSuggestionsUseCase implements FindAllSuggestionsUseCaseInterface {
   constructor(private suggestionRepository: SuggestionAggregateRepositoryInterface) {}

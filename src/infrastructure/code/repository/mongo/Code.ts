@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { ICode } from 'src/interfaces/code';
+import { ICode } from '../../../api/interfaces/code';
 
 const codeSchema = new mongoose.Schema<ICode>(
   {
@@ -14,6 +14,5 @@ const codeSchema = new mongoose.Schema<ICode>(
     timestamps: true,
   },
 );
-
 
 export const Code = mongoose.model<ICode>('Code', codeSchema);

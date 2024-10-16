@@ -65,6 +65,12 @@ tests: start-setup
 	@docker compose --env-file .env.test -f ./docker-compose.test.yaml run -T vavatips-api-test yarn test
 	@docker compose --env-file .env.test -f ./docker-compose.test.yaml rm -f -s -v vavatips-db-test vavatips-api-test
 
+test-watch: start-setup
+	make build-test
+	@docker compose --env-file .env.test -f ./docker-compose.test.yaml run vavatips-api-test yarn test:watch
+	@docker compose --env-file .env.test -f ./docker-compose.test.yaml rm -f -s -v vavatips-db-test vavatips-api-test
+
+
 bash:
 	@docker exec -it vavatips-api /bin/bash
 

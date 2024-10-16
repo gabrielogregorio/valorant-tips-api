@@ -1,65 +1,49 @@
-import { SECURITY_CODE } from '@/config/envs';
-import { createDatabaseMock } from '@/test/e2e/utils';
-
 import supertest from 'supertest';
-import { app } from '../../app';
+import { createDatabaseMock, generateToken } from './utils';
+import { app } from '../../infrastructure/api/app';
 
 const databaseMock = createDatabaseMock();
 
 const requestMock = supertest(app);
 let token = { authorization: 'eyJhbGciOiJIUzI1NiIsInR5c' };
-let codeGenerate = 'código enviado pelos devs';
-let codeGenerate2 = 'código enviado pelos devs';
 
-let newUser = {
-  code: 'código enviado pelos devs',
-  username: 'lucia santos teste',
-  password: '1234abc',
-};
-
-describe('[2]: 👤 Usuários', () => {
+describe('Users', () => {
   beforeAll(async () => {
     await databaseMock.e2eTestConnect();
-
-    const res = await requestMock.post('/code').send({ securityCode: SECURITY_CODE });
-
-    codeGenerate = res.body.token;
-    newUser = { ...newUser, code: codeGenerate };
-    const res2 = await requestMock.post('/code').send({ securityCode: SECURITY_CODE });
-
-    codeGenerate2 = res2.body.token;
   });
 
   afterAll(async () => {
     await databaseMock.e2eDrop();
   });
-  /* doc: O cadastro de usuário precisa ser solicitada aos desenvolvedores */
 
-  it('[doc]: ✅ Cadastrar um usuário', async () => {
-    /* doc:
-     Cadastra um usuário que pode fazer e gerenciar posts no blog
-     */
-
-    const response = await requestMock.post('/users').send(newUser);
-    expect(response.statusCode).toEqual(200);
-    expect(response.body).toEqual({ username: 'lucia santos teste' });
-  });
-
-  it('[doc]: 🚫 Impede o cadastro de um usuário que já existe', async () => {
+  it('should register a user', async () => {
+    const code = await generateToken(requestMock);
     const response = await requestMock.post('/users').send({
-      code: codeGenerate2,
+      code,
       username: 'lucia santos teste',
       password: '1234abc',
     });
+    expect(response.statusCode).toEqual(200);
+    expect(response.body).toEqual({});
+  });
+
+  it('should bock register when user already exists', async () => {
+    const code = await generateToken(requestMock);
+    const payload = {
+      code,
+      username: 'lucia santos teste',
+      password: '1234abc',
+    };
+
+    const response = await requestMock.post('/users').send(payload);
 
     expect(response.body).toEqual({
-      debug: 'username already exists',
-      message: 'Resource already exists',
+      error: 'USERNAME_ALREADY_EXISTS',
     });
     expect(response.statusCode).toEqual(409);
   });
 
-  it('✅ setup - Deve fazer login no sistema e obter um token', async () => {
+  it('should make login', async () => {
     const response = await requestMock.post('/auth').send({
       username: 'lucia santos teste',
       password: '1234abc',
@@ -68,38 +52,31 @@ describe('[2]: 👤 Usuários', () => {
     token = { authorization: `${response.body.token}` };
   });
 
-  it('[doc]: ✅ Obter a si mesmo', async () => {
-    /* Esse endpoint serve para informações como quem está logado, etc. */
+  it('should get self', async () => {
     const response = await requestMock.get(`/users/me`).set(token);
 
     expect(response.statusCode).toEqual(200);
-    expect(response.body).toEqual({ username: 'lucia santos teste' });
+    expect(response.body).toEqual({ username: 'lucia santos teste', image: '' });
   });
 
-  it('[doc]: ✅ atualiza dados de si mesmo', async () => {
-    /* doc:  Isso é útil para alterar dados pessoais, etc.
-
-    > red # Implementação pouco usada
-    > Atualmente essa funcionalidade não é usada no blog dicas de valorant
-
-    */
+  it('should update self', async () => {
     const response = await requestMock.patch(`/users`).set(token).send({
       username: 'julia',
       password: 'abc987',
     });
 
-    expect(response.body).toEqual({ username: 'julia' });
+    expect(response.body).toEqual({});
     expect(response.statusCode).toEqual(200);
   });
 
-  it('[doc]: 🚫 impede de obter usuário sem token', async () => {
+  it('should block return without token', async () => {
     const response = await requestMock.get(`/users/me`);
 
     expect(response.body).toEqual({ message: 'TOKEN_IS_INVALID_OR_EXPIRED' });
     expect(response.statusCode).toEqual(401);
   });
 
-  it('[doc]: 🚫 impede edição de usuário sem token', async () => {
+  it('should block edit without token edição de usuário sem token', async () => {
     const response = await requestMock.patch(`/users`).send({
       username: 'testeQualquerCoisa',
       password: 'usuarioNotExists',
@@ -109,15 +86,14 @@ describe('[2]: 👤 Usuários', () => {
     expect(response.statusCode).toEqual(401);
   });
 
-  it('[doc]: 🚫 impede usuário sem token de deletar', async () => {
+  it('block delete without token', async () => {
     const response = await requestMock.delete(`/users`);
 
     expect(response.body).toEqual({ message: 'TOKEN_IS_INVALID_OR_EXPIRED' });
     expect(response.statusCode).toEqual(401);
   });
 
-  it('[doc]: ⚠️ deletar a si mesmo', async () => {
-    /* doc: Isso remove a conta do próprio usuário */
+  it('should delete self', async () => {
     const response = await requestMock.delete(`/users`).set(token);
 
     expect(response.body).toEqual({});

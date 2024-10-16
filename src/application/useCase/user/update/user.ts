@@ -1,8 +1,7 @@
 import { PasswordHasherInterface } from '../../../../domain/services/PasswordHasherInterface';
 import { UserRepositoryInterface } from '../../../../domain/user/repository/userRepository.interface';
-import { AppError } from '../../../../infrastructure/api/errors';
-import { errorStates } from '../../../../infrastructure/api/errors/types';
-import { UpdateUserUseCaseDto, UpdateUserUseCaseInterface } from '../../../interfaces/UpdateUserUseCaseInterface';
+import { AppError } from '../../../errors/AppError';
+import { UpdateUserUseCaseDto, UpdateUserUseCaseInterface } from './UpdateUserUseCaseInterface';
 
 export class UpdateUserUseCase implements UpdateUserUseCaseInterface {
   constructor(
@@ -13,13 +12,13 @@ export class UpdateUserUseCase implements UpdateUserUseCaseInterface {
   execute = async (id: string, { username, password, image }: UpdateUserUseCaseDto): Promise<void> => {
     const user = await this.userRepository.findById(id);
     if (user === null) {
-      throw new AppError(errorStates.RESOURCE_NOT_EXISTS);
+      throw new AppError('USER_NOT_FOUND');
     }
 
     if (username) {
       const userFound = await this.userRepository.findOneByUsername(username);
       if (userFound !== null && userFound.id?.toString() !== id) {
-        throw new AppError(errorStates.CONFLICT_ALREADY_EXISTS);
+        throw new AppError('USERNAME_ALREADY_EXISTS');
       }
 
       user.changeUsername(username);

@@ -2,7 +2,7 @@ import { PostRepository } from '../../../../infrastructure/post/repository/mongo
 import {
   FindPostByIdOrThrowUseCaseInterface,
   OutputFindPostByIdOrThrowUseCaseDto,
-} from '../../../interfaces/IFindPostByIdOrThrowUseCase';
+} from './IFindPostByIdOrThrowUseCase';
 
 export class FindPostByIdOrThrowUseCase implements FindPostByIdOrThrowUseCaseInterface {
   constructor(private postRepository: PostRepository) {}

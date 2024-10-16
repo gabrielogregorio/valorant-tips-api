@@ -1,6 +1,6 @@
-import { errorStateItemType } from './types';
+import { errorStateItemType } from '@/errors/types';
 
-export class AppError {
+export class ApiError {
   error: errorStateItemType;
 
   debug?: string;

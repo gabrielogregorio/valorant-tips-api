@@ -1,8 +1,8 @@
 import { PostRepository } from 'src/infrastructure/post/repository/mongo/postRepository';
-import { InputCreatePostDto, OutputCreatePostDto } from './create.dto';
 import { PostEntity } from '../../../../domain/post/entity/post';
+import { CreatePostUseCaseInterface, InputCreatePostDto, OutputCreatePostDto } from './CreatePostUseCaseInterface';
 
-export class CreatePostUseCase {
+export class CreatePostUseCase implements CreatePostUseCaseInterface {
   constructor(private postRepository: PostRepository) {}
 
   execute = async ({ title, description, userId, tags, imgs }: InputCreatePostDto): Promise<OutputCreatePostDto> => {

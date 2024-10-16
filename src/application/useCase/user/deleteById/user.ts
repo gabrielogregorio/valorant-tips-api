@@ -1,5 +1,5 @@
 import { UserRepositoryInterface } from '../../../../domain/user/repository/userRepository.interface';
-import { DeleteUserByIdUseCaseInterface } from '../../../interfaces/DeleteUserByIdUseCaseInterface';
+import { DeleteUserByIdUseCaseInterface } from './DeleteUserByIdUseCaseInterface';
 
 export class DeleteUserByIdUseCase implements DeleteUserByIdUseCaseInterface {
   constructor(private userRepository: UserRepositoryInterface) {}

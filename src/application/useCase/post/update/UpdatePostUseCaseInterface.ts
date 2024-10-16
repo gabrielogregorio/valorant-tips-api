@@ -30,3 +30,7 @@ export interface OutputUpdatePostDto {
   };
   imgs: { id: string; description: string; image: string }[];
 }
+
+export interface UpdatePostUseCaseInterface {
+  execute: (id: string, payload: InputUpdatePostDto) => Promise<OutputUpdatePostDto>;
+}

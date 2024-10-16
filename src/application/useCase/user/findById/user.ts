@@ -1,7 +1,7 @@
 /* eslint-disable max-classes-per-file */
 import { UserEntity } from '../../../../domain/user/entity/user';
 import { UserRepositoryInterface } from '../../../../domain/user/repository/userRepository.interface';
-import { FindUserByIdUseCaseInterface, OutputFindUserByIdDto } from '../../../interfaces/FindUserByIdUseCaseInterface';
+import { FindUserByIdUseCaseInterface, OutputFindUserByIdDto } from './FindUserByIdUseCaseInterface';
 
 class OutputMapper {
   static toOutput(user: UserEntity): OutputFindUserByIdDto {

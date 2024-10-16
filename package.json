@@ -11,9 +11,9 @@
     "doc": "npx typedoc",
     "test:outside": "make build-db-test && jest --runInBand --verbose",
     "test": "jest --runInBand --verbose",
+    "test:watch": "jest --watchAll --runInBand --verbose ",
     "test:workflow:coverage": "jest --coverage --runInBand",
-    "lint": "eslint -c ./.eslintrc.json",
-    "lint-tsc": "tsc --noEmit",
+    "lint": "eslint -c ./.eslintrc.json && tsc --noEmit",
     "prepare": "husky install",
     "upgrade-packages": "yarn upgrade-interactive --latest",
     "depcheck-packages": "npx depcheck"

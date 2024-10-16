@@ -1,9 +1,9 @@
 import { userAuth } from '@/middlewares/userAuth';
 import { Router } from 'express';
 import { useValidation } from '@/middlewares/useValidation';
-import { schemaCreateSuggestion } from '@/schemas/createSuggestions';
-import { schemaEditSuggestion } from '@/schemas/updateSuggestion';
 import { AppDependencyInjector } from '../container';
+import { schemaCreateSuggestion } from '../schemas/createSuggestions.schema';
+import { schemaEditSuggestion } from '../schemas/updateSuggestion.schema';
 
 export const suggestionRouter = Router();
 

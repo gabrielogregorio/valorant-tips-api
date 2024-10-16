@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { CreateViewUseCase } from '../../../application/useCase/views/add/View';
 import { GetViewUseCase } from '../../../application/useCase/views/get/View';
-import { AppError } from '../errors';
 import { errorStates } from '../errors/types';
+import { ApiError } from '../errors/ApiError';
 
 export class ViewsController {
   constructor(
@@ -13,7 +13,7 @@ export class ViewsController {
   create = async (req: Request, res: Response): Promise<Response> => {
     const ip = req.socket.remoteAddress?.split(`:`).pop();
     if (!ip) {
-      throw new AppError(errorStates.PAYLOAD_IS_INVALID, "ip don't found");
+      throw new ApiError(errorStates.PAYLOAD_IS_INVALID, "ip don't found");
     }
     await this.createViewUseCase.execute(ip);
 

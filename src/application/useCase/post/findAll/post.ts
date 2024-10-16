@@ -1,9 +1,9 @@
 import { PostAggregateRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
 import { UserEntity } from '../../../../domain/user/entity/user';
 import { UserRepositoryInterface } from '../../../../domain/user/repository/userRepository.interface';
-import { OutputFindAllPostDto } from './findAll.dto';
+import { FindAllPostUseCaseInterface, OutputFindAllPostDto } from './FindAllPostUseCaseInterface';
 
-export class FindAllPostUseCase {
+export class FindAllPostUseCase implements FindAllPostUseCaseInterface {
   constructor(
     private postRepository: PostAggregateRepositoryInterface,
     private userRepository: UserRepositoryInterface,

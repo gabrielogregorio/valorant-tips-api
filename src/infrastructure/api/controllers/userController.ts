@@ -4,7 +4,7 @@ import { CreateUserUseCase } from '../../../application/useCase/user/create/user
 import { UpdateUserUseCase } from '../../../application/useCase/user/update/user';
 import { FindUserByIdUseCase } from '../../../application/useCase/user/findById/user';
 import { DeleteUserByIdUseCase } from '../../../application/useCase/user/deleteById/user';
-import { CreateUserBodyType } from '../schemas/createUser';
+import { CreateUserBodyType } from '../schemas/createUser.schema';
 
 export class UserController {
   constructor(

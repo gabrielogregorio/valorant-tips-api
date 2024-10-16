@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 import { ViewsEntity } from '../enttity';
-import { ValidatorInterface } from '../../@shared/validators/validator.interface';
+import { ValidatorInterface } from '../../common/validators/validator.interface';
 
 export default class ViewsYupValidator implements ValidatorInterface<ViewsEntity> {
   validate(entity: ViewsEntity): void {

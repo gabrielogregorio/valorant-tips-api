@@ -1,7 +1,8 @@
 import { ObjectSchema } from 'joi';
 import { NextFunction, Request, Response } from 'express';
-import { AppError } from '../errors';
+
 import { errorStates } from '../errors/types';
+import { ApiError } from '../errors/ApiError';
 
 type inputValidationSchema = {
   body?: ObjectSchema;
@@ -15,7 +16,7 @@ export const useValidation =
     if (body) {
       const validate = body.validate(req.body);
       if (validate?.error) {
-        throw new AppError(errorStates.PAYLOAD_IS_INVALID, validate.error.details[0].message);
+        throw new ApiError(errorStates.PAYLOAD_IS_INVALID, validate.error.details[0].message);
       }
       req.body = validate.value;
     }
@@ -23,7 +24,7 @@ export const useValidation =
     if (params) {
       const validate = params.validate(req.params);
       if (validate?.error) {
-        throw new AppError(errorStates.PAYLOAD_IS_INVALID, validate.error.details[0].message);
+        throw new ApiError(errorStates.PAYLOAD_IS_INVALID, validate.error.details[0].message);
       }
       req.params = validate.value;
     }
@@ -31,7 +32,7 @@ export const useValidation =
     if (query) {
       const validate = query.validate(req.query);
       if (validate?.error) {
-        throw new AppError(errorStates.PAYLOAD_IS_INVALID, validate.error.details[0].message);
+        throw new ApiError(errorStates.PAYLOAD_IS_INVALID, validate.error.details[0].message);
       }
       req.query = validate.value;
     }

@@ -6,10 +6,10 @@ import { userAuth } from '@/middlewares/userAuth';
 import { convertMegabytesToBytes } from '@/helpers/conversors';
 import { CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, CLOUDINARY_CLOUD_NAME } from '@/config/envs';
 import { useValidation } from '@/middlewares/useValidation';
-import { schemaCreatePost } from '@/schemas/createPost';
-import { schemaUpdatePosts } from '@/schemas/updatePost';
 import { useHasFile } from '@/middlewares/useHasFile';
 import { AppDependencyInjector } from '../container';
+import { schemaUpdatePosts } from '../schemas/updatePost.schema';
+import { schemaCreatePost } from '../schemas/createPost.schema';
 
 const cloudinaryV2 = cloudinary.v2;
 

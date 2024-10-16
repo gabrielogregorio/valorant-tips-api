@@ -1,5 +1,5 @@
 import { SuggestionAggregateRepositoryInterface } from '../../../../domain/suggestion/repository';
-import { DeleteSuggestionByIdUseCaseInterface } from '../../../interfaces/DeleteSuggestionByIdUseCaseInterface';
+import { DeleteSuggestionByIdUseCaseInterface } from './DeleteSuggestionByIdUseCaseInterface';
 
 export class DeleteSuggestionByIdUseCase implements DeleteSuggestionByIdUseCaseInterface {
   constructor(private suggestionRepository: SuggestionAggregateRepositoryInterface) {}

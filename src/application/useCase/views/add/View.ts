@@ -1,6 +1,6 @@
 import { ViewsAggregateRepositoryInterface } from '../../../../domain/views/repository/inteface';
 import { ViewsEntity } from '../../../../domain/views/enttity';
-import { CreateViewUseCaseInterface } from '../../../interfaces/CreateViewUseCaseInterface';
+import { CreateViewUseCaseInterface } from './CreateViewUseCaseInterface';
 
 export class CreateViewUseCase implements CreateViewUseCaseInterface {
   constructor(private viewRepository: ViewsAggregateRepositoryInterface) {}

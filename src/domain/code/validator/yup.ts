@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 import { CodeEntity } from '../enttity';
-import { ValidatorInterface } from '../../@shared/validators/validator.interface';
+import { ValidatorInterface } from '../../common/validators/validator.interface';
 
 export default class CodeYupValidator implements ValidatorInterface<CodeEntity> {
   validate(entity: CodeEntity): void {

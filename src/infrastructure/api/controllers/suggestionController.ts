@@ -1,13 +1,12 @@
 import { Request, Response } from 'express';
-import { AppError } from '@/errors/index';
 import { errorStates } from '@/errors/types';
 import statusCode from '@/config/statusCode';
 import { CreateSuggestionUseCase } from '../../../application/useCase/suggestions/create';
 import { FindAllSuggestionsUseCase } from '../../../application/useCase/suggestions/findAll/findAll';
 import { UpdateSuggestionByIdUseCase } from '../../../application/useCase/suggestions/updateById/updateById';
 import { DeleteSuggestionByIdUseCase } from '../../../application/useCase/suggestions/deleteById/suggestion';
-import { DataSuggestion } from '../../../factories/dataSuggestion';
-import { ICreateSuggestion, IDatabaseSuggestion, IResponseSuggestion } from '../../../interfaces/suggestion';
+import { ApiError } from '../errors/ApiError';
+import { ICreateSuggestion, IDatabaseSuggestion, IResponseSuggestion } from '../interfaces/suggestion';
 
 export class SuggestionController {
   constructor(
@@ -16,6 +15,18 @@ export class SuggestionController {
     private updateSuggestionByIdUseCase: UpdateSuggestionByIdUseCase,
     private deleteSuggestionByIdUseCase: DeleteSuggestionByIdUseCase,
   ) {}
+
+  private toHttp(suggestion: IDatabaseSuggestion): IResponseSuggestion {
+    return {
+      description: suggestion?.description,
+      email: suggestion?.email,
+      postId: suggestion.postId.toString(),
+      id: suggestion?.id?.toString(),
+      status: suggestion.status,
+      createdAt: suggestion.createdAt,
+      updatedAt: suggestion.updatedAt,
+    };
+  }
 
   createSuggestion = async (
     req: Request<undefined, undefined, Omit<ICreateSuggestion, 'status'>>,
@@ -29,14 +40,14 @@ export class SuggestionController {
       description,
     });
 
-    return res.json(DataSuggestion.Build(suggestion));
+    return res.json(this.toHttp(suggestion));
   };
 
   getSuggestions = async (_req: Request, res: Response<IResponseSuggestion[]>): Promise<Response> => {
     const suggestions: IDatabaseSuggestion[] = await this.findAllSuggestionsUseCase.execute();
     const suggestionsFactory: IResponseSuggestion[] = [];
     suggestions.forEach((suggestion) => {
-      suggestionsFactory.push(DataSuggestion.Build(suggestion));
+      suggestionsFactory.push(this.toHttp(suggestion));
     });
 
     return res.json(suggestionsFactory);
@@ -48,7 +59,7 @@ export class SuggestionController {
     const newStatus = req.body.status;
 
     const suggestionEdited = await this.updateSuggestionByIdUseCase.execute(suggestionId, newStatus);
-    return res.json(DataSuggestion.Build(suggestionEdited));
+    return res.json(this.toHttp(suggestionEdited));
   };
 
   delete = async (req: Request, res: Response): Promise<Response> => {
@@ -56,7 +67,7 @@ export class SuggestionController {
 
     const result = await this.deleteSuggestionByIdUseCase.execute(suggestionId);
     if (result === null) {
-      throw new AppError(errorStates.RESOURCE_NOT_EXISTS);
+      throw new ApiError(errorStates.RESOURCE_NOT_EXISTS);
     }
     return res.sendStatus(statusCode.NO_CONTENT.code);
   };

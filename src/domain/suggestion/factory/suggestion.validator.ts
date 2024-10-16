@@ -1,4 +1,4 @@
-import { ValidatorInterface } from '../../@shared/validators/validator.interface';
+import { ValidatorInterface } from '../../common/validators/validator.interface';
 import { SuggestionEntityInterface } from '../entity/interfaces';
 import SuggestionYupValidator from '../validator/suggestion.yup';
 

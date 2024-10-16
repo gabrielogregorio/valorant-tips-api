@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { useValidation } from '@/middlewares/useValidation';
-import { schemaCode } from '@/schemas/code';
 import { userAuthCodeIsCorrect } from '@/middlewares/userCodeIsCorrect';
 import { AppDependencyInjector } from '../container';
+import { schemaCode } from '../schemas/code.schema';
 
 const { codeController } = AppDependencyInjector;
 

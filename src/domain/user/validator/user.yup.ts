@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { ValidatorInterface } from '../../@shared/validators/validator.interface';
+import { ValidatorInterface } from '../../common/validators/validator.interface';
 import { UserEntity } from '../entity/user';
 
 export default class UserYupValidator implements ValidatorInterface<UserEntity> {

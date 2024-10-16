@@ -2,7 +2,7 @@ import { SECURITY_CODE } from '@/config/envs';
 import { CodeController } from '@/controllers/codeController';
 import { Response } from 'express';
 
-const mockCodeService = { create: jest.fn() };
+const mockCodeService = { execute: jest.fn() };
 const codeController = new CodeController(mockCodeService as any);
 
 describe('Code Controller', () => {
@@ -27,11 +27,11 @@ describe('Code Controller', () => {
         body: { securityCode: SECURITY_CODE },
       };
       const fakeToken = { code: '12345' };
-      mockCodeService.create.mockResolvedValue(fakeToken);
+      mockCodeService.execute.mockResolvedValue(fakeToken);
 
       await codeController.generate(mockRequest as any, mockResponse as Response);
 
-      expect(mockCodeService.create).toHaveBeenCalled();
+      expect(mockCodeService.execute).toHaveBeenCalled();
       expect(mockJson).toHaveBeenCalledWith({ token: fakeToken.code });
     });
   });

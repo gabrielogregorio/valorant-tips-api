@@ -1,6 +1,6 @@
 import { PostEntity } from '../../../../domain/post/entity/post';
 import { PostAggregateRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
-import { IPost } from '../../../../interfaces/post';
+import { IPost } from '../../../api/interfaces/post';
 import { Post } from './Post';
 
 export class PostRepository implements PostAggregateRepositoryInterface {
@@ -74,14 +74,11 @@ export class PostRepository implements PostAggregateRepositoryInterface {
   findAvailableAgents = async (map: string): Promise<string[]> => Post.find({ 'tags.map': map }).distinct('tags.agent');
 
   findAll = async (): Promise<PostEntity[]> => {
-    console.log('alooow');
     const posts = await Post.find({}, null, {
       sort: {
         updatedAt: -1,
       },
     });
-
-    console.log('thjrees', posts);
 
     return posts.map(
       (postItem) =>

@@ -1,5 +1,5 @@
-import { Entity } from '../../@shared/entity/entity.abstract';
-import { NotificationError } from '../../@shared/notification/notification.error';
+import { Entity } from '../../common/entity/entity.abstract';
+import { NotificationError } from '../../common/notification/notification.error';
 import { ViewsValidatorFactory } from '../factory/validator';
 
 export interface ViewsEntityInterface {

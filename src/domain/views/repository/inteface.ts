@@ -1,4 +1,4 @@
-import { RepositoryInterface } from 'src/domain/@shared/repository/customRepository.interface';
+import { RepositoryInterface } from 'src/domain/common/repository/customRepository.interface';
 import { ViewsEntity } from '../enttity';
 
 export interface ViewsAggregateRepositoryInterface extends RepositoryInterface<ViewsEntity> {

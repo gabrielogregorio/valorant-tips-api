@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 import { PostEntity } from '../entity/post';
-import { ValidatorInterface } from '../../@shared/validators/validator.interface';
+import { ValidatorInterface } from '../../common/validators/validator.interface';
 
 export default class PostYupValidator implements ValidatorInterface<PostEntity> {
   validate(entity: PostEntity): void {

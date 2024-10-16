@@ -19,6 +19,7 @@ import { FindUserByIdUseCase } from '../../../application/useCase/user/findById/
 import { UpdateUserUseCase } from '../../../application/useCase/user/update/user';
 import { CreateViewUseCase } from '../../../application/useCase/views/add/View';
 import { GetViewUseCase } from '../../../application/useCase/views/get/View';
+import { UserRepositoryInterface } from '../../../domain/user/repository/userRepository.interface';
 import { CodeRepository } from '../../code/repository/mongo/codeRepository';
 import { PostRepository } from '../../post/repository/mongo/postRepository';
 import { PasswordHasher } from '../../services/PasswordHasher';
@@ -74,7 +75,7 @@ export class AppDependencyInjector {
 
   private static deleteUserByIdUseCaseInstance: DeleteUserByIdUseCase;
 
-  private static userRepositoryInstance: UserRepository;
+  private static userRepositoryInstance: UserRepositoryInterface;
 
   private static codeRepositoryInstance: CodeRepository;
 
@@ -284,7 +285,7 @@ export class AppDependencyInjector {
     return this.authControllerInstance;
   }
 
-  static get userRepository(): UserRepository {
+  static get userRepository(): UserRepositoryInterface {
     if (!this.userRepositoryInstance) {
       this.userRepositoryInstance = new UserRepository();
     }

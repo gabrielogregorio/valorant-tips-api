@@ -1,12 +1,12 @@
-import { PostEntity } from '../../../domain/post/entity/post';
-import { PostRepository } from '../../../infrastructure/post/repository/mongo/postRepository';
+import { PostEntity } from '../../../../domain/post/entity/post';
+import { PostRepository } from '../../../../infrastructure/post/repository/mongo/postRepository';
 import { CreatePostUseCase } from './create';
 
 const post = new PostEntity({ id: '123', userId: '456', description: 'new description', title: 'new title' });
 
 const mockRepository = (): PostRepository => ({
   update: jest.fn(),
-  create: jest.fn().mockReturnValue(Promise.resolve()),
+  save: jest.fn().mockReturnValue(Promise.resolve()),
   findById: jest.fn(),
   findAvailableMaps: jest.fn(),
   findAvailableAgents: jest.fn(),
@@ -38,7 +38,7 @@ describe('CreatePostUseCase', () => {
       },
       userId: post.userId,
     });
-    expect(postRepository.create).toHaveBeenCalledTimes(1);
+    expect(postRepository.save).toHaveBeenCalledTimes(1);
 
     expect(result).toEqual({
       description: 'new description',

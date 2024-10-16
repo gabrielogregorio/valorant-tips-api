@@ -6,7 +6,7 @@ import {
   CreateSuggestionUseCaseInterface,
   InputCreateSuggestionDto,
   OutputSuggestionDto,
-} from '../../../interfaces/createSuggestionUseCase';
+} from './createSuggestionUseCase';
 
 export class CreateSuggestionUseCase implements CreateSuggestionUseCaseInterface {
   constructor(

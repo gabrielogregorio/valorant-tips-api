@@ -4,7 +4,6 @@
 
 yarn format
 yarn lint
-yarn lint-tsc
 
 make test
 

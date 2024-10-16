@@ -1,9 +1,8 @@
 import mongoose from 'mongoose';
-import { IView } from 'src/interfaces/view';
+import { IView } from '../../../api/interfaces/view';
 
 const viewSchema = new mongoose.Schema<IView>(
   {
-    // decidi remover completamnente o _id, ele causa várias inconsistencias chatas que não quero lidar, além de acoplar o formato dos ids
     id: {
       type: String,
       unique: true,

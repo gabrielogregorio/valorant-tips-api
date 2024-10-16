@@ -1,11 +1,10 @@
+import { statusSuggestionType } from '../../../../domain/suggestion/entity/interfaces';
 import { SuggestionAggregateRepositoryInterface } from '../../../../domain/suggestion/repository';
-import { AppError } from '../../../../infrastructure/api/errors';
-import { errorStates } from '../../../../infrastructure/api/errors/types';
-import { statusSuggestionType } from '../../../../interfaces/suggestion';
+import { AppError } from '../../../errors/AppError';
 import {
   OutputUpdateByIdSuggestionDto,
   UpdateByIdSuggestionUseCaseInterface,
-} from '../../../interfaces/UpdateByIdSuggestionUseCaseInterface';
+} from './UpdateByIdSuggestionUseCaseInterface';
 
 export class UpdateSuggestionByIdUseCase implements UpdateByIdSuggestionUseCaseInterface {
   constructor(private suggestionRepository: SuggestionAggregateRepositoryInterface) {}
@@ -13,7 +12,7 @@ export class UpdateSuggestionByIdUseCase implements UpdateByIdSuggestionUseCaseI
   execute = async (id: string, status: statusSuggestionType): Promise<OutputUpdateByIdSuggestionDto> => {
     const suggestionUpdated = await this.suggestionRepository.updateById(id, status);
     if (suggestionUpdated === null) {
-      throw new AppError(errorStates.RESOURCE_NOT_EXISTS);
+      throw new AppError('SUGGESTION_NOT_FOUND');
     }
 
     return suggestionUpdated;

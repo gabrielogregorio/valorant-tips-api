@@ -1,9 +1,9 @@
 import supertest from 'supertest';
-import mockTests from '@/mock/mockTests.json';
 import { SECURITY_CODE } from '@/config/envs';
-
 import { Database } from '@/database/database';
-import { app } from '../../app';
+import TestAgent from 'supertest/lib/agent';
+import mockTests from '../../mock/mockTests.json';
+import { app } from '../../infrastructure/api/app';
 
 const post = {
   title: 'Titulo de um post maluco',
@@ -65,4 +65,10 @@ export const createPostMocker = async (authorization: {
   const response = await requestMock.post('/posts').set(authorization).send(post);
 
   return { postId: response.body.id };
+};
+
+// @ts-ignore
+export const generateToken = async (requestMockItem: TestAgent<supertest.SuperTestStatic.Test>): Promise<string> => {
+  const res = await requestMockItem.post('/code').send({ securityCode: SECURITY_CODE });
+  return res.body.token;
 };

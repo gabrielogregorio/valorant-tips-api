@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
-import { CreatePostBodyType } from '@/schemas/createPost';
-import { updatePostBodyType } from '@/schemas/updatePost';
+
 import statusCode from '../config/statusCode';
 import { CreatePostUseCase } from '../../../application/useCase/post/create/create';
 import { UpdatePostUseCase } from '../../../application/useCase/post/update/upate';
@@ -10,7 +9,8 @@ import { DeletePostUseCase } from '../../../application/useCase/post/deleteById/
 import { FindAllPostUseCase } from '../../../application/useCase/post/findAll/post';
 import { FindAvailableAgentsUseCase } from '../../../application/useCase/post/findAvailableAgents/post';
 import { FindPostByIdOrThrowUseCase } from '../../../application/useCase/post/findByIdOrThrow';
-import { factoryPostType } from '../../../factories/dataPost';
+import { CreatePostBodyType } from '../schemas/createPost.schema';
+import { updatePostBodyType } from '../schemas/updatePost.schema';
 
 export class PostController {
   constructor(
@@ -77,7 +77,7 @@ export class PostController {
     return res.json({ agents });
   };
 
-  getPosts = async (_req: Request, res: Response<{ posts: factoryPostType[] }>) => {
+  getPosts = async (_req: Request, res: Response) => {
     const posts = await this.findAllPostUseCase.execute();
 
     return res.json({
@@ -92,7 +92,7 @@ export class PostController {
     });
   };
 
-  getPostsByMapAndAgent = async (req: Request, res: Response<{ posts: factoryPostType[] }>) => {
+  getPostsByMapAndAgent = async (req: Request, res: Response) => {
     const { agent, map } = req.params as { agent: string; map: string };
 
     const posts = await this.findAllByMapAndAgentUseCase.execute({ agent, map });

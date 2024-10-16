@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { IDatabaseSuggestion } from '../../../../interfaces/suggestion';
+import { IDatabaseSuggestion } from '../../../api/interfaces/suggestion';
 
 const suggestionSchema = new mongoose.Schema<IDatabaseSuggestion>(
   {

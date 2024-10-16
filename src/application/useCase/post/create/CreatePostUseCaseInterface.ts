@@ -15,7 +15,7 @@ export interface InputCreatePostDto {
 }
 
 export interface OutputCreatePostDto {
-  id: string
+  id: string;
   title: string;
   description: string;
   userId: string;
@@ -29,4 +29,8 @@ export interface OutputCreatePostDto {
     agent: string;
   };
   imgs: { id: string; description: string; image: string }[];
+}
+
+export interface CreatePostUseCaseInterface {
+  execute: (payload: InputCreatePostDto) => Promise<OutputCreatePostDto>;
 }

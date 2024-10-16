@@ -1,9 +1,8 @@
-import { InputUpdatePostDto, OutputUpdatePostDto } from './update.dto';
 import { PostAggregateRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
 import { PostEntity } from '../../../../domain/post/entity/post';
-import { IImagePost } from '../../../../interfaces/post';
+import { InputUpdatePostDto, OutputUpdatePostDto, UpdatePostUseCaseInterface } from './UpdatePostUseCaseInterface';
 
-export class UpdatePostUseCase {
+export class UpdatePostUseCase implements UpdatePostUseCaseInterface {
   constructor(private postRepository: PostAggregateRepositoryInterface) {}
 
   execute = async (id: string, payload: InputUpdatePostDto): Promise<OutputUpdatePostDto> => {
@@ -19,7 +18,7 @@ export class UpdatePostUseCase {
       post.changeTags(tags);
     }
 
-    const newImgs: IImagePost[] = [];
+    const newImgs: { description: string; id: string; image: string }[] = [];
     imgs?.forEach((img) => {
       newImgs.push({
         description: img.description,

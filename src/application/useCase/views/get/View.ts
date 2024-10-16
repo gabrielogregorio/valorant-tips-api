@@ -1,5 +1,5 @@
 import { ViewsAggregateRepositoryInterface } from '../../../../domain/views/repository/inteface';
-import { GetViewUseCaseInterface, OutputGetViewsDto } from '../../../interfaces/GetViewUseCaseInterface';
+import { GetViewUseCaseInterface, OutputGetViewsDto } from './GetViewUseCaseInterface';
 
 export class GetViewUseCase implements GetViewUseCaseInterface {
   constructor(private viewRepository: ViewsAggregateRepositoryInterface) {}

@@ -1,6 +1,6 @@
 import { CodeAggregateRepositoryInterface } from '../../../../domain/code/repository/inteface';
 import { CodeEntity } from '../../../../domain/code/enttity';
-import { CreateCodeUseCaseInterface, OutputCreateCodeDto } from '../../../interfaces/CreateCodeUseCaseInterface';
+import { CreateCodeUseCaseInterface, OutputCreateCodeDto } from './CreateCodeUseCaseInterface';
 
 export class CreateCodeUseCase implements CreateCodeUseCaseInterface {
   constructor(private codeRepository: CodeAggregateRepositoryInterface) {}
@@ -13,6 +13,7 @@ export class CreateCodeUseCase implements CreateCodeUseCaseInterface {
     return {
       available: codeCreated.available,
       code: codeCreated.code,
+      id: codeCreated.id,
     };
   };
 }
