@@ -8,7 +8,12 @@ la: logs-api
 
 dev: start-setup
 	make stop
-	docker compose -f ./docker-compose.dev.yaml up -d
+	@docker compose -f ./docker-compose.dev.yaml up -d
+
+dev-build:start-setup
+	@docker compose -f ./docker-compose.dev.yaml down --remove-orphans --volumes
+	@docker compose -f ./docker-compose.dev.yaml build --no-cache --progress=plain
+	@docker compose -f ./docker-compose.dev.yaml up -d --force-recreate
 
 build: start-setup
 	@docker compose -f ./docker-compose.dev.yaml up --build --force-recreate -d
@@ -67,10 +72,10 @@ bash-mongo:
 	@docker exec -it vavatips-api-mongodb /bin/bash
 
 logs:
-	@docker compose -f ./docker-compose.dev.yaml logs -f
-
-logs-api:
 	@docker compose -f ./docker-compose.dev.yaml logs -f vavatips-api
+
+logs-db:
+	@docker compose -f ./docker-compose.dev.yaml logs -f vavatips-api-mongodb
 
 start-setup:
 	@if [ ! -f .env ]; then cp .env.example .env; fi

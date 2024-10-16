@@ -29,7 +29,7 @@ Api of the project Valorant tips. [Documentation here](https://valorant-tips-api
 ### Preparing the development environment
 
 1. Run make build, make version 4.4.1 and Docker version 25.0.2
-2. Access the application on port 3333, documentation in /docs
+2. Access the application on port 3000, documentation in /docs
 
 ### Tests
 
