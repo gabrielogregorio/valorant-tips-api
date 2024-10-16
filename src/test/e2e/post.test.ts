@@ -1,6 +1,6 @@
-import mockTests from '@/mock/mockTests.json';
-import { createDatabaseMock, requestMock } from '@/test/e2e/utils';
-import { SECURITY_CODE } from '@/config/envs';
+import { SECURITY_CODE } from '../../infrastructure/api/config/envs';
+import mockTests from '../../mock/mockTests.json';
+import { createDatabaseMock, requestMock } from './utils';
 
 const databaseMock = createDatabaseMock();
 
@@ -92,7 +92,10 @@ describe('📔 Posts', () => {
       id: postId,
       title: 'Titulo de um post maluco',
       description: 'Descrição maluca',
-      user: {},
+      user: {
+        username: 'userTest',
+        image: '',
+      },
       tags: {
         moment: 'ComeçoPartida',
         difficult: 'hard',
@@ -136,6 +139,7 @@ describe('📔 Posts', () => {
       description: 'Descrição maluca 2',
       user: {
         username: 'userTest',
+        image: '',
       },
       tags: {
         moment: 'ComeçoPartida',
@@ -165,7 +169,10 @@ describe('📔 Posts', () => {
       id: postId,
       title: 'Titulo de um post maluco Editado',
       description: 'Descrição maluca 2',
-      user: { username: 'userTest' },
+      user: {
+        image: '',
+        username: 'userTest',
+      },
       tags: {
         moment: 'ComeçoPartida',
         difficult: 'Facil',
@@ -193,6 +200,7 @@ describe('📔 Posts', () => {
           description: 'Descrição maluca 2',
           user: {
             username: 'userTest',
+            image: '',
           },
           tags: {
             ability: 'Spot',

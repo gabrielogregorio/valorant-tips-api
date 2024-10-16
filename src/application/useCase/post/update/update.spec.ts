@@ -1,12 +1,13 @@
-import { PostEntity } from '../../../domain/post/entity/post';
-import { PostRepository } from '../../../infrastructure/post/repository/mongo/postRepository';
-import { UpdatePostUseCase } from './post';
+import { PostEntity } from '../../../../domain/post/entity/post';
+import { PostAggregateRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
+import { UserRepositoryInterface } from '../../../../domain/user/repository/userRepository.interface';
+import { UpdatePostUseCase } from './upate';
 
 const post = new PostEntity({ id: '123', userId: '456', description: 'new description', title: 'new title' });
 
-const mockRepository = (): PostRepository => ({
+const mockRepository = (): PostAggregateRepositoryInterface => ({
   update: jest.fn().mockReturnValue(Promise.resolve(post)),
-  create: jest.fn(),
+  save: jest.fn(),
   findById: jest.fn(),
   findAvailableMaps: jest.fn(),
   findAvailableAgents: jest.fn(),
@@ -18,10 +19,21 @@ const mockRepository = (): PostRepository => ({
   findAgents: jest.fn(),
 });
 
+const mockUserRepository = (): UserRepositoryInterface => ({
+  save: jest.fn(),
+  update: jest.fn(),
+  findById: jest.fn(),
+  findByIds: jest.fn(),
+  findOneByUsername: jest.fn(),
+  findOneAndDelete: jest.fn(),
+  countDocuments: jest.fn(),
+});
+
 describe('UpdatePostUseCase', () => {
   it('should update a a post', async () => {
     const postRepository = mockRepository();
-    const useCase = new UpdatePostUseCase(postRepository);
+    const userRepository = mockUserRepository();
+    const useCase = new UpdatePostUseCase(postRepository, userRepository);
 
     const result = await useCase.execute(post.id, {
       description: post.description,
@@ -32,6 +44,7 @@ describe('UpdatePostUseCase', () => {
     expect(result).toEqual({
       description: 'new description',
       imgs: [],
+      id: '123',
       tags: {
         ability: '',
         agent: '',
@@ -42,7 +55,10 @@ describe('UpdatePostUseCase', () => {
         side: '',
       },
       title: 'new title',
-      userId: '456',
+      user: {
+        username: '',
+        image: '',
+      },
     });
   });
 });

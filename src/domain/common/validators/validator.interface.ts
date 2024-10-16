@@ -1,3 +1,3 @@
-export  interface ValidatorInterface<T> {
-  validate(entity: T): void
+export interface ValidatorInterface<T> {
+  validate(entity: T): void;
 }

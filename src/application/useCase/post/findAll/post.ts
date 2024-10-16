@@ -15,15 +15,13 @@ export class FindAllPostUseCase implements FindAllPostUseCaseInterface {
       return [];
     }
 
-    const users = await this.userRepository.findByIds([...new Set(postsItems.map((user) => user.userId))]);
+    const ids = [...new Set(postsItems.map((user) => user.userId))];
+    const users = await this.userRepository.findByIds(ids);
 
-    const userMap = users.reduce(
-      (acc, user) => {
-        acc[user.id] = user;
-        return acc;
-      },
-      {} as Record<string, UserEntity>,
-    );
+    const userMap: { [key: string]: UserEntity } = {};
+    users.forEach((user) => {
+      userMap[user.id] = user;
+    });
 
     return postsItems.map((post) => ({
       id: post.id,
@@ -32,8 +30,8 @@ export class FindAllPostUseCase implements FindAllPostUseCaseInterface {
       tags: post.tags,
       title: post.title,
       user: {
-        image: userMap[post.id]?.image || '',
-        username: userMap[post.id]?.username || '',
+        image: userMap[post.userId]?.image || '',
+        username: userMap[post.userId]?.username || '',
       },
     }));
   };

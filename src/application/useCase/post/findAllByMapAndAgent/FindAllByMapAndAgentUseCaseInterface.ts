@@ -1,4 +1,3 @@
-
 export interface InputFindByMapAndAgenteDto {
   agent: string;
   map: string;
@@ -24,7 +23,6 @@ export interface OutputFindByMapAndAgenteDto {
   imgs: { id: string; description: string; image: string }[];
 }
 
-
 export interface FindAllByMapAndAgentUseCaseInterface {
-  execute:(payload: InputFindByMapAndAgenteDto) => Promise<OutputFindByMapAndAgenteDto[]>
+  execute: (payload: InputFindByMapAndAgenteDto) => Promise<OutputFindByMapAndAgenteDto[]>;
 }

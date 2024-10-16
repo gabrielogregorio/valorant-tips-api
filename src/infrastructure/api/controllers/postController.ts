@@ -37,6 +37,10 @@ export class PostController {
       title: post.title,
       description: post.description,
       tags: post.tags,
+      user: {
+        username: post.user.username,
+        image: post.user.image,
+      },
       imgs: post.imgs,
     });
   };

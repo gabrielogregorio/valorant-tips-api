@@ -187,7 +187,7 @@ export class AppDependencyInjector {
 
   static get createPostUseCase(): CreatePostUseCase {
     if (!this.createPostUseCaseInstance) {
-      this.createPostUseCaseInstance = new CreatePostUseCase(this.postRepository);
+      this.createPostUseCaseInstance = new CreatePostUseCase(this.postRepository, this.userRepository);
     }
 
     return this.createPostUseCaseInstance;
@@ -195,7 +195,7 @@ export class AppDependencyInjector {
 
   static get updatePostUseCase(): UpdatePostUseCase {
     if (!this.updatePostUseCaseInstance) {
-      this.updatePostUseCaseInstance = new UpdatePostUseCase(this.postRepository);
+      this.updatePostUseCaseInstance = new UpdatePostUseCase(this.postRepository, this.userRepository);
     }
 
     return this.updatePostUseCaseInstance;
@@ -203,7 +203,10 @@ export class AppDependencyInjector {
 
   static get findPostByIdOrThrowUseCase(): FindPostByIdOrThrowUseCase {
     if (!this.findPostByIdOrThrowUseCaseInstance) {
-      this.findPostByIdOrThrowUseCaseInstance = new FindPostByIdOrThrowUseCase(this.postRepository);
+      this.findPostByIdOrThrowUseCaseInstance = new FindPostByIdOrThrowUseCase(
+        this.postRepository,
+        this.userRepository,
+      );
     }
 
     return this.findPostByIdOrThrowUseCaseInstance;

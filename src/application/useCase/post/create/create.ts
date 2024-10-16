@@ -1,9 +1,14 @@
-import { PostRepository } from 'src/infrastructure/post/repository/mongo/postRepository';
 import { PostEntity } from '../../../../domain/post/entity/post';
 import { CreatePostUseCaseInterface, InputCreatePostDto, OutputCreatePostDto } from './CreatePostUseCaseInterface';
+import { UserRepositoryInterface } from '../../../../domain/user/repository/userRepository.interface';
+import { PostAggregateRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
 
 export class CreatePostUseCase implements CreatePostUseCaseInterface {
-  constructor(private postRepository: PostRepository) {}
+  constructor(
+    private postRepository: PostAggregateRepositoryInterface,
+
+    private userRepository: UserRepositoryInterface,
+  ) {}
 
   execute = async ({ title, description, userId, tags, imgs }: InputCreatePostDto): Promise<OutputCreatePostDto> => {
     const post = new PostEntity({ userId, title });
@@ -13,6 +18,8 @@ export class CreatePostUseCase implements CreatePostUseCaseInterface {
     post.changeImgs(imgs);
 
     this.postRepository.save(post);
+
+    const user = await this.userRepository.findById(post.userId);
 
     return {
       id: post.id,
@@ -24,7 +31,10 @@ export class CreatePostUseCase implements CreatePostUseCaseInterface {
       })),
       tags: post.tags,
       title: post.title,
-      userId: post.userId,
+      user: {
+        username: user?.username || '',
+        image: user?.image || '',
+      },
     };
   };
 }

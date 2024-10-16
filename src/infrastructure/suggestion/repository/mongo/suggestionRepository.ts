@@ -14,7 +14,7 @@ export class SuggestionRepository implements SuggestionAggregateRepositoryInterf
       createdAt: suggestion.createdAt,
       postId: suggestion.postId,
       status: suggestion.status,
-      updatedAt: suggestion.updatedAt
+      updatedAt: suggestion.updatedAt,
     });
 
     await newSuggestion.save();

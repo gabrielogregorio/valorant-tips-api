@@ -1,7 +1,11 @@
 export interface OutputFindPostByIdOrThrowUseCaseDto {
+  id: string;
   title: string;
   description: string;
-  userId: string;
+  user: {
+    username: string;
+    image: string;
+  };
   tags: {
     moment: string;
     difficult: string;

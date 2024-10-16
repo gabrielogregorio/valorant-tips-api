@@ -1,9 +1,14 @@
 import { PostAggregateRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
 import { PostEntity } from '../../../../domain/post/entity/post';
 import { InputUpdatePostDto, OutputUpdatePostDto, UpdatePostUseCaseInterface } from './UpdatePostUseCaseInterface';
+import { UserRepositoryInterface } from '../../../../domain/user/repository/userRepository.interface';
 
 export class UpdatePostUseCase implements UpdatePostUseCaseInterface {
-  constructor(private postRepository: PostAggregateRepositoryInterface) {}
+  constructor(
+    private postRepository: PostAggregateRepositoryInterface,
+
+    private userRepository: UserRepositoryInterface,
+  ) {}
 
   execute = async (id: string, payload: InputUpdatePostDto): Promise<OutputUpdatePostDto> => {
     const { title, description, tags, imgs, userId } = payload;
@@ -33,13 +38,17 @@ export class UpdatePostUseCase implements UpdatePostUseCaseInterface {
 
     const postService = await this.postRepository.update(post);
 
+    const userData = await this.userRepository.findById(postService.userId);
     return {
       id: postService.id,
       description: postService.description,
       imgs: postService.imgs,
       tags: postService.tags,
       title: postService.title,
-      userId: postService.userId,
+      user: {
+        image: userData?.image || '',
+        username: userData?.username || '',
+      },
     };
   };
 }

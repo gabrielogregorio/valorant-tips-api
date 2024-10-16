@@ -20,7 +20,6 @@ export class FindAllByMapAndAgentUseCase implements FindAllByMapAndAgentUseCaseI
       return [];
     }
     const users = await this.userRepository.findByIds([...new Set(postsItems.map((user) => user.userId))]);
-
     const userMap = users.reduce(
       (acc, user) => {
         acc[user.id] = user;
@@ -36,8 +35,8 @@ export class FindAllByMapAndAgentUseCase implements FindAllByMapAndAgentUseCaseI
       tags: post.tags,
       title: post.title,
       user: {
-        image: userMap[post.id]?.image || '',
-        username: userMap[post.id]?.username || '',
+        image: userMap[post.userId]?.image || '',
+        username: userMap[post.userId]?.username || '',
       },
     }));
   };

@@ -19,7 +19,7 @@ export const useHandleErrors = (error: Error, req: Request, res: Response, next:
 
   if (error instanceof AppError) {
     Log.warning(`AppError ${error?.code}`);
-    res.status(409).json({ error: error.code  });
+    res.status(409).json({ error: error.code });
     return;
   }
 

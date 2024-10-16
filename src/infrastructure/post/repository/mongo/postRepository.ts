@@ -18,7 +18,7 @@ export class PostRepository implements PostAggregateRepositoryInterface {
       imgs: post.imgs,
       tags: post.tags,
       title: post.title,
-      user: post.userId,
+      userId: post.userId,
       id: post.id,
     });
     await newPost.save();
@@ -30,7 +30,7 @@ export class PostRepository implements PostAggregateRepositoryInterface {
       imgs: post.imgs,
       tags: post.tags,
       title: post.title,
-      user: post.userId,
+      userId: post.userId,
       id: post.id,
     };
 

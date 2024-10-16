@@ -1,10 +1,11 @@
 import { PostEntity } from '../../../../domain/post/entity/post';
-import { PostRepository } from '../../../../infrastructure/post/repository/mongo/postRepository';
+import { PostAggregateRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
+import { UserRepositoryInterface } from '../../../../domain/user/repository/userRepository.interface';
 import { CreatePostUseCase } from './create';
 
 const post = new PostEntity({ id: '123', userId: '456', description: 'new description', title: 'new title' });
 
-const mockRepository = (): PostRepository => ({
+const mockRepository = (): PostAggregateRepositoryInterface => ({
   update: jest.fn(),
   save: jest.fn().mockReturnValue(Promise.resolve()),
   findById: jest.fn(),
@@ -18,10 +19,21 @@ const mockRepository = (): PostRepository => ({
   findAgents: jest.fn(),
 });
 
+const mockUserRepository = (): UserRepositoryInterface => ({
+  save: jest.fn(),
+  update: jest.fn(),
+  findById: jest.fn(),
+  findByIds: jest.fn(),
+  findOneByUsername: jest.fn(),
+  findOneAndDelete: jest.fn(),
+  countDocuments: jest.fn(),
+});
+
 describe('CreatePostUseCase', () => {
   it('should create a post', async () => {
     const postRepository = mockRepository();
-    const useCase = new CreatePostUseCase(postRepository);
+    const userRepository = mockUserRepository();
+    const useCase = new CreatePostUseCase(postRepository, userRepository);
 
     const result = await useCase.execute({
       description: post.description,
@@ -43,6 +55,7 @@ describe('CreatePostUseCase', () => {
     expect(result).toEqual({
       description: 'new description',
       imgs: [],
+      id: expect.anything(),
       tags: {
         ability: '',
         agent: '',
@@ -53,7 +66,10 @@ describe('CreatePostUseCase', () => {
         side: '',
       },
       title: 'new title',
-      userId: '456',
+      user: {
+        image: '',
+        username: '',
+      },
     });
   });
 });
