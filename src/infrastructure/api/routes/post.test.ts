@@ -1,6 +1,10 @@
-import { SECURITY_CODE } from '../../infrastructure/api/config/envs';
-import mockTests from '../../mock/mockTests.json';
-import { createDatabaseMock, requestMock } from './utils';
+import { createDatabaseMock, requestMock } from '../../../test/utils';
+import { SECURITY_CODE } from '../config/envs';
+
+const mockTests = {
+  username2: 'userTest',
+  password2: 'userTest',
+};
 
 const databaseMock = createDatabaseMock();
 
@@ -79,8 +83,8 @@ afterAll(async () => {
   await databaseMock.close();
 });
 
-describe('📔 Posts', () => {
-  it('[doc] - ✅ Cria um post', async () => {
+describe('Posts', () => {
+  it('should create a post', async () => {
     const res = await requestMock.post('/posts').set(token).send(post);
     postId = res.body.id;
 
@@ -113,19 +117,19 @@ describe('📔 Posts', () => {
     expect(res.statusCode).toEqual(200);
   });
 
-  it('[doc] - 🚫 Deve impedir um cadastro de um post por alguém não cadastrado', async () => {
+  it('should block register a new user by user not exists', async () => {
     const res = await requestMock.post('/posts').send(post);
     expect(res.body).toEqual({ message: 'TOKEN_IS_INVALID_OR_EXPIRED' });
     expect(res.statusCode).toEqual(401);
   });
 
-  it('[doc] - 🚫 Impede o cadastro sem informar os dados corretos', async () => {
+  it('should block register with invalid data', async () => {
     const res = await requestMock.post('/posts').set(token).send({});
-    expect(res.body).toEqual({ message: 'PAYLOAD_IS_INVALID', debug: expect.stringContaining('') }); // remove debug
+    expect(res.body).toEqual({ message: 'PAYLOAD_IS_INVALID', debug: expect.stringContaining('') });
     expect(res.statusCode).toEqual(400);
   });
 
-  it('[doc] - ✅Edita um post', async () => {
+  it('should edit user', async () => {
     const res = await requestMock.put(`/posts/${postId}`).set(token).send(postEdited);
     expect(res.statusCode).toEqual(200);
 
@@ -157,7 +161,7 @@ describe('📔 Posts', () => {
     });
   });
 
-  it('✅ Deve Obter um post Editado', async () => {
+  it('should get user edited', async () => {
     const res = await requestMock.get(`/posts/${postId}`).set(token);
 
     const bodyExpected = {
@@ -189,7 +193,7 @@ describe('📔 Posts', () => {
     });
   });
 
-  it('[doc] - ✅ Retorna todos posts', async () => {
+  it('should return all posts', async () => {
     const res = await requestMock.get(`/posts`);
 
     expect(res.body).toEqual({
@@ -230,7 +234,7 @@ describe('📔 Posts', () => {
     expect(res.statusCode).toEqual(200);
   });
 
-  it('[doc] - ⚠️ Deleta um post', async () => {
+  it('should delete a post', async () => {
     const res = await requestMock.delete(`/posts/${postId}`).set(token);
 
     expect(res.statusCode).toEqual(204);

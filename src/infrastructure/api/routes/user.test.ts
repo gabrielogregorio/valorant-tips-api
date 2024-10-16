@@ -1,6 +1,6 @@
 import supertest from 'supertest';
-import { createDatabaseMock, generateToken } from './utils';
-import { app } from '../../infrastructure/api/app';
+import { createDatabaseMock, generateToken } from '../../../test/utils';
+import { app } from '../app';
 
 const databaseMock = createDatabaseMock();
 

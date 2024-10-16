@@ -1,5 +1,5 @@
 import { SECURITY_CODE } from '@/config/envs';
-import { createDatabaseMock, requestMock } from './utils';
+import { createDatabaseMock, requestMock } from '../../../test/utils';
 
 const databaseMock = createDatabaseMock();
 

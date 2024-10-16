@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import statusCode from '../config/statusCode';
+import { statusCode } from '../config/statusCode';
 import { CreateUserUseCase } from '../../../application/useCase/user/create/user';
 import { UpdateUserUseCase } from '../../../application/useCase/user/update/user';
 import { FindUserByIdUseCase } from '../../../application/useCase/user/findById/user';

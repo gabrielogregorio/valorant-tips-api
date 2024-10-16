@@ -1,4 +1,4 @@
-const statusCode = {
+export const statusCode = {
   SUCCESS: {
     code: 200,
     description: 'Tudo ocorreu com sucesso',
@@ -40,5 +40,3 @@ const statusCode = {
     description: 'Erro no servidor',
   },
 };
-
-export default statusCode;

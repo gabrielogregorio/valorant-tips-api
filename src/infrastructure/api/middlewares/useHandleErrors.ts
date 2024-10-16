@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 
 import { ERROR_WITH_DEBUG } from '../config/envs';
 import { Log } from '../logs';
-import statusCode from '../config/statusCode';
+import { statusCode } from '../config/statusCode';
 import { ApiError } from '../errors/ApiError';
 import { AppError } from '../../../application/errors/AppError';
 

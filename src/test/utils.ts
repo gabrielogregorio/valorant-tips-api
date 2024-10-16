@@ -2,8 +2,12 @@ import supertest from 'supertest';
 import { SECURITY_CODE } from '@/config/envs';
 import { Database } from '@/database/database';
 import TestAgent from 'supertest/lib/agent';
-import mockTests from '../../mock/mockTests.json';
-import { app } from '../../infrastructure/api/app';
+import { app } from '../infrastructure/api/app';
+
+const mockTests = {
+  username2: 'userTest',
+  password2: 'userTest',
+};
 
 const post = {
   title: 'Titulo de um post maluco',

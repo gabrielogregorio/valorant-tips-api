@@ -1,5 +1,5 @@
-import statusCode from '@/config/statusCode';
-import { createDatabaseMock, requestMock } from './utils';
+import { statusCode } from '@/config/statusCode';
+import { createDatabaseMock, requestMock } from '../../../test/utils';
 
 const databaseMock = createDatabaseMock();
 

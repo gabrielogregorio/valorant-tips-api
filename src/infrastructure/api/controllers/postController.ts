@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import statusCode from '../config/statusCode';
+import { statusCode } from '../config/statusCode';
 import { CreatePostUseCase } from '../../../application/useCase/post/create/create';
 import { UpdatePostUseCase } from '../../../application/useCase/post/update/upate';
 import { FindAvailableMapsUseCase } from '../../../application/useCase/post/findAvailableMaps/post';

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { errorStates } from '@/errors/types';
-import statusCode from '@/config/statusCode';
+import { statusCode } from '@/config/statusCode';
 import { CreateSuggestionUseCase } from '../../../application/useCase/suggestions/create';
 import { FindAllSuggestionsUseCase } from '../../../application/useCase/suggestions/findAll/findAll';
 import { UpdateSuggestionByIdUseCase } from '../../../application/useCase/suggestions/updateById/updateById';

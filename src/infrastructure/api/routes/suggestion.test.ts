@@ -1,6 +1,7 @@
-import { createPostMocker, createUserMocker, createDatabaseMock, requestMock } from './utils';
+import { createDatabaseMock, createPostMocker, createUserMocker, requestMock } from '../../../test/utils';
 
 const databaseMock = createDatabaseMock();
+
 let authorization: Record<string, string> = { Authorization: '' };
 let postIdReal = '';
 let idCreatedSuggestion = '';
@@ -10,7 +11,7 @@ let suggestionPayload = {
   description: '',
 };
 
-describe('🙋 Suggestions', () => {
+describe('Suggestions', () => {
   beforeAll(async () => {
     jest.useRealTimers();
 
@@ -34,7 +35,7 @@ describe('🙋 Suggestions', () => {
     await databaseMock.close();
   });
 
-  test('[doc]: ✅ should send a suggestion ', async () => {
+  test('should send a suggestion ', async () => {
     const res = await requestMock.post('/suggestions').send(suggestionPayload);
 
     expect(res.body).toEqual({
@@ -51,7 +52,7 @@ describe('🙋 Suggestions', () => {
     idCreatedSuggestion = res.body.id;
   });
 
-  test('[doc]: 🚫 should prevents the recording of a suggestion without correct content', async () => {
+  test('should prevents the recording of a suggestion without correct content', async () => {
     const res = await requestMock.post('/suggestions').send({
       ...suggestionPayload,
       description: '',
@@ -61,7 +62,7 @@ describe('🙋 Suggestions', () => {
     expect(res.statusCode).toEqual(400);
   });
 
-  test('🚫 should return 400 when not passing parameters', async () => {
+  test('should return 400 when not passing parameters', async () => {
     const res = await requestMock.post('/suggestions').send();
 
     expect(res.body).toEqual({
@@ -71,7 +72,7 @@ describe('🙋 Suggestions', () => {
     expect(res.statusCode).toEqual(400);
   });
 
-  test('[doc]: ✅ should returns all suggestions if authorized', async () => {
+  test('should returns all suggestions if authorized', async () => {
     const response = await requestMock.get('/suggestions').set(authorization);
 
     const expectedResponse = {
@@ -87,14 +88,14 @@ describe('🙋 Suggestions', () => {
     expect(response.statusCode).toEqual(200);
   });
 
-  test('[doc]: 🚫 should prevents unauthorized users from see suggestions', async () => {
+  test('should prevents unauthorized users from see suggestions', async () => {
     const res = await requestMock.get('/suggestions');
 
     expect(res.body).toEqual({ message: 'TOKEN_IS_INVALID_OR_EXPIRED' });
     expect(res.statusCode).toEqual(401);
   });
 
-  test('[doc]: ✅ update status suggestion to accepted', async () => {
+  test('should update status suggestion to accepted', async () => {
     const res = await requestMock
       .put(`/suggestions/${idCreatedSuggestion}`)
       .set(authorization)
@@ -113,7 +114,7 @@ describe('🙋 Suggestions', () => {
     expect(res.statusCode).toEqual(200);
   });
 
-  test('[doc]: ✅ should update status to rejected', async () => {
+  test('should update status to rejected', async () => {
     const response = await requestMock
       .put(`/suggestions/${idCreatedSuggestion}`)
       .set(authorization)
@@ -134,14 +135,14 @@ describe('🙋 Suggestions', () => {
     expect(response.statusCode).toEqual(200);
   });
 
-  test('[doc]: 🚫 should prevent update status without token', async () => {
+  test('should prevent update status without token', async () => {
     const response = await requestMock.put(`/suggestions/${idCreatedSuggestion}`).send({ status: 'accepted' });
 
     expect(response.body).toEqual({ message: 'TOKEN_IS_INVALID_OR_EXPIRED' });
     expect(response.statusCode).toEqual(401);
   });
 
-  test('[doc]: 🚫 should prevent update status to invalid status', async () => {
+  test('should prevent update status to invalid status', async () => {
     const res = await requestMock.put(`/suggestions/${idCreatedSuggestion}`).set(authorization).send({ status: 'any' });
 
     expect(res.body).toEqual({
@@ -151,14 +152,14 @@ describe('🙋 Suggestions', () => {
     expect(res.statusCode).toEqual(400);
   });
 
-  test('[doc]: ⚠️ should delete suggestions', async () => {
+  test('should delete suggestions', async () => {
     const res = await requestMock.delete(`/suggestions/${idCreatedSuggestion}`).set(authorization);
 
     expect(res.body).toEqual({});
     expect(res.statusCode).toEqual(204);
   });
 
-  test('[doc]: 🚫 should prevent delete suggestion if not has token', async () => {
+  test('should prevent delete suggestion if not has token', async () => {
     const res = await requestMock.delete(`/suggestions/${idCreatedSuggestion}`);
 
     expect(res.body).toEqual({ message: 'TOKEN_IS_INVALID_OR_EXPIRED' });
