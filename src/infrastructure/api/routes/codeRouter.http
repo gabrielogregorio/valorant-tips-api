@@ -1,5 +1,5 @@
 ### generate token
-POST http://localhost:3333/code HTTP/1.1
+POST http://localhost:3000/code HTTP/1.1
 content-type: application/json
 
 {
@@ -8,7 +8,7 @@ content-type: application/json
 
 #### Invalid token example
 
-POST http://localhost:3333/code HTTP/1.1
+POST http://localhost:3000/code HTTP/1.1
 content-type: application/json
 
 {
@@ -17,7 +17,7 @@ content-type: application/json
 
 #### Invalid token example
 
-POST http://localhost:3333/code HTTP/1.1
+POST http://localhost:3000/code HTTP/1.1
 content-type: application/json
 
 {
@@ -25,7 +25,7 @@ content-type: application/json
 
 #### Invalid with extra values
 
-POST http://localhost:3333/code HTTP/1.1
+POST http://localhost:3000/code HTTP/1.1
 content-type: application/json
 
 {
