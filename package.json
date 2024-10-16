@@ -6,7 +6,7 @@
   "scripts": {
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored",
     "start": "API_VERSION=$(node -p -e \"require('./package.json').version\") node dist/server.js",
-    "dev": " yarn && API_VERSION=$(node -p -e \"require('./package.json').version\") ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts",
+    "dev": " yarn && API_VERSION=$(node -p -e \"require('./package.json').version\") ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/infrastructure/api/server.ts",
     "format": "yarn prettier --write .",
     "doc": "npx typedoc",
     "test:outside": "make build-db-test && jest --runInBand --verbose",
