@@ -1,4 +1,8 @@
+
+@bearerToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRldmVsb3BlciIsIm5hbWUiOiJkZXZlbG9wZXIiLCJpZCI6IjYxYTNhZTgzOGZlNmRmNDYzZTdiYzFjZiIsImlhdCI6MTcyOTA5MDQxMywiZXhwIjoxNzI5NTUxMjEzfQ.w6Ma-zr_JMUl9VvT1YUOcEX8sLOHCHz6GEnwhbzIQTU
+
+
 #### get dashboard
 
-GET http://localhost:3000/dashboard HTTP/1.1
-Authorization: <jwt>
+GET http://localhost:3000/dashboards HTTP/1.1
+Authorization: {{bearerToken}}

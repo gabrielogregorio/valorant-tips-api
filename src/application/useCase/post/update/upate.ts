@@ -1,7 +1,7 @@
-import { IImagePost } from '@/interfaces/post';
 import { InputUpdatePostDto, OutputUpdatePostDto } from './update.dto';
 import { PostAggregateRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
 import { PostEntity } from '../../../../domain/post/entity/post';
+import { IImagePost } from '../../../../interfaces/post';
 
 export class UpdatePostUseCase {
   constructor(private postRepository: PostAggregateRepositoryInterface) {}
@@ -35,6 +35,7 @@ export class UpdatePostUseCase {
     const postService = await this.postRepository.update(post);
 
     return {
+      id: postService.id,
       description: postService.description,
       imgs: postService.imgs,
       tags: postService.tags,

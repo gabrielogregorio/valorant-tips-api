@@ -15,6 +15,7 @@ export interface InputUpdatePostDto {
 }
 
 export interface OutputUpdatePostDto {
+  id: string;
   title: string;
   description: string;
   userId: string;
@@ -28,5 +29,4 @@ export interface OutputUpdatePostDto {
     agent: string;
   };
   imgs: { id: string; description: string; image: string }[];
-
 }

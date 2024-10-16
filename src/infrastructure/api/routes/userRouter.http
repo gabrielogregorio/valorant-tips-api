@@ -15,8 +15,8 @@ POST http://0.0.0.0:3000/auth HTTP/1.1
 content-type: application/json
 
 {
-  "username":"ademir2",
-  "password":"ademir2"
+  "username":"developer",
+  "password":"developer"
 }
 
 

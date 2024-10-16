@@ -3,7 +3,7 @@ POST http://localhost:3000/code HTTP/1.1
 content-type: application/json
 
 {
-  "securityCode":"SECURITY_CODE"
+  "securityCode":"{{$dotenv SECURITY_CODE}}"
 }
 
 #### Invalid token example

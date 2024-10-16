@@ -16,7 +16,8 @@ export const useHandleErrors = (error: Error, req: Request, res: Response, next:
   }
 
   if (error instanceof Error) {
-    Log.error(`Error ${error.name} ${error.message} ${JSON.stringify(error?.stack)}`);
+    Log.error(`Error ${error.name} ${error.message}`);
+    Log.error(error?.stack);
     res.status(statusCode.ERROR_IN_SERVER.code).json({ message: 'Internal Error' });
     return;
   }

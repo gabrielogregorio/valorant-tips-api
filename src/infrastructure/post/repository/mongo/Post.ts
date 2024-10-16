@@ -3,6 +3,10 @@ import { IPost } from 'src/interfaces/post';
 
 const postSchema = new mongoose.Schema<IPost>(
   {
+    id: {
+      type: String,
+      unique: true,
+    },
     title: String,
     description: String,
     userId: String,
@@ -25,12 +29,8 @@ const postSchema = new mongoose.Schema<IPost>(
   },
   {
     timestamps: true,
-    id: true,
   },
 );
 
-postSchema.virtual('id').get(function () {
-  return this._id;
-});
 
 export const Post = mongoose.model<IPost>('Post', postSchema);

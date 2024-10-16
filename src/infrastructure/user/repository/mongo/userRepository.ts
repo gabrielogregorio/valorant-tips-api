@@ -17,7 +17,7 @@ export class UserRepository implements UserRepositoryInterface {
 
   update = async (id: string, user: UserEntity) => {
     await User.findOneAndUpdate(
-      { _id: id },
+      { id },
       {
         $set: {
           image: user.image,
@@ -30,7 +30,7 @@ export class UserRepository implements UserRepositoryInterface {
   };
 
   findById = async (id: string): Promise<UserEntity | null> => {
-    const user = await User.findById(id);
+    const user = await User.findOne({ id });
     if (!user) {
       return null;
     }
@@ -49,7 +49,7 @@ export class UserRepository implements UserRepositoryInterface {
   };
 
   findByIds = async (ids: string[]): Promise<UserEntity[]> => {
-    const users = await User.find({ _id: { $in: ids } }).exec();
+    const users = await User.find({ id: { $in: ids } }).exec();
 
     return users.map((user) => {
       const userEntity = new UserEntity({
@@ -69,7 +69,7 @@ export class UserRepository implements UserRepositoryInterface {
   findOneByUsername = async (username: string): Promise<UserEntity | null> => User.findOne({ username });
 
   findOneAndDelete = async (id: string): Promise<void> => {
-    await User.findOneAndDelete({ _id: id });
+    await User.findOneAndDelete({ id });
   };
 
   countDocuments = async (): Promise<number> => User.countDocuments({});

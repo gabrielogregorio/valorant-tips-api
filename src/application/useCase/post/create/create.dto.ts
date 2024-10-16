@@ -15,6 +15,7 @@ export interface InputCreatePostDto {
 }
 
 export interface OutputCreatePostDto {
+  id: string
   title: string;
   description: string;
   userId: string;

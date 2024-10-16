@@ -7,7 +7,15 @@ import { Suggestion } from './Suggestion';
 
 export class SuggestionRepository implements SuggestionAggregateRepositoryInterface {
   save = async (suggestion: SuggestionEntityInterface): Promise<SuggestionEntityInterface> => {
-    const newSuggestion = new Suggestion(suggestion);
+    const newSuggestion = new Suggestion({
+      description: suggestion.description,
+      email: suggestion.email,
+      id: suggestion.id,
+      createdAt: suggestion.createdAt,
+      postId: suggestion.postId,
+      status: suggestion.status,
+      updatedAt: suggestion.updatedAt
+    });
 
     await newSuggestion.save();
 
@@ -15,7 +23,7 @@ export class SuggestionRepository implements SuggestionAggregateRepositoryInterf
   };
 
   findById = async (id: string): Promise<SuggestionEntityInterface> => {
-    const suggestion = await Suggestion.findById(id);
+    const suggestion = await Suggestion.findOne({ id });
     if (!suggestion) {
       throw new Error('Suggestion not found');
     }
@@ -31,7 +39,22 @@ export class SuggestionRepository implements SuggestionAggregateRepositoryInterf
     });
   };
 
-  findAll = async (): Promise<SuggestionEntityInterface[]> => Suggestion.find();
+  findAll = async (): Promise<SuggestionEntityInterface[]> => {
+    const suggestions = await Suggestion.find();
+
+    return suggestions.map(
+      (suggestion) =>
+        new SuggestionEntity({
+          description: suggestion.description,
+          email: suggestion.email,
+          postId: suggestion.postId,
+          createdAt: suggestion.createdAt,
+          id: suggestion.id,
+          status: suggestion.status,
+          updatedAt: suggestion.updatedAt,
+        }),
+    );
+  };
 
   updateById = async (
     id: string,

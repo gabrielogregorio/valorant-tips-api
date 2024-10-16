@@ -1,3 +1,4 @@
+import { PostAggregateRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
 import { SuggestionEntity } from '../../../../domain/suggestion/entity';
 import { SuggestionEntityInterface } from '../../../../domain/suggestion/entity/interfaces';
 import { SuggestionAggregateRepositoryInterface } from '../../../../domain/suggestion/repository';
@@ -6,16 +7,18 @@ import {
   InputCreateSuggestionDto,
   OutputSuggestionDto,
 } from '../../../interfaces/createSuggestionUseCase';
-import { FindPostByIdOrThrowUseCaseInterface } from '../../../interfaces/IFindPostByIdOrThrowUseCase';
 
 export class CreateSuggestionUseCase implements CreateSuggestionUseCaseInterface {
   constructor(
     private suggestionRepository: SuggestionAggregateRepositoryInterface,
-    private findPostByIdOrThrowUseCase: FindPostByIdOrThrowUseCaseInterface,
+    private postRepository: PostAggregateRepositoryInterface,
   ) {}
 
   execute = async (dto: InputCreateSuggestionDto): Promise<OutputSuggestionDto> => {
-    await this.findPostByIdOrThrowUseCase.execute(dto.postId);
+    const postFound = await this.postRepository.findById(dto.postId);
+    if (!postFound) {
+      throw new Error('Post not exists');
+    }
 
     const suggestion = new SuggestionEntity({
       postId: dto.postId,

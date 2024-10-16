@@ -1,23 +1,27 @@
-### get alls posts
-GET http://localhost:3000/posts HTTP/1.1
+@baseUrl = http://localhost:3000
+@bearerToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkZW1pcjIiLCJuYW1lIjoiYWRlbWlyMiIsImlkIjoiNjcwZmE4ZTY4ZGZkOGY5N2UxMjhmMGRiIiwiaWF0IjoxNzI5MDgwOTU4LCJleHAiOjE3Mjk1NDE3NTh9.UtR-I4qPYtGphY9DPEDfFcHcAsyWV1SNwW7DTRAnd7Q
+
+### Conteudo
+### @name getAllsPosts
+GET {{baseUrl}}/posts HTTP/1.1
 
 ### get maps
 
-GET http://localhost:3000/posts/maps HTTP/1.1
+GET {{baseUrl}}/posts/maps HTTP/1.1
 
 ### get agents by map
 
-GET http://localhost:3000/posts/agents/Bind HTTP/1.1
+GET {{baseUrl}}/posts/agents/Bind HTTP/1.1
 
 
 ### get posts by agents and map
-GET http://localhost:3000/posts/Bind/Sova HTTP/1.1
+GET {{baseUrl}}/posts/Bind/Sova HTTP/1.1
 
 
 ### create post
 
-POST http://localhost:3000/posts HTTP/1.1
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkZW1pcjIiLCJuYW1lIjoiYWRlbWlyMiIsImlkIjoiNjcwZmE4ZTY4ZGZkOGY5N2UxMjhmMGRiIiwiaWF0IjoxNzI5MDgwOTU4LCJleHAiOjE3Mjk1NDE3NTh9.UtR-I4qPYtGphY9DPEDfFcHcAsyWV1SNwW7DTRAnd7Q
+POST {{baseUrl}}/posts HTTP/1.1
+Authorization: {{bearerToken}}
 content-type: application/json
 
 {
@@ -41,16 +45,18 @@ content-type: application/json
   ]
 }
 
+@postId = 3ab3e235-dc78-4618-864e-3f9998a4c6c1
 ### get a post
 
-GET http://localhost:3000/posts/<postId> HTTP/1.1
-Authorization: <jwt>
+
+GET {{baseUrl}}/posts/{{postId}} HTTP/1.1
+Authorization: {{bearerToken}}
 content-type: application/json
 
 ### update post
 
-PUT http://localhost:3000/posts/<postId> HTTP/1.1
-Authorization: <jwt>
+PUT {{baseUrl}}/posts/{{postId}} HTTP/1.1
+Authorization: {{bearerToken}}
 content-type: application/json
 
 {
@@ -76,7 +82,7 @@ content-type: application/json
 
 ###  delete post
 
-DELETE http://localhost:3000/posts/<postId> HTTP/1.1
-Authorization: <jwt>
+DELETE {{baseUrl}}/posts/{{postId}} HTTP/1.1
+Authorization: {{bearerToken}}
 
 

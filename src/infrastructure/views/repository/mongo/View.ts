@@ -3,6 +3,11 @@ import { IView } from 'src/interfaces/view';
 
 const viewSchema = new mongoose.Schema<IView>(
   {
+    // decidi remover completamnente o _id, ele causa várias inconsistencias chatas que não quero lidar, além de acoplar o formato dos ids
+    id: {
+      type: String,
+      unique: true,
+    },
     ip: String,
     dateAccess: Date,
   },
@@ -11,9 +16,5 @@ const viewSchema = new mongoose.Schema<IView>(
     id: true,
   },
 );
-
-viewSchema.virtual('id').get(function () {
-  return this._id;
-});
 
 export const View = mongoose.model<IView>('View', viewSchema);

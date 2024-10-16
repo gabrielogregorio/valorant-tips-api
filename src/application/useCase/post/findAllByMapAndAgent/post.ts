@@ -1,18 +1,40 @@
 import { PostAggregateRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
+import { UserEntity } from '../../../../domain/user/entity/user';
+import { UserRepositoryInterface } from '../../../../domain/user/repository/userRepository.interface';
 import { InputFindByMapAndAgenteDto, OutputFindByMapAndAgenteDto } from './findByMapAndAgente.dto';
 
 export class FindAllByMapAndAgentUseCase {
-  constructor(private postRepository: PostAggregateRepositoryInterface) {}
+  constructor(
+    private postRepository: PostAggregateRepositoryInterface,
+    private userRepository: UserRepositoryInterface,
+  ) {}
 
   execute = async (payload: InputFindByMapAndAgenteDto): Promise<OutputFindByMapAndAgenteDto[]> => {
-    const postItems = await this.postRepository.findAllByMapAndAgent(payload.agent, payload.map);
+    const postsItems = await this.postRepository.findAllByMapAndAgent(payload.agent, payload.map);
 
-    return postItems.map((item) => ({
-      description: item.description,
-      imgs: item.imgs,
-      tags: item.tags,
-      title: item.title,
-      userId: item.userId,
+    if (postsItems.length === 0) {
+      return [];
+    }
+    const users = await this.userRepository.findByIds([...new Set(postsItems.map((user) => user.userId))]);
+
+    const userMap = users.reduce(
+      (acc, user) => {
+        acc[user.id] = user;
+        return acc;
+      },
+      {} as Record<string, UserEntity>,
+    );
+
+    return postsItems.map((post) => ({
+      id: post.id,
+      description: post.description,
+      imgs: post.imgs,
+      tags: post.tags,
+      title: post.title,
+      user: {
+        image: userMap[post.id]?.image || '',
+        username: userMap[post.id]?.username || '',
+      },
     }));
   };
 }

@@ -1,16 +1,30 @@
 import { Request, Response } from 'express';
-import { DashboardService, IDashboardServiceType } from '@/service/dashboard';
+import { InsightsUseCaseInterface } from '../../../application/interfaces/InsightsUseCaseInterface';
+
+type IDashboardServiceType = {
+  countAll: number;
+  countIps: number;
+  countAllPosts: number;
+  countAlMaps: number;
+  countAlAgents: number;
+  countAllSuggestions: number;
+  countAllUsers: number;
+};
 
 export class DashboardController {
-  private dashboardService: DashboardService;
-
-  constructor(dashboardService: DashboardService) {
-    this.dashboardService = dashboardService;
-  }
+  constructor(private insightsUseCase: InsightsUseCaseInterface) {}
 
   get = async (_req: Request, res: Response<IDashboardServiceType>) => {
-    const data = await this.dashboardService.count();
+    const data = await this.insightsUseCase.execute();
 
-    return res.json(data);
+    return res.json({
+      countAlAgents: data.countAlAgents,
+      countAll: data.countAll,
+      countAllPosts: data.countAllPosts,
+      countAllSuggestions: data.countAllSuggestions,
+      countAllUsers: data.countAllUsers,
+      countAlMaps: data.countAlMaps,
+      countIps: data.countIps,
+    });
   };
 }

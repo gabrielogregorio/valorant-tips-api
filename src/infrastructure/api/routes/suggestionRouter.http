@@ -1,6 +1,9 @@
+@bearerToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkZW1pcjIiLCJuYW1lIjoiYWRlbWlyMiIsImlkIjoiNjcwZmE4ZTY4ZGZkOGY5N2UxMjhmMGRiIiwiaWF0IjoxNzI5MDgwOTU4LCJleHAiOjE3Mjk1NDE3NTh9.UtR-I4qPYtGphY9DPEDfFcHcAsyWV1SNwW7DTRAnd7Q
+
+
 
 ### injection example
-POST http://localhost:3000/suggestion?$12 HTTP/1.1
+POST http://localhost:3000/suggestions?$12 HTTP/1.1
 content-type: application/json
 
 {
@@ -8,12 +11,12 @@ content-type: application/json
   "email": { "$gt": "x" },
   "description":".$extra$_"
 }
-
+//
 
 
 #### create suggestion
 
-POST http://localhost:3000/suggestion HTTP/1.1
+POST http://localhost:3000/suggestions HTTP/1.1
 content-type: application/json
 
 {
@@ -25,13 +28,13 @@ content-type: application/json
 #### get suggestion
 
 GET http://localhost:3000/suggestions HTTP/1.1
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdyZWciLCJuYW1lIjoiZ3JlZyIsImlkIjoiNjVjYmI4MjgxN2EzZWI2MmRhYTUxOGU1IiwiaWF0IjoxNzA3ODUwMDI0LCJleHAiOjE3MDgzMTA4MjR9.QT_QPHAQb_Al82CpJA-h7XK9DG6YLX_nMt7fNXjcAZE
+Authorization: {{bearerToken}}
 
 
 #### edit suggestion
 
-PUT http://localhost:3000/suggestion/65cbb940a0101e700b394321 HTTP/1.1
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdyZWciLCJuYW1lIjoiZ3JlZyIsImlkIjoiNjVjYmI4MjgxN2EzZWI2MmRhYTUxOGU1IiwiaWF0IjoxNzA3ODUwMDI0LCJleHAiOjE3MDgzMTA4MjR9.QT_QPHAQb_Al82CpJA-h7XK9DG6YLX_nMt7fNXjcAZE
+PUT http://localhost:3000/suggestions/0ba7c74e-01e5-40fe-8bf8-f0113750c633 HTTP/1.1
+Authorization: {{bearerToken}}
 content-type: application/json
 
 {
@@ -41,6 +44,6 @@ content-type: application/json
 
 #### delete suggestion
 
-DELETE http://localhost:3000/suggestion/65cbbdd32ff1e14abc0f86a3 HTTP/1.1
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdyZWciLCJuYW1lIjoiZ3JlZyIsImlkIjoiNjVjYmI4MjgxN2EzZWI2MmRhYTUxOGU1IiwiaWF0IjoxNzA3ODUwMDI0LCJleHAiOjE3MDgzMTA4MjR9.QT_QPHAQb_Al82CpJA-h7XK9DG6YLX_nMt7fNXjcAZE
+DELETE http://localhost:3000/suggestions/0ba7c74e-01e5-40fe-8bf8-f0113750c633 HTTP/1.1
+Authorization: {{bearerToken}}
 

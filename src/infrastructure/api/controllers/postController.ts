@@ -33,6 +33,7 @@ export class PostController {
     const post = await this.createPostUseCase.execute({ title, description, userId, tags, imgs });
 
     return res.json({
+      id: post.id,
       title: post.title,
       description: post.description,
       tags: post.tags,
@@ -91,12 +92,21 @@ export class PostController {
     });
   };
 
-  getPostsByMapAndAgent = async (req: Request, res: Response): Promise<Response> => {
+  getPostsByMapAndAgent = async (req: Request, res: Response<{ posts: factoryPostType[] }>) => {
     const { agent, map } = req.params as { agent: string; map: string };
 
     const posts = await this.findAllByMapAndAgentUseCase.execute({ agent, map });
 
-    return res.status(statusCode.SUCCESS.code).json({ posts });
+    return res.status(statusCode.SUCCESS.code).json({
+      posts: posts.map((item) => ({
+        id: item.id,
+        description: item.description,
+        imgs: item.imgs,
+        tags: item.tags,
+        title: item.title,
+        user: item.user,
+      })),
+    });
   };
 
   delete = async (req: Request, res: Response): Promise<Response> => {

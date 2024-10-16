@@ -15,6 +15,7 @@ export class CreatePostUseCase {
     this.postRepository.save(post);
 
     return {
+      id: post.id,
       description: post.description,
       imgs: post.imgs.map((img) => ({
         description: img.description,

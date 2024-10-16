@@ -1,5 +1,6 @@
 import { LoginUseCase } from '../../../application/useCase/auth/login';
 import { CreateCodeUseCase } from '../../../application/useCase/code/create';
+import { InsightsUseCase } from '../../../application/useCase/dashboard/insights';
 import { CreatePostUseCase } from '../../../application/useCase/post/create/create';
 import { DeletePostUseCase } from '../../../application/useCase/post/deleteById/delete';
 import { FindAllPostUseCase } from '../../../application/useCase/post/findAll/post';
@@ -8,6 +9,10 @@ import { FindAvailableAgentsUseCase } from '../../../application/useCase/post/fi
 import { FindAvailableMapsUseCase } from '../../../application/useCase/post/findAvailableMaps/post';
 import { FindPostByIdOrThrowUseCase } from '../../../application/useCase/post/findByIdOrThrow';
 import { UpdatePostUseCase } from '../../../application/useCase/post/update/upate';
+import { CreateSuggestionUseCase } from '../../../application/useCase/suggestions/create';
+import { DeleteSuggestionByIdUseCase } from '../../../application/useCase/suggestions/deleteById/suggestion';
+import { FindAllSuggestionsUseCase } from '../../../application/useCase/suggestions/findAll/findAll';
+import { UpdateSuggestionByIdUseCase } from '../../../application/useCase/suggestions/updateById/updateById';
 import { CreateUserUseCase } from '../../../application/useCase/user/create/user';
 import { DeleteUserByIdUseCase } from '../../../application/useCase/user/deleteById/user';
 import { FindUserByIdUseCase } from '../../../application/useCase/user/findById/user';
@@ -17,15 +22,32 @@ import { GetViewUseCase } from '../../../application/useCase/views/get/View';
 import { CodeRepository } from '../../code/repository/mongo/codeRepository';
 import { PostRepository } from '../../post/repository/mongo/postRepository';
 import { PasswordHasher } from '../../services/PasswordHasher';
+import { SuggestionRepository } from '../../suggestion/repository/mongo/suggestionRepository';
 import { UserRepository } from '../../user/repository/mongo/userRepository';
 import { ViewsRepository } from '../../views/repository/mongo/viewsRepository';
 import { AuthController } from '../controllers/authController';
 import { CodeController } from '../controllers/codeController';
+import { DashboardController } from '../controllers/dashboardController';
 import { PostController } from '../controllers/postController';
+import { SuggestionController } from '../controllers/suggestionController';
 import { UserController } from '../controllers/userController';
 import { ViewsController } from '../controllers/viewsController';
 
 export class AppDependencyInjector {
+  private static dashboardControllerInstance: DashboardController;
+
+  private static suggestionControllerInstance: SuggestionController;
+
+  private static createSuggestionUseCaseInstance: CreateSuggestionUseCase;
+
+  private static findAllSuggestionsUseCaseInstance: FindAllSuggestionsUseCase;
+
+  private static updateSuggestionByIdUseCaseInstance: UpdateSuggestionByIdUseCase;
+
+  private static deleteSuggestionByIdUseCaseInstance: DeleteSuggestionByIdUseCase;
+
+  private static suggestionRepositoryInstance: SuggestionRepository;
+
   private static createViewUseCaseInstance: CreateViewUseCase;
 
   private static postControllerInstance: PostController;
@@ -60,6 +82,100 @@ export class AppDependencyInjector {
 
   private static loginUseCaseInstance: LoginUseCase;
 
+  private static createPostUseCaseInstance: CreatePostUseCase;
+
+  private static updatePostUseCaseInstance: UpdatePostUseCase;
+
+  private static findPostByIdOrThrowUseCaseInstance: FindPostByIdOrThrowUseCase;
+
+  private static findAvailableMapsUseCaseInstance: FindAvailableMapsUseCase;
+
+  private static findAvailableAgentsUseCaseInstance: FindAvailableAgentsUseCase;
+
+  private static findAllPostUseCaseInstance: FindAllPostUseCase;
+
+  private static findAllByMapAndAgentUseCaseInstance: FindAllByMapAndAgentUseCase;
+
+  private static deletePostUseCaseInstance: DeletePostUseCase;
+
+  private static postRepositoryInstance: PostRepository;
+
+  private static insightsUseCaseInstance: InsightsUseCase;
+
+  static get insightsUseCase(): InsightsUseCase {
+    if (!this.insightsUseCaseInstance) {
+      this.insightsUseCaseInstance = new InsightsUseCase(
+        this.userRepository,
+        this.postRepository,
+        this.suggestionRepository,
+        this.viewRepository,
+      );
+    }
+    return this.insightsUseCaseInstance;
+  }
+
+  static get dashboardController(): DashboardController {
+    if (!this.dashboardControllerInstance) {
+      this.dashboardControllerInstance = new DashboardController(this.insightsUseCase);
+    }
+
+    return this.dashboardControllerInstance;
+  }
+
+  static get suggestionController(): SuggestionController {
+    if (!this.suggestionControllerInstance) {
+      this.suggestionControllerInstance = new SuggestionController(
+        this.createSuggestionUseCase,
+        this.findAllSuggestionsUseCase,
+        this.updateSuggestionByIdUseCase,
+        this.deleteSuggestionByIdUseCase,
+      );
+    }
+    return this.suggestionControllerInstance;
+  }
+
+  static get suggestionRepository(): SuggestionRepository {
+    if (!this.suggestionRepositoryInstance) {
+      this.suggestionRepositoryInstance = new SuggestionRepository();
+    }
+    return this.suggestionRepositoryInstance;
+  }
+
+  static get createSuggestionUseCase(): CreateSuggestionUseCase {
+    if (!this.createSuggestionUseCaseInstance) {
+      this.createSuggestionUseCaseInstance = new CreateSuggestionUseCase(
+        this.suggestionRepository,
+        this.postRepository,
+      );
+    }
+
+    return this.createSuggestionUseCaseInstance;
+  }
+
+  static get findAllSuggestionsUseCase(): FindAllSuggestionsUseCase {
+    if (!this.findAllSuggestionsUseCaseInstance) {
+      this.findAllSuggestionsUseCaseInstance = new FindAllSuggestionsUseCase(this.suggestionRepository);
+    }
+
+    return this.findAllSuggestionsUseCaseInstance;
+  }
+
+  static get updateSuggestionByIdUseCase(): UpdateSuggestionByIdUseCase {
+    if (!this.updateSuggestionByIdUseCaseInstance) {
+      this.updateSuggestionByIdUseCaseInstance = new UpdateSuggestionByIdUseCase(this.suggestionRepository);
+    }
+
+    return this.updateSuggestionByIdUseCaseInstance;
+  }
+
+  static get deleteSuggestionByIdUseCase(): DeleteSuggestionByIdUseCase {
+    if (!this.deleteSuggestionByIdUseCaseInstance) {
+      this.deleteSuggestionByIdUseCaseInstance = new DeleteSuggestionByIdUseCase(this.suggestionRepository);
+    }
+
+    return this.deleteSuggestionByIdUseCaseInstance;
+  }
+
   static get loginUseCase(): LoginUseCase {
     if (!this.loginUseCaseInstance) {
       this.loginUseCaseInstance = new LoginUseCase(this.userRepository, this.passwordHasher);
@@ -67,8 +183,6 @@ export class AppDependencyInjector {
 
     return this.loginUseCaseInstance;
   }
-
-  private static createPostUseCaseInstance: CreatePostUseCase;
 
   static get createPostUseCase(): CreatePostUseCase {
     if (!this.createPostUseCaseInstance) {
@@ -78,8 +192,6 @@ export class AppDependencyInjector {
     return this.createPostUseCaseInstance;
   }
 
-  private static updatePostUseCaseInstance: UpdatePostUseCase;
-
   static get updatePostUseCase(): UpdatePostUseCase {
     if (!this.updatePostUseCaseInstance) {
       this.updatePostUseCaseInstance = new UpdatePostUseCase(this.postRepository);
@@ -87,8 +199,6 @@ export class AppDependencyInjector {
 
     return this.updatePostUseCaseInstance;
   }
-
-  private static findPostByIdOrThrowUseCaseInstance: FindPostByIdOrThrowUseCase;
 
   static get findPostByIdOrThrowUseCase(): FindPostByIdOrThrowUseCase {
     if (!this.findPostByIdOrThrowUseCaseInstance) {
@@ -98,8 +208,6 @@ export class AppDependencyInjector {
     return this.findPostByIdOrThrowUseCaseInstance;
   }
 
-  private static findAvailableMapsUseCaseInstance: FindAvailableMapsUseCase;
-
   static get findAvailableMapsUseCase(): FindAvailableMapsUseCase {
     if (!this.findAvailableMapsUseCaseInstance) {
       this.findAvailableMapsUseCaseInstance = new FindAvailableMapsUseCase(this.postRepository);
@@ -107,8 +215,6 @@ export class AppDependencyInjector {
 
     return this.findAvailableMapsUseCaseInstance;
   }
-
-  private static findAvailableAgentsUseCaseInstance: FindAvailableAgentsUseCase;
 
   static get findAvailableAgentsUseCase(): FindAvailableAgentsUseCase {
     if (!this.findAvailableAgentsUseCaseInstance) {
@@ -118,8 +224,6 @@ export class AppDependencyInjector {
     return this.findAvailableAgentsUseCaseInstance;
   }
 
-  private static findAllPostUseCaseInstance: FindAllPostUseCase;
-
   static get findAllPostUseCase(): FindAllPostUseCase {
     if (!this.findAllPostUseCaseInstance) {
       this.findAllPostUseCaseInstance = new FindAllPostUseCase(this.postRepository, this.userRepository);
@@ -128,17 +232,16 @@ export class AppDependencyInjector {
     return this.findAllPostUseCaseInstance;
   }
 
-  private static findAllByMapAndAgentUseCaseInstance: FindAllByMapAndAgentUseCase;
-
   static get findAllByMapAndAgentUseCase(): FindAllByMapAndAgentUseCase {
     if (!this.findAllByMapAndAgentUseCaseInstance) {
-      this.findAllByMapAndAgentUseCaseInstance = new FindAllByMapAndAgentUseCase(this.postRepository);
+      this.findAllByMapAndAgentUseCaseInstance = new FindAllByMapAndAgentUseCase(
+        this.postRepository,
+        this.userRepository,
+      );
     }
 
     return this.findAllByMapAndAgentUseCaseInstance;
   }
-
-  private static deletePostUseCaseInstance: DeletePostUseCase;
 
   static get deletePostUseCase(): DeletePostUseCase {
     if (!this.deletePostUseCaseInstance) {
@@ -147,8 +250,6 @@ export class AppDependencyInjector {
 
     return this.deletePostUseCaseInstance;
   }
-
-  private static postRepositoryInstance: PostRepository;
 
   static get postRepository(): PostRepository {
     if (!this.postRepositoryInstance) {

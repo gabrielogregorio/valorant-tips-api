@@ -2,7 +2,7 @@ db = db.getSiblingDB('vavatips');
 
 db.users.insertMany([
   {
-    id: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    id: '61a3ae838fe6df463e7bc1cf',
     username: 'developer',
     password: '$2b$10$x9kHitv7zcZneMo3p/sz7u328xbhWkgjYfFrNr4NzZIiMAdK1bydK',
     createdAt: new Date('2021-11-28T16:29:55.475Z'),
@@ -13,7 +13,7 @@ db.users.insertMany([
 
 db.reports.insertMany([
   {
-    id: ObjectId('61590f04f294ee0162a18e00'),
+    id: '61590f04f294ee0162a18e00',
     email: 'userTest@userTest.com',
     description: 'Lorem Ipsun',
     screenHeight: 728,
@@ -35,11 +35,11 @@ db.posts.insertMany([
       mapPosition: 'B',
       agent: 'Killjoy',
     },
-    id: ObjectId('61590639cd9902fad4021cc5'),
+    id: '61590639cd9902fad4021cc5',
     title: 'Pixel de KillJoy',
     description:
       'Você pode faze-lo para impedir um defuse, em uma situação onde outra killjoy conseguiu dominar o bomb e irá desarmar a spyke',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: 'ca474122-4212-4fa9-bd8b-f56f9256a8ba',
@@ -85,10 +85,10 @@ db.posts.insertMany([
       mapPosition: 'B',
       agent: 'Killjoy',
     },
-    id: ObjectId('6159086acd9902fad4021ce0'),
+    id: '6159086acd9902fad4021ce0',
     title: 'Como tirar os inimigos dessa posição',
     description: 'Muitas vezes alguém irá incomodar bastante dessa posição, aprenda a tira-lo de lá!',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '29ba8f2d-c4f5-4834-a1c0-e6e90b104070',
@@ -137,10 +137,10 @@ db.posts.insertMany([
       mapPosition: 'B',
       agent: 'Killjoy',
     },
-    id: ObjectId('61590932cd9902fad4021ce4'),
+    id: '61590932cd9902fad4021ce4',
     title: 'Como tirar inimigos dessa posição',
     description: 'Essa é uma das regiões que sempre terá alguém, as vezes de Operator',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '59d6f52c-af63-400a-841e-969f2c7ca7d4',
@@ -178,11 +178,11 @@ db.posts.insertMany([
       mapPosition: 'A',
       agent: 'Killjoy',
     },
-    id: ObjectId('6159c5a51775570b9c40611a'),
+    id: '6159c5a51775570b9c40611a',
     title: 'Como colocar as grandas neste ponto a distância',
     description:
       'As vezes você não conseguiu entrar ou até a outra killjoy usou a ultimate para dominar o bomb, nesse caso, é assim que você conseguirá jogar as granadas no plant padrão',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '8fc81375-42d2-4636-b9ff-b3c0ffb32801',
@@ -224,10 +224,10 @@ db.posts.insertMany([
       mapPosition: 'B',
       agent: 'Killjoy',
     },
-    id: ObjectId('6159c6611775570b9c40611e'),
+    id: '6159c6611775570b9c40611e',
     title: 'After plant nas caixas',
     description: 'Como posicionar o nanoenxame no plant das caixas',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '82ab3f57-8e2f-4d37-8b89-a2adc871cfe0',
@@ -264,10 +264,10 @@ db.posts.insertMany([
       mapPosition: 'A',
       agent: 'Killjoy',
     },
-    id: ObjectId('6159c7421775570b9c406122'),
+    id: '6159c7421775570b9c406122',
     title: 'Como posicionar o nanoenxame debaixo do bomb de forma a atingir os inimigos na parte de cima',
     description: 'Isso é muito útil quando seu time conseguiu entrar no bomb, e o time inimigo vem fazer o retake',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '3ebdacce-65a6-451f-9aa8-739e91765d19',
@@ -300,10 +300,10 @@ db.posts.insertMany([
       mapPosition: 'Meio',
       agent: 'Killjoy',
     },
-    id: ObjectId('6159c83b1775570b9c406126'),
+    id: '6159c83b1775570b9c406126',
     title: 'Como tirar esse ponto do time inimigo',
     description: 'Esse ponto sempre tem alguém esperando, algumas vezes de Operator',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: 'd4dc8371-bab5-4ee1-9fbc-cbd6614fc1a2',
@@ -346,10 +346,10 @@ db.posts.insertMany([
       mapPosition: 'B',
       agent: 'Killjoy',
     },
-    id: ObjectId('6159c92b1775570b9c40612a'),
+    id: '6159c92b1775570b9c40612a',
     title: 'Como acertar o time atacante na posição do quadrado',
     description: 'Esse píxel permitirá incomodar qualquer um que esteja na região do quadrado',
-    user: ObjectId('615301f1b2f117e4b06db30e'),
+    userId: '615301f1b2f117e4b06db30e',
     imgs: [
       {
         id: '10057278-1fbc-4004-a361-b7746b893987',
@@ -387,10 +387,10 @@ db.posts.insertMany([
       mapPosition: 'B',
       agent: 'Killjoy',
     },
-    id: ObjectId('6159ca2b1775570b9c40612e'),
+    id: '6159ca2b1775570b9c40612e',
     title: 'Dicas gerais de posicionamento de granadas',
     description: 'Quem incomodar os inimigos no seu bomb?',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '83d3de02-200e-4021-99fe-f1ccd0cdfcfe',
@@ -437,10 +437,10 @@ db.posts.insertMany([
       mapPosition: 'A',
       agent: 'Sova',
     },
-    id: ObjectId('6159cbca1775570b9c406132'),
+    id: '6159cbca1775570b9c406132',
     title: 'Como spotar a entrada do bomb A',
     description: 'Como spotar a entrada do bomb A',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: 'c338aa01-ec80-43be-86b9-acdfa0609a1b',
@@ -472,10 +472,10 @@ db.posts.insertMany([
       mapPosition: 'B',
       agent: 'Sova',
     },
-    id: ObjectId('6159ccf61775570b9c406136'),
+    id: '6159ccf61775570b9c406136',
     title: 'Conhece o spot girafa?',
     description: 'Esse spot permite pegar toda a região indicada',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: 'cca2bd99-d5d6-4155-98f1-9a08d4e8965b',
@@ -511,10 +511,10 @@ db.posts.insertMany([
       mapPosition: 'Meio',
       agent: 'Sova',
     },
-    id: ObjectId('6159cf541775570b9c40613a'),
+    id: '6159cf541775570b9c40613a',
     title: 'Como spotar a região do meio e do mercado',
     description: 'Esse píxel é muito bom para ajudar o seu time a avançar pelo meio',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '39f6d107-9474-4eb1-9758-9d18db02dd1e',
@@ -552,11 +552,11 @@ db.posts.insertMany([
       mapPosition: 'B',
       agent: 'Sova',
     },
-    id: ObjectId('6159d0321775570b9c40613e'),
+    id: '6159d0321775570b9c40613e',
     title: 'Como spotar inimigos entrando no bomb B',
     description:
       'Você pode combar esse spot com uma operator, Odin, Ares ou guardian, sempre atirando na região onde tem o cachorro',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: 'c8aed571-cac5-4158-939a-309c973b3fab',
@@ -592,11 +592,11 @@ db.posts.insertMany([
       mapPosition: 'Meio',
       agent: 'Sova',
     },
-    id: ObjectId('6159d11d1775570b9c406142'),
+    id: '6159d11d1775570b9c406142',
     title: 'Como spotar essa região, para pegar operator ou a entrada no bomb A',
     description:
       'O principal objetivo dessa flecha é spotar movimentação na região do meio, você pode combar com um varado a partir da região do meio',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: 'a2d71846-4eb8-4af0-9bc1-166bb5957811',
@@ -623,10 +623,10 @@ db.posts.insertMany([
       mapPosition: 'B',
       agent: 'Cypher',
     },
-    id: ObjectId('6159d1db1775570b9c406147'),
+    id: '6159d1db1775570b9c406147',
     title: 'Um Câmera marota de Cypher',
     description: 'Um Câmera marota de Cypher',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '7eff28da-93b5-4386-a7fb-6a252dd57407',
@@ -652,11 +652,11 @@ db.posts.insertMany([
       mapPosition: 'A',
       agent: 'Killjoy',
     },
-    id: ObjectId('615b06383d918dc99eaff809'),
+    id: '615b06383d918dc99eaff809',
     title: 'Impedir o desarme da Spyke plantada nesse ponto',
     description:
       'As vezes você não consegue posicionar o nanoenxame, ou simplesmente quer tornar a vida do seu adversário mais difícil',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '5ef83544-7006-4466-a2ce-30f4eb574dab',
@@ -698,10 +698,10 @@ db.posts.insertMany([
       mapPosition: 'A',
       agent: 'Killjoy',
     },
-    id: ObjectId('615b07c33d918dc99eaff812'),
+    id: '615b07c33d918dc99eaff812',
     title: 'Boas Ultimates #1',
     description: 'Boas Ultimates #1',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '90fa1b4e-45f7-4218-bc5b-1c48b7a4a834',
@@ -743,10 +743,10 @@ db.posts.insertMany([
       mapPosition: 'A',
       agent: 'Killjoy',
     },
-    id: ObjectId('615b08863d918dc99eaff81a'),
+    id: '615b08863d918dc99eaff81a',
     title: 'Boas Ultimates #2',
     description: 'Boas Ultimates #2',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: 'c7045553-94f0-467f-b75c-73d28fb9e9b0',
@@ -784,10 +784,10 @@ db.posts.insertMany([
       mapPosition: 'B',
       agent: 'Killjoy',
     },
-    id: ObjectId('615b09633d918dc99eaff827'),
+    id: '615b09633d918dc99eaff827',
     title: 'Boas Ultimates #3',
     description: 'Boas Ultimates #3',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '63b6aa24-01e8-4fc4-8b49-3fadf52e3d6a',
@@ -831,10 +831,10 @@ db.posts.insertMany([
       mapPosition: 'A',
       agent: 'Viper',
     },
-    id: ObjectId('615b0aa43d918dc99eaff829'),
+    id: '615b0aa43d918dc99eaff829',
     title: 'Como acertar a spyke no plant no meio das caixas',
     description: 'Cuidado com esse pixel, ele está em uma região bem exposta',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: 'a4a788a3-3a46-429b-9c6a-40db7cd39650',
@@ -871,10 +871,10 @@ db.posts.insertMany([
       mapPosition: 'B',
       agent: 'Viper',
     },
-    id: ObjectId('615b0ccf3d918dc99eaff82b'),
+    id: '615b0ccf3d918dc99eaff82b',
     title: 'Como acertar o plant das caixas a partir do B',
     description: 'Então você resolveu ser o lurker, seu time morreu geral e agora só você pode salvar o round!',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '1a141493-7edb-4c61-b5a1-dfdf035b8ac5',
@@ -917,12 +917,12 @@ db.posts.insertMany([
       mapPosition: 'B',
       agent: 'Viper',
     },
-    id: ObjectId('615b11673d918dc99eaff82f'),
+    id: '615b11673d918dc99eaff82f',
     title:
       'Apesar da B ser pouco usada, se vocês tiverem plantado a spyke no Meio e você precisou recuar, vale a pena tentar esse pixel',
     description:
       'Aqui é uma boa ter a informação se a Sage inimiga já usou a parede dela, caso não tenha usado, cuidado com esse pixel.',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '38463408-d0fb-4f52-bc4f-1356cb8d4257',
@@ -970,11 +970,11 @@ db.posts.insertMany([
       mapPosition: 'B',
       agent: 'Viper',
     },
-    id: ObjectId('615b12743d918dc99eaff831'),
+    id: '615b12743d918dc99eaff831',
     title: 'Como impedir o defuse/plant da Spyke no B, dentro da B',
     description:
       'Essa é uma situação é atípica, e pode acontecer se você conseguiu marotar, porém, tem muitos inimigos vivos',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '13ea624c-49dd-42c1-8d27-3e5717d781a0',
@@ -1012,11 +1012,11 @@ db.posts.insertMany([
       mapPosition: 'B',
       agent: 'Viper',
     },
-    id: ObjectId('615b133a3d918dc99eaff833'),
+    id: '615b133a3d918dc99eaff833',
     title: 'E que tal uma cortina tóxica para atrasar a entrada do time adversário?',
     description:
       'Cuidado, essa parede pode ser troll, o time adversário pode simplesmente se posicionar atrás da parede e bolar uma entrada ',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '82b11bd4-c9e3-48a6-82af-8fc6dbaca559',
@@ -1058,10 +1058,10 @@ db.posts.insertMany([
       mapPosition: 'B',
       agent: 'Viper',
     },
-    id: ObjectId('615b14243d918dc99eaff835'),
+    id: '615b14243d918dc99eaff835',
     title: 'Como impedir o plant/defuse da spyke no C, a partir do B',
     description: 'Esse pixel pode ser usado com você do lado defensor ou do lado atacante',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '5bfca4c7-f07c-4a4e-a821-2ab6a8eed389',
@@ -1103,10 +1103,10 @@ db.posts.insertMany([
       mapPosition: 'A',
       agent: 'Sova',
     },
-    id: ObjectId('615b152c3d918dc99eaff839'),
+    id: '615b152c3d918dc99eaff839',
     title: 'Como spotar o time adversário entrando no bomb A',
     description: 'Esse pixel pode ser combinado com varados, tanto na B, quando no rato',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '792c457b-a792-456c-acf3-8cbdd4ac9039',
@@ -1143,11 +1143,11 @@ db.posts.insertMany([
       mapPosition: 'Qualquer',
       agent: 'Sova',
     },
-    id: ObjectId('615b16383d918dc99eaff83b'),
+    id: '615b16383d918dc99eaff83b',
     title: 'Como spotar essa região no A',
     description:
       'É bem comum ficar alguém nessa região, e você poderá ter problemas dependendo da mira dessa pessoa, esse spot te ajudará a entender a situação rapidamente.',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '6d3ad501-2175-4020-b9ac-79f4af3451d1',
@@ -1184,11 +1184,11 @@ db.posts.insertMany([
       mapPosition: '',
       agent: 'Sova',
     },
-    id: ObjectId('615b17063d918dc99eaff83d'),
+    id: '615b17063d918dc99eaff83d',
     title: 'Como spotar gente marotada no A',
     description:
       'Esse spot te ajudará na entrado do A pelo Long, mas ela tem vários problemas e portanto use somente para casos especificos',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: 'b37a4791-46dd-4fae-bc72-3575921480f5',
@@ -1226,11 +1226,11 @@ db.posts.insertMany([
       mapPosition: 'Meio',
       agent: 'Sova',
     },
-    id: ObjectId('615b18133d918dc99eaff83f'),
+    id: '615b18133d918dc99eaff83f',
     title: 'Como spotar a Double Doors (prepare o varado!)',
     description:
       'Esse spot serve para você spotar gente marotada na Double Doors e DEVE ser combinado com um varado, sim, as portas varam dependendo da arma',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '28c3960a-1d36-4ee6-846a-2c05f43b06b9',
@@ -1267,10 +1267,10 @@ db.posts.insertMany([
       mapPosition: 'C',
       agent: 'Sova',
     },
-    id: ObjectId('615b1a5f805f300d78edda62'),
+    id: '615b1a5f805f300d78edda62',
     title: 'Como spotar a frente do bomb C',
     description: 'Esse spot pode ser bem útil durante um rush na C',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '8f811bd1-1948-4485-bcb6-4c54ba110723',
@@ -1312,10 +1312,10 @@ db.posts.insertMany([
       mapPosition: 'C',
       agent: 'Sova',
     },
-    id: ObjectId('615b1b3b805f300d78edda64'),
+    id: '615b1b3b805f300d78edda64',
     title: 'Esse spot pega a região de trás do C',
     description: 'Esse spot é ótimo para pegar Jett/Cypher de Operator, lembre-se que as caixas também varam',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '4b3f45e0-31c2-45e7-8a75-6243667cfe32',
@@ -1352,10 +1352,10 @@ db.posts.insertMany([
       mapPosition: 'C',
       agent: 'Sova',
     },
-    id: ObjectId('615b1c0c805f300d78edda66'),
+    id: '615b1c0c805f300d78edda66',
     title: 'Esse spot pega boa parte do C',
     description: 'Esse spot pega boa parte do Bomb C, mas cuidado, é possível usar as caixas para marotar o Spot',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '202fddaa-b98c-4cb3-a4df-b0e0f4f4de77',
@@ -1397,10 +1397,10 @@ db.posts.insertMany([
       mapPosition: 'C',
       agent: 'Sova',
     },
-    id: ObjectId('615b1cb5805f300d78edda68'),
+    id: '615b1cb5805f300d78edda68',
     title: 'Esse spot pega praticamente todo o bomb C',
     description: 'Use e abuse dele',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '502ed5c7-46e2-4d68-96af-a18aadf9cb87',
@@ -1437,10 +1437,10 @@ db.posts.insertMany([
       mapPosition: 'C',
       agent: 'Killjoy',
     },
-    id: ObjectId('615b1da5805f300d78edda6a'),
+    id: '615b1da5805f300d78edda6a',
     title: 'Melhores Ultimates #1',
     description: 'Melhores Ultimates #1',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: 'bbc93c85-a239-43f2-8cd6-b28acb1e661f',
@@ -1468,10 +1468,10 @@ db.posts.insertMany([
       mapPosition: 'B',
       agent: 'Killjoy',
     },
-    id: ObjectId('615b1e57805f300d78edda6c'),
+    id: '615b1e57805f300d78edda6c',
     title: 'Melhores Ultimates #2',
     description: 'Melhores Ultimates #2',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '28deac12-d3f2-417d-82c7-fd7569fa41c6',
@@ -1514,10 +1514,10 @@ db.posts.insertMany([
       mapPosition: 'A',
       agent: 'Killjoy',
     },
-    id: ObjectId('615b1ec8805f300d78edda6e'),
+    id: '615b1ec8805f300d78edda6e',
     title: 'Melhores Ultimates #3',
     description: 'Melhores Ultimates #3',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '81b2aca3-83d3-4448-a680-c20e8a8e1fb2',
@@ -1550,10 +1550,10 @@ db.posts.insertMany([
       mapPosition: 'C',
       agent: 'Killjoy',
     },
-    id: ObjectId('615b1fd2805f300d78edda70'),
+    id: '615b1fd2805f300d78edda70',
     title: 'Melhores Ultimates #4',
     description: 'Melhores Ultimates #4',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '28f370f7-d847-4d88-bec2-5d59fd68b12e',
@@ -1595,10 +1595,10 @@ db.posts.insertMany([
       mapPosition: 'Qualquer',
       agent: 'Killjoy',
     },
-    id: ObjectId('615b204e805f300d78edda72'),
+    id: '615b204e805f300d78edda72',
     title: 'Dicas de posicionamento de granadas',
     description: 'Dicas gerais de posicionamento',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: 'd816cab1-6984-427b-8c3b-e2e556fac9a1',
@@ -1626,10 +1626,10 @@ db.posts.insertMany([
       mapPosition: 'BaseDefensora',
       agent: 'Sova',
     },
-    id: ObjectId('615ce6b2885145167e3e464e'),
+    id: '615ce6b2885145167e3e464e',
     title: 'Como spotar essa região?',
     description: 'Sempre tem alguém que fica nessa região, ',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '6575aa99-d07f-4308-8ca3-16ed8f211435',
@@ -1667,11 +1667,11 @@ db.posts.insertMany([
       mapPosition: 'BaseDefensora',
       agent: 'Sova',
     },
-    id: ObjectId('615ce798885145167e3e4658'),
+    id: '615ce798885145167e3e4658',
     title: 'Como spotar a região da Double Doors?',
     description:
       'Não é tão comum ter alguém nessa região, em especial no Low Elo, porém tem players que adoram explorar essa região para fazer costinha, ou, te esperar de Judge',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '5315de9a-26ad-4240-9d20-0ed46293da69',
@@ -1708,11 +1708,11 @@ db.posts.insertMany([
       mapPosition: 'BaseDefensora',
       agent: 'Sova',
     },
-    id: ObjectId('615ce926885145167e3e4668'),
+    id: '615ce926885145167e3e4668',
     title: 'Como spotar essa região?',
     description:
       'É bem comum o seu time decidir fazer a entrada pelo meio, em especial quando os dois lados estão bem complicados, porém, algum mirudo(a) pode estar nessa posição esperando seu time',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '3407b77e-fe17-4f6d-b45d-9abc5ffb3e83',
@@ -1749,10 +1749,10 @@ db.posts.insertMany([
       mapPosition: 'A',
       agent: 'Sova',
     },
-    id: ObjectId('615cea4a885145167e3e466b'),
+    id: '615cea4a885145167e3e466b',
     title: 'Como spotar o time inimigo no começo do round',
     description: 'Esse Spot é muito bom, mas não faça toda hora, pois sua flecha será insta destruida',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: 'e5403f1f-66bf-43a2-b2d3-73583b82188b',
@@ -1794,10 +1794,10 @@ db.posts.insertMany([
       mapPosition: 'A',
       agent: 'Sova',
     },
-    id: ObjectId('615cebd6885145167e3e4672'),
+    id: '615cebd6885145167e3e4672',
     title: 'Uma forma dificil de spotar a entrada do time inimigo',
     description: 'Esse spot é bem complicado, mas, se você acertar os timming, pode ser um ótimo bait.',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: 'fe55540f-2501-4df8-8489-77cad4e72e57',
@@ -1841,10 +1841,10 @@ db.posts.insertMany([
       mapPosition: 'A',
       agent: 'Sova',
     },
-    id: ObjectId('615ced36885145167e3e4693'),
+    id: '615ced36885145167e3e4693',
     title: 'Como spotar a região do céu, na entrada do A',
     description: 'Esse spot é ótimo para limpar essa região',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '771e0fe6-0cd6-4443-ba94-106f22039c87',
@@ -1886,10 +1886,10 @@ db.posts.insertMany([
       mapPosition: 'B',
       agent: 'Sova',
     },
-    id: ObjectId('615cf08f885145167e3e4696'),
+    id: '615cf08f885145167e3e4696',
     title: 'Como spotar o fundo da B',
     description: 'Como spotar o fundo da B',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '5f02e42a-77c5-46b4-9b4e-9698088a5ba9',
@@ -1931,10 +1931,10 @@ db.posts.insertMany([
       mapPosition: 'Meio',
       agent: 'Cypher',
     },
-    id: ObjectId('615f311ed5dfc1f8ad206f2f'),
+    id: '615f311ed5dfc1f8ad206f2f',
     title: 'Esse pixel permite pegar os atacantes na região do meio',
     description: 'Esse pixel permite pegar os atacantes na região do meio',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '5e7b422d-6286-4988-b037-42cb2365e2f9',
@@ -1962,10 +1962,10 @@ db.posts.insertMany([
       mapPosition: 'B',
       agent: 'Cypher',
     },
-    id: ObjectId('615f32ccd5dfc1f8ad206f42'),
+    id: '615f32ccd5dfc1f8ad206f42',
     title: 'Dicas de posicionamento de fio armadilha na B',
     description: 'Dicas de posicionamento de fio armadilha na B',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '72b52722-3300-45a6-b1a1-49eafd92bf6f',
@@ -1992,10 +1992,10 @@ db.posts.insertMany([
       mapPosition: 'A',
       agent: 'Cypher',
     },
-    id: ObjectId('615f33aed5dfc1f8ad206f49'),
+    id: '615f33aed5dfc1f8ad206f49',
     title: 'Câmera imperceptível para retake no Bomb A',
     description: 'Essa câmera é muito boa para retake, e permite que você marque e vare o time atacante',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '864e2e12-e74f-4830-8c4b-b49c01d0dab6',
@@ -2034,11 +2034,11 @@ db.posts.insertMany([
       mapPosition: 'A',
       agent: 'Cypher',
     },
-    id: ObjectId('615f349bd5dfc1f8ad206f4b'),
+    id: '615f349bd5dfc1f8ad206f4b',
     title: 'Câmera que pega o bomb A e a região da varanda',
     description:
       'Essa câmera pode ser usada para retake, e se você acertar o "timing", o time atacante não irá perceber onde ela está',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '18b4c69b-3e9a-4ba9-b2b7-8a8249701cc0',
@@ -2071,10 +2071,10 @@ db.posts.insertMany([
       mapPosition: 'A',
       agent: 'Cypher',
     },
-    id: ObjectId('615f3555d5dfc1f8ad206f4d'),
+    id: '615f3555d5dfc1f8ad206f4d',
     title: 'Dicas de posicionamento de fio armadilha no Bomb A',
     description: 'Se liga ia nessas dicas de OneWay',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '9ec758bc-b2fd-438d-9f18-6f45af01c848',
@@ -2102,10 +2102,10 @@ db.posts.insertMany([
       mapPosition: 'A',
       agent: 'Cypher',
     },
-    id: ObjectId('615f3653d5dfc1f8ad206f4f'),
+    id: '615f3653d5dfc1f8ad206f4f',
     title: 'One Way no bom A',
     description: 'Essa One Way te fornece uma grande vantagem, em especial quando combinada com os fios armadilhas',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '8233f2ec-f6df-45be-9358-d57974c8594b',
@@ -2149,11 +2149,11 @@ db.posts.insertMany([
       mapPosition: 'A',
       agent: 'Viper',
     },
-    id: ObjectId('615f37bbd5dfc1f8ad206f51'),
+    id: '615f37bbd5dfc1f8ad206f51',
     title: 'Parede gigante da vyper',
     description:
       'Essa parede é muito boa, em especial em rounds ECOnômicos, cujo o time atacante esta com colete 1 ou sem colete',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '75727c21-6ecd-4150-94dc-7fe39a3a87e4',
@@ -2197,11 +2197,11 @@ db.posts.insertMany([
       mapPosition: 'B',
       agent: 'Viper',
     },
-    id: ObjectId('615f38bbd5dfc1f8ad206f53'),
+    id: '615f38bbd5dfc1f8ad206f53',
     title: 'Ultimate que cobre o mercado e a entrada do B',
     description:
       'Essa ultimate não é tão intimidadora, porém, cobre duas regiões de acesso que o time atacante frequentemente usam quando querem entrar no bomb B',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '1d5cc264-731c-43b2-95b7-3e98a8bf43da',
@@ -2239,10 +2239,10 @@ db.posts.insertMany([
       mapPosition: 'BaseDefensora',
       agent: 'Sova',
     },
-    id: ObjectId('615f39d3d5dfc1f8ad206f55'),
+    id: '615f39d3d5dfc1f8ad206f55',
     title: 'Como spotar o fundo do bomb A',
     description: 'Esse spot deve ser usado com cautela, pois, é fácil contera-lo',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: 'f3025566-6061-461b-bc9f-da62f05032ac',
@@ -2280,10 +2280,10 @@ db.posts.insertMany([
       mapPosition: 'BaseAtacante',
       agent: 'Sova',
     },
-    id: ObjectId('615f3b86d5dfc1f8ad206f57'),
+    id: '615f3b86d5dfc1f8ad206f57',
     title: 'Spot dentro do bomb, para pegar alguém marotado debaixo do Hooka ou em cima da entrada pelo jardim',
     description: 'Esse spot é perigoso, pois, não revela a região da base CT ou a região do fundo',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '03efe20a-d71f-4768-b14e-79249c682532',
@@ -2321,11 +2321,11 @@ db.posts.insertMany([
       mapPosition: 'Outra',
       agent: 'Sova',
     },
-    id: ObjectId('615f3c63d5dfc1f8ad206f59'),
+    id: '615f3c63d5dfc1f8ad206f59',
     title: 'Como spotar o time atacante preparando o entry na A',
     description:
       'Esse spot costuma funcionar várias vezes no Low Elo, mas nem sempre resulta em kills, apenas informação mesmo',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '2ccb2b5f-1b55-42d9-baf0-9a5978b28791',
@@ -2362,11 +2362,11 @@ db.posts.insertMany([
       mapPosition: 'A',
       agent: 'Sova',
     },
-    id: ObjectId('615f3de8d5dfc1f8ad206f5b'),
+    id: '615f3de8d5dfc1f8ad206f5b',
     title: 'Como spotar o time atacante no respawn pelo banheiro do A',
     description:
       'Esse spot sempre funciona comigo, e pode também ser usado de bait, enquanto o time inimigo mira para destruir a flecha, alguém do seu time avança pelo banheiro',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '45d52810-8f34-4066-959e-cb2ac0f70cbe',
@@ -2405,10 +2405,10 @@ db.posts.insertMany([
       mapPosition: 'B',
       agent: 'Jett',
     },
-    id: ObjectId('615f3f47d5dfc1f8ad206f62'),
+    id: '615f3f47d5dfc1f8ad206f62',
     title: 'Ângulo surpresa para conseguir alguns abates',
     description: 'Essa ângulo não é esperado pelo time atacante, e você pode abusar dele para conseguir alguns abates',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '95100c6b-76f1-44b4-a423-490dbe591b63',
@@ -2436,10 +2436,10 @@ db.posts.insertMany([
       mapPosition: 'Meio',
       agent: 'Jett',
     },
-    id: ObjectId('615f411ed5dfc1f8ad206f64'),
+    id: '615f411ed5dfc1f8ad206f64',
     title: 'Como chegar na região do container no inicio do round',
     description: 'Essa é uma região bem interessante, permite acesso ao Bomb B, ao bomb A e a base defensora',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '1f71b508-0e28-4fc1-ba66-c066266dce22',
@@ -2479,10 +2479,10 @@ db.posts.insertMany([
       mapPosition: 'B',
       agent: 'Jett',
     },
-    id: ObjectId('615f428ed5dfc1f8ad206f66'),
+    id: '615f428ed5dfc1f8ad206f66',
     title: 'Pixel para surpreender os atacantes',
     description: 'Esse píxel é muito forte e portanto tem boas chances de você conseguir um abate',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: 'bebaea52-e162-41ff-9a49-08377f4ac3fd',
@@ -2519,10 +2519,10 @@ db.posts.insertMany([
       mapPosition: 'Outra',
       agent: 'Jett',
     },
-    id: ObjectId('615f43b6d5dfc1f8ad206f68'),
+    id: '615f43b6d5dfc1f8ad206f68',
     title: 'Pixel supressa para quando o time defensor está virando para a B',
     description: 'Esse píxel é muito ocasional e provavelmente irá ser executado com sucesso algumas poucas vezes',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: 'a3ffc7d4-4b05-4db7-b582-fc2ca4b9d9e3',
@@ -2560,10 +2560,10 @@ db.posts.insertMany([
       mapPosition: 'B',
       agent: 'Jett',
     },
-    id: ObjectId('615f4541d5dfc1f8ad206f6a'),
+    id: '615f4541d5dfc1f8ad206f6a',
     title: 'Como pousar no container na entrada da B',
     description: 'Esse píxel também pode ser feito com o Omen e normalmente permite marotrar',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '5dd2728e-d619-4446-8bd7-ae0b32875e55',
@@ -2606,10 +2606,10 @@ db.posts.insertMany([
       mapPosition: 'B',
       agent: 'Sage',
     },
-    id: ObjectId('61619ea1ce40a7938c9cec94'),
+    id: '61619ea1ce40a7938c9cec94',
     title: 'Ângulo diferenciado para pegar o time atacante',
     description: 'Existe uma chance de você conseguir algumas kills sem ser percebido',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '09690b4f-1335-4d62-9e2d-4ca4d4eb1715',
@@ -2641,11 +2641,11 @@ db.posts.insertMany([
       mapPosition: 'B',
       agent: 'Sage',
     },
-    id: ObjectId('6161a035ce40a7938c9cec9f'),
+    id: '6161a035ce40a7938c9cec9f',
     title: '#1 Parede para aliados, Omen, Jett ou Raze',
     description:
       'Esse pixel permite seus aliados conseguirem uma vantagem sobre quem do time defensor fica na região da varanda',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: '34713c48-556c-40e4-a16f-bd34dd3637ea',
@@ -2679,10 +2679,10 @@ db.posts.insertMany([
       mapPosition: 'BaseDefensora',
       agent: 'Sage',
     },
-    id: ObjectId('6161a0f0ce40a7938c9cecaa'),
+    id: '6161a0f0ce40a7938c9cecaa',
     title: 'Ângulo diferenciado para pegar o time atacante pelo meio',
     description: 'Esse pixel é interessante, mas você deve executa-lo com cuidado!',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: 'd31f8a58-9805-45ed-8e54-a92c92b40f4c',
@@ -2715,11 +2715,11 @@ db.posts.insertMany([
       mapPosition: 'Outra',
       agent: 'Sage',
     },
-    id: ObjectId('6161a1fece40a7938c9cecb5'),
+    id: '6161a1fece40a7938c9cecb5',
     title: '#2 Parede para aliados, Omen, Jett ou Raze',
     description:
       'Esse pixel é forte com times que jogam recuado, talvez esperando habilidades do seu time(uma faca do Kay/0), e é extremamente exposto, portanto, as chances do seu aliado morrer são altas, mas, é um ângulo diferenciado!',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: 'd62c05f9-d601-4d1c-b7ba-26259faaafd7',
@@ -2751,10 +2751,10 @@ db.posts.insertMany([
       mapPosition: 'A',
       agent: 'Sage',
     },
-    id: ObjectId('6161a2fdce40a7938c9cecc0'),
+    id: '6161a2fdce40a7938c9cecc0',
     title: 'Como segurar um Rush no Bomb B a partir do céu da A',
     description: 'Esse píxel é interessante ser combinado com as habilidades de outros agentes, como o da killjoy',
-    user: ObjectId('61a3ae838fe6df463e7bc1cf'),
+    userId: '61a3ae838fe6df463e7bc1cf',
     imgs: [
       {
         id: 'efc3b1ff-ec08-4183-b779-a80734dc70ef',
