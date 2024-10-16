@@ -8,8 +8,7 @@ export default class CodeYupValidator implements ValidatorInterface<CodeEntity> 
       yup
         .object()
         .shape({
-          id: yup.string().required('id is required'),
-          title: yup.string().required('name is required'),
+          // id: yup.string().required('id is required'),
         })
         .validateSync(
           {

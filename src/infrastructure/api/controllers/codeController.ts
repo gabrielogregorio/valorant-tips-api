@@ -1,15 +1,11 @@
 import { Request, Response } from 'express';
-import { CodeService } from '@/service/Code';
+import { CreateCodeUseCase } from '../../../application/useCase/code/create';
 
 export class CodeController {
-  private codeService: CodeService;
-
-  constructor(codeService: CodeService) {
-    this.codeService = codeService;
-  }
+  constructor(private createCodeUseCase: CreateCodeUseCase) {}
 
   generate = async (_req: Request, res: Response<{ token: string }>) => {
-    const token = await this.codeService.create();
+    const token = await this.createCodeUseCase.execute();
 
     return res.json({ token: token.code });
   };

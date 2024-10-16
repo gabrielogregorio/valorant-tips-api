@@ -1,6 +1,16 @@
+/* eslint-disable max-classes-per-file */
 import { UserEntity } from '../../../../domain/user/entity/user';
 import { UserRepositoryInterface } from '../../../../domain/user/repository/userRepository.interface';
 import { FindUserByIdUseCaseInterface, OutputFindUserByIdDto } from '../../../interfaces/FindUserByIdUseCaseInterface';
+
+class OutputMapper {
+  static toOutput(user: UserEntity): OutputFindUserByIdDto {
+    return {
+      image: user.image,
+      username: user.username,
+    };
+  }
+}
 
 export class FindUserByIdUseCase implements FindUserByIdUseCaseInterface {
   constructor(private userRepository: UserRepositoryInterface) {}
@@ -11,9 +21,6 @@ export class FindUserByIdUseCase implements FindUserByIdUseCaseInterface {
       return null;
     }
 
-    return new UserEntity({
-      id: user.id.toString(),
-      username: user.username,
-    });
+    return OutputMapper.toOutput(user);
   };
 }

@@ -1,12 +1,8 @@
 import { Request, Response } from 'express';
-import { AuthService } from '@/service/auth';
+import { LoginUseCase } from '../../../application/useCase/auth/login';
 
 export class AuthController {
-  private authService: AuthService;
-
-  constructor(authService: AuthService) {
-    this.authService = authService;
-  }
+  constructor(private loginUseCase: LoginUseCase) {}
 
   auth = async (
     req: Request<never, never, { username: string; password: string }>,
@@ -17,7 +13,7 @@ export class AuthController {
   ) => {
     const { username, password } = req.body;
 
-    const response = await this.authService.auth({ username, password });
+    const response = await this.loginUseCase.execute({ username, password });
 
     return res.json(response);
   };

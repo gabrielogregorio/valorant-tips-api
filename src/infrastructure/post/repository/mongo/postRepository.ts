@@ -33,7 +33,7 @@ export class PostRepository implements PostAggregateRepositoryInterface {
     const postEntityUpdated = new PostEntity({
       title: postUpdated.title,
       id: postUpdated.id.toString(),
-      userId: postUpdated.user.id.toString(),
+      userId: postUpdated.userId,
     });
 
     postEntityUpdated.changeDescription(postUpdated.description);
@@ -55,7 +55,7 @@ export class PostRepository implements PostAggregateRepositoryInterface {
       tags: post.tags,
       imgs: post.imgs,
       description: post.description,
-      userId: post.user.id.toString() || '',
+      userId: post.userId || '',
       id: post.id,
     });
   };
@@ -78,7 +78,7 @@ export class PostRepository implements PostAggregateRepositoryInterface {
           tags: postItem.tags,
           imgs: postItem.imgs,
           description: postItem.description,
-          userId: postItem.user.id.toString() || '',
+          userId: postItem.userId || '',
           id: postItem.id,
         }),
     );
@@ -96,7 +96,7 @@ export class PostRepository implements PostAggregateRepositoryInterface {
           tags: postItem.tags,
           imgs: postItem.imgs,
           description: postItem.description,
-          userId: postItem.user.id.toString() || '',
+          userId: postItem.userId.toString() || '',
           id: postItem.id,
         }),
     );

@@ -1,6 +1,6 @@
-import { DISABLE_LOGS } from '@/config/envs';
-import { applyColors, colors, getContext, levelsType } from '@/logs/index';
 import morgan from 'morgan';
+import { DISABLE_LOGS } from '../config/envs';
+import { applyColors, colors, getContext, levelsType } from '../logs';
 
 export const useLogger = morgan((tokens, req, res) => {
   if (DISABLE_LOGS) {

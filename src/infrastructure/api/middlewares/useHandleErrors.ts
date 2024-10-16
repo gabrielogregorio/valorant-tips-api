@@ -1,8 +1,8 @@
-import { ERROR_WITH_DEBUG } from '@/config/envs';
-import statusCode from '@/config/statusCode';
-import { AppError } from '@/errors/index';
-import { Log } from '@/logs/index';
 import { NextFunction, Request, Response } from 'express';
+import { AppError } from '../errors';
+import { ERROR_WITH_DEBUG } from '../config/envs';
+import { Log } from '../logs';
+import statusCode from '../config/statusCode';
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 export const useHandleErrors = (error: Error, req: Request, res: Response, next: NextFunction) => {

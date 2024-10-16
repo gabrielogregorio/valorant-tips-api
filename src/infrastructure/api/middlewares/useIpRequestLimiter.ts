@@ -1,5 +1,5 @@
-import statusCode from '@/config/statusCode';
 import rateLimit from 'express-rate-limit';
+import statusCode from '../config/statusCode';
 
 const ONE_SECOND_IN_MS = 1000;
 const SECONDS_IN_ONE_MINUTE = 60;

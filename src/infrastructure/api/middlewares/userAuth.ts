@@ -1,9 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { JWT_SECRET } from '@/config/envs';
-
-import { AppError } from '@/errors/index';
-import { errorStates } from '@/errors/types';
+import { JWT_SECRET } from '../config/envs';
+import { errorStates } from '../errors/types';
+import { AppError } from '../errors';
 
 export const isAuthenticate = (authorization: string) => {
   try {

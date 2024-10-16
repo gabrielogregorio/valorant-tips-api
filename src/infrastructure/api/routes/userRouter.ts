@@ -1,11 +1,11 @@
 import express, { Router } from 'express';
-import { userAuth } from '@/middlewares/userAuth';
-import { useValidation } from '@/middlewares/useValidation';
-import { schemaCreateUser } from '@/schemas/createUser';
-import { schemaUpdateUser } from '@/schemas/updateUser';
-import { useHasFile } from '@/middlewares/useHasFile';
-import { useMulterUser } from '@/middlewares/useMulterUser';
 import { AppDependencyInjector } from '../container';
+import { useHasFile } from '../middlewares/useHasFile';
+import { schemaCreateUser } from '../schemas/createUser';
+import { useMulterUser } from '../middlewares/useMulterUser';
+import { userAuth } from '../middlewares/userAuth';
+import { schemaUpdateUser } from '../schemas/updateUser';
+import { useValidation } from '../middlewares/useValidation';
 
 export const userRouter: Router = express.Router();
 

@@ -14,7 +14,7 @@ export class CodeRepository implements CodeAggregateRepositoryInterface {
   };
 
   findByCode = async (code: string): Promise<CodeEntity | null> => {
-    const codeFound = await Code.findOne({ code, available: true });
+    const codeFound = await Code.findOne({ code });
 
     if (!codeFound) {
       return null;
@@ -23,9 +23,9 @@ export class CodeRepository implements CodeAggregateRepositoryInterface {
     return new CodeEntity({ available: codeFound.available, code: codeFound.code });
   };
 
-  updateToAvailable = async (code: string): Promise<CodeEntity | null> => {
-    const filter = { code, available: true };
-    const updateTo = { $set: { available: false } };
+  updateEntity = async (code: CodeEntity): Promise<CodeEntity | null> => {
+    const filter = { code: code.code };
+    const updateTo = { $set: { available: code.available, code: code.code } };
     const options = { new: true };
     const result = await Code.findOneAndUpdate(filter, updateTo, options);
     if (!result) {

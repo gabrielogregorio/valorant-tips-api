@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
-import { SECURITY_CODE } from '@/config/envs';
-import { AppError } from '@/errors/index';
-import { errorStates } from '@/errors/types';
+import { SECURITY_CODE } from '../config/envs';
+import { errorStates } from '../errors/types';
+import { AppError } from '../errors';
 
 export const userAuthCodeIsCorrect = (req: Request, res: Response, next: NextFunction) => {
   const { securityCode } = req.body;

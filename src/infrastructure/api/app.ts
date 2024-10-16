@@ -1,14 +1,14 @@
 import express from 'express';
 import 'express-async-errors';
-import { useHandleErrors } from '@/middlewares/useHandleErrors';
-import { useSanitizedBody } from '@/middlewares/useSanitizedBody';
 import helmet from 'helmet';
-import { useSanitizeMongo } from '@/middlewares/useSanitizeMongo';
-import { useIpRequestLimiter } from '@/middlewares/useIpRequestLimiter';
-import { useCors } from '@/middlewares/useCors';
-import { useAddTraceId } from '@/middlewares/useAddTraceId';
-import { useLogger } from '@/middlewares/logger';
 import { router } from './routes';
+import { useAddTraceId } from './middlewares/useAddTraceId';
+import { useCors } from './middlewares/useCors';
+import { useLogger } from './middlewares/logger';
+import { useSanitizeMongo } from './middlewares/useSanitizeMongo';
+import { useIpRequestLimiter } from './middlewares/useIpRequestLimiter';
+import { useSanitizedBody } from './middlewares/useSanitizedBody';
+import { useHandleErrors } from './middlewares/useHandleErrors';
 
 const app = express();
 app.disable('x-powered-by');

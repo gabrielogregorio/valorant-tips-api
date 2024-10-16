@@ -10,10 +10,15 @@ export const getActualMoment = (): string => {
   })}`;
 };
 
-export const getContext = () => {
-  const traceId = asyncLocalStorage.getStore();
+export const getContext = () => `${getActualMoment()}`;
 
-  return `${getActualMoment()} ${String(traceId).padEnd(20)}`;
+export const getTraceId = () => {
+  const traceId = asyncLocalStorage.getStore();
+  if (!traceId) {
+    return '';
+  }
+
+  return `${String(traceId).padEnd(20).padStart(25)}`;
 };
 
 export type levelsType = 'ERROR' | 'INFO' | 'WARN' | 'DEBUG';
@@ -67,6 +72,6 @@ export class Log {
       return;
     }
 
-    console[level](color, getContext(), message, ...extras);
+    console[level](color, getContext(), message, ...extras, getTraceId());
   }
 }

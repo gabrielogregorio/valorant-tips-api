@@ -6,7 +6,7 @@ export type factoryPostType = {
   title: string;
   description: string;
   user: factoryUserType | null;
-  tags: string;
+  tags: any;
   imgs: factoryImgsType[];
 };
 

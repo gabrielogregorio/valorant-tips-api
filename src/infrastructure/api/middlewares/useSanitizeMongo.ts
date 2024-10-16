@@ -1,6 +1,6 @@
-import { Log } from '@/logs/index';
 import mongoSanitize from 'express-mongo-sanitize';
 import { Request } from 'express';
+import { Log } from '../logs';
 
 export const useSanitizeMongo = mongoSanitize({
   onSanitize: ({ req, key }) => {

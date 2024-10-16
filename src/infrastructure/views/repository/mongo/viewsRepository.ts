@@ -9,7 +9,10 @@ export type countViewsType = {
 
 export class ViewsRepository implements ViewsAggregateRepositoryInterface {
   save = async (view: ViewsEntity): Promise<ViewsEntity> => {
-    const newView = new View(view);
+    const newView = new View({
+      dateAccess: view.dateAccess,
+      ip: view.ip,
+    });
     await newView.save();
     return new ViewsEntity({
       dateAccess: newView.dateAccess,

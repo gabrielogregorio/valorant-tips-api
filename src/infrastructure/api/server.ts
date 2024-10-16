@@ -1,17 +1,17 @@
-import { PORT } from '@/config/envs';
-import { Database } from '@/database/database';
-import { Log } from '@/logs/index';
 import { app } from './app';
+import { PORT } from './config/envs';
+import { Database } from './database/database';
+import { Log } from './logs';
 
-const PORT_API = PORT;
+Log.info(`app started in http://localhost:${PORT}`);
 
 new Database({ verbose: true })
   .connect()
   .then(() => {
     Log.info('db connected');
 
-    app.listen(PORT_API, () => {
-      Log.info(`app started in ${PORT_API}`);
+    app.listen(PORT, () => {
+      Log.info(`app started in http://localhost:${PORT}`);
     });
   })
   .catch((error) => {

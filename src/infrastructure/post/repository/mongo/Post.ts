@@ -1,16 +1,11 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose from 'mongoose';
 import { IPost } from 'src/interfaces/post';
 
 const postSchema = new mongoose.Schema<IPost>(
   {
-    // @ts-ignore
-    _id: { type: Schema.Types.ObjectId, alias: 'id' },
     title: String,
     description: String,
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-    },
+    userId: String,
     tags: {
       moment: String,
       difficult: String,
@@ -30,7 +25,12 @@ const postSchema = new mongoose.Schema<IPost>(
   },
   {
     timestamps: true,
+    id: true,
   },
 );
+
+postSchema.virtual('id').get(function () {
+  return this._id;
+});
 
 export const Post = mongoose.model<IPost>('Post', postSchema);

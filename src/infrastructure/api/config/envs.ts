@@ -1,4 +1,4 @@
-import '@/wrappers/envs';
+import '../wrappers/envs';
 
 export const { PORT } = process.env;
 

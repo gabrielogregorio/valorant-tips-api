@@ -6,18 +6,18 @@ import { UpdateUserUseCaseDto, UpdateUserUseCaseInterface } from '../../../inter
 
 export class UpdateUserUseCase implements UpdateUserUseCaseInterface {
   constructor(
-    private UserRepository: UserRepositoryInterface,
+    private userRepository: UserRepositoryInterface,
     private passwordHasher: PasswordHasherInterface,
   ) {}
 
   execute = async (id: string, { username, password, image }: UpdateUserUseCaseDto): Promise<void> => {
-    const user = await this.UserRepository.findById(id);
+    const user = await this.userRepository.findById(id);
     if (user === null) {
       throw new AppError(errorStates.RESOURCE_NOT_EXISTS);
     }
 
     if (username) {
-      const userFound = await this.UserRepository.findOneByUsername(username);
+      const userFound = await this.userRepository.findOneByUsername(username);
       if (userFound !== null && userFound.id?.toString() !== id) {
         throw new AppError(errorStates.CONFLICT_ALREADY_EXISTS);
       }
@@ -33,6 +33,6 @@ export class UpdateUserUseCase implements UpdateUserUseCaseInterface {
       user.changeImage(image);
     }
 
-    return this.UserRepository.update(id, user);
+    return this.userRepository.update(id, user);
   };
 }

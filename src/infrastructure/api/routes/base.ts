@@ -1,5 +1,5 @@
-import { API_VERSION } from '@/config/envs';
 import { Router, Request, Response } from 'express';
+import { API_VERSION } from '../config/envs';
 
 export const baseRouter = Router();
 

@@ -1,6 +1,6 @@
 import multer from 'multer';
 import { Request } from 'express';
-import { convertMegabytesToBytes } from '@/helpers/conversors';
+import { convertMegabytesToBytes } from '../helpers/conversors';
 
 const LIMIT_SIZE_UPLOAD_IN_BYTES: number = convertMegabytesToBytes(10);
 

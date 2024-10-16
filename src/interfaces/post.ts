@@ -1,5 +1,3 @@
-import mongoose from 'mongoose';
-
 export interface IImagePost {
   id: string;
   description: string;
@@ -9,7 +7,7 @@ export interface IImagePost {
 export interface IPost {
   title: string;
   description: string;
-  user: mongoose.Types.ObjectId;
+  userId: string;
   tags: {
     moment: string;
     difficult: string;

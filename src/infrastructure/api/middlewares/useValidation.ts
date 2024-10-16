@@ -1,7 +1,7 @@
 import { ObjectSchema } from 'joi';
-import { AppError } from '@/errors/index';
-import { errorStates } from '@/errors/types';
 import { NextFunction, Request, Response } from 'express';
+import { AppError } from '../errors';
+import { errorStates } from '../errors/types';
 
 type inputValidationSchema = {
   body?: ObjectSchema;

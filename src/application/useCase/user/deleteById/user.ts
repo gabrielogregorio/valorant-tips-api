@@ -2,9 +2,9 @@ import { UserRepositoryInterface } from '../../../../domain/user/repository/user
 import { DeleteUserByIdUseCaseInterface } from '../../../interfaces/DeleteUserByIdUseCaseInterface';
 
 export class DeleteUserByIdUseCase implements DeleteUserByIdUseCaseInterface {
-  constructor(private UserRepository: UserRepositoryInterface) {}
+  constructor(private userRepository: UserRepositoryInterface) {}
 
   execute = async (id: string) => {
-    await this.UserRepository.findOneAndDelete(id);
+    await this.userRepository.findOneAndDelete(id);
   };
 }
