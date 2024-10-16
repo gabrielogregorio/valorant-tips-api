@@ -1,10 +1,10 @@
 import statusCode from '@/config/statusCode';
-import { createDatabaseMock, requestMock } from '@/test/e2e/utils';
+import { createDatabaseMock, requestMock } from './utils';
 
 const databaseMock = createDatabaseMock();
 let views = 0;
 
-describe('👀 Visualizações', () => {
+describe('Views', () => {
   beforeAll(async () => {
     await databaseMock.e2eTestConnect();
   });
@@ -14,8 +14,7 @@ describe('👀 Visualizações', () => {
     await databaseMock.close();
   });
 
-  it('[doc]: ✅ Retorna quantidade de visualizações', async () => {
-    /* Retorna quantos views a API recebeu */
+  it('should return initial state views', async () => {
     const res = await requestMock.get('/views');
     expect(res.body.countAll).toBeDefined();
     expect(res.body.countIps).toBeDefined();
@@ -33,14 +32,14 @@ describe('👀 Visualizações', () => {
     views = res.body.countAll;
   });
 
-  it('[doc]: ✅ Cria nova visualização', async () => {
-    /* doc: Essa rota registra a quantidade de visualizações que o site teve, não substituindo claro ferramentas de analytics */
+  it('should create a view', async () => {
     const res = await requestMock.post('/views').send({});
+
     expect(res.body).toEqual({});
     expect(res.statusCode).toEqual(204);
   });
 
-  it('✅ Retorna visualizações + 1', async () => {
+  it('should add new view', async () => {
     const res = await requestMock.get('/views');
     expect(res.statusCode).toEqual(statusCode.SUCCESS.code);
     expect(res.body.countAll).toEqual(views + 1);

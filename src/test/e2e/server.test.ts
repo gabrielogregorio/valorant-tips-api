@@ -1,9 +1,9 @@
 import statusCode from '@/config/statusCode';
-import { requestMock, createDatabaseMock } from '@/test/e2e/utils';
+import { createDatabaseMock, requestMock } from './utils';
 
 const databaseMock = createDatabaseMock();
 
-describe('💻 Testa se o servidor está rodando', () => {
+describe('Server', () => {
   beforeAll(async () => {
     await databaseMock.e2eTestConnect();
   });
@@ -13,7 +13,7 @@ describe('💻 Testa se o servidor está rodando', () => {
     await databaseMock.close();
   });
 
-  it('✅ A aplicação deve responder', () =>
+  it('should application response on get /', () =>
     requestMock.get('/').then((res) => {
       expect(res.statusCode).toEqual(statusCode.SUCCESS.code);
     }));

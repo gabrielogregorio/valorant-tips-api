@@ -1,5 +1,5 @@
 import { SECURITY_CODE } from '@/config/envs';
-import { createDatabaseMock, requestMock } from '@/test/e2e/utils';
+import { createDatabaseMock, requestMock } from './utils';
 
 const databaseMock = createDatabaseMock();
 
@@ -8,7 +8,7 @@ let generateCode = 'HA1496FD';
 generateCode = SECURITY_CODE;
 const validKey = { securityCode: generateCode };
 
-describe('[0] 🔑 Geração de chaves', () => {
+describe('GenerateUserKeys', () => {
   beforeAll(async () => {
     await databaseMock.e2eTestConnect();
   });
@@ -18,7 +18,7 @@ describe('[0] 🔑 Geração de chaves', () => {
     await databaseMock.close();
   });
 
-  it('[doc]: ✅ Criar uma chave', async () => {
+  it('should create a user key', async () => {
     const res = await requestMock.post('/code').send(validKey);
 
     expect(res.statusCode).toEqual(200);
@@ -26,7 +26,7 @@ describe('[0] 🔑 Geração de chaves', () => {
     codeGenerate = res.body.token;
   });
 
-  it('[doc]: 🚫 Impede a geração com uma chave inválida', async () => {
+  it('should block generation key with invalid token', async () => {
     const res = await requestMock.post('/code').send({ securityCode: 'Qualquer chave' });
     expect(res.statusCode).toEqual(401);
     expect(res.body).toEqual({
@@ -35,17 +35,17 @@ describe('[0] 🔑 Geração de chaves', () => {
     });
   });
 
-  it('✅ Deve cadastrar um usuário', async () => {
+  it('should register a user', async () => {
     const newUser = await requestMock.post('/users').send({
       code: codeGenerate,
       username: 'username test',
       password: 'password test',
     });
 
-    expect(newUser.body).toEqual({ username: 'username test' });
+    expect(newUser.body).toEqual({});
   });
 
-  it('✅ should make authentication with valid user', async () => {
+  it('should make authentication with valid user', async () => {
     const newUser = await requestMock.post('/auth').send({
       username: 'username test',
       password: 'password test',
@@ -54,14 +54,14 @@ describe('[0] 🔑 Geração de chaves', () => {
     expect(newUser.body).toEqual({ id: expect.stringContaining(''), token: expect.stringContaining('') }); // fixme
   });
 
-  it('🚫 Deve impedir um cadastro com token código repetido', async () => {
+  it('should block register with repeated token', async () => {
     const res = await requestMock.post('/users').send({
       code: codeGenerate,
       username: 'username test',
       password: 'password test',
     });
 
-    expect(res.statusCode).toEqual(401);
-    expect(res.body).toEqual({ message: 'TOKEN_IS_INVALID_OR_EXPIRED' });
+    expect(res.body).toEqual({ error: 'CODE_IS_NOT_AVAILABLE' });
+    expect(res.statusCode).toEqual(409);
   });
 });
