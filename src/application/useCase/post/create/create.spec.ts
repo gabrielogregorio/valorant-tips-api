@@ -1,7 +1,7 @@
+import { CreatePostUseCase } from '.';
 import { PostEntity } from '../../../../domain/post/entity/post';
 import { PostRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
 import { UserRepositoryInterface } from '../../../../domain/user/repository/userRepository.interface';
-import { CreatePostUseCase } from './create';
 
 const post = new PostEntity({ id: '123', userId: '456', description: 'new description', title: 'new title' });
 

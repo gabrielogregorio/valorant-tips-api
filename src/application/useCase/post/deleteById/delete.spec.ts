@@ -1,6 +1,6 @@
+import { DeletePostUseCase } from '.';
 import { PostEntity } from '../../../../domain/post/entity/post';
 import { PostRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
-import { DeletePostUseCase } from './delete';
 
 const post = new PostEntity({ id: '123', userId: '456', description: 'new description', title: 'new title' });
 

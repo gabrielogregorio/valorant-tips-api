@@ -6,7 +6,6 @@ import { UserRepositoryInterface } from '../../../../domain/user/repository/user
 export class UpdatePostUseCase implements UpdatePostUseCaseInterface {
   constructor(
     private postRepository: PostRepositoryInterface,
-
     private userRepository: UserRepositoryInterface,
   ) {}
 
