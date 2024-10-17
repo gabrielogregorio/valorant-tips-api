@@ -1,13 +1,13 @@
 import { statusSuggestionType } from '../../../../domain/suggestion/entity/interfaces';
-import { SuggestionAggregateRepositoryInterface } from '../../../../domain/suggestion/repository';
+import { SuggestionRepositoryInterface } from '../../../../domain/suggestion/repository';
 import { AppError } from '../../../errors/AppError';
 import {
   OutputUpdateByIdSuggestionDto,
-  UpdateByIdSuggestionUseCaseInterface,
-} from './UpdateByIdSuggestionUseCaseInterface';
+  UpdateSuggestionByIdUseCaseInterface,
+} from './UpdateSuggestionByIdUseCaseInterface';
 
-export class UpdateSuggestionByIdUseCase implements UpdateByIdSuggestionUseCaseInterface {
-  constructor(private suggestionRepository: SuggestionAggregateRepositoryInterface) {}
+export class UpdateSuggestionByIdUseCase implements UpdateSuggestionByIdUseCaseInterface {
+  constructor(private suggestionRepository: SuggestionRepositoryInterface) {}
 
   execute = async (id: string, status: statusSuggestionType): Promise<OutputUpdateByIdSuggestionDto> => {
     const suggestionUpdated = await this.suggestionRepository.updateById(id, status);

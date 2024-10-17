@@ -1,8 +1,8 @@
-import { CodeAggregateRepositoryInterface } from '../../../../domain/code/repository/inteface';
+import { CodeRepositoryInterface } from '../../../../domain/code/repository/inteface';
 import { CodeEntity } from '../../../../domain/code/enttity';
 import { Code } from './Code';
 
-export class CodeRepository implements CodeAggregateRepositoryInterface {
+export class CodeRepository implements CodeRepositoryInterface {
   save = async (code: CodeEntity): Promise<CodeEntity> => {
     const newCode = new Code({
       available: code.available,

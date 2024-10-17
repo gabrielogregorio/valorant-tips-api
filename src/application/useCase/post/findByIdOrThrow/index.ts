@@ -1,4 +1,4 @@
-import { PostAggregateRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
+import { PostRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
 import { UserRepositoryInterface } from '../../../../domain/user/repository/userRepository.interface';
 import {
   FindPostByIdOrThrowUseCaseInterface,
@@ -7,7 +7,7 @@ import {
 
 export class FindPostByIdOrThrowUseCase implements FindPostByIdOrThrowUseCaseInterface {
   constructor(
-    private postRepository: PostAggregateRepositoryInterface,
+    private postRepository: PostRepositoryInterface,
     private userRepository: UserRepositoryInterface,
   ) {}
 

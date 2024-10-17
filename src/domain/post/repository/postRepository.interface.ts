@@ -1,7 +1,7 @@
 import { RepositoryInterface } from 'src/domain/common/repository/customRepository.interface';
 import { PostEntity } from '../entity/post';
 
-export interface PostAggregateRepositoryInterface extends RepositoryInterface<PostEntity> {
+export interface PostRepositoryInterface extends RepositoryInterface<PostEntity> {
   save: (post: PostEntity) => Promise<void>;
   update: (post: PostEntity) => Promise<PostEntity>;
   findById: (id: string) => Promise<PostEntity | null>;

@@ -1,19 +1,19 @@
 import { Request, Response } from 'express';
 import { errorStates } from '@/errors/types';
 import { statusCode } from '@/config/statusCode';
-import { CreateSuggestionUseCase } from '../../../application/useCase/suggestions/create';
-import { FindAllSuggestionsUseCase } from '../../../application/useCase/suggestions/findAll/findAll';
-import { UpdateSuggestionByIdUseCase } from '../../../application/useCase/suggestions/updateById/updateById';
-import { DeleteSuggestionByIdUseCase } from '../../../application/useCase/suggestions/deleteById/suggestion';
 import { ApiError } from '../errors/ApiError';
 import { ICreateSuggestion, IDatabaseSuggestion, IResponseSuggestion } from '../interfaces/suggestion';
+import { CreateSuggestionUseCaseInterface } from '../../../application/useCase/suggestions/create/createSuggestionUseCase';
+import { FindAllSuggestionsUseCaseInterface } from '../../../application/useCase/suggestions/findAll/FindAllSuggestionsUseCaseInterface';
+import { UpdateSuggestionByIdUseCaseInterface } from '../../../application/useCase/suggestions/updateById/UpdateSuggestionByIdUseCaseInterface';
+import { DeleteSuggestionByIdUseCaseInterface } from '../../../application/useCase/suggestions/deleteById/DeleteSuggestionByIdUseCaseInterface';
 
 export class SuggestionController {
   constructor(
-    private createSuggestionUseCase: CreateSuggestionUseCase,
-    private findAllSuggestionsUseCase: FindAllSuggestionsUseCase,
-    private updateSuggestionByIdUseCase: UpdateSuggestionByIdUseCase,
-    private deleteSuggestionByIdUseCase: DeleteSuggestionByIdUseCase,
+    private createSuggestionUseCase: CreateSuggestionUseCaseInterface,
+    private findAllSuggestionsUseCase: FindAllSuggestionsUseCaseInterface,
+    private updateSuggestionByIdUseCase: UpdateSuggestionByIdUseCaseInterface,
+    private deleteSuggestionByIdUseCase: DeleteSuggestionByIdUseCaseInterface,
   ) {}
 
   private toHttp(suggestion: IDatabaseSuggestion): IResponseSuggestion {

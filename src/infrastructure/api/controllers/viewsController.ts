@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
-import { CreateViewUseCase } from '../../../application/useCase/views/add/View';
-import { GetViewUseCase } from '../../../application/useCase/views/get/View';
 import { errorStates } from '../errors/types';
 import { ApiError } from '../errors/ApiError';
+import { CreateViewUseCaseInterface } from '../../../application/useCase/views/add/CreateViewUseCaseInterface';
+import { GetViewUseCaseInterface } from '../../../application/useCase/views/get/GetViewUseCaseInterface';
 
 export class ViewsController {
   constructor(
-    private createViewUseCase: CreateViewUseCase,
-    private getViewUseCase: GetViewUseCase,
+    private createViewUseCase: CreateViewUseCaseInterface,
+    private getViewUseCase: GetViewUseCaseInterface,
   ) {}
 
   create = async (req: Request, res: Response): Promise<Response> => {

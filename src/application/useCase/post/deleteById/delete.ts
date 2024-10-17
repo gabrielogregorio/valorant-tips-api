@@ -1,9 +1,9 @@
-import { PostAggregateRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
+import { PostRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
 import { AppError } from '../../../errors/AppError';
 import { DeletePostUseCaseInterface } from './DeletePostUseCaseInterface';
 
 export class DeletePostUseCase implements DeletePostUseCaseInterface {
-  constructor(private postRepository: PostAggregateRepositoryInterface) {}
+  constructor(private postRepository: PostRepositoryInterface) {}
 
   execute = async (idPost: string, userId: string): Promise<void> => {
     const post = await this.postRepository.findById(idPost);

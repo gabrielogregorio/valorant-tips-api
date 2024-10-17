@@ -1,7 +1,7 @@
 import { RepositoryInterface } from 'src/domain/common/repository/customRepository.interface';
 import { SuggestionEntityInterface } from '../entity/interfaces';
 
-export interface SuggestionAggregateRepositoryInterface extends RepositoryInterface<SuggestionEntityInterface> {
+export interface SuggestionRepositoryInterface extends RepositoryInterface<SuggestionEntityInterface> {
   save: (suggestion: SuggestionEntityInterface) => Promise<SuggestionEntityInterface>;
   findAll: () => Promise<SuggestionEntityInterface[]>;
   updateById: (id: string, status: SuggestionEntityInterface['status']) => Promise<SuggestionEntityInterface | null>;

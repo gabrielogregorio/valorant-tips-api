@@ -1,11 +1,11 @@
 import { PostEntity } from '../../../../domain/post/entity/post';
-import { PostAggregateRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
+import { PostRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
 import { UserRepositoryInterface } from '../../../../domain/user/repository/userRepository.interface';
 import { CreatePostUseCase } from './create';
 
 const post = new PostEntity({ id: '123', userId: '456', description: 'new description', title: 'new title' });
 
-const mockRepository = (): PostAggregateRepositoryInterface => ({
+const mockRepository = (): PostRepositoryInterface => ({
   update: jest.fn(),
   save: jest.fn().mockReturnValue(Promise.resolve()),
   findById: jest.fn(),

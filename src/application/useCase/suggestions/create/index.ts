@@ -1,7 +1,7 @@
-import { PostAggregateRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
+import { PostRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
 import { SuggestionEntity } from '../../../../domain/suggestion/entity';
 import { SuggestionEntityInterface } from '../../../../domain/suggestion/entity/interfaces';
-import { SuggestionAggregateRepositoryInterface } from '../../../../domain/suggestion/repository';
+import { SuggestionRepositoryInterface } from '../../../../domain/suggestion/repository';
 import {
   CreateSuggestionUseCaseInterface,
   InputCreateSuggestionDto,
@@ -10,8 +10,8 @@ import {
 
 export class CreateSuggestionUseCase implements CreateSuggestionUseCaseInterface {
   constructor(
-    private suggestionRepository: SuggestionAggregateRepositoryInterface,
-    private postRepository: PostAggregateRepositoryInterface,
+    private suggestionRepository: SuggestionRepositoryInterface,
+    private postRepository: PostRepositoryInterface,
   ) {}
 
   execute = async (dto: InputCreateSuggestionDto): Promise<OutputSuggestionDto> => {

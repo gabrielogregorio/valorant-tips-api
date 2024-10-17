@@ -1,4 +1,4 @@
-import { ViewsAggregateRepositoryInterface } from '../../../../domain/views/repository/inteface';
+import { ViewsRepositoryInterface } from '../../../../domain/views/repository/inteface';
 import { ViewsEntity } from '../../../../domain/views/enttity';
 import { View } from './View';
 
@@ -7,7 +7,7 @@ export type countViewsType = {
   countIps: number;
 };
 
-export class ViewsRepository implements ViewsAggregateRepositoryInterface {
+export class ViewsRepository implements ViewsRepositoryInterface {
   save = async (view: ViewsEntity): Promise<ViewsEntity> => {
     const newView = new View({
       dateAccess: view.dateAccess,

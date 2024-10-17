@@ -16,6 +16,6 @@ export interface OutputUpdateByIdSuggestionDto {
   updatedAt: string;
 }
 
-export interface UpdateByIdSuggestionUseCaseInterface {
+export interface UpdateSuggestionByIdUseCaseInterface {
   execute: (id: string, status: statusSuggestionType) => Promise<OutputUpdateByIdSuggestionDto>;
 }

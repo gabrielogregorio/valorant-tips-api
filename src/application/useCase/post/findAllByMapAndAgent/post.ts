@@ -1,4 +1,4 @@
-import { PostAggregateRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
+import { PostRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
 import { UserEntity } from '../../../../domain/user/entity/user';
 import { UserRepositoryInterface } from '../../../../domain/user/repository/userRepository.interface';
 import {
@@ -9,7 +9,7 @@ import {
 
 export class FindAllByMapAndAgentUseCase implements FindAllByMapAndAgentUseCaseInterface {
   constructor(
-    private postRepository: PostAggregateRepositoryInterface,
+    private postRepository: PostRepositoryInterface,
     private userRepository: UserRepositoryInterface,
   ) {}
 

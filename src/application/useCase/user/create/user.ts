@@ -1,4 +1,4 @@
-import { CodeAggregateRepositoryInterface } from '../../../../domain/code/repository/inteface';
+import { CodeRepositoryInterface } from '../../../../domain/code/repository/inteface';
 import { UserEntity } from '../../../../domain/user/entity/user';
 import { UserRepositoryInterface } from '../../../../domain/user/repository/userRepository.interface';
 import { AppError } from '../../../errors/AppError';
@@ -7,7 +7,7 @@ import { CreateUserUseCaseInterface, InputCreateUserDto } from './CreateUserUseC
 export class CreateUserUseCase implements CreateUserUseCaseInterface {
   constructor(
     private userRepository: UserRepositoryInterface,
-    private codeRepository: CodeAggregateRepositoryInterface,
+    private codeRepository: CodeRepositoryInterface,
   ) {}
 
   execute = async (code: string, { username, password, image }: InputCreateUserDto): Promise<void> => {

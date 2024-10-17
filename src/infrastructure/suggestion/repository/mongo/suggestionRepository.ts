@@ -1,11 +1,10 @@
 /* eslint-disable import/no-restricted-paths */
 import { SuggestionEntity } from '../../../../domain/suggestion/entity';
 import { SuggestionEntityInterface } from '../../../../domain/suggestion/entity/interfaces';
-import { SuggestionAggregateRepositoryInterface } from '../../../../domain/suggestion/repository';
-
+import { SuggestionRepositoryInterface } from '../../../../domain/suggestion/repository';
 import { Suggestion } from './Suggestion';
 
-export class SuggestionRepository implements SuggestionAggregateRepositoryInterface {
+export class SuggestionRepository implements SuggestionRepositoryInterface {
   save = async (suggestion: SuggestionEntityInterface): Promise<SuggestionEntityInterface> => {
     const newSuggestion = new Suggestion({
       description: suggestion.description,

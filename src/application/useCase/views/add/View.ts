@@ -1,9 +1,9 @@
-import { ViewsAggregateRepositoryInterface } from '../../../../domain/views/repository/inteface';
+import { ViewsRepositoryInterface } from '../../../../domain/views/repository/inteface';
 import { ViewsEntity } from '../../../../domain/views/enttity';
 import { CreateViewUseCaseInterface } from './CreateViewUseCaseInterface';
 
 export class CreateViewUseCase implements CreateViewUseCaseInterface {
-  constructor(private viewRepository: ViewsAggregateRepositoryInterface) {}
+  constructor(private viewRepository: ViewsRepositoryInterface) {}
 
   execute = async (ip: string): Promise<void> => {
     const view = new ViewsEntity({

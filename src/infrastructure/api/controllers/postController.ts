@@ -1,27 +1,26 @@
 import { Request, Response } from 'express';
-
 import { statusCode } from '../config/statusCode';
-import { CreatePostUseCase } from '../../../application/useCase/post/create/create';
-import { UpdatePostUseCase } from '../../../application/useCase/post/update/upate';
-import { FindAvailableMapsUseCase } from '../../../application/useCase/post/findAvailableMaps/post';
-import { FindAllByMapAndAgentUseCase } from '../../../application/useCase/post/findAllByMapAndAgent/post';
-import { DeletePostUseCase } from '../../../application/useCase/post/deleteById/delete';
-import { FindAllPostUseCase } from '../../../application/useCase/post/findAll/post';
-import { FindAvailableAgentsUseCase } from '../../../application/useCase/post/findAvailableAgents/post';
-import { FindPostByIdOrThrowUseCase } from '../../../application/useCase/post/findByIdOrThrow';
 import { CreatePostBodyType } from '../schemas/createPost.schema';
 import { updatePostBodyType } from '../schemas/updatePost.schema';
+import { CreatePostUseCaseInterface } from '../../../application/useCase/post/create/CreatePostUseCaseInterface';
+import { UpdatePostUseCaseInterface } from '../../../application/useCase/post/update/UpdatePostUseCaseInterface';
+import { FindPostByIdOrThrowUseCaseInterface } from '../../../application/useCase/post/findByIdOrThrow/IFindPostByIdOrThrowUseCase';
+import { FindAvailableMapsUseCaseInterface } from '../../../application/useCase/post/findAvailableMaps/FindAvailableMapsUseCaseInterface';
+import { FindAvailableAgentsUseCaseInterface } from '../../../application/useCase/post/findAvailableAgents/FindAvailableAgentsUseCaseInterface';
+import { FindAllPostUseCaseInterface } from '../../../application/useCase/post/findAll/FindAllPostUseCaseInterface';
+import { FindAllByMapAndAgentUseCaseInterface } from '../../../application/useCase/post/findAllByMapAndAgent/FindAllByMapAndAgentUseCaseInterface';
+import { DeletePostUseCaseInterface } from '../../../application/useCase/post/deleteById/DeletePostUseCaseInterface';
 
 export class PostController {
   constructor(
-    private createPostUseCase: CreatePostUseCase,
-    private updatePostUseCase: UpdatePostUseCase,
-    private findPostByIdOrThrowUseCase: FindPostByIdOrThrowUseCase,
-    private findAvailableMapsUseCase: FindAvailableMapsUseCase,
-    private findAvailableAgentsUseCase: FindAvailableAgentsUseCase,
-    private findAllPostUseCase: FindAllPostUseCase,
-    private findAllByMapAndAgentUseCase: FindAllByMapAndAgentUseCase,
-    private deletePostUseCase: DeletePostUseCase,
+    private createPostUseCase: CreatePostUseCaseInterface,
+    private updatePostUseCase: UpdatePostUseCaseInterface,
+    private findPostByIdOrThrowUseCase: FindPostByIdOrThrowUseCaseInterface,
+    private findAvailableMapsUseCase: FindAvailableMapsUseCaseInterface,
+    private findAvailableAgentsUseCase: FindAvailableAgentsUseCaseInterface,
+    private findAllPostUseCase: FindAllPostUseCaseInterface,
+    private findAllByMapAndAgentUseCase: FindAllByMapAndAgentUseCaseInterface,
+    private deletePostUseCase: DeletePostUseCaseInterface,
   ) {}
 
   uploadFile = async (req: Request, res: Response): Promise<Response> => res.json({ filename: req!.file!.path });

@@ -1,10 +1,10 @@
 import { PostEntity } from '../../../../domain/post/entity/post';
-import { PostAggregateRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
+import { PostRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
 import { DeletePostUseCase } from './delete';
 
 const post = new PostEntity({ id: '123', userId: '456', description: 'new description', title: 'new title' });
 
-const mockRepository = (mockFindById: any): PostAggregateRepositoryInterface => ({
+const mockRepository = (mockFindById: any): PostRepositoryInterface => ({
   update: jest.fn(),
   save: jest.fn(),
   findById: jest.fn().mockReturnValue(mockFindById),

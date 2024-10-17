@@ -1,9 +1,9 @@
 import { PostEntity } from '../../../../domain/post/entity/post';
-import { PostAggregateRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
+import { PostRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
 import { IPost } from '../../../api/interfaces/post';
 import { Post } from './Post';
 
-export class PostRepository implements PostAggregateRepositoryInterface {
+export class PostRepository implements PostRepositoryInterface {
   private imageMongoToImageApplication(images: IPost['imgs'][0][]): IPost['imgs'] {
     return images.map((image) => ({
       description: image.description,

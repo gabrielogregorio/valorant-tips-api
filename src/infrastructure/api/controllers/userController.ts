@@ -1,17 +1,17 @@
 import { Request, Response } from 'express';
 import { statusCode } from '../config/statusCode';
-import { CreateUserUseCase } from '../../../application/useCase/user/create/user';
-import { UpdateUserUseCase } from '../../../application/useCase/user/update/user';
-import { FindUserByIdUseCase } from '../../../application/useCase/user/findById/user';
-import { DeleteUserByIdUseCase } from '../../../application/useCase/user/deleteById/user';
 import { CreateUserBodyType } from '../schemas/createUser.schema';
+import { CreateUserUseCaseInterface } from '../../../application/useCase/user/create/CreateUserUseCaseInterface';
+import { UpdateUserUseCaseInterface } from '../../../application/useCase/user/update/UpdateUserUseCaseInterface';
+import { FindUserByIdUseCaseInterface } from '../../../application/useCase/user/findById/FindUserByIdUseCaseInterface';
+import { DeleteUserByIdUseCaseInterface } from '../../../application/useCase/user/deleteById/DeleteUserByIdUseCaseInterface';
 
 export class UserController {
   constructor(
-    private createUserUseCase: CreateUserUseCase,
-    private updateUserUseCase: UpdateUserUseCase,
-    private findUserByIdUseCase: FindUserByIdUseCase,
-    private deleteUserByIdUseCase: DeleteUserByIdUseCase,
+    private createUserUseCase: CreateUserUseCaseInterface,
+    private updateUserUseCase: UpdateUserUseCaseInterface,
+    private findUserByIdUseCase: FindUserByIdUseCaseInterface,
+    private deleteUserByIdUseCase: DeleteUserByIdUseCaseInterface,
   ) {}
 
   uploadImage = async (req: Request, res: Response): Promise<Response> => {

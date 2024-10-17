@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { LoginUseCase } from '../../../application/useCase/auth/login';
+import { LoginUseCaseInterface } from '../../../application/useCase/auth/login/LoginUseCaseInterface';
 
 export class AuthController {
-  constructor(private loginUseCase: LoginUseCase) {}
+  constructor(private loginUseCase: LoginUseCaseInterface) {}
 
   auth = async (
     req: Request<never, never, { username: string; password: string }>,

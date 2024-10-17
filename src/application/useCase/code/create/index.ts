@@ -1,9 +1,9 @@
-import { CodeAggregateRepositoryInterface } from '../../../../domain/code/repository/inteface';
+import { CodeRepositoryInterface } from '../../../../domain/code/repository/inteface';
 import { CodeEntity } from '../../../../domain/code/enttity';
 import { CreateCodeUseCaseInterface, OutputCreateCodeDto } from './CreateCodeUseCaseInterface';
 
 export class CreateCodeUseCase implements CreateCodeUseCaseInterface {
-  constructor(private codeRepository: CodeAggregateRepositoryInterface) {}
+  constructor(private codeRepository: CodeRepositoryInterface) {}
 
   execute = async (): Promise<OutputCreateCodeDto> => {
     const code = new CodeEntity();

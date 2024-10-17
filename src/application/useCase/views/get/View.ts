@@ -1,8 +1,8 @@
-import { ViewsAggregateRepositoryInterface } from '../../../../domain/views/repository/inteface';
+import { ViewsRepositoryInterface } from '../../../../domain/views/repository/inteface';
 import { GetViewUseCaseInterface, OutputGetViewsDto } from './GetViewUseCaseInterface';
 
 export class GetViewUseCase implements GetViewUseCaseInterface {
-  constructor(private viewRepository: ViewsAggregateRepositoryInterface) {}
+  constructor(private viewRepository: ViewsRepositoryInterface) {}
 
   execute = async (): Promise<OutputGetViewsDto> => {
     const count2 = await this.viewRepository.findAllDistinctIp();

@@ -1,15 +1,15 @@
-import { PostAggregateRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
-import { SuggestionAggregateRepositoryInterface } from '../../../../domain/suggestion/repository';
+import { PostRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
+import { SuggestionRepositoryInterface } from '../../../../domain/suggestion/repository';
 import { UserRepositoryInterface } from '../../../../domain/user/repository/userRepository.interface';
-import { ViewsAggregateRepositoryInterface } from '../../../../domain/views/repository/inteface';
+import { ViewsRepositoryInterface } from '../../../../domain/views/repository/inteface';
 import { InsightsUseCaseInterface, OutputInsightsDto } from './InsightsUseCaseInterface';
 
 export class InsightsUseCase implements InsightsUseCaseInterface {
   constructor(
     private UserRepository: UserRepositoryInterface,
-    private postRepository: PostAggregateRepositoryInterface,
-    private suggestionRepository: SuggestionAggregateRepositoryInterface,
-    private viewsRepository: ViewsAggregateRepositoryInterface,
+    private postRepository: PostRepositoryInterface,
+    private suggestionRepository: SuggestionRepositoryInterface,
+    private viewsRepository: ViewsRepositoryInterface,
   ) {}
 
   execute = async (): Promise<OutputInsightsDto> => {
