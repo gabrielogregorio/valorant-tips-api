@@ -1,20 +1,11 @@
 import { Request, Response } from 'express';
 import { InsightsUseCaseInterface } from '../../../application/useCase/dashboard/insights/InsightsUseCaseInterface';
+import { DashboardControllerInterface, IDashboardServiceType } from './interfaces/DashboardControllerInterface';
 
-type IDashboardServiceType = {
-  countAll: number;
-  countIps: number;
-  countAllPosts: number;
-  countAlMaps: number;
-  countAlAgents: number;
-  countAllSuggestions: number;
-  countAllUsers: number;
-};
-
-export class DashboardController {
+export class DashboardController implements DashboardControllerInterface {
   constructor(private insightsUseCase: InsightsUseCaseInterface) {}
 
-  get = async (_req: Request, res: Response<IDashboardServiceType>) => {
+  async get(_req: Request, res: Response<IDashboardServiceType>) {
     const data = await this.insightsUseCase.execute();
 
     return res.json({
@@ -26,5 +17,5 @@ export class DashboardController {
       countAlMaps: data.countAlMaps,
       countIps: data.countIps,
     });
-  };
+  }
 }

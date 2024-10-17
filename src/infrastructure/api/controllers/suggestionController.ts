@@ -7,8 +7,9 @@ import { CreateSuggestionUseCaseInterface } from '../../../application/useCase/s
 import { FindAllSuggestionsUseCaseInterface } from '../../../application/useCase/suggestions/findAll/FindAllSuggestionsUseCaseInterface';
 import { UpdateSuggestionByIdUseCaseInterface } from '../../../application/useCase/suggestions/updateById/UpdateSuggestionByIdUseCaseInterface';
 import { DeleteSuggestionByIdUseCaseInterface } from '../../../application/useCase/suggestions/deleteById/DeleteSuggestionByIdUseCaseInterface';
+import { SuggestionControllerInterface } from './interfaces/SuggestionControllerInterface';
 
-export class SuggestionController {
+export class SuggestionController implements SuggestionControllerInterface {
   constructor(
     private createSuggestionUseCase: CreateSuggestionUseCaseInterface,
     private findAllSuggestionsUseCase: FindAllSuggestionsUseCaseInterface,

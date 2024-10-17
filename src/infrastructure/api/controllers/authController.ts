@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import { LoginUseCaseInterface } from '../../../application/useCase/auth/login/LoginUseCaseInterface';
+import { AuthControllerInterface } from './interfaces/AuthControllerInterface';
 
-export class AuthController {
+export class AuthController implements AuthControllerInterface {
   constructor(private loginUseCase: LoginUseCaseInterface) {}
 
   auth = async (

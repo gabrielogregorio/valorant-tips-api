@@ -10,8 +10,9 @@ import { FindAvailableAgentsUseCaseInterface } from '../../../application/useCas
 import { FindAllPostUseCaseInterface } from '../../../application/useCase/post/findAll/FindAllPostUseCaseInterface';
 import { FindAllByMapAndAgentUseCaseInterface } from '../../../application/useCase/post/findAllByMapAndAgent/FindAllByMapAndAgentUseCaseInterface';
 import { DeletePostUseCaseInterface } from '../../../application/useCase/post/deleteById/DeletePostUseCaseInterface';
+import { PostControllerInterface } from './interfaces/PostControllerInterface';
 
-export class PostController {
+export class PostController implements PostControllerInterface {
   constructor(
     private createPostUseCase: CreatePostUseCaseInterface,
     private updatePostUseCase: UpdatePostUseCaseInterface,

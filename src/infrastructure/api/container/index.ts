@@ -59,24 +59,31 @@ import { PostController } from '../controllers/postController';
 import { SuggestionController } from '../controllers/suggestionController';
 import { UserController } from '../controllers/userController';
 import { ViewsController } from '../controllers/viewsController';
+import { DashboardControllerInterface } from '../controllers/interfaces/DashboardControllerInterface';
+import { SuggestionControllerInterface } from '../controllers/interfaces/SuggestionControllerInterface';
+import { PostControllerInterface } from '../controllers/interfaces/PostControllerInterface';
+import { AuthControllerInterface } from '../controllers/interfaces/AuthControllerInterface';
+import { CodeControllerInterface } from '../controllers/interfaces/CodeControllerInterface';
+import { ViewsControllerInterface } from '../controllers/interfaces/ViewsControllerInterface';
+import { UserControllerInterface } from '../controllers/interfaces/UserControllerInterface';
 
 export class AppDependencyInjector {
   // começo api
-  private static dashboardControllerInstance: DashboardController;
+  private static dashboardControllerInstance: DashboardControllerInterface;
 
-  private static suggestionControllerInstance: SuggestionController;
+  private static suggestionControllerInstance: SuggestionControllerInterface;
 
-  private static postControllerInstance: PostController;
+  private static postControllerInstance: PostControllerInterface;
 
-  private static authControllerInstance: AuthController;
+  private static authControllerInstance: AuthControllerInterface;
 
-  private static codeControllerInstance: CodeController;
+  private static codeControllerInstance: CodeControllerInterface;
 
-  private static viewsControllerInstance: ViewsController;
+  private static viewsControllerInstance: ViewsControllerInterface;
 
-  private static userControllerInstance: UserController;
-
+  private static userControllerInstance: UserControllerInterface;
   // fim api
+
   private static createSuggestionUseCaseInstance: CreateSuggestionUseCaseInterface;
 
   private static findAllSuggestionsUseCaseInstance: FindAllSuggestionsUseCaseInterface;
@@ -132,7 +139,7 @@ export class AppDependencyInjector {
   private static insightsUseCaseInstance: InsightsUseCaseInterface;
 
   // COMEÇO: CAMADA API
-  static get authController(): AuthController {
+  static get authController(): AuthControllerInterface {
     if (!this.authControllerInstance) {
       this.authControllerInstance = new AuthController(this.loginUseCase);
     }
@@ -140,7 +147,7 @@ export class AppDependencyInjector {
     return this.authControllerInstance;
   }
 
-  static get dashboardController(): DashboardController {
+  static get dashboardController(): DashboardControllerInterface {
     if (!this.dashboardControllerInstance) {
       this.dashboardControllerInstance = new DashboardController(this.insightsUseCase);
     }
@@ -148,7 +155,7 @@ export class AppDependencyInjector {
     return this.dashboardControllerInstance;
   }
 
-  static get suggestionController(): SuggestionController {
+  static get suggestionController(): SuggestionControllerInterface {
     if (!this.suggestionControllerInstance) {
       this.suggestionControllerInstance = new SuggestionController(
         this.createSuggestionUseCase,
@@ -160,7 +167,7 @@ export class AppDependencyInjector {
     return this.suggestionControllerInstance;
   }
 
-  static get codeController(): CodeController {
+  static get codeController(): CodeControllerInterface {
     if (!this.codeControllerInstance) {
       this.codeControllerInstance = new CodeController(this.createCodeUseCase);
     }
@@ -168,7 +175,7 @@ export class AppDependencyInjector {
     return this.codeControllerInstance;
   }
 
-  static get userController(): UserController {
+  static get userController(): UserControllerInterface {
     if (!this.userControllerInstance) {
       this.userControllerInstance = new UserController(
         this.createUserUseCase,
@@ -180,14 +187,14 @@ export class AppDependencyInjector {
     return this.userControllerInstance;
   }
 
-  static get viewsController(): ViewsController {
+  static get viewsController(): ViewsControllerInterface {
     if (!this.viewsControllerInstance) {
       this.viewsControllerInstance = new ViewsController(this.createViewUseCase, this.getViewUseCase);
     }
     return this.viewsControllerInstance;
   }
 
-  static get postController(): PostController {
+  static get postController(): PostControllerInterface {
     if (!this.postControllerInstance) {
       this.postControllerInstance = new PostController(
         this.createPostUseCase,

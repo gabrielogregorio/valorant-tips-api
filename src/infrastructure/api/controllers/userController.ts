@@ -5,8 +5,9 @@ import { CreateUserUseCaseInterface } from '../../../application/useCase/user/cr
 import { UpdateUserUseCaseInterface } from '../../../application/useCase/user/update/UpdateUserUseCaseInterface';
 import { FindUserByIdUseCaseInterface } from '../../../application/useCase/user/findById/FindUserByIdUseCaseInterface';
 import { DeleteUserByIdUseCaseInterface } from '../../../application/useCase/user/deleteById/DeleteUserByIdUseCaseInterface';
+import { UserControllerInterface } from './interfaces/UserControllerInterface';
 
-export class UserController {
+export class UserController implements UserControllerInterface {
   constructor(
     private createUserUseCase: CreateUserUseCaseInterface,
     private updateUserUseCase: UpdateUserUseCaseInterface,
