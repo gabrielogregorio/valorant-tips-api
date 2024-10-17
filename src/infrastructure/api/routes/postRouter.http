@@ -1,0 +1,88 @@
+@baseUrl = http://localhost:3000
+@bearerToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkZW1pcjIiLCJuYW1lIjoiYWRlbWlyMiIsImlkIjoiNjcwZmE4ZTY4ZGZkOGY5N2UxMjhmMGRiIiwiaWF0IjoxNzI5MDgwOTU4LCJleHAiOjE3Mjk1NDE3NTh9.UtR-I4qPYtGphY9DPEDfFcHcAsyWV1SNwW7DTRAnd7Q
+
+### Conteudo
+### @name getAllsPosts
+GET {{baseUrl}}/posts HTTP/1.1
+
+### get maps
+
+GET {{baseUrl}}/posts/maps HTTP/1.1
+
+### get agents by map
+
+GET {{baseUrl}}/posts/agents/Bind HTTP/1.1
+
+
+### get posts by agents and map
+GET {{baseUrl}}/posts/Bind/Sova HTTP/1.1
+
+
+### create post
+
+POST {{baseUrl}}/posts HTTP/1.1
+Authorization: {{bearerToken}}
+content-type: application/json
+
+{
+  "title":"item",
+  "description":"example",
+  "tags":{
+    "moment": "AfterPlant",
+    "difficult": "Example",
+    "ability": "Examnple",
+    "side": "Left",
+    "map": "Ascent",
+    "mapPosition": "Examnokle",
+    "agent": "Aget"
+  },
+  "imgs":[
+    {
+      "id":"example",
+      "description":"descImage",
+      "image":"link"
+    }
+  ]
+}
+
+@postId = 3ab3e235-dc78-4618-864e-3f9998a4c6c1
+### get a post
+
+
+GET {{baseUrl}}/posts/{{postId}} HTTP/1.1
+Authorization: {{bearerToken}}
+content-type: application/json
+
+### update post
+
+PUT {{baseUrl}}/posts/{{postId}} HTTP/1.1
+Authorization: {{bearerToken}}
+content-type: application/json
+
+{
+  "title":"itemx",
+  "description":"example2",
+  "tags":{
+    "moment": "AfterPlant2",
+    "difficult": "Example2",
+    "ability": "Examnple2",
+    "side": "Left2",
+    "map": "Ascent2",
+    "mapPosition": "Examnokle2",
+    "agent": "Aget2"
+  },
+  "imgs":[
+    {
+      "id":"example2222",
+      "description":"desc2",
+      "image":"image2"
+    }
+  ]
+}
+
+###  delete post
+
+DELETE {{baseUrl}}/posts/{{postId}} HTTP/1.1
+Authorization: {{bearerToken}}
+
+

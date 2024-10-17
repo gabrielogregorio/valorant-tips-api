@@ -5,7 +5,7 @@
 
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.importModuleSpecifier": "relative",
   "files.autoSave": "afterDelay",
   "cSpell.words": ["cloudinary", "middlewares", "Valorant"]
 }
