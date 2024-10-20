@@ -4,6 +4,8 @@
 
 yarn format & yarn lint
 
+yarn audit
+
 make test-only
 
 npx lint-staged
