@@ -381,7 +381,11 @@ export class AppDependencyInjector {
 
   static get createUserUseCase(): CreateUserUseCaseInterface {
     if (!this.createUserUseCaseInstance) {
-      this.createUserUseCaseInstance = new CreateUserUseCase(this.userRepository, this.codeRepository);
+      this.createUserUseCaseInstance = new CreateUserUseCase(
+        this.userRepository,
+        this.codeRepository,
+        this.passwordHasher,
+      );
     }
     return this.createUserUseCaseInstance;
   }
