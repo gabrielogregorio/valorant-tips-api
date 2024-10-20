@@ -30,8 +30,8 @@ import { LoginUseCase } from '@/useCase/auth/login';
 import { LoginUseCaseInterface } from '@/useCase/auth/login/LoginUseCaseInterface';
 import { CreateCodeUseCase } from '@/useCase/code/create';
 import { CreateCodeUseCaseInterface } from '@/useCase/code/create/CreateCodeUseCaseInterface';
-import { InsightsUseCase } from '@/useCase/dashboard/insights';
-import { InsightsUseCaseInterface } from '@/useCase/dashboard/insights/InsightsUseCaseInterface';
+import { DashboardUseCase } from '@/useCase/dashboard/get';
+import { DashboardUseCaseInterface } from '@/useCase/dashboard/get/DashboardUseCaseInterface';
 import { CreatePostUseCase } from '@/useCase/post/create';
 import { CreatePostUseCaseInterface } from '@/useCase/post/create/CreatePostUseCaseInterface';
 import { DeletePostUseCase } from '@/useCase/post/deleteById';
@@ -136,7 +136,7 @@ export class AppDependencyInjector {
 
   private static postRepositoryInstance: PostRepositoryInterface;
 
-  private static insightsUseCaseInstance: InsightsUseCaseInterface;
+  private static DashboardUseCaseInstance: DashboardUseCaseInterface;
 
   static get authController(): AuthControllerInterface {
     if (!this.authControllerInstance) {
@@ -148,7 +148,7 @@ export class AppDependencyInjector {
 
   static get dashboardController(): DashboardControllerInterface {
     if (!this.dashboardControllerInstance) {
-      this.dashboardControllerInstance = new DashboardController(this.insightsUseCase);
+      this.dashboardControllerInstance = new DashboardController(this.DashboardUseCase);
     }
 
     return this.dashboardControllerInstance;
@@ -210,16 +210,16 @@ export class AppDependencyInjector {
     return this.postControllerInstance;
   }
 
-  static get insightsUseCase(): InsightsUseCaseInterface {
-    if (!this.insightsUseCaseInstance) {
-      this.insightsUseCaseInstance = new InsightsUseCase(
+  static get DashboardUseCase(): DashboardUseCaseInterface {
+    if (!this.DashboardUseCaseInstance) {
+      this.DashboardUseCaseInstance = new DashboardUseCase(
         this.userRepository,
         this.postRepository,
         this.suggestionRepository,
         this.viewRepository,
       );
     }
-    return this.insightsUseCaseInstance;
+    return this.DashboardUseCaseInstance;
   }
 
   static get suggestionRepository(): SuggestionRepositoryInterface {

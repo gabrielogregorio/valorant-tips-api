@@ -1,37 +1,30 @@
-#### create user
+@bearerToken =eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkZW1pciIsIm5hbWUiOiJhZGVtaXIiLCJpZCI6IjE2MzhmMmE5LTM0MWItNDgwOC1iZmVhLTU5ZWQ5MzZhYmZlZSIsImlhdCI6MTcyOTQzOTgxMiwiZXhwIjoxNzI5OTAwNjEyfQ.t-sOPv_D7X_3X8Sw4QYon1twIudg5WNm5SDPdl98sdI
+@baseUrl = http://localhost:3333
+@tokenCode = 1e68b7ae-3717-4e23-aa57-d50563369b42
 
-POST http://0.0.0.0:3333/users HTTP/1.1
+### @name createUser
+
+POST {{baseUrl}}/users HTTP/1.1
 content-type: application/json
 
 {
   "username":"ademir",
   "password":"ademir",
-  "code": "6907ec05-5938-4677-8b2d-d67526d11587"
+  "code": "{{tokenCode}}"
 }
 
-#### make auth
+### @name uploadFile
 
-POST http://0.0.0.0:3333/auth HTTP/1.1
-content-type: application/json
+### @name getMe
 
-{
-  "username":"developer",
-  "password":"developer"
-}
+GET {{baseUrl}}/users/me HTTP/1.1
+Authorization: {{bearerToken}}
 
 
-#### userLoadFile
+### @name updateUser
 
-#### get this
-
-GET http://0.0.0.0:3333/users/me HTTP/1.1
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkZW1pciIsIm5hbWUiOiJhZGVtaXIiLCJpZCI6IjY3MGZhOGU2OGRmZDhmOTdlMTI4ZjBkYiIsImlhdCI6MTcyOTA3OTczNywiZXhwIjoxNzI5NTQwNTM3fQ.S9aog86wK-qk4jwgqBCfd_qWoNTmE4zAo6a3Flr7XtA
-
-
-#### update this
-
-PATCH  http://0.0.0.0:3333/users HTTP/1.1
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkZW1pciIsIm5hbWUiOiJhZGVtaXIiLCJpZCI6IjY3MGZhOGU2OGRmZDhmOTdlMTI4ZjBkYiIsImlhdCI6MTcyOTA3OTczNywiZXhwIjoxNzI5NTQwNTM3fQ.S9aog86wK-qk4jwgqBCfd_qWoNTmE4zAo6a3Flr7XtA
+PATCH  {{baseUrl}}/users HTTP/1.1
+Authorization: {{bearerToken}}
 content-type: application/json
 
 {
@@ -41,8 +34,8 @@ content-type: application/json
 }
 
 
-#### delte this
+### @name deleteThis
 
-DELETE  http://0.0.0.0:3333/users HTTP/1.1
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkZW1pciIsIm5hbWUiOiJhZGVtaXIiLCJpZCI6IjY3MGZhOGU2OGRmZDhmOTdlMTI4ZjBkYiIsImlhdCI6MTcyOTA3OTczNywiZXhwIjoxNzI5NTQwNTM3fQ.S9aog86wK-qk4jwgqBCfd_qWoNTmE4zAo6a3Flr7XtA
+DELETE  {{baseUrl}}/users HTTP/1.1
+Authorization: {{bearerToken}}
 

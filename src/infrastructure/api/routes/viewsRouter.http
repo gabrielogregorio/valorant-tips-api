@@ -1,8 +1,10 @@
-#### add view
+@baseUrl = http://localhost:3333
 
-POST http://localhost:3333/views HTTP/1.1
+### @name addView
 
-#### get views
+POST {{baseUrl}}/views HTTP/1.1
 
-GET http://localhost:3333/views HTTP/1.1
+### @name getView
+
+GET {{baseUrl}}/views HTTP/1.1
 

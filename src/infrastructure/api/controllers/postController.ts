@@ -1,7 +1,4 @@
 import { Request, Response } from 'express';
-import { statusCode } from '../config/statusCode';
-import { CreatePostBodyType } from '../schemas/createPost.schema';
-import { updatePostBodyType } from '../schemas/updatePost.schema';
 import { CreatePostUseCaseInterface } from '@/useCase/post/create/CreatePostUseCaseInterface';
 import { UpdatePostUseCaseInterface } from '@/useCase/post/update/UpdatePostUseCaseInterface';
 import { FindPostByIdOrThrowUseCaseInterface } from '@/useCase/post/findByIdOrThrow/IFindPostByIdOrThrowUseCase';
@@ -10,6 +7,9 @@ import { FindAvailableAgentsUseCaseInterface } from '@/useCase/post/findAvailabl
 import { FindAllPostUseCaseInterface } from '@/useCase/post/findAll/FindAllPostUseCaseInterface';
 import { FindAllByMapAndAgentUseCaseInterface } from '@/useCase/post/findAllByMapAndAgent/FindAllByMapAndAgentUseCaseInterface';
 import { DeletePostUseCaseInterface } from '@/useCase/post/deleteById/DeletePostUseCaseInterface';
+import { updatePostBodyType } from '../schemas/updatePost.schema';
+import { CreatePostBodyType } from '../schemas/createPost.schema';
+import { statusCode } from '../config/statusCode';
 import { PostControllerInterface } from './interfaces/PostControllerInterface';
 
 export class PostController implements PostControllerInterface {

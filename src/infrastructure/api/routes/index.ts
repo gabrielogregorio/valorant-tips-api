@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import { baseRouter } from './base';
+import { baseRouter } from './baseRouter';
 import { authRouter } from './authRouter';
 import { codeRouter } from './codeRouter';
 import { dashboardRouter } from './dashboardRouter';

@@ -1,5 +1,6 @@
 import { PostEntity } from '@/domain/post/entity/post';
 import { PostRepositoryInterface } from '@/domain/post/repository/postRepository.interface';
+import { AppError } from '@/application/errors/AppError';
 import { IPost } from '../../../api/interfaces/post';
 import { Post } from './Post';
 
@@ -36,7 +37,7 @@ export class PostRepository implements PostRepositoryInterface {
 
     const postUpdated = await Post.findOneAndUpdate({ id: post.id }, { $set: updatePost }, { new: true });
     if (!postUpdated) {
-      throw new Error('Post not exists');
+      throw new AppError('POST_NOT_EXISTS');
     }
 
     const postEntityUpdated = new PostEntity({

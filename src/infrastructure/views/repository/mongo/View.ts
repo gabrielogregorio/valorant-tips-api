@@ -3,10 +3,6 @@ import { IView } from '../../../api/interfaces/view';
 
 const viewSchema = new mongoose.Schema<IView>(
   {
-    id: {
-      type: String,
-      unique: true,
-    },
     ip: String,
     dateAccess: Date,
   },

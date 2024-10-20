@@ -2,9 +2,9 @@ import { PostRepositoryInterface } from '@/domain/post/repository/postRepository
 import { SuggestionRepositoryInterface } from '@/domain/suggestion/repository';
 import { UserRepositoryInterface } from '@/domain/user/repository/userRepository.interface';
 import { ViewsRepositoryInterface } from '@/domain/views/repository/interface';
-import { InsightsUseCaseInterface, InsightsOutputDto } from './InsightsUseCaseInterface';
+import { DashboardUseCaseInterface, DashboardOutputDto } from './DashboardUseCaseInterface';
 
-export class InsightsUseCase implements InsightsUseCaseInterface {
+export class DashboardUseCase implements DashboardUseCaseInterface {
   constructor(
     private UserRepository: UserRepositoryInterface,
     private postRepository: PostRepositoryInterface,
@@ -12,7 +12,7 @@ export class InsightsUseCase implements InsightsUseCaseInterface {
     private viewsRepository: ViewsRepositoryInterface,
   ) {}
 
-  execute = async (): Promise<InsightsOutputDto> => {
+  execute = async (): Promise<DashboardOutputDto> => {
     const [countAllPosts, countAlMaps, countAlAgents, countAllSuggestions, countAllUsers, count2, count] =
       await Promise.all([
         await this.postRepository.countAll(),

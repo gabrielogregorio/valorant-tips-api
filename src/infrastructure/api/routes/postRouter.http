@@ -1,24 +1,23 @@
 @baseUrl = http://localhost:3333
-@bearerToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkZW1pcjIiLCJuYW1lIjoiYWRlbWlyMiIsImlkIjoiNjcwZmE4ZTY4ZGZkOGY5N2UxMjhmMGRiIiwiaWF0IjoxNzI5MDgwOTU4LCJleHAiOjE3Mjk1NDE3NTh9.UtR-I4qPYtGphY9DPEDfFcHcAsyWV1SNwW7DTRAnd7Q
+@bearerToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkZW1pciIsIm5hbWUiOiJhZGVtaXIiLCJpZCI6IjE2MzhmMmE5LTM0MWItNDgwOC1iZmVhLTU5ZWQ5MzZhYmZlZSIsImlhdCI6MTcyOTQzNjE2MSwiZXhwIjoxNzI5ODk2OTYxfQ.qJJKLGW0AN2BWtevdYWUDBefUU7xJSqxAQqx05NZDRY
+@postIdExample = 00426589-d2fb-4390-9d7f-541af90771b3
 
-### Conteudo
-### @name getAllsPosts
+
+### @name GetAllsPosts
 GET {{baseUrl}}/posts HTTP/1.1
 
-### get maps
+### @name GetMaps
 
 GET {{baseUrl}}/posts/maps HTTP/1.1
 
-### get agents by map
+### @name GetAgentsByMap
 
 GET {{baseUrl}}/posts/agents/Bind HTTP/1.1
 
-
-### get posts by agents and map
+### @name GetPostByAgentAndMap
 GET {{baseUrl}}/posts/Bind/Sova HTTP/1.1
 
-
-### create post
+### @name CreatePost
 
 POST {{baseUrl}}/posts HTTP/1.1
 Authorization: {{bearerToken}}
@@ -45,17 +44,15 @@ content-type: application/json
   ]
 }
 
-@postId = 3ab3e235-dc78-4618-864e-3f9998a4c6c1
-### get a post
+### @name GetPost
 
-
-GET {{baseUrl}}/posts/{{postId}} HTTP/1.1
+GET {{baseUrl}}/posts/{{postIdExample}} HTTP/1.1
 Authorization: {{bearerToken}}
 content-type: application/json
 
-### update post
+### @name UpdatePost
 
-PUT {{baseUrl}}/posts/{{postId}} HTTP/1.1
+PUT {{baseUrl}}/posts/{{postIdExample}} HTTP/1.1
 Authorization: {{bearerToken}}
 content-type: application/json
 
@@ -80,9 +77,7 @@ content-type: application/json
   ]
 }
 
-###  delete post
+###  @name DeletPost
 
-DELETE {{baseUrl}}/posts/{{postId}} HTTP/1.1
+DELETE {{baseUrl}}/posts/{{postIdExample}} HTTP/1.1
 Authorization: {{bearerToken}}
-
-

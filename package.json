@@ -69,6 +69,7 @@
     "@types/node": "^20.11.17",
     "@types/sanitize-html": "^2.11.0",
     "@types/supertest": "^6.0.2",
+    "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^7.0.1",
     "@typescript-eslint/parser": "^7.0.1",
     "babel-plugin-module-resolver": "^5.0.0",

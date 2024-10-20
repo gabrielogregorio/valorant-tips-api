@@ -1,5 +1,6 @@
 import { PostRepositoryInterface } from '@/domain/post/repository/postRepository.interface';
 import { UserRepositoryInterface } from '@/domain/user/repository/userRepository.interface';
+import { AppError } from '@/application/errors/AppError';
 import {
   FindPostByIdOrThrowUseCaseInterface,
   FindPostByIdOrThrowUseCaseOutputDto,
@@ -14,8 +15,8 @@ export class FindPostByIdOrThrowUseCase implements FindPostByIdOrThrowUseCaseInt
   execute = async (postId: string): Promise<FindPostByIdOrThrowUseCaseOutputDto> => {
     const post = await this.postRepository.findById(postId);
 
-    if (post === null) {
-      throw new Error('');
+    if (!post) {
+      throw new AppError('POST_NOT_EXISTS');
     }
 
     const userData = await this.userRepository.findById(post.userId);

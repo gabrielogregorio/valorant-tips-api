@@ -1,4 +1,4 @@
-export interface InsightsOutputDto {
+export interface DashboardOutputDto {
   countAll: number;
   countIps: number;
   countAllPosts: number;
@@ -8,6 +8,6 @@ export interface InsightsOutputDto {
   countAllUsers: number;
 }
 
-export interface InsightsUseCaseInterface {
-  execute: () => Promise<InsightsOutputDto>;
+export interface DashboardUseCaseInterface {
+  execute: () => Promise<DashboardOutputDto>;
 }

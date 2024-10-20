@@ -2,11 +2,6 @@ import { ViewsRepositoryInterface } from '@/domain/views/repository/interface';
 import { ViewsEntity } from '@/domain/views/entity';
 import { View } from './View';
 
-export type countViewsType = {
-  countAll: number;
-  countIps: number;
-};
-
 export class ViewsRepository implements ViewsRepositoryInterface {
   save = async (view: ViewsEntity): Promise<ViewsEntity> => {
     const newView = new View({
@@ -26,9 +21,9 @@ export class ViewsRepository implements ViewsRepositoryInterface {
     return views.map((item) => new ViewsEntity({ dateAccess: item.dateAccess, ip: item.ip }));
   };
 
-  findAllDistinctIp = async () => {
-    // etennder o que retorna aqui
-    const views = await View.find().distinct('ip');
-    return views;
+  findAllDistinctIp = async (): Promise<string[]> => {
+    const ips = await View.find().distinct('ip');
+
+    return ips;
   };
 }

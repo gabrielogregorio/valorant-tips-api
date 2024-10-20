@@ -11,8 +11,8 @@ export class DeletePostUseCase implements DeletePostUseCaseInterface {
       throw new AppError('POST_NOT_EXISTS');
     }
 
-    if (!post?.userId || !userId || post?.userId !== userId) {
-      // você não pode deletar posts que não sejam seus
+    const postIsNotYours = !post?.userId || !userId || post?.userId !== userId;
+    if (postIsNotYours) {
       throw new AppError('NO_CAN_DELETE_POST_ANOTHER_USER');
     }
 

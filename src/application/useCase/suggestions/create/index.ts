@@ -2,6 +2,7 @@ import { PostRepositoryInterface } from '@/domain/post/repository/postRepository
 import { SuggestionEntity } from '@/domain/suggestion/entity';
 import { SuggestionEntityInterface } from '@/domain/suggestion/entity/interfaces';
 import { SuggestionRepositoryInterface } from '@/domain/suggestion/repository';
+import { AppError } from '@/application/errors/AppError';
 import {
   CreateSuggestionUseCaseInterface,
   CreateSuggestionInputDto,
@@ -17,7 +18,7 @@ export class CreateSuggestionUseCase implements CreateSuggestionUseCaseInterface
   execute = async (dto: CreateSuggestionInputDto): Promise<SuggestionOutputDto> => {
     const postFound = await this.postRepository.findById(dto.postId);
     if (!postFound) {
-      throw new Error('Post not exists');
+      throw new AppError('POST_NOT_EXISTS');
     }
 
     const suggestion = new SuggestionEntity({

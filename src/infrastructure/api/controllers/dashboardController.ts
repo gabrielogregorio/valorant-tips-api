@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
-import { InsightsUseCaseInterface } from '@/useCase/dashboard/insights/InsightsUseCaseInterface';
+import { DashboardUseCaseInterface } from '@/useCase/dashboard/get/DashboardUseCaseInterface';
 import { DashboardControllerInterface, IDashboardServiceType } from './interfaces/DashboardControllerInterface';
 
 export class DashboardController implements DashboardControllerInterface {
-  constructor(private insightsUseCase: InsightsUseCaseInterface) {}
+  constructor(private DashboardUseCase: DashboardUseCaseInterface) {}
 
-  async get(_req: Request, res: Response<IDashboardServiceType>) {
-    const data = await this.insightsUseCase.execute();
+  get = async (_req: Request, res: Response<IDashboardServiceType>) => {
+    const data = await this.DashboardUseCase.execute();
 
     return res.json({
       countAlAgents: data.countAlAgents,
@@ -17,5 +17,5 @@ export class DashboardController implements DashboardControllerInterface {
       countAlMaps: data.countAlMaps,
       countIps: data.countIps,
     });
-  }
+  };
 }
