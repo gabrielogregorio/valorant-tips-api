@@ -15,7 +15,6 @@ jobs:
       CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
       MONGO_URI: mongodb://127.0.0.1:27017/dbVavatips
       DISABLE_LOGS: false
-      ERROR_WITH_DEBUG: true
       SECURITY_CODE: SECURITY_CODE
       JWT_SECRET: JWT_SECRET_EXAMPLE
 
