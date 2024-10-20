@@ -23,7 +23,7 @@ export const useHandleErrors = (error: Error, req: Request, res: Response, next:
     Log.warning(
       `ApiError ${error?.error.code} - ${error?.error.name} ${context?.trim() ? `- ${context}` : ''} | ${getLocationError(error)}`,
     );
-    res.status(error?.error.code).json({ error: error?.name, message: error.error.message });
+    res.status(error?.error.code).json({ message: error.error.message });
     return;
   }
 

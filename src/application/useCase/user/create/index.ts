@@ -2,12 +2,14 @@ import { CodeRepositoryInterface } from '@/domain/code/repository/interface';
 import { UserEntity } from '@/domain/user/entity/user';
 import { UserRepositoryInterface } from '@/domain/user/repository/userRepository.interface';
 import { AppError } from '@/application/errors/AppError';
+import { PasswordHasherInterface } from '@/domain/services/PasswordHasherInterface';
 import { CreateUserUseCaseInterface, InputCreateUserDto } from './CreateUserUseCaseInterface';
 
 export class CreateUserUseCase implements CreateUserUseCaseInterface {
   constructor(
     private userRepository: UserRepositoryInterface,
     private codeRepository: CodeRepositoryInterface,
+    private passwordHasher: PasswordHasherInterface,
   ) {}
 
   execute = async (code: string, { username, password, image }: InputCreateUserDto): Promise<void> => {
@@ -24,7 +26,9 @@ export class CreateUserUseCase implements CreateUserUseCaseInterface {
     codeEntity.useCode();
 
     this.codeRepository.updateEntity(codeEntity);
-    const user = new UserEntity({ password, username });
+    const user = new UserEntity({ username });
+
+    user.changePassword(await this.passwordHasher.generateHashPassword(password));
 
     if (image) {
       user.changeImage(image);

@@ -30,7 +30,6 @@ describe('GenerateUserKeys', () => {
     const res = await requestMock.post('/code').send({ securityCode: 'Qualquer chave' });
     expect(res.statusCode).toEqual(401);
     expect(res.body).toEqual({
-      context: 'Token is different from security code',
       message: 'TOKEN_IS_INVALID_OR_EXPIRED',
     });
   });
