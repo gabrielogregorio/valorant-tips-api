@@ -1,4 +1,4 @@
-export interface OutputFindAllPostDto {
+export interface FindAllPostOutputDto {
   id: string;
   title: string;
   description: string;
@@ -19,5 +19,5 @@ export interface OutputFindAllPostDto {
 }
 
 export interface FindAllPostUseCaseInterface {
-  execute: () => Promise<OutputFindAllPostDto[]>;
+  execute: () => Promise<FindAllPostOutputDto[]>;
 }

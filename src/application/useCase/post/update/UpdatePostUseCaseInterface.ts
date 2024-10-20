@@ -1,4 +1,4 @@
-export interface InputUpdatePostDto {
+export interface UpdatePostInputDto {
   title?: string;
   description?: string;
   userId?: string;
@@ -14,7 +14,7 @@ export interface InputUpdatePostDto {
   imgs?: { id: string; description: string; image: string }[];
 }
 
-export interface OutputUpdatePostDto {
+export interface UpdatePostOutputDto {
   id: string;
   title: string;
   description: string;
@@ -35,5 +35,5 @@ export interface OutputUpdatePostDto {
 }
 
 export interface UpdatePostUseCaseInterface {
-  execute: (id: string, payload: InputUpdatePostDto) => Promise<OutputUpdatePostDto>;
+  execute: (id: string, payload: UpdatePostInputDto) => Promise<UpdatePostOutputDto>;
 }

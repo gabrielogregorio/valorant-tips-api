@@ -1,4 +1,4 @@
-export interface OutputFindPostByIdOrThrowUseCaseDto {
+export interface FindPostByIdOrThrowUseCaseOutputDto {
   id: string;
   title: string;
   description: string;
@@ -19,5 +19,5 @@ export interface OutputFindPostByIdOrThrowUseCaseDto {
 }
 
 export interface FindPostByIdOrThrowUseCaseInterface {
-  execute: (postId: string) => Promise<OutputFindPostByIdOrThrowUseCaseDto>;
+  execute: (postId: string) => Promise<FindPostByIdOrThrowUseCaseOutputDto>;
 }

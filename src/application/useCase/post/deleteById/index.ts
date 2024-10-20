@@ -1,5 +1,5 @@
 import { PostRepositoryInterface } from '@/domain/post/repository/postRepository.interface';
-import { AppError } from '../../../errors/AppError';
+import { AppError } from '@/application/errors/AppError';
 import { DeletePostUseCaseInterface } from './DeletePostUseCaseInterface';
 
 export class DeletePostUseCase implements DeletePostUseCaseInterface {

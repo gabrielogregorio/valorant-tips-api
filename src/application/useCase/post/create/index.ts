@@ -1,7 +1,7 @@
 import { PostEntity } from '@/domain/post/entity/post';
 import { UserRepositoryInterface } from '@/domain/user/repository/userRepository.interface';
 import { PostRepositoryInterface } from '@/domain/post/repository/postRepository.interface';
-import { CreatePostUseCaseInterface, InputCreatePostDto, OutputCreatePostDto } from './CreatePostUseCaseInterface';
+import { CreatePostUseCaseInterface, CreatePostInputDto, CreatePostOutputDto } from './CreatePostUseCaseInterface';
 
 export class CreatePostUseCase implements CreatePostUseCaseInterface {
   constructor(
@@ -9,7 +9,7 @@ export class CreatePostUseCase implements CreatePostUseCaseInterface {
     private userRepository: UserRepositoryInterface,
   ) {}
 
-  execute = async ({ title, description, userId, tags, imgs }: InputCreatePostDto): Promise<OutputCreatePostDto> => {
+  execute = async ({ title, description, userId, tags, imgs }: CreatePostInputDto): Promise<CreatePostOutputDto> => {
     const post = new PostEntity({ userId, title });
 
     post.changeDescription(description);

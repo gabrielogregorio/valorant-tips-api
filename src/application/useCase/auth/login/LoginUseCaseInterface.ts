@@ -1,12 +1,13 @@
-export interface InputLoginUseCaseDto {
+export interface LoginUseCaseInputDto {
   username: string;
   password: string;
 }
 
-export interface OutputLoginUseCaseDto {
+export interface LoginUseCaseOutputDto {
   token: string;
   id: string;
 }
+
 export interface LoginUseCaseInterface {
-  execute: (payload: InputLoginUseCaseDto) => Promise<OutputLoginUseCaseDto>;
+  execute: (payload: LoginUseCaseInputDto) => Promise<LoginUseCaseOutputDto>;
 }

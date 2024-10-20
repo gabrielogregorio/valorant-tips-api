@@ -1,6 +1,6 @@
 import { statusSuggestionType } from '@/domain/suggestion/entity/interfaces';
 
-export interface OutputFindAllSuggestionsDto {
+export interface FindAllSuggestionsOutputDto {
   status: statusSuggestionType;
   email: string;
   description: string;
@@ -11,5 +11,5 @@ export interface OutputFindAllSuggestionsDto {
 }
 
 export interface FindAllSuggestionsUseCaseInterface {
-  execute: () => Promise<OutputFindAllSuggestionsDto[]>;
+  execute: () => Promise<FindAllSuggestionsOutputDto[]>;
 }

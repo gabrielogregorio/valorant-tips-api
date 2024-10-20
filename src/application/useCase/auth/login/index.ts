@@ -3,9 +3,9 @@ import { PasswordHasherInterface } from '@/domain/services/PasswordHasherInterfa
 import { UserRepositoryInterface } from '@/domain/user/repository/userRepository.interface';
 import { JWT_SECRET } from '@/infrastructure/api/config/envs';
 import {
-  InputLoginUseCaseDto,
+  LoginUseCaseInputDto,
   LoginUseCaseInterface,
-  OutputLoginUseCaseDto,
+  LoginUseCaseOutputDto,
 } from '@/useCase/auth/login/LoginUseCaseInterface';
 import jwt from 'jsonwebtoken';
 
@@ -15,7 +15,7 @@ export class LoginUseCase implements LoginUseCaseInterface {
     private passwordHasher: PasswordHasherInterface,
   ) {}
 
-  execute = async ({ username, password }: InputLoginUseCaseDto): Promise<OutputLoginUseCaseDto> => {
+  execute = async ({ username, password }: LoginUseCaseInputDto): Promise<LoginUseCaseOutputDto> => {
     const user = await this.userRepository.findOneByUsername(username);
     if (!user) {
       throw new AppError('USER_NOT_FOUND');

@@ -1,7 +1,7 @@
 import { PostRepositoryInterface } from '@/domain/post/repository/postRepository.interface';
 import { UserEntity } from '@/domain/user/entity/user';
 import { UserRepositoryInterface } from '@/domain/user/repository/userRepository.interface';
-import { FindAllPostUseCaseInterface, OutputFindAllPostDto } from './FindAllPostUseCaseInterface';
+import { FindAllPostUseCaseInterface, FindAllPostOutputDto } from './FindAllPostUseCaseInterface';
 
 export class FindAllPostUseCase implements FindAllPostUseCaseInterface {
   constructor(
@@ -9,7 +9,7 @@ export class FindAllPostUseCase implements FindAllPostUseCaseInterface {
     private userRepository: UserRepositoryInterface,
   ) {}
 
-  execute = async (): Promise<OutputFindAllPostDto[]> => {
+  execute = async (): Promise<FindAllPostOutputDto[]> => {
     const postsItems = await this.postRepository.findAll();
     if (postsItems.length === 0) {
       return [];

@@ -1,9 +1,9 @@
-export interface InputFindByMapAndAgenteDto {
+export interface FindByMapAndAgenteInputDto {
   agent: string;
   map: string;
 }
 
-export interface OutputFindByMapAndAgenteDto {
+export interface FindByMapAndAgenteOutputDto {
   id: string;
   title: string;
   description: string;
@@ -24,5 +24,5 @@ export interface OutputFindByMapAndAgenteDto {
 }
 
 export interface FindAllByMapAndAgentUseCaseInterface {
-  execute: (payload: InputFindByMapAndAgenteDto) => Promise<OutputFindByMapAndAgenteDto[]>;
+  execute: (payload: FindByMapAndAgenteInputDto) => Promise<FindByMapAndAgenteOutputDto[]>;
 }

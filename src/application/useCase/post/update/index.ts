@@ -1,7 +1,7 @@
 import { PostRepositoryInterface } from '@/domain/post/repository/postRepository.interface';
 import { PostEntity } from '@/domain/post/entity/post';
 import { UserRepositoryInterface } from '@/domain/user/repository/userRepository.interface';
-import { InputUpdatePostDto, OutputUpdatePostDto, UpdatePostUseCaseInterface } from './UpdatePostUseCaseInterface';
+import { UpdatePostInputDto, UpdatePostOutputDto, UpdatePostUseCaseInterface } from './UpdatePostUseCaseInterface';
 
 export class UpdatePostUseCase implements UpdatePostUseCaseInterface {
   constructor(
@@ -9,7 +9,7 @@ export class UpdatePostUseCase implements UpdatePostUseCaseInterface {
     private userRepository: UserRepositoryInterface,
   ) {}
 
-  execute = async (id: string, payload: InputUpdatePostDto): Promise<OutputUpdatePostDto> => {
+  execute = async (id: string, payload: UpdatePostInputDto): Promise<UpdatePostOutputDto> => {
     const { title, description, tags, imgs, userId } = payload;
 
     const post = new PostEntity({ userId: String(userId), title: title || '', id });

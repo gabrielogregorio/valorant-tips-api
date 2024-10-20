@@ -4,8 +4,8 @@ import { SuggestionEntityInterface } from '@/domain/suggestion/entity/interfaces
 import { SuggestionRepositoryInterface } from '@/domain/suggestion/repository';
 import {
   CreateSuggestionUseCaseInterface,
-  InputCreateSuggestionDto,
-  OutputSuggestionDto,
+  CreateSuggestionInputDto,
+  SuggestionOutputDto,
 } from './createSuggestionUseCase';
 
 export class CreateSuggestionUseCase implements CreateSuggestionUseCaseInterface {
@@ -14,7 +14,7 @@ export class CreateSuggestionUseCase implements CreateSuggestionUseCaseInterface
     private postRepository: PostRepositoryInterface,
   ) {}
 
-  execute = async (dto: InputCreateSuggestionDto): Promise<OutputSuggestionDto> => {
+  execute = async (dto: CreateSuggestionInputDto): Promise<SuggestionOutputDto> => {
     const postFound = await this.postRepository.findById(dto.postId);
     if (!postFound) {
       throw new Error('Post not exists');
@@ -31,7 +31,7 @@ export class CreateSuggestionUseCase implements CreateSuggestionUseCaseInterface
     return this.toOutputDto(suggestionCreated);
   };
 
-  private toOutputDto(suggestion: SuggestionEntityInterface): OutputSuggestionDto {
+  private toOutputDto(suggestion: SuggestionEntityInterface): SuggestionOutputDto {
     return {
       createdAt: suggestion.createdAt,
       description: suggestion.description,

@@ -3,7 +3,7 @@ import { UserEntity } from '@/domain/user/entity/user';
 import { UserRepositoryInterface } from '@/domain/user/repository/userRepository.interface';
 import { AppError } from '@/application/errors/AppError';
 import { PasswordHasherInterface } from '@/domain/services/PasswordHasherInterface';
-import { CreateUserUseCaseInterface, InputCreateUserDto } from './CreateUserUseCaseInterface';
+import { CreateUserUseCaseInterface, CreateUserInputDto } from './CreateUserUseCaseInterface';
 
 export class CreateUserUseCase implements CreateUserUseCaseInterface {
   constructor(
@@ -12,7 +12,7 @@ export class CreateUserUseCase implements CreateUserUseCaseInterface {
     private passwordHasher: PasswordHasherInterface,
   ) {}
 
-  execute = async (code: string, { username, password, image }: InputCreateUserDto): Promise<void> => {
+  execute = async (code: string, { username, password, image }: CreateUserInputDto): Promise<void> => {
     const codeEntity = await this.codeRepository.findByCode(code);
     if (!codeEntity || !codeEntity?.available) {
       throw new AppError('CODE_IS_NOT_AVAILABLE');

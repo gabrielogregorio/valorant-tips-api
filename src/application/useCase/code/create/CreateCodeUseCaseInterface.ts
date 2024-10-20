@@ -1,9 +1,9 @@
-export interface OutputCreateCodeDto {
+export interface CreateCodeOutputDto {
   code: string;
   available: boolean;
   id: string;
 }
 
 export interface CreateCodeUseCaseInterface {
-  execute: () => Promise<OutputCreateCodeDto>;
+  execute: () => Promise<CreateCodeOutputDto>;
 }

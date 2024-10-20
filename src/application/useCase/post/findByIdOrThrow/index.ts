@@ -2,7 +2,7 @@ import { PostRepositoryInterface } from '@/domain/post/repository/postRepository
 import { UserRepositoryInterface } from '@/domain/user/repository/userRepository.interface';
 import {
   FindPostByIdOrThrowUseCaseInterface,
-  OutputFindPostByIdOrThrowUseCaseDto,
+  FindPostByIdOrThrowUseCaseOutputDto,
 } from './IFindPostByIdOrThrowUseCase';
 
 export class FindPostByIdOrThrowUseCase implements FindPostByIdOrThrowUseCaseInterface {
@@ -11,7 +11,7 @@ export class FindPostByIdOrThrowUseCase implements FindPostByIdOrThrowUseCaseInt
     private userRepository: UserRepositoryInterface,
   ) {}
 
-  execute = async (postId: string): Promise<OutputFindPostByIdOrThrowUseCaseDto> => {
+  execute = async (postId: string): Promise<FindPostByIdOrThrowUseCaseOutputDto> => {
     const post = await this.postRepository.findById(postId);
 
     if (post === null) {

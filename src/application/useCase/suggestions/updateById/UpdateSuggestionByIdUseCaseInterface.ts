@@ -1,12 +1,12 @@
 import { statusSuggestionType } from '@/domain/suggestion/entity/interfaces';
 
-export interface InputUpdateByIdSuggestionDto {
+export interface UpdateByIdSuggestionInputDto {
   email: string;
   description: string;
   postId: string;
 }
 
-export interface OutputUpdateByIdSuggestionDto {
+export interface UpdateByIdSuggestionOutputDto {
   status: statusSuggestionType;
   email: string;
   description: string;
@@ -17,5 +17,5 @@ export interface OutputUpdateByIdSuggestionDto {
 }
 
 export interface UpdateSuggestionByIdUseCaseInterface {
-  execute: (id: string, status: statusSuggestionType) => Promise<OutputUpdateByIdSuggestionDto>;
+  execute: (id: string, status: statusSuggestionType) => Promise<UpdateByIdSuggestionOutputDto>;
 }

@@ -84,7 +84,7 @@ afterAll(async () => {
 });
 
 describe('Posts', () => {
-  it('should create a post', async () => {
+  it.only('should create a post', async () => {
     const res = await requestMock.post('/posts').set(token).send(post);
     postId = res.body.id;
 
@@ -129,7 +129,7 @@ describe('Posts', () => {
     expect(res.statusCode).toEqual(400);
   });
 
-  it('should edit user', async () => {
+  it.only('should edit user', async () => {
     const res = await requestMock.put(`/posts/${postId}`).set(token).send(postEdited);
     expect(res.statusCode).toEqual(200);
 
@@ -193,7 +193,7 @@ describe('Posts', () => {
     });
   });
 
-  it('should return all posts', async () => {
+  it.only('should return all posts', async () => {
     const res = await requestMock.get(`/posts`);
 
     expect(res.body).toEqual({
