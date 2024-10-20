@@ -1,7 +1,7 @@
-import { PostRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
-import { SuggestionEntity } from '../../../../domain/suggestion/entity';
-import { SuggestionEntityInterface } from '../../../../domain/suggestion/entity/interfaces';
-import { SuggestionRepositoryInterface } from '../../../../domain/suggestion/repository';
+import { PostRepositoryInterface } from '@/domain/post/repository/postRepository.interface';
+import { SuggestionEntity } from '@/domain/suggestion/entity';
+import { SuggestionEntityInterface } from '@/domain/suggestion/entity/interfaces';
+import { SuggestionRepositoryInterface } from '@/domain/suggestion/repository';
 import {
   CreateSuggestionUseCaseInterface,
   InputCreateSuggestionDto,

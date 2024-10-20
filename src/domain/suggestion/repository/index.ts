@@ -1,5 +1,5 @@
-import { RepositoryInterface } from 'src/domain/common/repository/customRepository.interface';
-import { SuggestionEntityInterface } from '../entity/interfaces';
+import { RepositoryInterface } from '@/domain/common/repository/customRepository.interface';
+import { SuggestionEntityInterface } from '@/domain/suggestion/entity/interfaces';
 
 export interface SuggestionRepositoryInterface extends RepositoryInterface<SuggestionEntityInterface> {
   save: (suggestion: SuggestionEntityInterface) => Promise<SuggestionEntityInterface>;

@@ -1,5 +1,5 @@
 import express from 'express';
-import { useValidation } from '@/middlewares/useValidation';
+import { useValidation } from '@/infrastructure/api/middlewares/useValidation';
 import { AppDependencyInjector } from '../container';
 import { schemaAuth } from '../schemas/makeAuth.schema';
 

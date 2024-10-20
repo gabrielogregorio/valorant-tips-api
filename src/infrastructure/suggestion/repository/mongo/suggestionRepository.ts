@@ -1,6 +1,6 @@
-import { SuggestionEntity } from '../../../../domain/suggestion/entity';
-import { SuggestionEntityInterface } from '../../../../domain/suggestion/entity/interfaces';
-import { SuggestionRepositoryInterface } from '../../../../domain/suggestion/repository';
+import { SuggestionEntity } from '@/domain/suggestion/entity';
+import { SuggestionEntityInterface } from '@/domain/suggestion/entity/interfaces';
+import { SuggestionRepositoryInterface } from '@/domain/suggestion/repository';
 import { Suggestion } from './Suggestion';
 
 export class SuggestionRepository implements SuggestionRepositoryInterface {

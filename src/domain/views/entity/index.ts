@@ -1,6 +1,6 @@
-import { Entity } from '../../common/entity/entity.abstract';
-import { NotificationError } from '../../common/notification/notification.error';
-import { ViewsValidatorFactory } from '../factory/validator';
+import { Entity } from '@/domain/common/entity/entity.abstract';
+import { NotificationError } from '@/domain/common/notification/notification.error';
+import { ViewsValidatorFactory } from '@/domain/views/factory/validator';
 
 export interface ViewsEntityInterface {
   get ip(): string;

@@ -8,10 +8,11 @@ type codeErrors =
   | 'SUGGESTION_NOT_FOUND'
   | 'INTERNAL_ERROR';
 
-export class AppError {
+export class AppError extends Error {
   public code: codeErrors;
 
   constructor(code: codeErrors) {
+    super();
     this.code = code;
   }
 }

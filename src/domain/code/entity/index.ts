@@ -1,7 +1,7 @@
+import { CodeValidatorFactory } from '@/domain/code/factory/validator';
+import { Entity } from '@/domain/common/entity/entity.abstract';
+import { NotificationError } from '@/domain/common/notification/notification.error';
 import { v4 as uuidV4 } from 'uuid';
-import { CodeValidatorFactory } from '../factory/validator';
-import { Entity } from '../../common/entity/entity.abstract';
-import { NotificationError } from '../../common/notification/notification.error';
 
 export interface CodeEntityInterface {
   get code(): string;

@@ -1,6 +1,7 @@
 import { Router } from 'express';
-import { useValidation } from '@/middlewares/useValidation';
-import { userAuthCodeIsCorrect } from '@/middlewares/userCodeIsCorrect';
+
+import { userAuthCodeIsCorrect } from '@/infrastructure/api/middlewares/userCodeIsCorrect';
+import { useValidation } from '@/infrastructure/api/middlewares/useValidation';
 import { AppDependencyInjector } from '../container';
 import { schemaCode } from '../schemas/code.schema';
 

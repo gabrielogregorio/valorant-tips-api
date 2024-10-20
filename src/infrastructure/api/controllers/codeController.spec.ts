@@ -1,5 +1,5 @@
-import { SECURITY_CODE } from '@/config/envs';
-import { CodeController } from '@/controllers/codeController';
+import { SECURITY_CODE } from '@/infrastructure/api/config/envs';
+import { CodeController } from '@/infrastructure/api/controllers/codeController';
 import { Response } from 'express';
 
 const mockCodeService = { execute: jest.fn() };

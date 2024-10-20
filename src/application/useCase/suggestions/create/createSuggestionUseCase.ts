@@ -1,4 +1,4 @@
-import { statusSuggestionType } from '../../../../domain/suggestion/entity/interfaces';
+import { statusSuggestionType } from '@/domain/suggestion/entity/interfaces';
 
 export interface InputCreateSuggestionDto {
   email: string;

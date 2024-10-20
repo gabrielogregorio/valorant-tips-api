@@ -1,7 +1,7 @@
-import { PostRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
-import { SuggestionRepositoryInterface } from '../../../../domain/suggestion/repository';
-import { UserRepositoryInterface } from '../../../../domain/user/repository/userRepository.interface';
-import { ViewsRepositoryInterface } from '../../../../domain/views/repository/inteface';
+import { PostRepositoryInterface } from '@/domain/post/repository/postRepository.interface';
+import { SuggestionRepositoryInterface } from '@/domain/suggestion/repository';
+import { UserRepositoryInterface } from '@/domain/user/repository/userRepository.interface';
+import { ViewsRepositoryInterface } from '@/domain/views/repository/interface';
 import { InsightsUseCaseInterface, OutputInsightsDto } from './InsightsUseCaseInterface';
 
 export class InsightsUseCase implements InsightsUseCaseInterface {

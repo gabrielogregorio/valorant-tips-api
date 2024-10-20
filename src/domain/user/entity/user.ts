@@ -1,8 +1,8 @@
-import { randomUUID } from 'crypto';
-import { Entity } from '../../common/entity/entity.abstract';
-import { NotificationError } from '../../common/notification/notification.error';
-import { UserValidatorFactory } from '../factory/user.validator';
-import { UserEntityInterface } from './user.interface';
+import { Entity } from '@/domain/common/entity/entity.abstract';
+import { NotificationError } from '@/domain/common/notification/notification.error';
+import { UniqueIdGenerator } from '@/domain/common/utils/UniqueIdGenerator';
+import { UserEntityInterface } from '@/domain/user/entity/user.interface';
+import { UserValidatorFactory } from '@/domain/user/factory/user.validator';
 
 export class UserEntity extends Entity implements UserEntityInterface {
   private _id: string;
@@ -14,7 +14,7 @@ export class UserEntity extends Entity implements UserEntityInterface {
   private _image: string;
 
   constructor({
-    id = randomUUID(),
+    id = UniqueIdGenerator.generate(),
     username = '',
     password = '',
   }: {

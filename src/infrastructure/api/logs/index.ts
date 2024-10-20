@@ -1,4 +1,4 @@
-import { DISABLE_LOGS } from '@/config/envs';
+import { DISABLE_LOGS } from '@/infrastructure/api/config/envs';
 import { asyncLocalStorage } from '../container/globalState';
 
 export const getActualMoment = (): string => {

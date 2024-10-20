@@ -1,74 +1,75 @@
-import { LoginUseCase } from '../../../application/useCase/auth/login';
-import { LoginUseCaseInterface } from '../../../application/useCase/auth/login/LoginUseCaseInterface';
-import { CreateCodeUseCase } from '../../../application/useCase/code/create';
-import { CreateCodeUseCaseInterface } from '../../../application/useCase/code/create/CreateCodeUseCaseInterface';
-import { InsightsUseCase } from '../../../application/useCase/dashboard/insights';
-import { InsightsUseCaseInterface } from '../../../application/useCase/dashboard/insights/InsightsUseCaseInterface';
-import { CreatePostUseCase } from '../../../application/useCase/post/create';
-import { CreatePostUseCaseInterface } from '../../../application/useCase/post/create/CreatePostUseCaseInterface';
-import { DeletePostUseCase } from '../../../application/useCase/post/deleteById';
-import { DeletePostUseCaseInterface } from '../../../application/useCase/post/deleteById/DeletePostUseCaseInterface';
-import { FindAllPostUseCaseInterface } from '../../../application/useCase/post/findAll/FindAllPostUseCaseInterface';
-import { FindAllPostUseCase } from '../../../application/useCase/post/findAll';
-import { FindAllByMapAndAgentUseCaseInterface } from '../../../application/useCase/post/findAllByMapAndAgent/FindAllByMapAndAgentUseCaseInterface';
-import { FindAllByMapAndAgentUseCase } from '../../../application/useCase/post/findAllByMapAndAgent';
-import { FindAvailableAgentsUseCaseInterface } from '../../../application/useCase/post/findAvailableAgents/FindAvailableAgentsUseCaseInterface';
-import { FindAvailableAgentsUseCase } from '../../../application/useCase/post/findAvailableAgents';
-import { FindAvailableMapsUseCaseInterface } from '../../../application/useCase/post/findAvailableMaps/FindAvailableMapsUseCaseInterface';
-import { FindAvailableMapsUseCase } from '../../../application/useCase/post/findAvailableMaps';
-import { FindPostByIdOrThrowUseCase } from '../../../application/useCase/post/findByIdOrThrow';
-import { FindPostByIdOrThrowUseCaseInterface } from '../../../application/useCase/post/findByIdOrThrow/IFindPostByIdOrThrowUseCase';
-import { UpdatePostUseCase } from '../../../application/useCase/post/update';
-import { UpdatePostUseCaseInterface } from '../../../application/useCase/post/update/UpdatePostUseCaseInterface';
-import { CreateSuggestionUseCase } from '../../../application/useCase/suggestions/create';
-import { CreateSuggestionUseCaseInterface } from '../../../application/useCase/suggestions/create/createSuggestionUseCase';
-import { DeleteSuggestionByIdUseCaseInterface } from '../../../application/useCase/suggestions/deleteById/DeleteSuggestionByIdUseCaseInterface';
-import { DeleteSuggestionByIdUseCase } from '../../../application/useCase/suggestions/deleteById';
-import { FindAllSuggestionsUseCase } from '../../../application/useCase/suggestions/findAll';
-import { FindAllSuggestionsUseCaseInterface } from '../../../application/useCase/suggestions/findAll/FindAllSuggestionsUseCaseInterface';
-import { UpdateSuggestionByIdUseCase } from '../../../application/useCase/suggestions/updateById';
-import { UpdateSuggestionByIdUseCaseInterface } from '../../../application/useCase/suggestions/updateById/UpdateSuggestionByIdUseCaseInterface';
-import { CreateUserUseCaseInterface } from '../../../application/useCase/user/create/CreateUserUseCaseInterface';
-import { CreateUserUseCase } from '../../../application/useCase/user/create';
-import { DeleteUserByIdUseCaseInterface } from '../../../application/useCase/user/deleteById/DeleteUserByIdUseCaseInterface';
-import { DeleteUserByIdUseCase } from '../../../application/useCase/user/deleteById';
-import { FindUserByIdUseCaseInterface } from '../../../application/useCase/user/findById/FindUserByIdUseCaseInterface';
-import { FindUserByIdUseCase } from '../../../application/useCase/user/findById';
-import { UpdateUserUseCaseInterface } from '../../../application/useCase/user/update/UpdateUserUseCaseInterface';
-import { UpdateUserUseCase } from '../../../application/useCase/user/update';
-import { CreateViewUseCaseInterface } from '../../../application/useCase/views/add/CreateViewUseCaseInterface';
-import { CreateViewUseCase } from '../../../application/useCase/views/add';
-import { GetViewUseCaseInterface } from '../../../application/useCase/views/get/GetViewUseCaseInterface';
-import { GetViewUseCase } from '../../../application/useCase/views/get';
-import { CodeRepositoryInterface } from '../../../domain/code/repository/inteface';
-import { PostRepositoryInterface } from '../../../domain/post/repository/postRepository.interface';
-import { PasswordHasherInterface } from '../../../domain/services/PasswordHasherInterface';
-import { SuggestionRepositoryInterface } from '../../../domain/suggestion/repository';
-import { UserRepositoryInterface } from '../../../domain/user/repository/userRepository.interface';
-import { ViewsRepositoryInterface } from '../../../domain/views/repository/inteface';
-import { CodeRepository } from '../../code/repository/mongo/codeRepository';
-import { PostRepository } from '../../post/repository/mongo/postRepository';
-import { PasswordHasher } from '../../services/PasswordHasher';
-import { SuggestionRepository } from '../../suggestion/repository/mongo/suggestionRepository';
-import { UserRepository } from '../../user/repository/mongo/userRepository';
-import { ViewsRepository } from '../../views/repository/mongo/viewsRepository';
-import { AuthController } from '../controllers/authController';
-import { CodeController } from '../controllers/codeController';
-import { DashboardController } from '../controllers/dashboardController';
-import { PostController } from '../controllers/postController';
-import { SuggestionController } from '../controllers/suggestionController';
-import { UserController } from '../controllers/userController';
-import { ViewsController } from '../controllers/viewsController';
-import { DashboardControllerInterface } from '../controllers/interfaces/DashboardControllerInterface';
-import { SuggestionControllerInterface } from '../controllers/interfaces/SuggestionControllerInterface';
-import { PostControllerInterface } from '../controllers/interfaces/PostControllerInterface';
-import { AuthControllerInterface } from '../controllers/interfaces/AuthControllerInterface';
-import { CodeControllerInterface } from '../controllers/interfaces/CodeControllerInterface';
-import { ViewsControllerInterface } from '../controllers/interfaces/ViewsControllerInterface';
-import { UserControllerInterface } from '../controllers/interfaces/UserControllerInterface';
+import { CodeRepositoryInterface } from '@/domain/code/repository/interface';
+import { PostRepositoryInterface } from '@/domain/post/repository/postRepository.interface';
+import { PasswordHasherInterface } from '@/domain/services/PasswordHasherInterface';
+import { SuggestionRepositoryInterface } from '@/domain/suggestion/repository';
+import { UserRepositoryInterface } from '@/domain/user/repository/userRepository.interface';
+import { ViewsRepositoryInterface } from '@/domain/views/repository/interface';
+
+import { AuthController } from '@/infrastructure/api/controllers/authController';
+import { CodeController } from '@/infrastructure/api/controllers/codeController';
+import { DashboardController } from '@/infrastructure/api/controllers/dashboardController';
+import { AuthControllerInterface } from '@/infrastructure/api/controllers/interfaces/AuthControllerInterface';
+import { CodeControllerInterface } from '@/infrastructure/api/controllers/interfaces/CodeControllerInterface';
+import { DashboardControllerInterface } from '@/infrastructure/api/controllers/interfaces/DashboardControllerInterface';
+import { PostControllerInterface } from '@/infrastructure/api/controllers/interfaces/PostControllerInterface';
+import { SuggestionControllerInterface } from '@/infrastructure/api/controllers/interfaces/SuggestionControllerInterface';
+import { UserControllerInterface } from '@/infrastructure/api/controllers/interfaces/UserControllerInterface';
+import { ViewsControllerInterface } from '@/infrastructure/api/controllers/interfaces/ViewsControllerInterface';
+import { PostController } from '@/infrastructure/api/controllers/postController';
+import { SuggestionController } from '@/infrastructure/api/controllers/suggestionController';
+import { UserController } from '@/infrastructure/api/controllers/userController';
+import { ViewsController } from '@/infrastructure/api/controllers/viewsController';
+import { CodeRepository } from '@/infrastructure/code/repository/mongo/codeRepository';
+import { PostRepository } from '@/infrastructure/post/repository/mongo/postRepository';
+import { PasswordHasher } from '@/infrastructure/services/PasswordHasher';
+import { SuggestionRepository } from '@/infrastructure/suggestion/repository/mongo/suggestionRepository';
+import { UserRepository } from '@/infrastructure/user/repository/mongo/userRepository';
+import { ViewsRepository } from '@/infrastructure/views/repository/mongo/viewsRepository';
+
+import { LoginUseCase } from '@/useCase/auth/login';
+import { LoginUseCaseInterface } from '@/useCase/auth/login/LoginUseCaseInterface';
+import { CreateCodeUseCase } from '@/useCase/code/create';
+import { CreateCodeUseCaseInterface } from '@/useCase/code/create/CreateCodeUseCaseInterface';
+import { InsightsUseCase } from '@/useCase/dashboard/insights';
+import { InsightsUseCaseInterface } from '@/useCase/dashboard/insights/InsightsUseCaseInterface';
+import { CreatePostUseCase } from '@/useCase/post/create';
+import { CreatePostUseCaseInterface } from '@/useCase/post/create/CreatePostUseCaseInterface';
+import { DeletePostUseCase } from '@/useCase/post/deleteById';
+import { DeletePostUseCaseInterface } from '@/useCase/post/deleteById/DeletePostUseCaseInterface';
+import { FindAllPostUseCase } from '@/useCase/post/findAll';
+import { FindAllPostUseCaseInterface } from '@/useCase/post/findAll/FindAllPostUseCaseInterface';
+import { FindAllByMapAndAgentUseCase } from '@/useCase/post/findAllByMapAndAgent';
+import { FindAllByMapAndAgentUseCaseInterface } from '@/useCase/post/findAllByMapAndAgent/FindAllByMapAndAgentUseCaseInterface';
+import { FindAvailableAgentsUseCase } from '@/useCase/post/findAvailableAgents';
+import { FindAvailableAgentsUseCaseInterface } from '@/useCase/post/findAvailableAgents/FindAvailableAgentsUseCaseInterface';
+import { FindAvailableMapsUseCase } from '@/useCase/post/findAvailableMaps';
+import { FindAvailableMapsUseCaseInterface } from '@/useCase/post/findAvailableMaps/FindAvailableMapsUseCaseInterface';
+import { FindPostByIdOrThrowUseCase } from '@/useCase/post/findByIdOrThrow';
+import { FindPostByIdOrThrowUseCaseInterface } from '@/useCase/post/findByIdOrThrow/IFindPostByIdOrThrowUseCase';
+import { UpdatePostUseCase } from '@/useCase/post/update';
+import { UpdatePostUseCaseInterface } from '@/useCase/post/update/UpdatePostUseCaseInterface';
+import { CreateSuggestionUseCase } from '@/useCase/suggestions/create';
+import { CreateSuggestionUseCaseInterface } from '@/useCase/suggestions/create/createSuggestionUseCase';
+import { DeleteSuggestionByIdUseCase } from '@/useCase/suggestions/deleteById';
+import { DeleteSuggestionByIdUseCaseInterface } from '@/useCase/suggestions/deleteById/DeleteSuggestionByIdUseCaseInterface';
+import { FindAllSuggestionsUseCase } from '@/useCase/suggestions/findAll';
+import { FindAllSuggestionsUseCaseInterface } from '@/useCase/suggestions/findAll/FindAllSuggestionsUseCaseInterface';
+import { UpdateSuggestionByIdUseCase } from '@/useCase/suggestions/updateById';
+import { UpdateSuggestionByIdUseCaseInterface } from '@/useCase/suggestions/updateById/UpdateSuggestionByIdUseCaseInterface';
+import { CreateUserUseCase } from '@/useCase/user/create';
+import { CreateUserUseCaseInterface } from '@/useCase/user/create/CreateUserUseCaseInterface';
+import { DeleteUserByIdUseCase } from '@/useCase/user/deleteById';
+import { DeleteUserByIdUseCaseInterface } from '@/useCase/user/deleteById/DeleteUserByIdUseCaseInterface';
+import { FindUserByIdUseCase } from '@/useCase/user/findById';
+import { FindUserByIdUseCaseInterface } from '@/useCase/user/findById/FindUserByIdUseCaseInterface';
+import { UpdateUserUseCase } from '@/useCase/user/update';
+import { UpdateUserUseCaseInterface } from '@/useCase/user/update/UpdateUserUseCaseInterface';
+import { CreateViewUseCase } from '@/useCase/views/add';
+import { CreateViewUseCaseInterface } from '@/useCase/views/add/CreateViewUseCaseInterface';
+import { GetViewUseCase } from '@/useCase/views/get';
+import { GetViewUseCaseInterface } from '@/useCase/views/get/GetViewUseCaseInterface';
 
 export class AppDependencyInjector {
-  // começo api
   private static dashboardControllerInstance: DashboardControllerInterface;
 
   private static suggestionControllerInstance: SuggestionControllerInterface;
@@ -82,7 +83,6 @@ export class AppDependencyInjector {
   private static viewsControllerInstance: ViewsControllerInterface;
 
   private static userControllerInstance: UserControllerInterface;
-  // fim api
 
   private static createSuggestionUseCaseInstance: CreateSuggestionUseCaseInterface;
 
@@ -138,7 +138,6 @@ export class AppDependencyInjector {
 
   private static insightsUseCaseInstance: InsightsUseCaseInterface;
 
-  // COMEÇO: CAMADA API
   static get authController(): AuthControllerInterface {
     if (!this.authControllerInstance) {
       this.authControllerInstance = new AuthController(this.loginUseCase);
@@ -210,7 +209,6 @@ export class AppDependencyInjector {
 
     return this.postControllerInstance;
   }
-  // FIM: CAMADA API
 
   static get insightsUseCase(): InsightsUseCaseInterface {
     if (!this.insightsUseCaseInstance) {

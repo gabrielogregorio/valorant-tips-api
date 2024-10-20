@@ -1,5 +1,5 @@
-import { PostRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
-import { UserRepositoryInterface } from '../../../../domain/user/repository/userRepository.interface';
+import { PostRepositoryInterface } from '@/domain/post/repository/postRepository.interface';
+import { UserRepositoryInterface } from '@/domain/user/repository/userRepository.interface';
 import {
   FindPostByIdOrThrowUseCaseInterface,
   OutputFindPostByIdOrThrowUseCaseDto,

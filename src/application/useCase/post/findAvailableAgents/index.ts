@@ -1,4 +1,4 @@
-import { PostRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
+import { PostRepositoryInterface } from '@/domain/post/repository/postRepository.interface';
 import { FindAvailableAgentsUseCaseInterface } from './FindAvailableAgentsUseCaseInterface';
 
 export class FindAvailableAgentsUseCase implements FindAvailableAgentsUseCaseInterface {

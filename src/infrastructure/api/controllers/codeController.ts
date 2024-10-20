@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { CreateCodeUseCaseInterface } from '../../../application/useCase/code/create/CreateCodeUseCaseInterface';
+import { CreateCodeUseCaseInterface } from '@/application/useCase/code/create/CreateCodeUseCaseInterface';
 import { CodeControllerInterface } from './interfaces/CodeControllerInterface';
 
 export class CodeController implements CodeControllerInterface {

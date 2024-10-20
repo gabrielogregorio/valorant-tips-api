@@ -1,24 +1,8 @@
-import { randomUUID } from 'crypto';
-import { Entity } from '../../common/entity/entity.abstract';
-import { NotificationError } from '../../common/notification/notification.error';
-import { PostValidatorFactory } from '../factory/post.validator';
-import { PostInterface, PostInterfaceImage, PostInterfaceTags } from './post.interface';
-
-type PostEntityTags = {
-  moment: string;
-  difficult: string;
-  ability: string;
-  side: string;
-  map: string;
-  mapPosition: string;
-  agent: string;
-};
-
-type PostEntityImages = {
-  id: string;
-  description: string;
-  image: string;
-};
+import { Entity } from '@/domain/common/entity/entity.abstract';
+import { NotificationError } from '@/domain/common/notification/notification.error';
+import { UniqueIdGenerator } from '@/domain/common/utils/UniqueIdGenerator';
+import { PostValidatorFactory } from '@/domain/post/factory/post.validator';
+import { PostImagesInterface, PostInterface, PostTagsInterface } from '@/domain/post/entity/interfaces';
 
 export class PostEntity extends Entity implements PostInterface {
   private _id: string;
@@ -29,9 +13,9 @@ export class PostEntity extends Entity implements PostInterface {
 
   private _userId: string;
 
-  private _tags: PostEntityTags;
+  private _tags: PostTagsInterface;
 
-  private _imgs: PostEntityImages[];
+  private _imgs: PostImagesInterface[];
 
   get imgs() {
     return this._imgs;
@@ -71,14 +55,13 @@ export class PostEntity extends Entity implements PostInterface {
       side: '',
     },
     userId,
-    // tirar daqui
-    id = randomUUID(),
+    id = UniqueIdGenerator.generate(),
   }: {
     title: string;
     userId: string;
     id?: string;
-    tags?: PostEntityTags;
-    imgs?: PostEntityImages[];
+    tags?: PostTagsInterface;
+    imgs?: PostImagesInterface[];
     description?: string;
   }) {
     super();
@@ -92,7 +75,7 @@ export class PostEntity extends Entity implements PostInterface {
     this.validate();
   }
 
-  changeTags(tags: PostInterfaceTags) {
+  changeTags(tags: PostTagsInterface) {
     this._tags = tags;
     this.validate();
   }
@@ -102,7 +85,7 @@ export class PostEntity extends Entity implements PostInterface {
     this.validate();
   }
 
-  changeImgs(imgs: PostInterfaceImage[]) {
+  changeImgs(imgs: PostImagesInterface[]) {
     this._imgs = imgs;
     this.validate();
   }

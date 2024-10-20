@@ -1,6 +1,6 @@
-import { PasswordHasherInterface } from '../../../../domain/services/PasswordHasherInterface';
-import { UserRepositoryInterface } from '../../../../domain/user/repository/userRepository.interface';
-import { AppError } from '../../../errors/AppError';
+import { PasswordHasherInterface } from '@/domain/services/PasswordHasherInterface';
+import { UserRepositoryInterface } from '@/domain/user/repository/userRepository.interface';
+import { AppError } from '@/application/errors/AppError';
 import { UpdateUserUseCaseDto, UpdateUserUseCaseInterface } from './UpdateUserUseCaseInterface';
 
 export class UpdateUserUseCase implements UpdateUserUseCaseInterface {
@@ -11,7 +11,7 @@ export class UpdateUserUseCase implements UpdateUserUseCaseInterface {
 
   execute = async (id: string, { username, password, image }: UpdateUserUseCaseDto): Promise<void> => {
     const user = await this.userRepository.findById(id);
-    if (user === null) {
+    if (!user) {
       throw new AppError('USER_NOT_FOUND');
     }
 

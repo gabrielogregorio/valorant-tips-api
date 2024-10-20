@@ -1,7 +1,7 @@
 import supertest from 'supertest';
-import { SECURITY_CODE } from '@/config/envs';
-import { Database } from '@/database/database';
+import { SECURITY_CODE } from '@/api/config/envs';
 import TestAgent from 'supertest/lib/agent';
+import { Database } from '@/api/database/database';
 import { app } from '../infrastructure/api/app';
 
 const mockTests = {

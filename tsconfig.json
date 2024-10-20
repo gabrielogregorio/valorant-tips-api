@@ -21,24 +21,11 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@/controllers/*": ["./src/infrastructure/api/controllers/*"],
-      "@/factories/*": ["./src/infrastructure/api/factories/*"],
-      "@/middlewares/*": ["./src/infrastructure/api/middlewares/*"],
-      "@/config/*": ["./src/infrastructure/api/config/*"],
-      "@/models/*": ["./src/infrastructure/api/models/*"],
-      "@/wrappers/*": ["./src/infrastructure/api/wrappers/*"],
-      "@/repositories/*": ["./src/infrastructure/api/repositories/*"],
-      "@/interfaces/*": ["./src/infrastructure/api/interfaces/*"],
-      "@/database/*": ["./src/infrastructure/api/database/*"],
-      "@/test/*": ["./src/infrastructure/api/test/*"],
-      "@/errors/*": ["./src/infrastructure/api/errors/*"],
-      "@/service/*": ["./src/infrastructure/api/service/*"],
-      "@/logs/*": ["./src/infrastructure/api/logs/*"],
-      "@/mock/*": ["./src/infrastructure/api/mock/*"],
-      "@/locales/*": ["./src/infrastructure/api/locales/*"],
-      "@/helpers/*": ["./src/infrastructure/api/helpers/*"],
-
-      "@/schemas/*": ["./src/infrastructure/api/schemas/*"]
+      "@/useCase/*": ["./src/application/useCase/*"],
+      "@/application/*": ["./src/application/*"],
+      "@/domain/*": ["./src/domain/*"],
+      "@/infrastructure/*": ["./src/infrastructure/*"],
+      "@/api/*": ["./src/infrastructure/api/*"]
     }
   },
   "include": ["src/**/*", "src/**.ts", "./src"]

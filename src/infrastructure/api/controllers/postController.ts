@@ -2,14 +2,14 @@ import { Request, Response } from 'express';
 import { statusCode } from '../config/statusCode';
 import { CreatePostBodyType } from '../schemas/createPost.schema';
 import { updatePostBodyType } from '../schemas/updatePost.schema';
-import { CreatePostUseCaseInterface } from '../../../application/useCase/post/create/CreatePostUseCaseInterface';
-import { UpdatePostUseCaseInterface } from '../../../application/useCase/post/update/UpdatePostUseCaseInterface';
-import { FindPostByIdOrThrowUseCaseInterface } from '../../../application/useCase/post/findByIdOrThrow/IFindPostByIdOrThrowUseCase';
-import { FindAvailableMapsUseCaseInterface } from '../../../application/useCase/post/findAvailableMaps/FindAvailableMapsUseCaseInterface';
-import { FindAvailableAgentsUseCaseInterface } from '../../../application/useCase/post/findAvailableAgents/FindAvailableAgentsUseCaseInterface';
-import { FindAllPostUseCaseInterface } from '../../../application/useCase/post/findAll/FindAllPostUseCaseInterface';
-import { FindAllByMapAndAgentUseCaseInterface } from '../../../application/useCase/post/findAllByMapAndAgent/FindAllByMapAndAgentUseCaseInterface';
-import { DeletePostUseCaseInterface } from '../../../application/useCase/post/deleteById/DeletePostUseCaseInterface';
+import { CreatePostUseCaseInterface } from '@/useCase/post/create/CreatePostUseCaseInterface';
+import { UpdatePostUseCaseInterface } from '@/useCase/post/update/UpdatePostUseCaseInterface';
+import { FindPostByIdOrThrowUseCaseInterface } from '@/useCase/post/findByIdOrThrow/IFindPostByIdOrThrowUseCase';
+import { FindAvailableMapsUseCaseInterface } from '@/useCase/post/findAvailableMaps/FindAvailableMapsUseCaseInterface';
+import { FindAvailableAgentsUseCaseInterface } from '@/useCase/post/findAvailableAgents/FindAvailableAgentsUseCaseInterface';
+import { FindAllPostUseCaseInterface } from '@/useCase/post/findAll/FindAllPostUseCaseInterface';
+import { FindAllByMapAndAgentUseCaseInterface } from '@/useCase/post/findAllByMapAndAgent/FindAllByMapAndAgentUseCaseInterface';
+import { DeletePostUseCaseInterface } from '@/useCase/post/deleteById/DeletePostUseCaseInterface';
 import { PostControllerInterface } from './interfaces/PostControllerInterface';
 
 export class PostController implements PostControllerInterface {

@@ -1,5 +1,5 @@
-import { ViewsRepositoryInterface } from '../../../../domain/views/repository/inteface';
-import { ViewsEntity } from '../../../../domain/views/enttity';
+import { ViewsRepositoryInterface } from '@/domain/views/repository/interface';
+import { ViewsEntity } from '@/domain/views/entity';
 import { CreateViewUseCaseInterface } from './CreateViewUseCaseInterface';
 
 export class CreateViewUseCase implements CreateViewUseCaseInterface {

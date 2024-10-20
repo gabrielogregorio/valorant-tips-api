@@ -1,12 +1,14 @@
+import { ValidatorInterface } from '@/domain/common/validators/validator.interface';
+import { UserEntity } from '@/domain/user/entity/user';
 import * as yup from 'yup';
-import { ValidatorInterface } from '../../common/validators/validator.interface';
-import { UserEntity } from '../entity/user';
 
 export default class UserYupValidator implements ValidatorInterface<UserEntity> {
   validate(entity: UserEntity): void {
     try {
       yup
         .object()
+
+        // colocar limite de tamanhos
         .shape({
           id: yup.string().required('id is required'), // validar aqui
         })

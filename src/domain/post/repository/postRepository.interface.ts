@@ -1,4 +1,4 @@
-import { RepositoryInterface } from 'src/domain/common/repository/customRepository.interface';
+import { RepositoryInterface } from '@/domain/common/repository/customRepository.interface';
 import { PostEntity } from '../entity/post';
 
 export interface PostRepositoryInterface extends RepositoryInterface<PostEntity> {

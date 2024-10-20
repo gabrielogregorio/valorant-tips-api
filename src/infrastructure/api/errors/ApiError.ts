@@ -1,12 +1,13 @@
-import { errorStateItemType } from '@/errors/types';
+import { errorStateItemType } from '@/infrastructure/api/errors/types';
 
-export class ApiError {
+export class ApiError extends Error {
   error: errorStateItemType;
 
-  debug?: string;
+  context?: string;
 
-  constructor(error: errorStateItemType, debug?: string) {
+  constructor(error: errorStateItemType, context?: string) {
+    super();
     this.error = error;
-    this.debug = debug;
+    this.context = context;
   }
 }

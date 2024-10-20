@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
-import { errorStates } from '@/errors/types';
-import { statusCode } from '@/config/statusCode';
+import { CreateSuggestionUseCaseInterface } from '@/useCase/suggestions/create/createSuggestionUseCase';
+import { FindAllSuggestionsUseCaseInterface } from '@/useCase/suggestions/findAll/FindAllSuggestionsUseCaseInterface';
+import { UpdateSuggestionByIdUseCaseInterface } from '@/useCase/suggestions/updateById/UpdateSuggestionByIdUseCaseInterface';
+import { DeleteSuggestionByIdUseCaseInterface } from '@/useCase/suggestions/deleteById/DeleteSuggestionByIdUseCaseInterface';
+import { errorStates } from '@/infrastructure/api/errors/types';
+import { statusCode } from '@/infrastructure/api/config/statusCode';
 import { ApiError } from '../errors/ApiError';
 import { ICreateSuggestion, IDatabaseSuggestion, IResponseSuggestion } from '../interfaces/suggestion';
-import { CreateSuggestionUseCaseInterface } from '../../../application/useCase/suggestions/create/createSuggestionUseCase';
-import { FindAllSuggestionsUseCaseInterface } from '../../../application/useCase/suggestions/findAll/FindAllSuggestionsUseCaseInterface';
-import { UpdateSuggestionByIdUseCaseInterface } from '../../../application/useCase/suggestions/updateById/UpdateSuggestionByIdUseCaseInterface';
-import { DeleteSuggestionByIdUseCaseInterface } from '../../../application/useCase/suggestions/deleteById/DeleteSuggestionByIdUseCaseInterface';
 import { SuggestionControllerInterface } from './interfaces/SuggestionControllerInterface';
 
 export class SuggestionController implements SuggestionControllerInterface {

@@ -1,4 +1,4 @@
-import { SuggestionRepositoryInterface } from '../../../../domain/suggestion/repository';
+import { SuggestionRepositoryInterface } from '@/domain/suggestion/repository';
 import { FindAllSuggestionsUseCaseInterface, OutputFindAllSuggestionsDto } from './FindAllSuggestionsUseCaseInterface';
 
 export class FindAllSuggestionsUseCase implements FindAllSuggestionsUseCaseInterface {

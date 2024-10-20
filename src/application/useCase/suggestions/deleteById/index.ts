@@ -1,4 +1,4 @@
-import { SuggestionRepositoryInterface } from '../../../../domain/suggestion/repository';
+import { SuggestionRepositoryInterface } from '@/domain/suggestion/repository';
 import { DeleteSuggestionByIdUseCaseInterface } from './DeleteSuggestionByIdUseCaseInterface';
 
 export class DeleteSuggestionByIdUseCase implements DeleteSuggestionByIdUseCaseInterface {

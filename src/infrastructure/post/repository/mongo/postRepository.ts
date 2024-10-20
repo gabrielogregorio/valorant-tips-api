@@ -1,5 +1,5 @@
-import { PostEntity } from '../../../../domain/post/entity/post';
-import { PostRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
+import { PostEntity } from '@/domain/post/entity/post';
+import { PostRepositoryInterface } from '@/domain/post/repository/postRepository.interface';
 import { IPost } from '../../../api/interfaces/post';
 import { Post } from './Post';
 

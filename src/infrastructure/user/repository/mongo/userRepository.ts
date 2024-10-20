@@ -1,5 +1,5 @@
-import { UserEntity } from '../../../../domain/user/entity/user';
-import { UserRepositoryInterface } from '../../../../domain/user/repository/userRepository.interface';
+import { UserEntity } from '@/domain/user/entity/user';
+import { UserRepositoryInterface } from '@/domain/user/repository/userRepository.interface';
 import { User } from './User';
 
 export class UserRepository implements UserRepositoryInterface {
@@ -66,7 +66,24 @@ export class UserRepository implements UserRepositoryInterface {
     });
   };
 
-  findOneByUsername = async (username: string): Promise<UserEntity | null> => User.findOne({ username });
+  findOneByUsername = async (username: string): Promise<UserEntity | null> => {
+    const user = await User.findOne({ username });
+    if (!user) {
+      return user;
+    }
+
+    const userEntity = new UserEntity({
+      id: user.id,
+      password: user.password,
+      username: user.username,
+    });
+
+    if (user.image) {
+      userEntity.changeImage(user.image);
+    }
+
+    return userEntity;
+  };
 
   findOneAndDelete = async (id: string): Promise<void> => {
     await User.findOneAndDelete({ id });

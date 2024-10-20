@@ -1,5 +1,5 @@
-import { RepositoryInterface } from 'src/domain/common/repository/customRepository.interface';
-import { CodeEntity } from '../enttity';
+import { CodeEntity } from '@/domain/code/entity';
+import { RepositoryInterface } from '@/domain/common/repository/customRepository.interface';
 
 export interface CodeRepositoryInterface extends RepositoryInterface<CodeEntity> {
   save: (code: CodeEntity) => Promise<CodeEntity>;

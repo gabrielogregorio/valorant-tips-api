@@ -1,4 +1,4 @@
-import { PostRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
+import { PostRepositoryInterface } from '@/domain/post/repository/postRepository.interface';
 import { AppError } from '../../../errors/AppError';
 import { DeletePostUseCaseInterface } from './DeletePostUseCaseInterface';
 

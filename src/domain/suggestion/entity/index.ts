@@ -1,8 +1,8 @@
-import { randomUUID } from 'crypto';
-import { Entity } from '../../common/entity/entity.abstract';
-import { NotificationError } from '../../common/notification/notification.error';
-import { statusSuggestionType, SuggestionEntityInterface } from './interfaces';
-import { SuggestionValidatorFactory } from '../factory/suggestion.validator';
+import { Entity } from '@/domain/common/entity/entity.abstract';
+import { NotificationError } from '@/domain/common/notification/notification.error';
+import { UniqueIdGenerator } from '@/domain/common/utils/UniqueIdGenerator';
+import { statusSuggestionType, SuggestionEntityInterface } from '@/domain/suggestion/entity/interfaces';
+import { SuggestionValidatorFactory } from '@/domain/suggestion/factory/suggestion.validator';
 
 export class SuggestionEntity extends Entity implements SuggestionEntityInterface {
   private _status: statusSuggestionType;
@@ -20,7 +20,7 @@ export class SuggestionEntity extends Entity implements SuggestionEntityInterfac
   private _updatedAt: string;
 
   constructor({
-    id = randomUUID(),
+    id = UniqueIdGenerator.generate(),
     status,
     email,
     description,

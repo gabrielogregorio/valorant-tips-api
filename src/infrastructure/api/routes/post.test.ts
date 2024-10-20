@@ -125,7 +125,7 @@ describe('Posts', () => {
 
   it('should block register with invalid data', async () => {
     const res = await requestMock.post('/posts').set(token).send({});
-    expect(res.body).toEqual({ message: 'PAYLOAD_IS_INVALID', debug: expect.stringContaining('') });
+    expect(res.body).toEqual({ message: 'PAYLOAD_IS_INVALID' });
     expect(res.statusCode).toEqual(400);
   });
 

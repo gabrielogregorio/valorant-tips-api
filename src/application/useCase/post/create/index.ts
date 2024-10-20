@@ -1,7 +1,7 @@
-import { PostEntity } from '../../../../domain/post/entity/post';
+import { PostEntity } from '@/domain/post/entity/post';
+import { UserRepositoryInterface } from '@/domain/user/repository/userRepository.interface';
+import { PostRepositoryInterface } from '@/domain/post/repository/postRepository.interface';
 import { CreatePostUseCaseInterface, InputCreatePostDto, OutputCreatePostDto } from './CreatePostUseCaseInterface';
-import { UserRepositoryInterface } from '../../../../domain/user/repository/userRepository.interface';
-import { PostRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
 
 export class CreatePostUseCase implements CreatePostUseCaseInterface {
   constructor(

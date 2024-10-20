@@ -1,5 +1,5 @@
-import { statusSuggestionType } from '../../../../domain/suggestion/entity/interfaces';
-import { SuggestionRepositoryInterface } from '../../../../domain/suggestion/repository';
+import { statusSuggestionType } from '@/domain/suggestion/entity/interfaces';
+import { SuggestionRepositoryInterface } from '@/domain/suggestion/repository';
 import { AppError } from '../../../errors/AppError';
 import {
   OutputUpdateByIdSuggestionDto,

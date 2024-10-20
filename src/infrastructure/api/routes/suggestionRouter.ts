@@ -1,6 +1,6 @@
-import { userAuth } from '@/middlewares/userAuth';
+import { userAuth } from '@/api/middlewares/userAuth';
 import { Router } from 'express';
-import { useValidation } from '@/middlewares/useValidation';
+import { useValidation } from '@/api/middlewares/useValidation';
 import { AppDependencyInjector } from '../container';
 import { schemaCreateSuggestion } from '../schemas/createSuggestions.schema';
 import { schemaEditSuggestion } from '../schemas/updateSuggestion.schema';

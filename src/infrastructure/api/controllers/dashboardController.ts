@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { InsightsUseCaseInterface } from '../../../application/useCase/dashboard/insights/InsightsUseCaseInterface';
+import { InsightsUseCaseInterface } from '@/useCase/dashboard/insights/InsightsUseCaseInterface';
 import { DashboardControllerInterface, IDashboardServiceType } from './interfaces/DashboardControllerInterface';
 
 export class DashboardController implements DashboardControllerInterface {

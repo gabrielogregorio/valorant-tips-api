@@ -1,4 +1,4 @@
-import { PostRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
+import { PostRepositoryInterface } from '@/domain/post/repository/postRepository.interface';
 import { FindAvailableMapsUseCaseInterface } from './FindAvailableMapsUseCaseInterface';
 
 export class FindAvailableMapsUseCase implements FindAvailableMapsUseCaseInterface {

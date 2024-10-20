@@ -1,6 +1,6 @@
-import { PostRepositoryInterface } from '../../../../domain/post/repository/postRepository.interface';
-import { UserEntity } from '../../../../domain/user/entity/user';
-import { UserRepositoryInterface } from '../../../../domain/user/repository/userRepository.interface';
+import { PostRepositoryInterface } from '@/domain/post/repository/postRepository.interface';
+import { UserEntity } from '@/domain/user/entity/user';
+import { UserRepositoryInterface } from '@/domain/user/repository/userRepository.interface';
 import { FindAllPostUseCaseInterface, OutputFindAllPostDto } from './FindAllPostUseCaseInterface';
 
 export class FindAllPostUseCase implements FindAllPostUseCaseInterface {

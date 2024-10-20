@@ -1,6 +1,6 @@
-import { ValidatorInterface } from '../../common/validators/validator.interface';
-import { ViewsEntity } from '../enttity';
-import ViewsYupValidator from '../validator/yup';
+import { ValidatorInterface } from '@/domain/common/validators/validator.interface';
+import { ViewsEntity } from '@/domain/views/entity';
+import ViewsYupValidator from '@/domain/views/validator/yup';
 
 export class ViewsValidatorFactory {
   static create(): ValidatorInterface<ViewsEntity> {

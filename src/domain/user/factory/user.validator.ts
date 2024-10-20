@@ -1,6 +1,6 @@
-import { ValidatorInterface } from '../../common/validators/validator.interface';
-import { UserEntity } from '../entity/user';
-import UserYupValidator from '../validator/user.yup';
+import { ValidatorInterface } from '@/domain/common/validators/validator.interface';
+import { UserEntity } from '@/domain/user/entity/user';
+import UserYupValidator from '@/domain/user/validator/user.yup';
 
 export class UserValidatorFactory {
   static create(): ValidatorInterface<UserEntity> {

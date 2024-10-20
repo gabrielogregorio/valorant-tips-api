@@ -1,4 +1,4 @@
-import { SECURITY_CODE } from '@/config/envs';
+import { SECURITY_CODE } from '@/api/config/envs';
 import { createDatabaseMock, requestMock } from '../../../test/utils';
 
 const databaseMock = createDatabaseMock();
@@ -30,7 +30,7 @@ describe('GenerateUserKeys', () => {
     const res = await requestMock.post('/code').send({ securityCode: 'Qualquer chave' });
     expect(res.statusCode).toEqual(401);
     expect(res.body).toEqual({
-      debug: 'Token is different from security code',
+      context: 'Token is different from security code',
       message: 'TOKEN_IS_INVALID_OR_EXPIRED',
     });
   });

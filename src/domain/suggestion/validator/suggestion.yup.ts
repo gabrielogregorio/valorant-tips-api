@@ -1,6 +1,6 @@
+import { ValidatorInterface } from '@/domain/common/validators/validator.interface';
+import { SuggestionEntity } from '@/domain/suggestion/entity';
 import * as yup from 'yup';
-import { ValidatorInterface } from '../../common/validators/validator.interface';
-import { SuggestionEntity } from '../entity';
 
 export default class SuggestionYupValidator implements ValidatorInterface<SuggestionEntity> {
   validate(entity: SuggestionEntity): void {

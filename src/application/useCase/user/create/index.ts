@@ -1,7 +1,7 @@
-import { CodeRepositoryInterface } from '../../../../domain/code/repository/inteface';
-import { UserEntity } from '../../../../domain/user/entity/user';
-import { UserRepositoryInterface } from '../../../../domain/user/repository/userRepository.interface';
-import { AppError } from '../../../errors/AppError';
+import { CodeRepositoryInterface } from '@/domain/code/repository/interface';
+import { UserEntity } from '@/domain/user/entity/user';
+import { UserRepositoryInterface } from '@/domain/user/repository/userRepository.interface';
+import { AppError } from '@/application/errors/AppError';
 import { CreateUserUseCaseInterface, InputCreateUserDto } from './CreateUserUseCaseInterface';
 
 export class CreateUserUseCase implements CreateUserUseCaseInterface {

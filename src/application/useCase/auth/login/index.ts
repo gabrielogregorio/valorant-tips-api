@@ -1,10 +1,13 @@
+import { AppError } from '@/application/errors/AppError';
+import { PasswordHasherInterface } from '@/domain/services/PasswordHasherInterface';
+import { UserRepositoryInterface } from '@/domain/user/repository/userRepository.interface';
+import { JWT_SECRET } from '@/infrastructure/api/config/envs';
+import {
+  InputLoginUseCaseDto,
+  LoginUseCaseInterface,
+  OutputLoginUseCaseDto,
+} from '@/useCase/auth/login/LoginUseCaseInterface';
 import jwt from 'jsonwebtoken';
-
-import { PasswordHasherInterface } from '../../../../domain/services/PasswordHasherInterface';
-import { UserRepositoryInterface } from '../../../../domain/user/repository/userRepository.interface';
-import { JWT_SECRET } from '../../../../infrastructure/api/config/envs';
-import { InputLoginUseCaseDto, LoginUseCaseInterface, OutputLoginUseCaseDto } from './LoginUseCaseInterface';
-import { AppError } from '../../../errors/AppError';
 
 export class LoginUseCase implements LoginUseCaseInterface {
   constructor(
@@ -18,11 +21,13 @@ export class LoginUseCase implements LoginUseCaseInterface {
       throw new AppError('USER_NOT_FOUND');
     }
 
-    if (!this.passwordHasher.validatePassword(password, user.password)) {
+    const passwordIsValid = await this.passwordHasher.passwordIsValid(password, user.password);
+    if (!passwordIsValid) {
       throw new AppError('INVALID_PASSWORD');
     }
 
     return new Promise<{ token: string; id: string }>((resolve, reject) => {
+      // desacoplar isso
       jwt.sign({ username, name: user.username, id: user.id }, JWT_SECRET, { expiresIn: '128h' }, (error, token) => {
         if (error || token === undefined) {
           reject(new AppError('INTERNAL_ERROR'));

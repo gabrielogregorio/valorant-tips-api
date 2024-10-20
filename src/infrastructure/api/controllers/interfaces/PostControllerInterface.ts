@@ -1,6 +1,6 @@
+import { CreatePostBodyType } from '@/infrastructure/api/schemas/createPost.schema';
+import { updatePostBodyType } from '@/infrastructure/api/schemas/updatePost.schema';
 import { Request, Response } from 'express';
-import { CreatePostBodyType } from '../../schemas/createPost.schema';
-import { updatePostBodyType } from '../../schemas/updatePost.schema';
 
 export interface PostControllerInterface {
   uploadFile: (req: Request, res: Response) => Promise<Response>;

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { LoginUseCaseInterface } from '../../../application/useCase/auth/login/LoginUseCaseInterface';
+import { LoginUseCaseInterface } from '@/useCase/auth/login/LoginUseCaseInterface';
 import { AuthControllerInterface } from './interfaces/AuthControllerInterface';
 
 export class AuthController implements AuthControllerInterface {

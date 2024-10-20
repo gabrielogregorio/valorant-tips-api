@@ -1,10 +1,4 @@
-export type PostInterfaceImage = {
-  id: string;
-  description: string;
-  image: string;
-};
-
-export type PostInterfaceTags = {
+export type PostTagsInterface = {
   moment: string;
   difficult: string;
   ability: string;
@@ -12,6 +6,12 @@ export type PostInterfaceTags = {
   map: string;
   mapPosition: string;
   agent: string;
+};
+
+export type PostImagesInterface = {
+  id: string;
+  description: string;
+  image: string;
 };
 
 export interface PostInterface {
@@ -23,14 +23,12 @@ export interface PostInterface {
 
   get userId(): string;
 
-  get tags(): PostInterfaceTags;
+  get tags(): PostTagsInterface;
 
-  get imgs(): PostInterfaceImage[];
+  get imgs(): PostImagesInterface[];
 
-  changeTags(tags: PostInterfaceTags): void;
-
+  changeTags(tags: PostTagsInterface): void;
   changeDescription(description: string): void;
-  changeImgs(imgs: PostInterfaceImage[]): void;
-
+  changeImgs(imgs: PostImagesInterface[]): void;
   validate(): void;
 }

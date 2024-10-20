@@ -1,5 +1,5 @@
-import { CodeRepositoryInterface } from '../../../../domain/code/repository/inteface';
-import { CodeEntity } from '../../../../domain/code/enttity';
+import { CodeRepositoryInterface } from '@/domain/code/repository/interface';
+import { CodeEntity } from '@/domain/code/entity';
 import { Code } from './Code';
 
 export class CodeRepository implements CodeRepositoryInterface {

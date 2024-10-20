@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
+import { CreateViewUseCaseInterface } from '@/useCase/views/add/CreateViewUseCaseInterface';
+import { GetViewUseCaseInterface } from '@/useCase/views/get/GetViewUseCaseInterface';
 import { errorStates } from '../errors/types';
 import { ApiError } from '../errors/ApiError';
-import { CreateViewUseCaseInterface } from '../../../application/useCase/views/add/CreateViewUseCaseInterface';
-import { GetViewUseCaseInterface } from '../../../application/useCase/views/get/GetViewUseCaseInterface';
 import { ViewsControllerInterface } from './interfaces/ViewsControllerInterface';
 
 export class ViewsController implements ViewsControllerInterface {

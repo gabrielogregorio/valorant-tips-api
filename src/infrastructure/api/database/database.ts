@@ -1,6 +1,6 @@
+import { MONGO_URI } from '@/infrastructure/api/config/envs';
+import { Log } from '@/infrastructure/api/logs';
 import mongoose from 'mongoose';
-import { MONGO_URI } from '@/config/envs';
-import { Log } from '@/logs/index';
 
 export class Database {
   verbose: boolean;

@@ -1,4 +1,4 @@
-import { ViewsRepositoryInterface } from '../../../../domain/views/repository/inteface';
+import { ViewsRepositoryInterface } from '@/domain/views/repository/interface';
 import { GetViewUseCaseInterface, OutputGetViewsDto } from './GetViewUseCaseInterface';
 
 export class GetViewUseCase implements GetViewUseCaseInterface {

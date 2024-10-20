@@ -1,5 +1,5 @@
-import { RepositoryInterface } from '../../common/repository/customRepository.interface';
-import { UserEntity } from '../entity/user';
+import { RepositoryInterface } from '@/domain/common/repository/customRepository.interface';
+import { UserEntity } from '@/domain/user/entity/user';
 
 export interface UserRepositoryInterface extends RepositoryInterface<UserEntity> {
   save: (user: UserEntity) => Promise<UserEntity>;

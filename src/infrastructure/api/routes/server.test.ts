@@ -1,4 +1,4 @@
-import { statusCode } from '@/config/statusCode';
+import { statusCode } from '@/api/config/statusCode';
 import { createDatabaseMock, requestMock } from '../../../test/utils';
 
 const databaseMock = createDatabaseMock();

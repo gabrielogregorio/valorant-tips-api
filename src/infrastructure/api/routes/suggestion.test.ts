@@ -58,7 +58,7 @@ describe('Suggestions', () => {
       description: '',
     });
 
-    expect(res.body).toEqual({ debug: '"description" is not allowed to be empty', message: 'PAYLOAD_IS_INVALID' });
+    expect(res.body).toEqual({ message: 'PAYLOAD_IS_INVALID' });
     expect(res.statusCode).toEqual(400);
   });
 
@@ -66,7 +66,6 @@ describe('Suggestions', () => {
     const res = await requestMock.post('/suggestions').send();
 
     expect(res.body).toEqual({
-      debug: '"postId" is required',
       message: 'PAYLOAD_IS_INVALID',
     });
     expect(res.statusCode).toEqual(400);
@@ -146,7 +145,6 @@ describe('Suggestions', () => {
     const res = await requestMock.put(`/suggestions/${idCreatedSuggestion}`).set(authorization).send({ status: 'any' });
 
     expect(res.body).toEqual({
-      debug: '"status" must be one of [accepted, rejected, waiting]',
       message: 'PAYLOAD_IS_INVALID',
     });
     expect(res.statusCode).toEqual(400);

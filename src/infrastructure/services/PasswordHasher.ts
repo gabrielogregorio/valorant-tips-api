@@ -16,7 +16,8 @@ export class PasswordHasher implements PasswordHasherInterface {
     return `${salt}:${hash}`;
   }
 
-  async validatePassword(password: string, hashedPassword: string): Promise<boolean> {
+  async passwordIsValid(password: string, hashedPassword: string): Promise<boolean> {
+    console.log(password, hashedPassword, 'tesss');
     const [salt, originalHash] = hashedPassword.split(':');
     const hash = pbkdf2Sync(password, salt, configHasher.iterations, configHasher.keylen, configHasher.digest).toString(
       'hex',
