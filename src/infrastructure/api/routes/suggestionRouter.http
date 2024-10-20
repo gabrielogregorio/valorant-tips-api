@@ -3,7 +3,7 @@
 
 
 ### injection example
-POST http://localhost:3000/suggestions?$12 HTTP/1.1
+POST http://localhost:3333/suggestions?$12 HTTP/1.1
 content-type: application/json
 
 {
@@ -16,7 +16,7 @@ content-type: application/json
 
 #### create suggestion
 
-POST http://localhost:3000/suggestions HTTP/1.1
+POST http://localhost:3333/suggestions HTTP/1.1
 content-type: application/json
 
 {
@@ -27,13 +27,13 @@ content-type: application/json
 
 #### get suggestion
 
-GET http://localhost:3000/suggestions HTTP/1.1
+GET http://localhost:3333/suggestions HTTP/1.1
 Authorization: {{bearerToken}}
 
 
 #### edit suggestion
 
-PUT http://localhost:3000/suggestions/0ba7c74e-01e5-40fe-8bf8-f0113750c633 HTTP/1.1
+PUT http://localhost:3333/suggestions/0ba7c74e-01e5-40fe-8bf8-f0113750c633 HTTP/1.1
 Authorization: {{bearerToken}}
 content-type: application/json
 
@@ -44,6 +44,6 @@ content-type: application/json
 
 #### delete suggestion
 
-DELETE http://localhost:3000/suggestions/0ba7c74e-01e5-40fe-8bf8-f0113750c633 HTTP/1.1
+DELETE http://localhost:3333/suggestions/0ba7c74e-01e5-40fe-8bf8-f0113750c633 HTTP/1.1
 Authorization: {{bearerToken}}
 

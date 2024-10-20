@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:3000
+@baseUrl = http://localhost:3333
 @bearerToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkZW1pcjIiLCJuYW1lIjoiYWRlbWlyMiIsImlkIjoiNjcwZmE4ZTY4ZGZkOGY5N2UxMjhmMGRiIiwiaWF0IjoxNzI5MDgwOTU4LCJleHAiOjE3Mjk1NDE3NTh9.UtR-I4qPYtGphY9DPEDfFcHcAsyWV1SNwW7DTRAnd7Q
 
 ### Conteudo

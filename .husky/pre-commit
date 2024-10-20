@@ -2,6 +2,8 @@
 # chmod +x .husky/*
 . "$(dirname "$0")/_/husky.sh"
 
-yarn format & yarn lint & make test-only
+yarn format & yarn lint
+
+make test-only
 
 npx lint-staged

@@ -10,13 +10,10 @@ dev: start-setup
 	make stop
 	@docker compose -f ./docker-compose.dev.yaml up -d
 
-dev-build:start-setup
+build:start-setup
 	@docker compose -f ./docker-compose.dev.yaml down --remove-orphans --volumes
 	@docker compose -f ./docker-compose.dev.yaml build --no-cache --progress=plain
 	@docker compose -f ./docker-compose.dev.yaml up -d --force-recreate
-
-build: start-setup
-	@docker compose -f ./docker-compose.dev.yaml up --build --force-recreate -d
 
 down:
 	@docker compose -f ./docker-compose.dev.yaml down --remove-orphans --volumes

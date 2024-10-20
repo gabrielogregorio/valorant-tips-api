@@ -4,5 +4,5 @@
 
 #### get dashboard
 
-GET http://localhost:3000/dashboards HTTP/1.1
+GET http://localhost:3333/dashboards HTTP/1.1
 Authorization: {{bearerToken}}
