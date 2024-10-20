@@ -8,7 +8,6 @@
     "start": "API_VERSION=$(node -p -e \"require('./package.json').version\") node dist/server.js",
     "dev": " yarn && API_VERSION=$(node -p -e \"require('./package.json').version\") ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/infrastructure/api/server.ts",
     "format": "yarn prettier --write .",
-    "doc": "npx typedoc",
     "test:outside": "make build-db-test && jest --runInBand --verbose",
     "test": "jest --runInBand --verbose",
     "test:watch": "jest --watchAll --runInBand --verbose ",
@@ -24,14 +23,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gabrielogregorio/Backend-Valorant-Tips.git"
+    "url": "git+https://github.com/gabrielogregorio/valorant-tips-api.git"
   },
-  "author": "",
+  "author": "Gabriel Gregório",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/gabrielogregorio/Backend-Valorant-Tips/issues"
+    "url": "https://github.com/gabrielogregorio/valorant-tips-api/issues"
   },
-  "homepage": "https://github.com/gabrielogregorio/Backend-Valorant-Tips#readme",
+  "homepage": "https://github.com/gabrielogregorio/valorant-tips-api#readme",
   "dependencies": {
     "axios": "^1.6.7",
     "cloudinary": "^2.0.1",
@@ -51,7 +50,6 @@
     "multer-storage-cloudinary": "^4.0.0",
     "sanitize-html": "^2.11.0",
     "uuid": "^9.0.1",
-    "uuidv4": "^6.2.13",
     "yup": "^1.4.0"
   },
   "devDependencies": {
@@ -96,7 +94,6 @@
     "ts-jest": "^29.1.2",
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.2.0",
-    "typedoc": "^0.25.10",
     "typescript": "^5.3.3"
   },
   "lint-staged": {
