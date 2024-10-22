@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from '../config/envs';
 import { errorStates } from '../errors/types';
 import { ApiError } from '../errors/ApiError';
+import { asyncLocalStorage, StoreModelType } from '@/infrastructure/api/container/globalState';
 
 export const isAuthenticate = (authorization: string) => {
   try {
@@ -31,7 +32,15 @@ export const userAuth = (req: Request, res: Response, next: NextFunction) => {
     if (data.username === undefined) {
       throw new ApiError(errorStates.TOKEN_IS_INVALID_OR_EXPIRED, 'no username');
     }
-    return next();
+
+    const oldStore = asyncLocalStorage.getStore() || ({ traceId: '', userId: '' } as StoreModelType);
+    asyncLocalStorage.run(
+      {
+        ...oldStore,
+        userId: data.id,
+      },
+      next,
+    );
   } catch (error: any) {
     if (error.message === 'jwt expired') {
       throw new ApiError(errorStates.TOKEN_IS_INVALID_OR_EXPIRED, 'jwt expirated');

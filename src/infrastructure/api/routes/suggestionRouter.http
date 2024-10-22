@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:3333
-@bearerToken =eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkZW1pciIsIm5hbWUiOiJhZGVtaXIiLCJpZCI6IjE2MzhmMmE5LTM0MWItNDgwOC1iZmVhLTU5ZWQ5MzZhYmZlZSIsImlhdCI6MTcyOTQzNjE2MSwiZXhwIjoxNzI5ODk2OTYxfQ.qJJKLGW0AN2BWtevdYWUDBefUU7xJSqxAQqx05NZDRY
-@suggestionIdExample = b22fc246-ffea-44c7-b712-524cb0e36ee6
+@bearerToken =
+@suggestionIdExample = bcc96d76-47f4-4a6d-a7c6-6f71513116b5
 
 
 ### @name CreateSuggestion

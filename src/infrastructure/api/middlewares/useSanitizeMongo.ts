@@ -5,6 +5,6 @@ import { Log } from '../logs';
 export const useSanitizeMongo = mongoSanitize({
   onSanitize: ({ req, key }) => {
     const sanitizedContent = JSON.stringify(req?.[key as keyof Request]);
-    Log.warning(`${req.method} ${req.url} from ${req.ip} had [${key}] sanitized ${sanitizedContent}`);
+    Log.warning(`useSanitizeMongo: ${req.method} ${req.url} from ${req.ip} had [${key}] sanitized ${sanitizedContent}`);
   },
 });

@@ -16,7 +16,7 @@ export class FindPostByIdOrThrowUseCase implements FindPostByIdOrThrowUseCaseInt
     const post = await this.postRepository.findById(postId);
 
     if (!post) {
-      throw new AppError('POST_NOT_EXISTS');
+      throw new AppError('POST_NOT_EXISTS', { postId });
     }
 
     const userData = await this.userRepository.findById(post.userId);

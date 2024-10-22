@@ -13,7 +13,7 @@ export class DeletePostUseCase implements DeletePostUseCaseInterface {
 
     const postIsNotYours = !post?.userId || !userId || post?.userId !== userId;
     if (postIsNotYours) {
-      throw new AppError('NO_CAN_DELETE_POST_ANOTHER_USER');
+      throw new AppError('NO_CAN_DELETE_POST_ANOTHER_USER', { userId, postId: post.id });
     }
 
     this.postRepository.deleteById(idPost);

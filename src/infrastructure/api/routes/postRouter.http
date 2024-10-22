@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:3333
-@bearerToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkZW1pciIsIm5hbWUiOiJhZGVtaXIiLCJpZCI6IjE2MzhmMmE5LTM0MWItNDgwOC1iZmVhLTU5ZWQ5MzZhYmZlZSIsImlhdCI6MTcyOTQzNjE2MSwiZXhwIjoxNzI5ODk2OTYxfQ.qJJKLGW0AN2BWtevdYWUDBefUU7xJSqxAQqx05NZDRY
-@postIdExample = 00426589-d2fb-4390-9d7f-541af90771b3
+@bearerToken =
+@postIdExample = 6fee8fdb-4ae8-4b9a-83a2-f58cc416684e
 
 
 ### @name GetAllsPosts

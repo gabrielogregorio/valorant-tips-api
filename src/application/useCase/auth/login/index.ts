@@ -18,7 +18,7 @@ export class LoginUseCase implements LoginUseCaseInterface {
   execute = async ({ username, password }: LoginUseCaseInputDto): Promise<LoginUseCaseOutputDto> => {
     const user = await this.userRepository.findOneByUsername(username);
     if (!user) {
-      throw new AppError('USER_NOT_FOUND');
+      throw new AppError('USER_NOT_FOUND', { username });
     }
 
     const passwordIsValid = await this.passwordHasher.passwordIsValid(password, user.password);

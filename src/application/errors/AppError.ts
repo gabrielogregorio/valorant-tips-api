@@ -1,18 +1,24 @@
-type codeErrors =
-  | 'USERNAME_ALREADY_EXISTS'
-  | 'POST_NOT_EXISTS'
-  | 'NO_CAN_DELETE_POST_ANOTHER_USER'
-  | 'INVALID_PASSWORD'
-  | 'CODE_IS_NOT_AVAILABLE'
-  | 'USER_NOT_FOUND'
-  | 'SUGGESTION_NOT_FOUND'
-  | 'INTERNAL_ERROR';
+// src/application/errors/AppError.ts
+
+import { codeErrors } from '@/application/errors/types';
+
+export type ErrorContext = {
+  username?: string;
+  id?: string;
+  postId?: string;
+  suggestionId?: string;
+  available?: boolean;
+  code?: string;
+  userId?: string;
+};
 
 export class AppError extends Error {
   public code: codeErrors;
+  public context?: ErrorContext;
 
-  constructor(code: codeErrors) {
+  constructor(code: codeErrors, context?: ErrorContext) {
     super();
     this.code = code;
+    this.context = context;
   }
 }

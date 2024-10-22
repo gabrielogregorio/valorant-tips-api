@@ -12,13 +12,13 @@ export class UpdateUserUseCase implements UpdateUserUseCaseInterface {
   execute = async (id: string, { username, password, image }: UpdateUserUseCaseDto): Promise<void> => {
     const user = await this.userRepository.findById(id);
     if (!user) {
-      throw new AppError('USER_NOT_FOUND');
+      throw new AppError('USER_ID_NOT_FOUND', { id });
     }
 
     if (username) {
       const userFound = await this.userRepository.findOneByUsername(username);
       if (userFound !== null && userFound.id?.toString() !== id) {
-        throw new AppError('USERNAME_ALREADY_EXISTS');
+        throw new AppError('USERNAME_ALREADY_EXISTS', { username });
       }
 
       user.changeUsername(username);
