@@ -14,5 +14,3 @@ type HandleUploadFileReturnInterface = {
 export interface HandleUploadFileInterface {
   upload(payload: HandleUploadFilePayloadInterface): Promise<HandleUploadFileReturnInterface>;
 }
-
-// ESSE TA ERRADO

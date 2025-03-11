@@ -9,6 +9,6 @@ export class DeleteSuggestionByIdUseCase implements DeleteSuggestionByIdUseCaseI
 
     suggestion.delete();
 
-    await this._suggestionRepository.deleteById(id);
+    await this._suggestionRepository.update(suggestion);
   };
 }

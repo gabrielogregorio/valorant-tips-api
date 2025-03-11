@@ -1,4 +1,3 @@
-// presenter?
 export interface GetMapsOutputDtoInterface {
   imageUrl: string;
   name: string;

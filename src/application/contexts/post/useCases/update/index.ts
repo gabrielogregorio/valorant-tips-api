@@ -5,7 +5,6 @@ import { MapsRepositoryInterface } from '@/domain/contexts/contexts/maps/reposit
 import { AgentsRepositoryInterface } from '@/domain/contexts/contexts/agents/repository';
 import { DomainError } from '@/domain/contexts/errors';
 import { PostTagsRepositoryInterface } from '@/domain/contexts/contexts/postTags/repository';
-import { PostEntity } from '@/domain/contexts/contexts/post/entity/post';
 import { PostPresenter } from '@/application/presenters/post';
 import {
   UpdatePostInputDtoInterface,
@@ -45,13 +44,19 @@ export class UpdatePostUseCase implements UpdatePostUseCaseInterface {
       throw new DomainError('NotFound', `tagIds id '${tagIds}' not found to create post`, { tagIds });
     }
 
-    const post = PostEntity.create({ authors, description, title });
-    post.changeAgents(agents);
-    post.changeMap(maps);
-    post.changeTags(tags);
-    post.changeSteps(steps);
+    const postTopdate = await this._postRepository.findById(id);
+    if (!postTopdate) {
+      throw new DomainError('NotFound', `post '${id}' not found to create post`, { tagIds });
+    }
 
-    const postUpdated = await this._postRepository.update(post);
+    postTopdate.changeTitle(title);
+    postTopdate.changeDescription(description);
+    postTopdate.changeAgents(agents);
+    postTopdate.changeMap(maps);
+    postTopdate.changeTags(tags);
+    postTopdate.changeSteps(steps);
+
+    const postUpdated = await this._postRepository.update(postTopdate);
 
     return PostPresenter.toHTTP(postUpdated);
   };

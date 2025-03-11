@@ -9,7 +9,7 @@ export class CreatePostTagCategoryUseCase implements CreatePostTagCategoryUseCas
   execute = async (
     name: string,
   ): Promise<{
-    id: string;
+    id: string; // TODO: added type
     name: string;
   }> => {
     if (await this._postTagCategoryRepository.findByName(name)) {

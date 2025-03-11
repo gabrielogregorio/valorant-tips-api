@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { LoginUseCaseInterface } from '@/application/contexts/auth/useCases/login/LoginUseCaseInterface';
-import { schemaAuth } from '@/infrastructure/api/schemas/makeAuth.schema';
-import { useValidation } from '@/infrastructure/api/middlewares/useValidation';
-import { AuthControllerInterface } from './interfaces/AuthControllerInterface';
+import { AuthControllerInterface } from './AuthControllerInterface';
+import { useValidation } from '../middlewares/useValidation';
+import { schemaAuth } from '../routes/makeAuth.schema';
 
 export class AuthController implements AuthControllerInterface {
   constructor(private _loginUseCase: LoginUseCaseInterface) {}

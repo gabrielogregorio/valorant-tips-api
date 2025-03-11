@@ -11,7 +11,7 @@ export class CreateMapUseCase implements CreateMapUseCaseInterface {
     imageUrl: string,
   ): Promise<{
     id: string;
-    name: string;
+    name: string; // TODO: types
     imageUrl: string;
   }> => {
     if (await this._mapRepository.findByName(name)) {

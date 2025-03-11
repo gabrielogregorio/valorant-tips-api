@@ -47,6 +47,8 @@ module.exports = {
     'no-magic-numbers': 'off',
     '@typescript-eslint/no-magic-numbers': ['error', { ignore: [0, 1] }],
 
+    'sonarjs/todo-tag': 'off',
+
     'sonarjs/no-empty-function': 'off',
 
     '@typescript-eslint/no-redeclare': 'error',

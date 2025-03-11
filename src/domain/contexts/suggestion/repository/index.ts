@@ -4,8 +4,7 @@ import { SuggestionEntityInterface } from '@/domain/contexts/contexts/suggestion
 export interface SuggestionRepositoryInterface extends RepositoryInterface<SuggestionEntityInterface> {
   save: (suggestion: SuggestionEntityInterface) => Promise<SuggestionEntityInterface>;
   findAll: () => Promise<SuggestionEntityInterface[]>;
-  updateById: (id: string, status: SuggestionEntityInterface['status']) => Promise<SuggestionEntityInterface | null>;
-  deleteById: (id: string) => Promise<void | null>;
+  update: (suggestion: SuggestionEntityInterface) => Promise<SuggestionEntityInterface | null>;
   findById: (id: string) => Promise<SuggestionEntityInterface>;
   count: () => Promise<number>;
 }

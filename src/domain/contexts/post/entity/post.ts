@@ -187,7 +187,7 @@ export class PostEntity extends Entity implements PostEntityInterface {
     });
   }
 
-  public deletePost(): void {
+  public delete(): void {
     this._isDeleted = true;
     this._validate();
   }

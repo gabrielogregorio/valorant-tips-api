@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { Request, Response } from 'express';
-import { ImagesControllerInterface } from '@/infrastructure/api/controllers/interfaces/ImagesControllerInterface';
+import { ImagesControllerInterface } from '@/infrastructure/api/controllers/ImagesControllerInterface';
 import { CreateImagesUseCaseInterface } from '@/application/contexts/images/useCases/add/CreateImagesUseCaseInterface';
 
 export class ImagesController implements ImagesControllerInterface {

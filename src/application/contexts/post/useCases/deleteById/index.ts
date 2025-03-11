@@ -11,17 +11,8 @@ export class DeletePostUseCase implements DeletePostUseCaseInterface {
       throw new AppError('POST_NOT_EXISTS', { idPost, userId });
     }
 
-    const postIsNotYours = !post?.userId || !userId || post?.userId.getValue() !== userId;
-    if (postIsNotYours) {
-      throw new AppError('NO_CAN_DELETE_POST_ANOTHER_USER', {
-        input: { userId, idPost },
-        db: {
-          postId: post?.id?.getValue() ? post.id?.getValue() : undefined,
-          userId: post?.userId?.getValue() ? post.userId?.getValue() : undefined,
-        },
-      });
-    }
+    post.delete();
 
-    this._postRepository.deleteById(idPost);
+    this._postRepository.update(post);
   };
 }

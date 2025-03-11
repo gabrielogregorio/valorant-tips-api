@@ -3,3 +3,5 @@ node_modules
 mongo-init.js
 *.js
 *.log
+*.test.ts
+*.spec.ts

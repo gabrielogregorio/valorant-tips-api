@@ -11,7 +11,7 @@ export interface PostStepInterface {
 }
 
 export interface PostEntityInterface {
-  deletePost(): void;
+  delete(): void;
   unpublishPost(): void;
   publishPost(): void;
 

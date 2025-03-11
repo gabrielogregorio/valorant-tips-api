@@ -19,7 +19,7 @@ export class LoginUseCase implements LoginUseCaseInterface {
   private _geTimeToExpiresToken() {
     const durationHours = 128;
     const ONE_HOUR_IN_MINUTES = 60;
-    const ONE_SECOND_IN_MS = 1000; // AAAAAA - salvar
+    const ONE_SECOND_IN_MS = 1000;
     const ONE_MINUTES_IN_SECONDS = 60;
     const expiresAt = new Date(
       Date.now() + durationHours * ONE_HOUR_IN_MINUTES * ONE_MINUTES_IN_SECONDS * ONE_SECOND_IN_MS,

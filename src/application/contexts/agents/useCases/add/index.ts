@@ -12,7 +12,7 @@ export class CreateAgentUseCase implements CreateAgentUseCaseInterface {
   ): Promise<{
     id: string;
     name: string;
-    imageUrl: string;
+    imageUrl: string; // TODO: types
   }> => {
     if (await this._agentRepository.findByName(name)) {
       throw new DomainError('AlreadyExists', `agent name '${name}' already exists`, {

@@ -4,10 +4,11 @@ import { UpdateUserUseCaseInterface } from '@/application/contexts/user/useCases
 import { FindUserByIdUseCaseInterface } from '@/application/contexts/user/useCases/findById/FindUserByIdUseCaseInterface';
 import { DeleteUserByIdUseCaseInterface } from '@/application/contexts/user/useCases/deleteById/DeleteUserByIdUseCaseInterface';
 import { useValidation } from '@/infrastructure/api/middlewares/useValidation';
-import { schemaUpdateUser } from '@/infrastructure/api/schemas/updateUser.schema';
-import { UserControllerInterface } from './interfaces/UserControllerInterface';
+
+import { UserControllerInterface } from './UserControllerInterface';
 import { statusCode } from '../config/statusCode';
-import { schemaCreateUser } from '../schemas/createUser.schema';
+import { schemaCreateUser } from '../routes/createUser.schema';
+import { schemaUpdateUser } from '../routes/updateUser.schema';
 
 export class UserController implements UserControllerInterface {
   constructor(

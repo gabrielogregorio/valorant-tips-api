@@ -2,7 +2,6 @@
 import { UserEntity } from '@/domain/contexts/contexts/user/entity/user';
 
 export class UserFactory {
-  // resolve tgus
   static mongoDataToUserEntity(userMongoData: any): UserEntity {
     const userEntity = UserEntity.restore({
       id: userMongoData.id,

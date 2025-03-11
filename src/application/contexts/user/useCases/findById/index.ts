@@ -18,7 +18,7 @@ export class FindUserByIdUseCase implements FindUserByIdUseCaseInterface {
   execute = async (id: string): Promise<FindUserByIdOutputDtoInterface | null> => {
     const user = await this._userRepository.findById(id);
     if (user === null) {
-      return null;
+      return null; // TODO: thronw errorr
     }
 
     return OutputMapper.toOutput(user);

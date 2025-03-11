@@ -8,11 +8,11 @@ import { FindAllSuggestionsUseCaseInterface } from '@/application/contexts/sugge
 import { UpdateSuggestionByIdUseCaseInterface } from '@/application/contexts/suggestions/useCases/updateById/UpdateSuggestionByIdUseCaseInterface';
 import { DeleteSuggestionByIdUseCaseInterface } from '@/application/contexts/suggestions/useCases/deleteById/DeleteSuggestionByIdUseCaseInterface';
 import { useValidation } from '@/infrastructure/api/middlewares/useValidation';
-import { schemaCreateSuggestion } from '@/infrastructure/api/schemas/createSuggestions.schema';
-import { schemaEditSuggestion } from '@/infrastructure/api/schemas/updateSuggestion.schema';
-import { SuggestionControllerInterface } from './interfaces/SuggestionControllerInterface';
+import { SuggestionControllerInterface } from './SuggestionControllerInterface';
 // import { IDatabaseSuggestion, any } from '../interfaces/suggestion';
 import { ApiError } from '../errors/ApiError';
+import { schemaCreateSuggestion } from '../routes/createSuggestions.schema';
+import { schemaEditSuggestion } from '../routes/updateSuggestion.schema';
 
 export class SuggestionController implements SuggestionControllerInterface {
   constructor(

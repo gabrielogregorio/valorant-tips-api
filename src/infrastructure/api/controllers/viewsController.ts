@@ -4,7 +4,7 @@ import { CreateViewUseCaseInterface } from '@/application/contexts/views/useCase
 import { GetViewUseCaseInterface } from '@/application/contexts/views/useCases/get/GetViewUseCaseInterface';
 import { errorStates } from '../errors/types';
 import { ApiError } from '../errors/ApiError';
-import { ViewsControllerInterface } from './interfaces/ViewsControllerInterface';
+import { ViewsControllerInterface } from './ViewsControllerInterface';
 
 export class ViewsController implements ViewsControllerInterface {
   constructor(

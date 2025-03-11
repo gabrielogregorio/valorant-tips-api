@@ -5,7 +5,6 @@ import { Router } from 'express';
 import multer from 'multer';
 import cloudinary from 'cloudinary';
 import { CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, CLOUDINARY_CLOUD_NAME } from '@/api/config/envs';
-import { useHasFile } from '@/api/middlewares/useHasFile';
 import { convertMegabytesToBytes } from '@/api/helpers/conversors';
 import { userAuth } from '@/infrastructure/api/middlewares/userAuth';
 import { AppDependencyInjector } from '../container';
@@ -52,4 +51,4 @@ export const imageRouter: Router = Router();
 const { imagesController } = AppDependencyInjector;
 
 // @ts-ignore
-imageRouter.post('/', userAuth, upload.single('image'), useHasFile, imagesController.create);
+imageRouter.post('/', userAuth, upload.single('image'), imagesController.create);

@@ -15,7 +15,7 @@ export class CreatePostTagsUseCase implements CreatePostTagsUseCaseInterface {
     categoryId: string,
   ): Promise<{
     id: string;
-    name: string;
+    name: string; // todo added type
     categoryId: string;
   }> => {
     if (await this._postTagsRepository.findByName(name)) {

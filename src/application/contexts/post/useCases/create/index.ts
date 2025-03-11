@@ -59,6 +59,6 @@ export class CreatePostUseCase implements CreatePostUseCaseInterface {
 
     const postSave = await this._postRepository.save(post);
 
-    return PostPresenter.toHTTP(postSave);
+    return PostPresenter.toHTTP(postSave); // adde presenter in all
   };
 }

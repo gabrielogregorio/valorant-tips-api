@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { PostTagsControllerInterface } from '@/infrastructure/api/controllers/interfaces/PostTagsControllerInterface';
 import { CreatePostTagsUseCaseInterface } from '@/application/contexts/postTags/useCases/add/CreatePostTagsUseCaseInterface';
 import { GetPostTagsUseCaseInterface } from '@/application/contexts/postTags/useCases/get/GetPostTagsUseCaseInterface';
+import { PostTagsControllerInterface } from '@/infrastructure/api/controllers/PostTagsControllerInterface';
 
 export class PostTagsController implements PostTagsControllerInterface {
   constructor(

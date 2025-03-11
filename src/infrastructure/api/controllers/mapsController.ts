@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { MapsControllerInterface } from '@/infrastructure/api/controllers/interfaces/MapsControllerInterface';
+import { MapsControllerInterface } from '@/infrastructure/api/controllers/MapsControllerInterface';
 import { CreateMapUseCaseInterface } from '@/application/contexts/maps/useCases/add/CreateMapUseCaseInterface';
 import { GetMapsUseCaseInterface } from '@/application/contexts/maps/useCases/get/GetMapsUseCaseInterface';
 

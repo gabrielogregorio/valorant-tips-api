@@ -7,12 +7,12 @@ import { FindAvailableMapsUseCaseInterface } from '@/application/contexts/post/u
 import { FindAvailableAgentsUseCaseInterface } from '@/application/contexts/post/useCases/findAvailableAgents/FindAvailableAgentsUseCaseInterface';
 import { FindAllPostUseCaseInterface } from '@/application/contexts/post/useCases/findAll/FindAllPostUseCaseInterface';
 import { FindAllByMapAndAgentUseCaseInterface } from '@/application/contexts/post/useCases/findAllByMapAndAgent/FindAllByMapAndAgentUseCaseInterface';
-import { DeletePostUseCaseInterface } from '@/application/contexts/post/useCases/deleteById/DeletePostUseCaseInterface';
 import { useValidation } from '@/infrastructure/api/middlewares/useValidation';
-import { PostControllerInterface } from './interfaces/PostControllerInterface';
+import { DeletePostUseCaseInterface } from '@/application/contexts/post/useCases/deleteById/DeletePostUseCaseInterface';
+import { PostControllerInterface } from './PostControllerInterface';
 import { statusCode } from '../config/statusCode';
-import { schemaCreatePost } from '../schemas/createPost.schema';
-import { schemaUpdatePosts } from '../schemas/updatePost.schema';
+import { schemaCreatePost } from '../routes/createPost.schema';
+import { schemaUpdatePosts } from '../routes/updatePost.schema';
 
 export class PostController implements PostControllerInterface {
   constructor(

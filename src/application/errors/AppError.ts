@@ -1,5 +1,3 @@
-// src/application/errors/AppError.ts
-
 import { CodeErrors } from '@/application/errors/types';
 import { ContextType } from '@/infrastructure/api/logs/types';
 

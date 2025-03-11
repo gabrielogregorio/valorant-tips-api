@@ -129,10 +129,6 @@ export class PostRepository implements PostRepositoryInterface {
     return Promise.all(posts.map(async (postItem) => this.buildPostEntity(postItem)));
   };
 
-  deleteById = async (id: string): Promise<void> => {
-    await Post.findOneAndDelete({ id });
-  };
-
   countAll = async (): Promise<number> => Post.countDocuments({});
 
   findMaps = async (): Promise<string[]> => Post.find().distinct('tags.map');

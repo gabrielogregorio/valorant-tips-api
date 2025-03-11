@@ -76,6 +76,11 @@ export class SuggestionEntity extends Entity implements SuggestionEntityInterfac
     return new SuggestionEntity({ ...payload, id: new UniqueId(payload.id), postId: new UniqueId(payload.postId) });
   }
 
+  public updateStatus(status: any) {
+    this._status = status;
+    this._validate();
+  }
+
   get id() {
     return this._id;
   }

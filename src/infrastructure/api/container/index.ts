@@ -8,13 +8,13 @@ import { PasswordHasherInterface } from '@/domain/contexts/services/PasswordHash
 import { AuthController } from '@/infrastructure/api/controllers/authController';
 import { CodeController } from '@/infrastructure/api/controllers/codeController';
 import { DashboardController } from '@/infrastructure/api/controllers/dashboardController';
-import { AuthControllerInterface } from '@/infrastructure/api/controllers/interfaces/AuthControllerInterface';
-import { CodeControllerInterface } from '@/infrastructure/api/controllers/interfaces/CodeControllerInterface';
-import { DashboardControllerInterface } from '@/infrastructure/api/controllers/interfaces/DashboardControllerInterface';
-import { PostControllerInterface } from '@/infrastructure/api/controllers/interfaces/PostControllerInterface';
-import { SuggestionControllerInterface } from '@/infrastructure/api/controllers/interfaces/SuggestionControllerInterface';
-import { UserControllerInterface } from '@/infrastructure/api/controllers/interfaces/UserControllerInterface';
-import { ViewsControllerInterface } from '@/infrastructure/api/controllers/interfaces/ViewsControllerInterface';
+import { AuthControllerInterface } from '@/infrastructure/api/controllers/AuthControllerInterface';
+import { CodeControllerInterface } from '@/infrastructure/api/controllers/CodeControllerInterface';
+import { DashboardControllerInterface } from '@/infrastructure/api/controllers/DashboardControllerInterface';
+import { PostControllerInterface } from '@/infrastructure/api/controllers/PostControllerInterface';
+import { SuggestionControllerInterface } from '@/infrastructure/api/controllers/SuggestionControllerInterface';
+import { UserControllerInterface } from '@/infrastructure/api/controllers/UserControllerInterface';
+import { ViewsControllerInterface } from '@/infrastructure/api/controllers/ViewsControllerInterface';
 import { PostController } from '@/infrastructure/api/controllers/postController';
 import { SuggestionController } from '@/infrastructure/api/controllers/suggestionController';
 import { UserController } from '@/infrastructure/api/controllers/userController';
@@ -34,7 +34,6 @@ import { DashboardUseCaseInterface } from '@/application/contexts/dashboard/useC
 import { CreatePostUseCase } from '@/application/contexts/post/useCases/create';
 import { CreatePostUseCaseInterface } from '@/application/contexts/post/useCases/create/CreatePostUseCaseInterface';
 import { DeletePostUseCase } from '@/application/contexts/post/useCases/deleteById';
-import { DeletePostUseCaseInterface } from '@/application/contexts/post/useCases/deleteById/DeletePostUseCaseInterface';
 import { FindAllPostUseCase } from '@/application/contexts/post/useCases/findAll';
 import { FindAllPostUseCaseInterface } from '@/application/contexts/post/useCases/findAll/FindAllPostUseCaseInterface';
 import { FindAllByMapAndAgentUseCase } from '@/application/contexts/post/useCases/findAllByMapAndAgent';
@@ -75,7 +74,7 @@ import { CreateMapUseCase } from '@/application/contexts/maps/useCases/add';
 import { CreateMapUseCaseInterface } from '@/application/contexts/maps/useCases/add/CreateMapUseCaseInterface';
 import { GetMapsUseCaseInterface } from '@/application/contexts/maps/useCases/get/GetMapsUseCaseInterface';
 import { GetMapsUseCase } from '@/application/contexts/maps/useCases/get';
-import { MapsControllerInterface } from '@/infrastructure/api/controllers/interfaces/MapsControllerInterface';
+import { MapsControllerInterface } from '@/infrastructure/api/controllers/MapsControllerInterface';
 import { MapsController } from '@/infrastructure/api/controllers/mapsController';
 import { CreateAgentUseCase } from '@/application/contexts/agents/useCases/add';
 import { CreateAgentUseCaseInterface } from '@/application/contexts/agents/useCases/add/CreateAgentUseCaseInterface';
@@ -83,7 +82,7 @@ import { AgentsRepository } from '@/infrastructure/contexts/agents/repository/mo
 import { AgentsRepositoryInterface } from '@/domain/contexts/contexts/agents/repository';
 import { GetAgentsUseCaseInterface } from '@/application/contexts/agents/useCases/get/GetAgentsUseCaseInterface';
 import { GetAgentsUseCase } from '@/application/contexts/agents/useCases/get';
-import { AgentsControllerInterface } from '@/infrastructure/api/controllers/interfaces/AgentsControllerInterface';
+import { AgentsControllerInterface } from '@/infrastructure/api/controllers/AgentsControllerInterface';
 import { AgentsController } from '@/infrastructure/api/controllers/agentsController';
 import { PostTagCategoryRepositoryInterface } from '@/domain/contexts/contexts/postTagCategory/repository';
 import { PostTagCategoryRepository } from '@/infrastructure/contexts/postTagCategory/repository/mongo/postTagCategoryRepository';
@@ -91,22 +90,23 @@ import { CreatePostTagCategoryUseCase } from '@/application/contexts/postTagCate
 import { GetPostTagCategoryUseCaseInterface } from '@/application/contexts/postTagCategory/useCases/get/GetPostTagCategoryUseCaseInterface';
 import { GetPostTagCategoryUseCase } from '@/application/contexts/postTagCategory/useCases/get';
 import { PostTagCategoryController } from '@/infrastructure/api/controllers/postTagCategoryController';
-import { PostTagCategoryControllerInterface } from '@/infrastructure/api/controllers/interfaces/PostTagCategoryControllerInterface';
+import { PostTagCategoryControllerInterface } from '@/infrastructure/api/controllers/PostTagCategoryControllerInterface';
 import { PostTagsRepositoryInterface } from '@/domain/contexts/contexts/postTags/repository';
 import { PostTagsRepository } from '@/infrastructure/contexts/postTags/repository/mongo/postTagsRepository';
 import { CreatePostTagsUseCaseInterface } from '@/application/contexts/postTags/useCases/add/CreatePostTagsUseCaseInterface';
 import { CreatePostTagsUseCase } from '@/application/contexts/postTags/useCases/add';
 import { GetPostTagsUseCaseInterface } from '@/application/contexts/postTags/useCases/get/GetPostTagsUseCaseInterface';
 import { GetPostTagsUseCase } from '@/application/contexts/postTags/useCases/get';
-import { PostTagsControllerInterface } from '@/infrastructure/api/controllers/interfaces/PostTagsControllerInterface';
+import { PostTagsControllerInterface } from '@/infrastructure/api/controllers/PostTagsControllerInterface';
 import { PostTagsController } from '@/infrastructure/api/controllers/postTagsController';
 import { CreatePostTagCategoryUseCaseInterface } from '@/application/contexts/postTagCategory/useCases/add/CreatePostTagCategoryUseCaseInterface';
 import { CreateImagesUseCase } from '@/application/contexts/images/useCases/add';
 import { CreateImagesUseCaseInterface } from '@/application/contexts/images/useCases/add/CreateImagesUseCaseInterface';
 import { HandleUploadFileInterface } from '@/application/services/HandleAuthToken copy';
 import { HandleUploadFile } from '@/infrastructure/services/HandleUploadFile';
-import { ImagesControllerInterface } from '@/infrastructure/api/controllers/interfaces/ImagesControllerInterface';
+import { ImagesControllerInterface } from '@/infrastructure/api/controllers/ImagesControllerInterface';
 import { ImagesController } from '@/infrastructure/api/controllers/imagesController';
+import { DeletePostUseCaseInterface } from '@/application/contexts/post/useCases/deleteById/DeletePostUseCaseInterface';
 
 export class AppDependencyInjector {
   private static _dashboardControllerInstance: DashboardControllerInterface;
@@ -579,10 +579,7 @@ export class AppDependencyInjector {
 
   static get findAllByMapAndAgentUseCase(): FindAllByMapAndAgentUseCaseInterface {
     if (!this._findAllByMapAndAgentUseCaseInstance) {
-      this._findAllByMapAndAgentUseCaseInstance = new FindAllByMapAndAgentUseCase(
-        this.postRepository,
-        this.userRepository,
-      );
+      this._findAllByMapAndAgentUseCaseInstance = new FindAllByMapAndAgentUseCase(this.postRepository);
     }
 
     return this._findAllByMapAndAgentUseCaseInstance;

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { PostTagCategoryControllerInterface } from '@/infrastructure/api/controllers/interfaces/PostTagCategoryControllerInterface';
+import { PostTagCategoryControllerInterface } from '@/infrastructure/api/controllers/PostTagCategoryControllerInterface';
 import { CreatePostTagCategoryUseCaseInterface } from '@/application/contexts/postTagCategory/useCases/add/CreatePostTagCategoryUseCaseInterface';
 import { GetPostTagCategoryUseCaseInterface } from '@/application/contexts/postTagCategory/useCases/get/GetPostTagCategoryUseCaseInterface';
 

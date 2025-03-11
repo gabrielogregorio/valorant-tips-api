@@ -53,13 +53,23 @@ export class SuggestionRepository implements SuggestionRepositoryInterface {
     );
   };
 
-  updateById = async (
-    id: string,
-    status: SuggestionEntityInterface['status'],
-  ): Promise<SuggestionEntityInterface | null> =>
-    Suggestion.findOneAndUpdate({ id }, { $set: { status } }, { new: true });
+  update = async (payload: SuggestionEntityInterface): Promise<SuggestionEntityInterface> => {
+    const suggestion = await Suggestion.findOneAndUpdate(
+      { id: payload.id.getValue() },
+      { $set: payload },
+      { new: true },
+    );
 
-  deleteById = async (id: string): Promise<void | null> => Suggestion.findOneAndDelete({ id });
+    return SuggestionEntity.restore({
+      description: suggestion.description,
+      email: suggestion.email,
+      postId: suggestion.postId.toString(),
+      createdAt: suggestion.createdAt,
+      id: suggestion.id,
+      status: suggestion.status,
+      updatedAt: suggestion.updatedAt,
+    });
+  };
 
   count = async (): Promise<number> => Suggestion.countDocuments({});
 }

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { GetAgentsUseCaseInterface } from '@/application/contexts/agents/useCases/get/GetAgentsUseCaseInterface';
 import { CreateAgentUseCaseInterface } from '@/application/contexts/agents/useCases/add/CreateAgentUseCaseInterface';
-import { AgentsControllerInterface } from '@/infrastructure/api/controllers/interfaces/AgentsControllerInterface';
+import { AgentsControllerInterface } from '@/infrastructure/api/controllers/AgentsControllerInterface';
 
 export class AgentsController implements AgentsControllerInterface {
   constructor(
@@ -15,7 +15,7 @@ export class AgentsController implements AgentsControllerInterface {
     return res.json({
       id: agent.id,
       name: agent.name,
-      image: agent.image,
+      image: agent.imageUrl,
     });
   };
 
@@ -26,7 +26,7 @@ export class AgentsController implements AgentsControllerInterface {
       agents.map((map) => ({
         id: map.id,
         name: map.name,
-        image: map.image,
+        image: map.imageUrl,
       })),
     );
   };

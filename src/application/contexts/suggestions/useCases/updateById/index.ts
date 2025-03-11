@@ -10,19 +10,24 @@ export class UpdateSuggestionByIdUseCase implements UpdateSuggestionByIdUseCaseI
   constructor(private _suggestionRepository: SuggestionRepositoryInterface) {}
 
   execute = async (id: string, status: any): Promise<UpdateByIdSuggestionOutputDtoInterface> => {
-    const suggestionUpdated = await this._suggestionRepository.updateById(id, status);
-    if (suggestionUpdated === null) {
+    const suggestion = await this._suggestionRepository.findById(id);
+    if (!suggestion) {
       throw new AppError('SUGGESTION_NOT_FOUND', { id, status });
     }
 
+    suggestion.updateStatus(status);
+
+    const suggestionUpdated = await this._suggestionRepository.update(suggestion);
+
+    // resolve prolem suggestion tipdated
     return {
-      createdAt: suggestionUpdated.createdAt,
-      description: suggestionUpdated.description,
-      updatedAt: suggestionUpdated.updatedAt,
-      email: suggestionUpdated.email,
-      id: suggestionUpdated.id.getValue(),
-      postId: suggestionUpdated.postId.getValue(),
-      status: suggestionUpdated.status,
+      createdAt: suggestionUpdated!.createdAt,
+      description: suggestionUpdated!.description,
+      updatedAt: suggestionUpdated!.updatedAt,
+      email: suggestionUpdated!.email,
+      id: suggestionUpdated!.id.getValue(),
+      postId: suggestionUpdated!.postId.getValue(),
+      status: suggestionUpdated!.status,
     };
   };
 }
