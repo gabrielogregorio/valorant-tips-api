@@ -21,8 +21,6 @@ export class PostTagsZodValidator implements ValidatorInterface<PostTagsValueObj
       return;
     }
 
-
-
     throw new ValidationError(
       result.error.errors.map((item) => ({
         location: item.path[0].toString(),
