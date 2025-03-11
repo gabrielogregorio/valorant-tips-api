@@ -1,44 +1,45 @@
 import { Request, Response } from 'express';
-import { CreateUserUseCaseInterface } from '@/useCase/user/create/CreateUserUseCaseInterface';
-import { UpdateUserUseCaseInterface } from '@/useCase/user/update/UpdateUserUseCaseInterface';
-import { FindUserByIdUseCaseInterface } from '@/useCase/user/findById/FindUserByIdUseCaseInterface';
-import { DeleteUserByIdUseCaseInterface } from '@/useCase/user/deleteById/DeleteUserByIdUseCaseInterface';
-import { CreateUserBodyType } from '../schemas/createUser.schema';
-import { statusCode } from '../config/statusCode';
+import { CreateUserUseCaseInterface } from '@/application/contexts/user/useCases/create/CreateUserUseCaseInterface';
+import { UpdateUserUseCaseInterface } from '@/application/contexts/user/useCases/update/UpdateUserUseCaseInterface';
+import { FindUserByIdUseCaseInterface } from '@/application/contexts/user/useCases/findById/FindUserByIdUseCaseInterface';
+import { DeleteUserByIdUseCaseInterface } from '@/application/contexts/user/useCases/deleteById/DeleteUserByIdUseCaseInterface';
+import { useValidation } from '@/infrastructure/api/middlewares/useValidation';
+import { schemaUpdateUser } from '@/infrastructure/api/schemas/updateUser.schema';
 import { UserControllerInterface } from './interfaces/UserControllerInterface';
+import { statusCode } from '../config/statusCode';
+import { schemaCreateUser } from '../schemas/createUser.schema';
 
 export class UserController implements UserControllerInterface {
   constructor(
-    private createUserUseCase: CreateUserUseCaseInterface,
-    private updateUserUseCase: UpdateUserUseCaseInterface,
-    private findUserByIdUseCase: FindUserByIdUseCaseInterface,
-    private deleteUserByIdUseCase: DeleteUserByIdUseCaseInterface,
+    private _createUserUseCase: CreateUserUseCaseInterface,
+    private _updateUserUseCase: UpdateUserUseCaseInterface,
+    private _findUserByIdUseCase: FindUserByIdUseCaseInterface,
+    private _deleteUserByIdUseCase: DeleteUserByIdUseCaseInterface,
   ) {}
 
-  uploadImage = async (req: Request, res: Response): Promise<Response> => {
-    const filename = req.file?.filename;
-    return res.json({ filename });
-  };
+  createUser = async (req: Request, res: Response): Promise<Response> => {
+    const data = useValidation(req, schemaCreateUser);
 
-  createUser = async (req: Request<undefined, undefined, CreateUserBodyType>, res: Response): Promise<Response> => {
-    const { username, password, image, code } = req.body;
+    const { username, password, imageUrl, code, name } = data.body;
 
-    await this.createUserUseCase.execute(code, {
-      image,
+    await this._createUserUseCase.execute(code, {
+      imageUrl,
       password,
       username,
+      name,
     });
 
     return res.json({});
   };
 
   updateUser = async (req: Request, res: Response): Promise<Response> => {
-    const { password } = req.body;
-    const { username, image } = req.body;
-    const { id } = req.data;
+    const content = useValidation(req, schemaUpdateUser);
 
-    await this.updateUserUseCase.execute(id, {
-      image,
+    const { password, username, imageUrl } = content.body;
+    const { userId } = req.data;
+
+    await this._updateUserUseCase.execute(userId, {
+      imageUrl,
       password,
       username,
     });
@@ -47,17 +48,18 @@ export class UserController implements UserControllerInterface {
   };
 
   get = async (req: Request, res: Response) => {
-    const { id } = req.data;
+    const { userId } = req.data;
 
-    const userFounded = await this.findUserByIdUseCase.execute(id);
+    console.log(req.data);
+    const userFounded = await this._findUserByIdUseCase.execute(userId);
 
     return res.json(userFounded);
   };
 
   delete = async (req: Request, res: Response): Promise<Response> => {
-    const { id } = req.data;
+    const { userId } = req.data;
 
-    await this.deleteUserByIdUseCase.execute(id);
+    await this._deleteUserByIdUseCase.execute(userId);
 
     return res.sendStatus(statusCode.NO_CONTENT.code);
   };

@@ -1,3 +1,8 @@
+/* eslint-disable sonarjs/no-redundant-type-constituents */
+/* eslint-disable sonarjs/no-nested-template-literals */
+/* eslint-disable @typescript-eslint/no-magic-numbers */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-console */
 import { DISABLE_LOGS } from '@/infrastructure/api/config/envs';
 import { asyncLocalStorage } from '../container/globalState';
 
@@ -10,7 +15,7 @@ export const getActualMoment = (): string => {
 export const getTraceId = () => {
   const storeData = asyncLocalStorage.getStore();
 
-  if (!storeData || !storeData.traceId) {
+  if (!storeData?.traceId) {
     return '';
   }
 
@@ -20,36 +25,38 @@ export const getTraceId = () => {
 export const getUserId = () => {
   const oldStore = asyncLocalStorage.getStore();
 
-  if (!oldStore || !oldStore.userId) {
+  if (!oldStore?.userId) {
     return;
   }
   return oldStore.userId;
 };
 
-export type levelsType = 'ERROR' | 'INFO' | 'WARN' | 'DEBUG';
+export type LevelsType = 'ERROR' | 'INFO' | 'WARN' | 'DEBUG';
 
-export const formatStartMessage = (level: string) => {
-  return `${getActualMoment()} ` + `[${level}]`.padEnd(8, ' ');
-};
+export const formatStartMessage = (level: string) => `${getActualMoment()} ${`[${level}]`.padEnd(8, ' ')}`;
 
 export class Log {
-  public static info(message: unknown, ...extras: unknown[]): void {
-    this.showLogs('info', message, extras);
+  public static info(message: string, context?: any): void {
+    this._showLogs('info', message, context);
   }
 
-  public static error(message: unknown, ...extras: unknown[]): void {
-    this.showLogs('error', message, extras);
+  public static error(message: string, context?: any): void {
+    this._showLogs('error', message, context);
   }
 
-  public static debug(message: unknown, ...extras: unknown[]): void {
-    this.showLogs('debug', message, extras);
+  public static debug(message: string, context?: any): void {
+    this._showLogs('debug', message, context);
   }
 
-  public static warning(message: unknown, ...extras: unknown[]): void {
-    this.showLogs('warn', message, extras);
+  public static warning(message: string, context?: any): void {
+    this._showLogs('warn', message, context);
   }
 
-  private static showLogs(level: 'warn' | 'debug' | 'error' | 'info', message: unknown, extras: unknown[]) {
+  private static _showLogs(
+    level: 'warn' | 'debug' | 'error' | 'info',
+    message: string,
+    contextFinal: any | any[] = {},
+  ) {
     if (DISABLE_LOGS) {
       return;
     }
@@ -57,12 +64,19 @@ export class Log {
     const traceId = getTraceId();
     const userId = getUserId();
 
+    const item = Boolean(contextFinal);
+    const messageContext = item ? 'context:' : '';
+    const context = contextFinal || undefined;
+
     console[level](
       formatStartMessage(level.toUpperCase()),
       message,
-      ...extras,
-      userId ? `| userId: ${userId}` : '',
-      traceId ? `| TraceId: ${traceId}` : '',
+      messageContext,
+      JSON.stringify({
+        context,
+        ...(userId ? { userId } : {}),
+        ...(traceId ? { traceId } : {}),
+      }),
     );
   }
 }

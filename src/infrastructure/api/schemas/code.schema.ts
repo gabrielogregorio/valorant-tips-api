@@ -1,9 +1,7 @@
-import Joi from 'joi';
+import { z } from 'zod';
 
-export type CodeBodyType = {
-  securityCode: string;
-};
-
-export const schemaCode = Joi.object<CodeBodyType, true>().keys({
-  securityCode: Joi.string().required(),
+export const schemaCode = z.object({
+  body: z.object({
+    securityCode: z.string(),
+  }),
 });

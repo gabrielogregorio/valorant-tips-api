@@ -1,23 +1,29 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable sonarjs/different-types-comparison */
 import { Request, Response } from 'express';
-import { CreateSuggestionUseCaseInterface } from '@/useCase/suggestions/create/createSuggestionUseCase';
-import { FindAllSuggestionsUseCaseInterface } from '@/useCase/suggestions/findAll/FindAllSuggestionsUseCaseInterface';
-import { UpdateSuggestionByIdUseCaseInterface } from '@/useCase/suggestions/updateById/UpdateSuggestionByIdUseCaseInterface';
-import { DeleteSuggestionByIdUseCaseInterface } from '@/useCase/suggestions/deleteById/DeleteSuggestionByIdUseCaseInterface';
 import { errorStates } from '@/infrastructure/api/errors/types';
 import { statusCode } from '@/infrastructure/api/config/statusCode';
-import { ApiError } from '../errors/ApiError';
-import { ICreateSuggestion, IDatabaseSuggestion, IResponseSuggestion } from '../interfaces/suggestion';
+import { CreateSuggestionUseCaseInterface } from '@/application/contexts/suggestions/useCases/create/createSuggestionUseCase';
+import { FindAllSuggestionsUseCaseInterface } from '@/application/contexts/suggestions/useCases/findAll/FindAllSuggestionsUseCaseInterface';
+import { UpdateSuggestionByIdUseCaseInterface } from '@/application/contexts/suggestions/useCases/updateById/UpdateSuggestionByIdUseCaseInterface';
+import { DeleteSuggestionByIdUseCaseInterface } from '@/application/contexts/suggestions/useCases/deleteById/DeleteSuggestionByIdUseCaseInterface';
+import { useValidation } from '@/infrastructure/api/middlewares/useValidation';
+import { schemaCreateSuggestion } from '@/infrastructure/api/schemas/createSuggestions.schema';
+import { schemaEditSuggestion } from '@/infrastructure/api/schemas/updateSuggestion.schema';
 import { SuggestionControllerInterface } from './interfaces/SuggestionControllerInterface';
+// import { IDatabaseSuggestion, any } from '../interfaces/suggestion';
+import { ApiError } from '../errors/ApiError';
 
 export class SuggestionController implements SuggestionControllerInterface {
   constructor(
-    private createSuggestionUseCase: CreateSuggestionUseCaseInterface,
-    private findAllSuggestionsUseCase: FindAllSuggestionsUseCaseInterface,
-    private updateSuggestionByIdUseCase: UpdateSuggestionByIdUseCaseInterface,
-    private deleteSuggestionByIdUseCase: DeleteSuggestionByIdUseCaseInterface,
+    private _createSuggestionUseCase: CreateSuggestionUseCaseInterface,
+    private _findAllSuggestionsUseCase: FindAllSuggestionsUseCaseInterface,
+    private _updateSuggestionByIdUseCase: UpdateSuggestionByIdUseCaseInterface,
+    private _deleteSuggestionByIdUseCase: DeleteSuggestionByIdUseCaseInterface,
   ) {}
 
-  private toHttp(suggestion: IDatabaseSuggestion): IResponseSuggestion {
+  // migrar para presentation
+  private _toHttp(suggestion: any): any {
     return {
       description: suggestion?.description,
       email: suggestion?.email,
@@ -29,45 +35,47 @@ export class SuggestionController implements SuggestionControllerInterface {
     };
   }
 
-  createSuggestion = async (
-    req: Request<undefined, undefined, Omit<ICreateSuggestion, 'status'>>,
-    res: Response<IResponseSuggestion>,
-  ) => {
-    const { postId, email, description } = req.body;
+  createSuggestion = async (req: Request, res: Response) => {
+    const dto = useValidation(req, schemaCreateSuggestion);
 
-    const suggestion = await this.createSuggestionUseCase.execute({
+    const { postId, email, description } = dto.body;
+
+    const suggestion = await this._createSuggestionUseCase.execute({
       postId,
       email,
       description,
     });
 
-    return res.json(this.toHttp(suggestion));
+    return res.json(this._toHttp(suggestion));
   };
 
-  getSuggestions = async (_req: Request, res: Response<IResponseSuggestion[]>): Promise<Response> => {
-    const suggestions: IDatabaseSuggestion[] = await this.findAllSuggestionsUseCase.execute();
-    const suggestionsFactory: IResponseSuggestion[] = [];
+  getSuggestions = async (_req: Request, res: Response<any[]>): Promise<Response> => {
+    const suggestions: any[] = await this._findAllSuggestionsUseCase.execute();
+    const suggestionsFactory: any[] = [];
     suggestions.forEach((suggestion) => {
-      suggestionsFactory.push(this.toHttp(suggestion));
+      suggestionsFactory.push(this._toHttp(suggestion));
     });
 
     return res.json(suggestionsFactory);
   };
 
-  // added middleware in params
-  editSuggestion = async (req: Request, res: Response<IResponseSuggestion>): Promise<Response> => {
-    const suggestionId = req.params.id;
-    const newStatus = req.body.status;
+  editSuggestion = async (req: Request, res: Response): Promise<Response> => {
+    const dto = useValidation(req, schemaEditSuggestion);
 
-    const suggestionEdited = await this.updateSuggestionByIdUseCase.execute(suggestionId, newStatus);
-    return res.json(this.toHttp(suggestionEdited));
+    const suggestionId = dto.params.id;
+    const newStatus = dto.body.status;
+
+    const suggestionEdited = await this._updateSuggestionByIdUseCase.execute(suggestionId, newStatus);
+    return res.json(this._toHttp(suggestionEdited));
   };
 
   delete = async (req: Request, res: Response): Promise<Response> => {
     const suggestionId = req.params.id;
 
-    const result = await this.deleteSuggestionByIdUseCase.execute(suggestionId);
+    const result = await this._deleteSuggestionByIdUseCase.execute(suggestionId);
+    // @ts-ignore
     if (result === null) {
+      // bug
       throw new ApiError(errorStates.RESOURCE_NOT_EXISTS);
     }
     return res.sendStatus(statusCode.NO_CONTENT.code);

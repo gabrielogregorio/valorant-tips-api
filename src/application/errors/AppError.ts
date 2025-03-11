@@ -1,22 +1,14 @@
 // src/application/errors/AppError.ts
 
-import { codeErrors } from '@/application/errors/types';
-
-export type ErrorContext = {
-  username?: string;
-  id?: string;
-  postId?: string;
-  suggestionId?: string;
-  available?: boolean;
-  code?: string;
-  userId?: string;
-};
+import { CodeErrors } from '@/application/errors/types';
+import { ContextType } from '@/infrastructure/api/logs/types';
 
 export class AppError extends Error {
-  public code: codeErrors;
-  public context?: ErrorContext;
+  public code: CodeErrors;
 
-  constructor(code: codeErrors, context?: ErrorContext) {
+  public context: ContextType;
+
+  constructor(code: CodeErrors, context: ContextType) {
     super();
     this.code = code;
     this.context = context;

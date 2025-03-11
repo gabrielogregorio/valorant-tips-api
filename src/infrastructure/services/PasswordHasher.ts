@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
+import { PasswordHasherInterface } from '@/domain/contexts/services/PasswordHasherInterface';
 import { randomBytes, pbkdf2Sync } from 'crypto';
-import { PasswordHasherInterface } from '../../domain/services/PasswordHasherInterface';
 
 const configHasher = {
   iterations: 100,

@@ -32,6 +32,7 @@ module.exports = {
     'sonarjs/no-misused-promises': 'off',
     'consistent-return': 'off',
     'import/no-extraneous-dependencies': 'error',
+    // '@typescript-eslint/no-useless-constructor': 'error',
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/no-floating-promises': ['error', { ignoreIIFE: true, ignoreVoid: true }],
     '@typescript-eslint/no-shadow': 'error',

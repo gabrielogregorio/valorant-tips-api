@@ -1,17 +1,18 @@
 @bearerToken =
 @baseUrl = http://localhost:3333
-@tokenCode = 3a1483a2-b7fb-412b-803e-3b3e0a3b0283
+@tokenCode =
 
 ### @name createUser
 
 POST {{baseUrl}}/users HTTP/1.1
 content-type: application/json
-accept-language: pt-br
+accept-language: ptBr
 
 {
-  "username":"dev",
-  "password":"dev",
-  "code": "{{tokenCode}}"
+  "username":"dev2",
+  "password":"dev2",
+  "code": "{{tokenCode}}",
+  "name":"greg"
 }
 
 ### @name uploadFile
@@ -19,15 +20,15 @@ accept-language: pt-br
 ### @name getMe
 
 GET {{baseUrl}}/users/me HTTP/1.1
-Authorization: {{bearerToken}}
+authorization: {{bearerToken}}
 
 
 ### @name updateUser
 
 PATCH  {{baseUrl}}/users HTTP/1.1
-Authorization: {{bearerToken}}
+authorization: {{bearerToken}}
 content-type: application/json
-accept-language: pt-br
+accept-language: ptBr
 
 {
   "username":"ademirss2",
@@ -39,5 +40,5 @@ accept-language: pt-br
 ### @name deleteThis
 
 DELETE  {{baseUrl}}/users HTTP/1.1
-Authorization: {{bearerToken}}
+authorization: {{bearerToken}}
 

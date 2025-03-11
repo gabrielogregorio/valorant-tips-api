@@ -1,10 +1,8 @@
-import express from 'express';
-import { useValidation } from '@/infrastructure/api/middlewares/useValidation';
+import { Router } from 'express';
 import { AppDependencyInjector } from '../container';
-import { schemaAuth } from '../schemas/makeAuth.schema';
 
-export const authRouter = express.Router();
+export const authRouter = Router();
 
 const { authController } = AppDependencyInjector;
 
-authRouter.post('/', useValidation({ body: schemaAuth }), authController.auth);
+authRouter.post('/', authController.auth);

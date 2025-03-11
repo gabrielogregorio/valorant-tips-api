@@ -1,8 +1,8 @@
 import morgan from 'morgan';
-import { DISABLE_LOGS } from '../config/envs';
-import { formatStartMessage, getTraceId, getUserId, levelsType } from '../logs';
+import { DISABLE_LOGS } from '@/infrastructure/api/config/envs';
+import { formatStartMessage, getTraceId, getUserId, LevelsType } from '../logs';
 
-const getLevelErrorByStatusCode = (status: string): levelsType => {
+const getLevelErrorByStatusCode = (status: string): LevelsType => {
   if (status.startsWith('2') || status.startsWith('3')) {
     return 'INFO';
   }
@@ -31,12 +31,13 @@ export const useLogger = morgan((tokens, req, res) => {
     'HttpRequest:',
     method,
     url,
-    `| Status: ${status}`,
-    `| ResponseLength: ${contentLength || 0} bytes`,
-    `| Time: ${responseTime}ms`,
-    `| Ip: ${ip}`,
-    `| UserId: ${userId || 'anonymous'}`,
-    traceId ? `| TraceId: ${traceId}` : '',
-    ,
+    status,
+    `context: ${JSON.stringify({
+      contentLength,
+      responseTime,
+      ip,
+      userId,
+      traceId,
+    })}`,
   ].join(' ');
 });

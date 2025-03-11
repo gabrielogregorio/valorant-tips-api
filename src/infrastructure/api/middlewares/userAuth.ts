@@ -1,9 +1,13 @@
+/* eslint-disable sonarjs/different-types-comparison */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable sonarjs/no-ignored-exceptions */
+/* eslint-disable sonarjs/prefer-single-boolean-return */
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
+import { asyncLocalStorage, StoreModelType } from '@/infrastructure/api/container/globalState';
 import { JWT_SECRET } from '../config/envs';
 import { errorStates } from '../errors/types';
 import { ApiError } from '../errors/ApiError';
-import { asyncLocalStorage, StoreModelType } from '@/infrastructure/api/container/globalState';
 
 export const isAuthenticate = (authorization: string) => {
   try {
@@ -19,7 +23,7 @@ export const isAuthenticate = (authorization: string) => {
 };
 
 export const userAuth = (req: Request, res: Response, next: NextFunction) => {
-  const authToken = String(req.headers.authorization).split(' ')?.[1]?.trim();
+  const authToken = String(req.headers.authorization);
   if (authToken === '' || authToken === undefined) {
     throw new ApiError(errorStates.TOKEN_IS_INVALID_OR_EXPIRED);
   }

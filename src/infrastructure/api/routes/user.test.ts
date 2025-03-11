@@ -1,5 +1,6 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import supertest from 'supertest';
-import { createDatabaseMock, generateToken } from '../../../test/utils';
+import { createDatabaseMock, handleAuthToken } from '../../../test/utils';
 import { app } from '../app';
 
 const databaseMock = createDatabaseMock();
@@ -17,7 +18,7 @@ describe('Users', () => {
   });
 
   it('should register a user', async () => {
-    const code = await generateToken(requestMock);
+    const code = await handleAuthToken(requestMock);
     const response = await requestMock.post('/users').send({
       code,
       username: 'lucia santos teste',
@@ -28,7 +29,7 @@ describe('Users', () => {
   });
 
   it('should bock register when user already exists', async () => {
-    const code = await generateToken(requestMock);
+    const code = await handleAuthToken(requestMock);
     const payload = {
       code,
       username: 'lucia santos teste',
@@ -43,20 +44,18 @@ describe('Users', () => {
     expect(response.statusCode).toEqual(409);
   });
 
-  it('should make login', async () => {
+  it('should get self', async () => {
     const response = await requestMock.post('/auth').send({
       username: 'lucia santos teste',
       password: '1234abc',
     });
 
     token = { authorization: `${response.body.token}` };
-  });
 
-  it('should get self', async () => {
-    const response = await requestMock.get(`/users/me`).set(token);
+    const responseGetMe = await requestMock.get(`/users/me`).set(token);
 
-    expect(response.statusCode).toEqual(200);
-    expect(response.body).toEqual({ username: 'lucia santos teste', image: '' });
+    expect(responseGetMe.statusCode).toEqual(200);
+    expect(responseGetMe.body).toEqual({ username: 'lucia santos teste', image: '' });
   });
 
   it('should update self', async () => {

@@ -21,12 +21,14 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@/useCase/*": ["./src/application/useCase/*"],
+      "@/useCases/*": ["./src/application/useCases/*"],
       "@/application/*": ["./src/application/*"],
-      "@/domain/*": ["./src/domain/*"],
+      "@/domain/contexts/*": ["./src/domain/*"],
+      "@/utils/*": ["./src/utils/*"],
       "@/infrastructure/*": ["./src/infrastructure/*"],
       "@/api/*": ["./src/infrastructure/api/*"]
     }
   },
-  "include": ["src/**/*", "src/**.ts", "./src"]
+  "include": ["./src/**/*"],
+  "exclude": ["./src/**/*.spec.ts"]
 }
