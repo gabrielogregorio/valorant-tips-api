@@ -5,7 +5,6 @@ import { MapsRepositoryInterface } from '@/domain/contexts/contexts/maps/reposit
 import { AgentsRepositoryInterface } from '@/domain/contexts/contexts/agents/repository';
 import { DomainError } from '@/domain/contexts/errors';
 import { PostTagsRepositoryInterface } from '@/domain/contexts/contexts/postTags/repository';
-import { PostPresenter } from '@/application/presenters/post';
 import {
   UpdatePostInputDtoInterface,
   UpdatePostOutputDtoInterface,
@@ -58,6 +57,38 @@ export class UpdatePostUseCase implements UpdatePostUseCaseInterface {
 
     const postUpdated = await this._postRepository.update(postTopdate);
 
-    return PostPresenter.toHTTP(postUpdated);
+    return {
+      id: postUpdated.id.getValue(),
+      title: postUpdated.title,
+      description: postUpdated.description,
+      agents: postUpdated.agents.map((agent) => ({
+        id: agent.id.getValue(),
+        imageUrl: agent.imageUrl,
+        name: agent.name,
+      })),
+
+      maps: postUpdated.maps.map((map) => ({
+        id: map.id.getValue(),
+        imageUrl: map.imageUrl,
+        name: map.name,
+      })),
+
+      tags: postUpdated.tags.map((tag) => ({
+        id: tag.id.getValue(),
+        name: tag.name,
+      })),
+
+      steps: postUpdated.steps.map((step) => ({
+        id: step.id.getValue(),
+        description: step.description,
+        imageUrl: step.imageUrl,
+      })),
+
+      authors: postUpdated.authors.map((author) => ({
+        id: author.id.getValue(),
+        username: author.username,
+        imageUrl: author.imageUrl,
+      })),
+    };
   };
 }

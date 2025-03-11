@@ -1,17 +1,15 @@
 import { PostTagCategoryRepositoryInterface } from '@/domain/contexts/contexts/postTagCategory/repository';
 import { PostTagCategoryValueObject } from '@/domain/contexts/contexts/postTagCategory/valueObject';
 import { DomainError } from '@/domain/contexts/errors';
-import { CreatePostTagCategoryUseCaseInterface } from './CreatePostTagCategoryUseCaseInterface';
+import {
+  CreatePostTagCategoryUseCaseInterface,
+  CreatePostTagCategoryUseCaseOutputDtoInterface,
+} from './CreatePostTagCategoryUseCaseInterface';
 
 export class CreatePostTagCategoryUseCase implements CreatePostTagCategoryUseCaseInterface {
   constructor(private _postTagCategoryRepository: PostTagCategoryRepositoryInterface) {}
 
-  execute = async (
-    name: string,
-  ): Promise<{
-    id: string; // TODO: added type
-    name: string;
-  }> => {
+  execute = async (name: string): Promise<CreatePostTagCategoryUseCaseOutputDtoInterface> => {
     if (await this._postTagCategoryRepository.findByName(name)) {
       throw new DomainError('AlreadyExists', `post tag category already exists '${name}'`, { name });
     }

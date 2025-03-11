@@ -6,7 +6,6 @@ import { DomainError } from '@/domain/contexts/errors';
 import { AgentsRepositoryInterface } from '@/domain/contexts/contexts/agents/repository';
 import { MapsRepositoryInterface } from '@/domain/contexts/contexts/maps/repository';
 import { PostTagsRepositoryInterface } from '@/domain/contexts/contexts/postTags/repository';
-import { PostPresenter } from '@/application/presenters/post';
 import {
   CreatePostUseCaseInterface,
   CreatePostInputDtoInterface,
@@ -59,6 +58,38 @@ export class CreatePostUseCase implements CreatePostUseCaseInterface {
 
     const postSave = await this._postRepository.save(post);
 
-    return PostPresenter.toHTTP(postSave); // adde presenter in all
+    return {
+      id: postSave.id.getValue(),
+      title: postSave.title,
+      description: postSave.description,
+      agents: postSave.agents.map((agent) => ({
+        id: agent.id.getValue(),
+        imageUrl: agent.imageUrl,
+        name: agent.name,
+      })),
+
+      maps: postSave.maps.map((map) => ({
+        id: map.id.getValue(),
+        imageUrl: map.imageUrl,
+        name: map.name,
+      })),
+
+      tags: postSave.tags.map((tag) => ({
+        id: tag.id.getValue(),
+        name: tag.name,
+      })),
+
+      steps: postSave.steps.map((step) => ({
+        id: step.id.getValue(),
+        description: step.description,
+        imageUrl: step.imageUrl,
+      })),
+
+      authors: postSave.authors.map((author) => ({
+        id: author.id.getValue(),
+        username: author.username,
+        imageUrl: author.imageUrl,
+      })),
+    };
   };
 }

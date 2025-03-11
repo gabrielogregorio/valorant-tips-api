@@ -2,7 +2,10 @@ import { DomainError } from '@/domain/contexts/errors';
 import { PostTagsRepositoryInterface } from '@/domain/contexts/contexts/postTags/repository';
 import { PostTagsValueObject } from '@/domain/contexts/contexts/postTags/valueObject';
 import { PostTagCategoryRepositoryInterface } from '@/domain/contexts/contexts/postTagCategory/repository';
-import { CreatePostTagsUseCaseInterface } from './CreatePostTagsUseCaseInterface';
+import {
+  CreatePostTagsUseCaseInterface,
+  CreatePostTagsUseCaseOutputDtoInterface,
+} from './CreatePostTagsUseCaseInterface';
 
 export class CreatePostTagsUseCase implements CreatePostTagsUseCaseInterface {
   constructor(
@@ -10,20 +13,12 @@ export class CreatePostTagsUseCase implements CreatePostTagsUseCaseInterface {
     private _postTagCategoryRepository: PostTagCategoryRepositoryInterface,
   ) {}
 
-  execute = async (
-    name: string,
-    categoryId: string,
-  ): Promise<{
-    id: string;
-    name: string; // todo added type
-    categoryId: string;
-  }> => {
+  execute = async (name: string, categoryId: string): Promise<CreatePostTagsUseCaseOutputDtoInterface> => {
     if (await this._postTagsRepository.findByName(name)) {
       throw new DomainError('AlreadyExists', `post tag already exists '${name}'`, { name });
     }
 
     if (!(await this._postTagCategoryRepository.findByIds([categoryId]))[0]?.id.getValue()) {
-      // throw 404
       throw new DomainError('NotFound', `category not found '${categoryId}'`, { categoryId });
     }
 

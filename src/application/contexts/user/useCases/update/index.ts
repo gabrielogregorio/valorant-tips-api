@@ -18,7 +18,6 @@ export class UpdateUserUseCase implements UpdateUserUseCaseInterface {
 
     if (username) {
       const userFound = await this._userRepository.findOneByUsername(username);
-      // @ts-ignore
       if (userFound !== null && userFound.id?.toString() !== id) {
         throw new AppError('USERNAME_ALREADY_EXISTS', {
           input: { username, id },
@@ -37,6 +36,6 @@ export class UpdateUserUseCase implements UpdateUserUseCaseInterface {
       user.changeImageUrl(imageUrl);
     }
 
-    return this._userRepository.update(id, user);
+    await this._userRepository.update(id, user);
   };
 }

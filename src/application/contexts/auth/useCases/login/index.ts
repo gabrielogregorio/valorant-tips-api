@@ -8,6 +8,7 @@ import { UserRepositoryInterface } from '@/domain/contexts/contexts/user/reposit
 import { PasswordHasherInterface } from '@/domain/contexts/services/PasswordHasherInterface';
 import { JWT_SECRET } from '@/infrastructure/api/config/envs';
 import { HandleAuthTokenInterface } from '@/application/services/HandleAuthToken';
+import { ONE_HOUR_IN_MINUTES, ONE_MINUTES_IN_SECONDS, ONE_SECOND_IN_MS } from '@/utils/constants';
 
 export class LoginUseCase implements LoginUseCaseInterface {
   constructor(
@@ -17,10 +18,8 @@ export class LoginUseCase implements LoginUseCaseInterface {
   ) {}
 
   private _geTimeToExpiresToken() {
-    const durationHours = 128;
-    const ONE_HOUR_IN_MINUTES = 60;
-    const ONE_SECOND_IN_MS = 1000;
-    const ONE_MINUTES_IN_SECONDS = 60;
+    const durationHours = 8;
+
     const expiresAt = new Date(
       Date.now() + durationHours * ONE_HOUR_IN_MINUTES * ONE_MINUTES_IN_SECONDS * ONE_SECOND_IN_MS,
     );
@@ -39,9 +38,11 @@ export class LoginUseCase implements LoginUseCaseInterface {
     if (!passwordIsValid) {
       throw new AppError('INVALID_PASSWORD', { username });
     }
+
     const { durationHours, expiresAtIso } = this._geTimeToExpiresToken();
+
     const handleAuthToken = await this._handleAuthToken.generate(
-      { username, name: user.username, userId: user.id.getValue() },
+      { username: user.username, name: user.name, userId: user.id.getValue() },
       {
         expiresIn: `${durationHours}h`,
         secret: JWT_SECRET,

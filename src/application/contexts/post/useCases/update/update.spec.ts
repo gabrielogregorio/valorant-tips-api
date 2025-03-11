@@ -13,7 +13,7 @@ const mockRepository = (): PostRepositoryInterface => ({
   findAvailableAgents: jest.fn(),
   findAll: jest.fn(),
   findAllByMapAndAgent: jest.fn(),
-  deleteById: jest.fn(),
+
   countAll: jest.fn(),
   findMaps: jest.fn(),
   findAgents: jest.fn(),

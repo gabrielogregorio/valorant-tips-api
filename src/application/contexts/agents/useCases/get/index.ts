@@ -8,8 +8,8 @@ export class GetAgentsUseCase implements GetAgentsUseCaseInterface {
     const agents = await this._agentsRepository.findAll();
 
     return agents.map((agent) => ({
-      imageUrl: agent.imageUrl,
       id: agent.id.getValue(),
+      imageUrl: agent.imageUrl,
       name: agent.name,
     }));
   };
