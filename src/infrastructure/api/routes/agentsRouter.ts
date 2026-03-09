@@ -11,6 +11,4 @@ agentsRouter.put('/:id', uploadImageMiddleware.single('image'), agentsController
 agentsRouter.get('/', agentsController.getAll);
 agentsRouter.get('/:mapId/posts', agentsController.findAvailableAgentsByMaps);
 
-
-
 // agentsRouter.get('/:id', agentsController.getAll);

@@ -11,6 +11,7 @@ import { suggestionRouter } from './suggestionRouter';
 import { userRouter } from './userRouter';
 import { viewsRouter } from './viewsRouter';
 import { mapsRouter } from './mapsRouter';
+import { docsRouter } from './docsRouter';
 
 export const router = Router();
 
@@ -28,3 +29,4 @@ router.use('/maps', mapsRouter);
 router.use('/agents', agentsRouter);
 router.use('/category', postTagCategoryRouter);
 router.use('/tags', postTagsRouter);
+router.use('/docs', docsRouter);
