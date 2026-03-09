@@ -1,5 +1,29 @@
 @baseUrl = http://localhost:3333
 
-### Get All Maps
-GET {{baseUrl}}/maps
-Content-Type: application/json
+### @name createMap
+
+POST {{baseUrl}}/maps HTTP/1.1
+content-type: application/json
+
+{
+  "name":"Other",
+  "image":"example"
+}
+
+
+### @name updateMap
+
+POST {{baseUrl}}/maps HTTP/1.1
+content-type: application/json
+
+{
+  "name":"Other",
+  "image":"example"
+}
+
+
+
+### @name getView
+
+GET {{baseUrl}}/maps HTTP/1.1
+
