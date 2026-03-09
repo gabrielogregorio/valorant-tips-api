@@ -81,3 +81,9 @@ content-type: application/json
 
 DELETE {{baseUrl}}/posts/{{postIdExample}} HTTP/1.1
 authorization: {{bearerToken}}
+
+
+###  @getMapsAvailableByPosts
+
+GET {{baseUrl}}/agents/13a6ae835fe6df413e8bc2cf/posts HTTP/1.1
+
