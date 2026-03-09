@@ -1,15 +1,12 @@
 import { AgentsRepositoryInterface } from '@/domain/contexts/contexts/agents/repository';
 import { AgentsEntity } from '@/domain/contexts/contexts/agents/entity';
 import { DomainError } from '@/domain/contexts/errors';
-import {
-  CreateAgentUseCaseInterface,
-  CreateAgentUseCaseInterfaceOutputDtoInterface,
-} from './CreateAgentUseCaseInterface';
+import { CreateAgentUseCaseInterface, CreateAgentUseCaseOutputDtoInterface } from './CreateAgentUseCaseInterface';
 
 export class CreateAgentUseCase implements CreateAgentUseCaseInterface {
   constructor(private _agentRepository: AgentsRepositoryInterface) {}
 
-  execute = async (name: string, imageUrl: string): Promise<CreateAgentUseCaseInterfaceOutputDtoInterface> => {
+  execute = async (name: string, imageUrl: string): Promise<CreateAgentUseCaseOutputDtoInterface> => {
     if (await this._agentRepository.findByName(name)) {
       throw new DomainError('AlreadyExists', `agent name '${name}' already exists`, {
         name,
