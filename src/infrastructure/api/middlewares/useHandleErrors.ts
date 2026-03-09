@@ -69,6 +69,6 @@ export const useHandleErrors = (error: Error, req: Request, res: Response, next:
     return;
   }
 
-  Log.error('Internal Unknown Server Error', { error: String(error) });
+  Log.error('Internal Unknown Server Error', { error });
   res.status(statusCode.ERROR_IN_SERVER.code).json({ message: 'Internal Error' });
 };

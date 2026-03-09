@@ -33,5 +33,5 @@ export interface FindAllPostOutputDtoInterface {
 }
 
 export interface FindAllPostUseCaseInterface {
-  execute: () => Promise<FindAllPostOutputDtoInterface[]>;
+  execute: (payload: {agent?: string, map?: string }) => Promise<FindAllPostOutputDtoInterface[]>;
 }

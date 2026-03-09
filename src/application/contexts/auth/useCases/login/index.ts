@@ -8,7 +8,10 @@ import { UserRepositoryInterface } from '@/domain/contexts/contexts/user/reposit
 import { PasswordHasherInterface } from '@/domain/contexts/services/PasswordHasherInterface';
 import { JWT_SECRET } from '@/infrastructure/api/config/envs';
 import { HandleAuthTokenInterface } from '@/application/services/HandleAuthToken';
-import { ONE_HOUR_IN_MINUTES, ONE_MINUTES_IN_SECONDS, ONE_SECOND_IN_MS } from '@/utils/constants';
+
+const ONE_SECOND_IN_MS = 1000;
+const ONE_MINUTES_IN_SECONDS = 60;
+const ONE_HOUR_IN_MINUTES = 60;
 
 export class LoginUseCase implements LoginUseCaseInterface {
   constructor(

@@ -1,16 +1,16 @@
 import { ValidatorInterface } from '@/domain/contexts/common/validators';
-import { MapsValueObject } from '@/domain/contexts/contexts/maps/valueObject';
+import { MapsEntity } from '@/domain/contexts/contexts/maps/entity';
 import { ValidationError } from '@/infrastructure/contexts/validationError';
 import { z } from 'zod';
 
-export class MapsZodValidator implements ValidatorInterface<MapsValueObject> {
+export class MapsZodValidator implements ValidatorInterface<MapsEntity> {
   private _schema = z.object({
     id: z.string(),
     name: z.string(),
     imageUrl: z.string(),
   });
 
-  public validate(entity: MapsValueObject): void {
+  public validate(entity: MapsEntity): void {
     const result = this._schema.safeParse({
       id: entity.id.getValue(),
       name: entity.name,

@@ -1,12 +1,12 @@
 import { Entity } from '@/domain/contexts/common/entity/entity.abstract';
 import { UniqueId } from '@/domain/contexts/common/utils/UniqueId';
-import { AgentsValueObject } from '@/domain/contexts/contexts/agents/valueObject';
-import { MapsValueObject } from '@/domain/contexts/contexts/maps/valueObject';
+import { AgentsEntity } from '@/domain/contexts/contexts/agents/entity';
 import { PostEntityInterface, PostStepInterface } from '@/domain/contexts/contexts/post/entity/interfaces';
 import { PostValidatorFactory } from '@/domain/contexts/contexts/post/factory';
 import { PostTagsValueObject } from '@/domain/contexts/contexts/postTags/valueObject';
 import { UserEntity } from '@/domain/contexts/contexts/user/entity/user';
 import { DomainError } from '@/domain/contexts/errors';
+import { MapsEntity } from '../../maps/entity';
 
 type PostEntityDto = {
   createdAt: Date;
@@ -18,8 +18,8 @@ type PostEntityDto = {
   isPublished: boolean;
   authors: UserEntity[];
 
-  agents: AgentsValueObject[];
-  maps: MapsValueObject[];
+  agents: AgentsEntity[];
+  maps: MapsEntity[];
   tags: PostTagsValueObject[];
 
   steps: PostStepInterface[];
@@ -45,8 +45,8 @@ type PostEntityRestoreDto = {
   isDeleted: boolean;
   isPublished: boolean;
   authors: UserEntity[];
-  agents: AgentsValueObject[];
-  maps: MapsValueObject[];
+  agents: AgentsEntity[];
+  maps: MapsEntity[];
   tags: PostTagsValueObject[];
   steps: PostStepInterface[];
 };
@@ -56,7 +56,7 @@ export class PostEntity extends Entity implements PostEntityInterface {
 
   private _id: UniqueId;
 
-  private _updateAt: Date;
+  private _updatedAt: Date;
 
   private _title: string;
 
@@ -68,9 +68,9 @@ export class PostEntity extends Entity implements PostEntityInterface {
 
   private _authors: UserEntity[];
 
-  private _agents: AgentsValueObject[];
+  private _agents: AgentsEntity[];
 
-  private _maps: MapsValueObject[];
+  private _maps: MapsEntity[];
 
   private _tags: PostTagsValueObject[];
 
@@ -94,7 +94,7 @@ export class PostEntity extends Entity implements PostEntityInterface {
   }: PostEntityDto) {
     super();
     this.createdAt = createdAt;
-    this._updateAt = updateAt;
+    this._updatedAt = updateAt;
     this._id = id;
     this._title = title;
     this._description = description;
@@ -114,7 +114,7 @@ export class PostEntity extends Entity implements PostEntityInterface {
   }
 
   get updateAt() {
-    return this._updateAt;
+    return this._updatedAt;
   }
 
   get title() {
@@ -217,13 +217,13 @@ export class PostEntity extends Entity implements PostEntityInterface {
     this._validate();
   }
 
-  changeMap(maps: MapsValueObject[]): void {
+  changeMap(maps: MapsEntity[]): void {
     this._maps = maps;
 
     this._validate();
   }
 
-  changeAgents(agents: AgentsValueObject[]): void {
+  changeAgents(agents: AgentsEntity[]): void {
     this._agents = agents;
     this._validate();
   }
@@ -245,7 +245,9 @@ export class PostEntity extends Entity implements PostEntityInterface {
 
   private _validate() {
     if (this._isPublished && !this._authors.length) {
-      throw new DomainError('BusinessRuleViolation', 'Para publicar um post, ele precisa ter autores', {});
+      throw new DomainError('BusinessRuleViolation', 'Para publicar um post, ele precisa ter autores', {
+        id: this._id,
+      });
     }
 
     if (this._isPublished && !this._steps.length) {

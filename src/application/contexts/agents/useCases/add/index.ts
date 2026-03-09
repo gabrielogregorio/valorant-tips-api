@@ -1,5 +1,5 @@
 import { AgentsRepositoryInterface } from '@/domain/contexts/contexts/agents/repository';
-import { AgentsValueObject } from '@/domain/contexts/contexts/agents/valueObject';
+import { AgentsEntity } from '@/domain/contexts/contexts/agents/entity';
 import { DomainError } from '@/domain/contexts/errors';
 import {
   CreateAgentUseCaseInterface,
@@ -16,7 +16,7 @@ export class CreateAgentUseCase implements CreateAgentUseCaseInterface {
       });
     }
 
-    const agent = AgentsValueObject.create({
+    const agent = AgentsEntity.create({
       imageUrl,
       name,
     });

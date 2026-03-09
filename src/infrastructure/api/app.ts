@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(helmet({ crossOriginResourcePolicy: false }));
 app.use(useSanitizeMongo);
-app.use(useIpRequestLimiter);
+// app.use(useIpRequestLimiter);
 
 app.use(router);
 

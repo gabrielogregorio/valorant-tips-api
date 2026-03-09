@@ -10,7 +10,7 @@ dev: start-setup
 	@docker compose -f ./docker-compose.dev.yaml up -d
 
 seed:
-	@docker exec  vavatips-api yarn ts-node-dev -r tsconfig-paths/register --transpile-only --ignore-watch node_modules --no-notify src/seed.ts
+	@docker exec  vavatips-api pnpm ts-node-dev -r tsconfig-paths/register --transpile-only --ignore-watch node_modules --no-notify src/seed.ts
 
 build:start-setup
 	@docker compose -f ./docker-compose.dev.yaml down --remove-orphans --volumes
@@ -22,7 +22,7 @@ down:
 	@docker compose -f ./docker-compose.test.yaml down --remove-orphans --volumes
 
 delete-universe:
-	@make down-all & make delete-all-containers & make delete-all-networks & make delete-all-volumes & make delete-all-images & make delete-all-unsed-images & yarn cache clean
+	@make down-all & make delete-all-containers & make delete-all-networks & make delete-all-volumes & make delete-all-images & make delete-all-unsed-images & pnpm cache clean
 
 delete-all-unsed-images:
 	@docker image prune -a
@@ -62,12 +62,12 @@ build-test: start-setup
 
 tests: start-setup
 	@make build-test
-	@docker compose -f ./docker-compose.test.yaml run vavatips-api-test yarn test:watch
+	@docker compose -f ./docker-compose.test.yaml run vavatips-api-test pnpm test:watch
 	@docker compose -f ./docker-compose.test.yaml rm -f -s -v vavatips-db-test vavatips-api-test
 
 test-only: start-setup
 	@make build-test
-	@docker compose -f ./docker-compose.test.yaml run vavatips-api-test yarn test
+	@docker compose -f ./docker-compose.test.yaml run vavatips-api-test pnpm test
 	@docker compose -f ./docker-compose.test.yaml rm -f -s -v vavatips-db-test vavatips-api-test
 
 bash:

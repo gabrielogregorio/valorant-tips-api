@@ -4,8 +4,8 @@ import { FindAllPostUseCaseInterface, FindAllPostOutputDtoInterface } from './Fi
 export class FindAllPostUseCase implements FindAllPostUseCaseInterface {
   constructor(private _postRepository: PostRepositoryInterface) {}
 
-  execute = async (): Promise<FindAllPostOutputDtoInterface[]> => {
-    const postsItems = await this._postRepository.findAll();
+  execute = async ({ agent, map }: {agent?: string, map?: string }): Promise<FindAllPostOutputDtoInterface[]> => {
+    const postsItems = await this._postRepository.findAll({ agent, map });
 
     return postsItems.map((post) => ({
       id: post.id.getValue(),

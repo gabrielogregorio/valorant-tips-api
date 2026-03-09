@@ -2,9 +2,9 @@
 # chmod +x .husky/*
 . "$(dirname "$0")/_/husky.sh"
 
-yarn format & yarn lint
+pnpm format & pnpm lint
 
-yarn audit
+pnpm audit
 
 make test-only
 

@@ -15,8 +15,6 @@ accept-language: ptBr
   "name":"greg"
 }
 
-### @name uploadFile
-
 ### @name getMe
 
 GET {{baseUrl}}/users/me HTTP/1.1

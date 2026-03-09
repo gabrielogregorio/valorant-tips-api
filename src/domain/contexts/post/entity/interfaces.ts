@@ -1,8 +1,8 @@
 import { UniqueId } from '@/domain/contexts/common/utils/UniqueId';
-import { AgentsValueObject } from '@/domain/contexts/contexts/agents/valueObject';
-import { MapsValueObject } from '@/domain/contexts/contexts/maps/valueObject';
+import { AgentsEntity } from '@/domain/contexts/contexts/agents/entity';
 import { PostTagsValueObject } from '@/domain/contexts/contexts/postTags/valueObject';
 import { UserEntity } from '@/domain/contexts/contexts/user/entity/user';
+import { MapsEntity } from '../../maps/entity';
 
 export interface PostStepInterface {
   id: UniqueId;
@@ -17,8 +17,8 @@ export interface PostEntityInterface {
 
   changeTags(tags: PostTagsValueObject[]): void;
   changeSteps(steps: PostStepInterface[]): void;
-  changeMap(map: MapsValueObject[]): void;
-  changeAgents(agents: AgentsValueObject[]): void;
+  changeMap(map: MapsEntity[]): void;
+  changeAgents(agents: AgentsEntity[]): void;
   changeAuthors(authors: UserEntity[]): void;
   changeDescription(description: string): void;
   changeTitle(title: string): void;
@@ -32,8 +32,8 @@ export interface PostEntityInterface {
   isDeleted: boolean;
   isPublished: boolean;
   authors: UserEntity[];
-  agents: AgentsValueObject[];
-  maps: MapsValueObject[];
+  agents: AgentsEntity[];
+  maps: MapsEntity[];
   tags: PostTagsValueObject[];
   steps: PostStepInterface[];
 }

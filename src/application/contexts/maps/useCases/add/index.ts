@@ -1,6 +1,6 @@
 import { MapsRepositoryInterface } from '@/domain/contexts/contexts/maps/repository';
-import { MapsValueObject } from '@/domain/contexts/contexts/maps/valueObject';
 import { DomainError } from '@/domain/contexts/errors';
+import { MapsEntity } from '@/domain/contexts/contexts/maps/entity';
 import { CreateMapUseCaseInterface, CreateMapUseCaseOutputDtoInterface } from './CreateMapUseCaseInterface';
 
 export class CreateMapUseCase implements CreateMapUseCaseInterface {
@@ -12,7 +12,7 @@ export class CreateMapUseCase implements CreateMapUseCaseInterface {
         name,
       });
     }
-    const maps = MapsValueObject.create({
+    const maps = MapsEntity.create({
       imageUrl,
       name,
     });

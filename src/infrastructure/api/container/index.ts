@@ -38,10 +38,6 @@ import { FindAllPostUseCase } from '@/application/contexts/post/useCases/findAll
 import { FindAllPostUseCaseInterface } from '@/application/contexts/post/useCases/findAll/FindAllPostUseCaseInterface';
 import { FindAllByMapAndAgentUseCase } from '@/application/contexts/post/useCases/findAllByMapAndAgent';
 import { FindAllByMapAndAgentUseCaseInterface } from '@/application/contexts/post/useCases/findAllByMapAndAgent/FindAllByMapAndAgentUseCaseInterface';
-import { FindAvailableAgentsUseCase } from '@/application/contexts/post/useCases/findAvailableAgents';
-import { FindAvailableAgentsUseCaseInterface } from '@/application/contexts/post/useCases/findAvailableAgents/FindAvailableAgentsUseCaseInterface';
-import { FindAvailableMapsUseCase } from '@/application/contexts/post/useCases/findAvailableMaps';
-import { FindAvailableMapsUseCaseInterface } from '@/application/contexts/post/useCases/findAvailableMaps/FindAvailableMapsUseCaseInterface';
 import { FindPostByIdOrThrowUseCase } from '@/application/contexts/post/useCases/findByIdOrThrow';
 import { FindPostByIdOrThrowUseCaseInterface } from '@/application/contexts/post/useCases/findByIdOrThrow/IFindPostByIdOrThrowUseCase';
 import { UpdatePostUseCase } from '@/application/contexts/post/useCases/update';
@@ -71,7 +67,6 @@ import { HandleAuthTokenInterface } from '@/application/services/HandleAuthToken
 import { MapsRepositoryInterface } from '@/domain/contexts/contexts/maps/repository';
 import { MapsRepository } from '@/infrastructure/contexts/maps/repository/mongo/mapsRepository';
 import { CreateMapUseCase } from '@/application/contexts/maps/useCases/add';
-import { CreateMapUseCaseInterface } from '@/application/contexts/maps/useCases/add/CreateMapUseCaseInterface';
 import { GetMapsUseCaseInterface } from '@/application/contexts/maps/useCases/get/GetMapsUseCaseInterface';
 import { GetMapsUseCase } from '@/application/contexts/maps/useCases/get';
 import { MapsControllerInterface } from '@/infrastructure/api/controllers/MapsControllerInterface';
@@ -100,13 +95,22 @@ import { GetPostTagsUseCase } from '@/application/contexts/postTags/useCases/get
 import { PostTagsControllerInterface } from '@/infrastructure/api/controllers/PostTagsControllerInterface';
 import { PostTagsController } from '@/infrastructure/api/controllers/postTagsController';
 import { CreatePostTagCategoryUseCaseInterface } from '@/application/contexts/postTagCategory/useCases/add/CreatePostTagCategoryUseCaseInterface';
-import { CreateImagesUseCase } from '@/application/contexts/images/useCases/add';
-import { CreateImagesUseCaseInterface } from '@/application/contexts/images/useCases/add/CreateImagesUseCaseInterface';
-import { HandleUploadFileInterface } from '@/application/services/HandleAuthToken copy';
 import { HandleUploadFile } from '@/infrastructure/services/HandleUploadFile';
-import { ImagesControllerInterface } from '@/infrastructure/api/controllers/ImagesControllerInterface';
-import { ImagesController } from '@/infrastructure/api/controllers/imagesController';
 import { DeletePostUseCaseInterface } from '@/application/contexts/post/useCases/deleteById/DeletePostUseCaseInterface';
+import { UpdateMapUseCase } from '@/application/contexts/maps/useCases/update';
+import { UpdateMapUseCaseInterface } from '@/application/contexts/maps/useCases/update/UpdateMapUseCaseInterface copy';
+import { CreateMapUseCaseInterface } from '@/application/contexts/maps/useCases/add/CreateMapUseCaseInterface';
+import { UpdateAgentUseCaseInterface } from '@/application/contexts/agents/useCases/update/UpdateAgentUseCaseInterface';
+import { UpdateAgentUseCase } from '@/application/contexts/agents/useCases/update';
+import { HandleUploadFileInterface } from '@/application/services/HandleUploadFileInterface';
+import { StorageServiceInterface } from '@/application/services/StorageServiceInterface';
+import { LocalStorageService } from '@/infrastructure/services/storage/LocalStorageService';
+import { CloudinaryStorageService } from '@/infrastructure/services/storage/CloudinaryStorageService';
+import { FindAvailableMapsUseCaseInterface } from '@/application/contexts/maps/useCases/findAvailableMaps/FindAvailableMapsUseCaseInterface';
+import { FindAvailableMapsUseCase } from '@/application/contexts/maps/useCases/findAvailableMaps';
+import { FindAvailableAgentsByMapsUseCaseInterface } from '@/application/contexts/agents/useCases/findAvailableAgentsByMaps/findAvailableAgentsByMapsUseCase';
+import { FindAvailableAgentsByMapsUseCase } from '@/application/contexts/agents/useCases/findAvailableAgentsByMaps';
+import { NODE_ENV } from '../config/envs';
 
 export class AppDependencyInjector {
   private static _dashboardControllerInstance: DashboardControllerInterface;
@@ -164,8 +168,6 @@ export class AppDependencyInjector {
   private static _findPostByIdOrThrowUseCaseInstance: FindPostByIdOrThrowUseCaseInterface;
 
   private static _findAvailableMapsUseCaseInstance: FindAvailableMapsUseCaseInterface;
-
-  private static _findAvailableAgentsUseCaseInstance: FindAvailableAgentsUseCaseInterface;
 
   private static _findAllPostUseCaseInstance: FindAllPostUseCaseInterface;
 
@@ -231,7 +233,14 @@ export class AppDependencyInjector {
 
   static get mapsController(): MapsControllerInterface {
     if (!this._mapsControllerInstance) {
-      this._mapsControllerInstance = new MapsController(this.createMapUseCase, this.getMapsUseCase);
+      this._mapsControllerInstance = new MapsController(
+        this.createMapUseCase,
+        this.updateMapUseCase,
+        this.getMapsUseCase,
+        this.handleUploadFile,
+        this.storageService,
+        this.findAvailableMapsUseCase,
+      );
     }
 
     return this._mapsControllerInstance;
@@ -245,6 +254,16 @@ export class AppDependencyInjector {
     }
 
     return this._createAgentUseCaseInstance;
+  }
+
+  private static _updateAgentUseCaseInstance: UpdateAgentUseCaseInterface;
+
+  static get updateAgentUseCase(): UpdateAgentUseCaseInterface {
+    if (!this._updateAgentUseCaseInstance) {
+      this._updateAgentUseCaseInstance = new UpdateAgentUseCase(this.agentsRepository);
+    }
+
+    return this._updateAgentUseCaseInstance;
   }
 
   private static _getAgentsUseCaseInstance: GetAgentsUseCaseInterface;
@@ -267,6 +286,16 @@ export class AppDependencyInjector {
     return this._createMapUseCaseInstance;
   }
 
+  private static _updateMapUseCaseInstance: UpdateMapUseCaseInterface;
+
+  static get updateMapUseCase(): UpdateMapUseCaseInterface {
+    if (!this._updateMapUseCaseInstance) {
+      this._updateMapUseCaseInstance = new UpdateMapUseCase(this.mapsRepository);
+    }
+
+    return this._updateMapUseCaseInstance;
+  }
+
   private static _getMapsUseCaseInstance: GetMapsUseCaseInterface;
 
   static get getMapsUseCase(): GetMapsUseCaseInterface {
@@ -275,6 +304,27 @@ export class AppDependencyInjector {
     }
 
     return this._getMapsUseCaseInstance;
+  }
+
+  private static _handleUploadFileInstance: HandleUploadFileInterface;
+
+  static get handleUploadFile(): HandleUploadFileInterface {
+    if (!this._handleUploadFileInstance) {
+      this._handleUploadFileInstance = new HandleUploadFile();
+    }
+
+    return this._handleUploadFileInstance;
+  }
+
+  private static _storageServiceInstance: StorageServiceInterface;
+
+  static get storageService(): StorageServiceInterface {
+    if (!this._storageServiceInstance) {
+      this._storageServiceInstance =
+        NODE_ENV === 'production' ? new CloudinaryStorageService() : new LocalStorageService();
+    }
+
+    return this._storageServiceInstance;
   }
 
   private static _agentsRepositoryInstance: AgentsRepositoryInterface;
@@ -291,40 +341,18 @@ export class AppDependencyInjector {
 
   static get agentsController(): AgentsControllerInterface {
     if (!this._agentsControllerInstance) {
-      this._agentsControllerInstance = new AgentsController(this.createAgentUseCase, this.getAgentsUseCase);
+      this._agentsControllerInstance = new AgentsController(
+        this.createAgentUseCase,
+        this.updateAgentUseCase,
+        this.getAgentsUseCase,
+        this.handleUploadFile,
+        this.storageService,
+        this.findAvailableAgentsByMapUseCase,
+        this.findAvailableAgentsByMapUseCase,
+      );
     }
 
     return this._agentsControllerInstance;
-  }
-
-  private static _createImagesUseCaseInterfaceInstance: CreateImagesUseCaseInterface;
-
-  static get createImagesUseCase(): CreateImagesUseCaseInterface {
-    if (!this._createImagesUseCaseInterfaceInstance) {
-      this._createImagesUseCaseInterfaceInstance = new CreateImagesUseCase(this.handleUploadFile);
-    }
-
-    return this._createImagesUseCaseInterfaceInstance;
-  }
-
-  private static _imagesControllerInterfaceInstance: ImagesControllerInterface;
-
-  static get imagesController(): ImagesControllerInterface {
-    if (!this._imagesControllerInterfaceInstance) {
-      this._imagesControllerInterfaceInstance = new ImagesController(this.createImagesUseCase);
-    }
-
-    return this._imagesControllerInterfaceInstance;
-  }
-
-  private static _handleUploadFileInterfaceInstance: HandleUploadFileInterface;
-
-  static get handleUploadFile(): HandleUploadFileInterface {
-    if (!this._handleUploadFileInterfaceInstance) {
-      this._handleUploadFileInterfaceInstance = new HandleUploadFile();
-    }
-
-    return this._handleUploadFileInterfaceInstance;
   }
 
   static get authController(): AuthControllerInterface {
@@ -388,11 +416,11 @@ export class AppDependencyInjector {
         this.createPostUseCase,
         this.updatePostUseCase,
         this.findPostByIdOrThrowUseCase,
-        this.findAvailableMapsUseCase,
-        this.findAvailableAgentsUseCase,
         this.findAllPostUseCase,
         this.findAllByMapAndAgentUseCase,
         this.deletePostUseCase,
+        this.handleUploadFile,
+        this.storageService,
       );
     }
 
@@ -555,18 +583,23 @@ export class AppDependencyInjector {
 
   static get findAvailableMapsUseCase(): FindAvailableMapsUseCaseInterface {
     if (!this._findAvailableMapsUseCaseInstance) {
-      this._findAvailableMapsUseCaseInstance = new FindAvailableMapsUseCase(this.postRepository);
+      this._findAvailableMapsUseCaseInstance = new FindAvailableMapsUseCase(this.postRepository, this.mapsRepository);
     }
 
     return this._findAvailableMapsUseCaseInstance;
   }
 
-  static get findAvailableAgentsUseCase(): FindAvailableAgentsUseCaseInterface {
-    if (!this._findAvailableAgentsUseCaseInstance) {
-      this._findAvailableAgentsUseCaseInstance = new FindAvailableAgentsUseCase(this.postRepository);
+  private static _findAvailableAgentsByMapUseCaseInstance: FindAvailableAgentsByMapsUseCaseInterface;
+
+  static get findAvailableAgentsByMapUseCase(): FindAvailableAgentsByMapsUseCaseInterface {
+    if (!this._findAvailableAgentsByMapUseCaseInstance) {
+      this._findAvailableAgentsByMapUseCaseInstance = new FindAvailableAgentsByMapsUseCase(
+        this.postRepository,
+        this.agentsRepository,
+      );
     }
 
-    return this._findAvailableAgentsUseCaseInstance;
+    return this._findAvailableAgentsByMapUseCaseInstance;
   }
 
   static get findAllPostUseCase(): FindAllPostUseCaseInterface {

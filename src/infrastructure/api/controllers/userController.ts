@@ -51,7 +51,6 @@ export class UserController implements UserControllerInterface {
   get = async (req: Request, res: Response) => {
     const { userId } = req.data;
 
-    console.log(req.data);
     const userFounded = await this._findUserByIdUseCase.execute(userId);
 
     return res.json(userFounded);

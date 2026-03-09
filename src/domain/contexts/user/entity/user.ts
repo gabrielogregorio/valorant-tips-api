@@ -8,11 +8,13 @@ type UserEntityDto = {
   username: string;
   password: string;
   name: string;
+  imageUrl: string;
 };
 
 type UserEntityCreateDto = {
   username: string;
   password: string;
+  imageUrl: string;
   name: string;
 };
 
@@ -20,6 +22,7 @@ type UserEntityRestoreDto = {
   id: string;
   username: string;
   password: string;
+  imageUrl: string;
   name: string;
 };
 
@@ -36,31 +39,33 @@ export class UserEntity extends Entity implements UserEntityInterface {
 
   private _validatorTypes = UserValidatorFactory.create();
 
-  private constructor({ id, username, password, name }: UserEntityDto) {
+  private constructor({ id, username, password, name, imageUrl }: UserEntityDto) {
     super();
     this._id = id;
     this._username = username;
     this._password = password;
-    this._imageUrl = '';
+    this._imageUrl = imageUrl;
     this._name = name;
 
     this._validate();
   }
 
-  public static create({ password, username, name }: UserEntityCreateDto) {
+  public static create({ password, username, name, imageUrl }: UserEntityCreateDto) {
     return new UserEntity({
       id: new UniqueId(),
       username,
       password,
+      imageUrl,
       name,
     });
   }
 
-  public static restore({ password, username, id, name }: UserEntityRestoreDto) {
+  public static restore({ password, username, id, name, imageUrl }: UserEntityRestoreDto) {
     return new UserEntity({
       id: new UniqueId(id),
       username,
       password,
+      imageUrl,
       name,
     });
   }

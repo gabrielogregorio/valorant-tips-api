@@ -7,7 +7,23 @@ import { AgentsRepositoryInterface } from '@/domain/contexts/contexts/agents/rep
 import { MapsRepositoryInterface } from '@/domain/contexts/contexts/maps/repository';
 import { UserRepositoryInterface } from '@/domain/contexts/contexts/user/repository';
 import { PostTagsRepositoryInterface } from '@/domain/contexts/contexts/postTags/repository';
+import { UniqueId } from '@/domain/contexts/common/utils/UniqueId';
 import { Post } from './Post';
+
+type InputBuildPostEntity = {
+  title: string;
+  description: string;
+  agentIds: string[];
+  tagIds: string[];
+  mapIds: string[];
+  steps: { description: string; imageUrl: string; id: string }[];
+  id: string;
+  isDeleted: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  isPublished: boolean;
+  authorIds: string[];
+};
 
 export class PostRepository implements PostRepositoryInterface {
   constructor(
@@ -17,9 +33,7 @@ export class PostRepository implements PostRepositoryInterface {
     private _postTagsRepository: PostTagsRepositoryInterface,
   ) {}
 
-  // REMOVE THIS ANY
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private async buildPostEntity(post: any): Promise<PostEntity> {
+  private async buildPostEntity(post: InputBuildPostEntity): Promise<PostEntity> {
     const [agents, maps, authors, tags] = await Promise.all([
       this._agentsRepository.findByIds(post.agentIds),
       this._mapsRepository.findByIds(post.mapIds),
@@ -28,21 +42,20 @@ export class PostRepository implements PostRepositoryInterface {
     ]);
 
     const postEntityUpdated = PostEntity.restore({
-      id: post.id.getValue(),
+      id: post.id,
       title: post.title,
       description: post.description,
       isPublished: post.isPublished,
       createdAt: post.createdAt,
       isDeleted: post.isDeleted,
-      updateAt: post.updateAt,
+      updateAt: post.updatedAt,
       agents,
       authors,
       tags,
       maps,
-      // @ts-ignore
       steps: post.steps.map((step) => ({
         description: step.description,
-        id: step.id,
+        id: new UniqueId(step.id),
         imageUrl: step.imageUrl,
       })),
     });
@@ -63,7 +76,7 @@ export class PostRepository implements PostRepositoryInterface {
       title: post.title,
       mapIds: post.maps.map((map) => map.id.getValue()),
       steps: post.steps.map((step) => ({
-        id: step.id,
+        id: step.id.id, // pq é diferenet aqui?
         description: step.description,
         imageUrl: step.imageUrl,
       })),
@@ -109,12 +122,24 @@ export class PostRepository implements PostRepositoryInterface {
     return this.buildPostEntity(post);
   };
 
-  findAvailableMaps = async (): Promise<string[]> => Post.find().distinct('tags.map');
+  findMapsInPosts = async (): Promise<string[]> => Post.distinct('mapIds');
 
-  findAvailableAgents = async (map: string): Promise<string[]> => Post.find({ 'tags.map': map }).distinct('tags.agent');
+  findAgentsByMapInPosts = async (map: string): Promise<string[]> => Post.distinct('agentIds', { mapIds: map });
 
-  findAll = async (): Promise<PostEntity[]> => {
-    const posts = await Post.find({}, null, {
+  // findMapsInPosts = async (map: string): Promise<string[]> => Post.find({ 'tags.map': map }).distinct('tags.agent');
+
+  findAll = async ({ agent, map }: { agent?: string; map?: string }): Promise<PostEntity[]> => {
+    const filter: Record<string, string> = {};
+
+    if (agent) {
+      filter.agentIds = agent;
+    }
+
+    if (map) {
+      filter.mapIds = map;
+    }
+
+    const posts = await Post.find(filter, null, {
       sort: {
         updatedAt: -1,
       },

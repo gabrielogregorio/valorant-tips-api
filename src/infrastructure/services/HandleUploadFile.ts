@@ -1,39 +1,25 @@
-import { HandleUploadFileInterface } from '@/application/services/HandleAuthToken copy';
+import { HandleUploadFileInterface, ProcessedImageInterface } from '@/application/services/HandleUploadFileInterface';
 import sharp from 'sharp';
-import fsNode from 'fs';
-import path from 'path';
 
+const MAX_WIDTH = 2000;
+const WEBP_QUALITY = 60;
 export class HandleUploadFile implements HandleUploadFileInterface {
-  async upload({
-    buffer,
-    originalName,
-  }: {
-    buffer: Buffer;
-    originalName: string;
-  }): Promise<{ format: string; height: number; sizeInBytes: number; urlUploaded: string; width: number }> {
-    const outputFileName = `/media/post-${Date.now()}.webp`;
-    const outputPath = path.join('./public', outputFileName);
-
-    const processedImage = await sharp(buffer)
+  async process({ buffer }: { buffer: Buffer }): Promise<ProcessedImageInterface> {
+    const { data, info } = await sharp(buffer)
       .resize({
-        width: 2000,
+        width: MAX_WIDTH,
         withoutEnlargement: true,
+        fit: 'inside',
       })
-      .toFormat('webp', { quality: 60 })
+      .toFormat('webp', { quality: WEBP_QUALITY })
       .toBuffer({ resolveWithObject: true });
 
-    const metadata = processedImage.info;
-
-    fsNode.writeFileSync(outputPath, processedImage.data);
-
-    const pathSeparated = originalName.split('.');
-
     return {
-      format: pathSeparated[pathSeparated.length - 1],
-      height: metadata.height,
-      urlUploaded: outputFileName,
-      width: metadata.width,
-      sizeInBytes: processedImage.info.size,
+      data,
+      format: 'webp',
+      height: info.height,
+      width: info.width,
+      sizeInBytes: info.size,
     };
   }
 }

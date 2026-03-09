@@ -1,5 +1,4 @@
 import express, { Router } from 'express';
-import { imageRouter } from '@/infrastructure/api/routes/imagesRouter';
 import { agentsRouter } from '@/infrastructure/api/routes/agentsRouter';
 import { postTagCategoryRouter } from '@/infrastructure/api/routes/postTagCategoryRouter';
 import { postTagsRouter } from '@/infrastructure/api/routes/postTagsRouter';
@@ -20,7 +19,6 @@ router.use(express.static('public'));
 router.use('/', baseRouter);
 router.use('/users', userRouter);
 router.use('/posts', postRouter);
-router.use('/uploadImage', imageRouter);
 router.use('/auth', authRouter);
 router.use('/suggestions', suggestionRouter);
 router.use('/code', codeRouter);

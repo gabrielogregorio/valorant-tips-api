@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:3333
 
-### @name addView
+### @name createMap
 
 POST {{baseUrl}}/maps HTTP/1.1
 content-type: application/json
@@ -9,6 +9,18 @@ content-type: application/json
   "name":"Other",
   "image":"example"
 }
+
+
+### @name updateMap
+
+POST {{baseUrl}}/maps HTTP/1.1
+content-type: application/json
+
+{
+  "name":"Other",
+  "image":"example"
+}
+
 
 
 ### @name getView

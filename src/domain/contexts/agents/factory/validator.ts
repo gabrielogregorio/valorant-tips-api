@@ -1,9 +1,9 @@
 import { ValidatorInterface } from '@/domain/contexts/common/validators';
-import { AgentsValueObject } from '@/domain/contexts/contexts/agents/valueObject';
+import { AgentsEntity } from '@/domain/contexts/contexts/agents/entity';
 import { AgentsZodValidator } from '@/infrastructure/contexts/agents/validator';
 
 export class AgentsValidatorFactory {
-  static create(): ValidatorInterface<AgentsValueObject> {
+  static create(): ValidatorInterface<AgentsEntity> {
     return new AgentsZodValidator();
   }
 }
