@@ -34,6 +34,8 @@
   },
   "homepage": "https://github.com/gabrielogregorio/valorant-tips-api#readme",
   "dependencies": {
+    "@asteasolutions/zod-to-openapi": "^7.3.0",
+    "@scalar/express-api-reference": "^0.9.0",
     "cloudinary": "^2.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.4",
@@ -51,6 +53,7 @@
     "sanitize-html": "^2.11.0",
     "sharp": "0.34.5",
     "streamifier": "^0.1.1",
+    "swagger-ui-express": "^5.0.1",
     "zod": "^3.23.8"
   },
   "devDependencies": {

@@ -10,8 +10,6 @@ module.exports = {
   globalSetup: '<rootDir>/global-setup.js',
   setupFilesAfterEnv: ['<rootDir>/setupFilesAfterEnv.js'],
   globals: {
-    'ts-jest': {
-      diagnostics: false, // Desativa a verificação de tipos do TypeScript nos testes
-    },
+    'ts-jest': {    },
   },
 };

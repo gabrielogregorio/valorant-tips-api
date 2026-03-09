@@ -48,6 +48,7 @@ module.exports = {
     '@typescript-eslint/no-magic-numbers': ['error', { ignore: [0, 1] }],
 
     'sonarjs/todo-tag': 'off',
+    'import/order': 'off',
 
     'sonarjs/no-empty-function': 'off',
 
@@ -175,6 +176,31 @@ module.exports = {
       rules: {
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/no-magic-numbers': 'off',
+      },
+    },
+    {
+      files: ['*Router.docs.ts'],
+      rules: {
+        '@typescript-eslint/naming-convention': [
+          'error',
+          {
+            selector: 'default',
+            format: ['camelCase', 'UPPER_CASE'],
+          },
+          {
+            selector: 'objectLiteralProperty',
+            format: null,
+            modifiers: ['requiresQuotes'],
+          },
+          {
+            selector: 'typeLike',
+            format: ['PascalCase'],
+          },
+          {
+            selector: 'variable',
+            format: ['camelCase', 'UPPER_CASE'],
+          },
+        ],
       },
     },
   ],

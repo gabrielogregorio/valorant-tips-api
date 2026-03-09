@@ -4,7 +4,7 @@
   },
 
   "editor.formatOnSave": true,
-  // "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "typescript.preferences.importModuleSpecifier": "shortest",
   "files.autoSave": "afterDelay",
   "cSpell.words": ["cloudinary", "Hasher", "maxlength", "middlewares", "Valorant"]
