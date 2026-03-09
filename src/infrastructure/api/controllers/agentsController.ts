@@ -4,9 +4,9 @@ import { GetAgentsUseCaseInterface } from '@/application/contexts/agents/useCase
 import { CreateAgentUseCaseInterface } from '@/application/contexts/agents/useCases/add/CreateAgentUseCaseInterface';
 import { AgentsControllerInterface } from '@/infrastructure/api/controllers/AgentsControllerInterface';
 import { UpdateAgentUseCaseInterface } from '@/application/contexts/agents/useCases/update/UpdateAgentUseCaseInterface';
-import { HandleUploadFile } from '@/infrastructure/services/HandleUploadFile';
 import { StorageServiceInterface } from '@/application/services/StorageServiceInterface';
 import { FindAvailableAgentsByMapsUseCaseInterface } from '@/application/contexts/agents/useCases/findAvailableAgentsByMaps/findAvailableAgentsByMapsUseCase';
+import { HandleUploadFileInterface } from '@/application/services/HandleUploadFileInterface';
 import { FindAvailableAgentsUseCaseInterface } from '@/application/contexts/agents/useCases/findAvailableAgents/FindAvailableAgentsUseCaseInterface';
 import { getImagePath } from '../helpers/getImagePath';
 
@@ -17,7 +17,7 @@ export class AgentsController implements AgentsControllerInterface {
     private _createAgentsUseCase: CreateAgentUseCaseInterface,
     private _updateAgentsUseCase: UpdateAgentUseCaseInterface,
     private _getAgentsUseCase: GetAgentsUseCaseInterface,
-    private _handleUploadFile: HandleUploadFile,
+    private _handleUploadFile: HandleUploadFileInterface,
     private _storageService: StorageServiceInterface,
     private _findAvailableAgentsUseCase: FindAvailableAgentsUseCaseInterface,
     private _findAvailableAgentsByMapsUseCase: FindAvailableAgentsByMapsUseCaseInterface,
@@ -36,7 +36,7 @@ export class AgentsController implements AgentsControllerInterface {
     const map = await this._updateAgentsUseCase.execute({
       id: req.params.id,
       name,
-      imageUrl: imageUrl ? getImagePath(imageUrl) : undefined  // pode ser undefined
+      imageUrl: imageUrl ? getImagePath(imageUrl) : undefined, // pode ser undefined
     });
 
     return res.json(map);

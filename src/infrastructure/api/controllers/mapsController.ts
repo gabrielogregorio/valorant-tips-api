@@ -4,10 +4,10 @@ import { MapsControllerInterface } from '@/infrastructure/api/controllers/MapsCo
 import { GetMapsUseCaseInterface } from '@/application/contexts/maps/useCases/get/GetMapsUseCaseInterface';
 import { UpdateMapUseCaseInterface } from '@/application/contexts/maps/useCases/update/UpdateMapUseCaseInterface copy';
 import { CreateMapUseCaseInterface } from '@/application/contexts/maps/useCases/add/CreateMapUseCaseInterface';
-import { HandleUploadFile } from '@/infrastructure/services/HandleUploadFile';
 import { StorageServiceInterface } from '@/application/services/StorageServiceInterface';
 import { UpdateMapPresenter } from '@/application/contexts/maps/presenters/UpdateMapPresenter';
 import { FindAvailableMapsUseCaseInterface } from '@/application/contexts/maps/useCases/findAvailableMaps/FindAvailableMapsUseCaseInterface';
+import { HandleUploadFileInterface } from '@/application/services/HandleUploadFileInterface';
 import { HttpResponse } from '../../../shared/http/HttpResponse';
 import { getImagePath } from '../helpers/getImagePath';
 
@@ -18,7 +18,7 @@ export class MapsController implements MapsControllerInterface {
     private _createMapUseCase: CreateMapUseCaseInterface,
     private _updateMapUseCase: UpdateMapUseCaseInterface,
     private _getMapsUseCase: GetMapsUseCaseInterface,
-    private _handleUploadFile: HandleUploadFile,
+    private _handleUploadFile: HandleUploadFileInterface,
     private _storageService: StorageServiceInterface,
     private _findAvailableMapsUseCase: FindAvailableMapsUseCaseInterface,
   ) {}
