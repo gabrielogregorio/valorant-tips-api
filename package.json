@@ -6,8 +6,8 @@
   "scripts": {
     "commit": "git-cz",
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored",
-    "start": "API_VERSION=$(node -p -e \"require('./package.json').version\") node dist/server.js",
-    "dev": " API_VERSION=$(node -p -e \"require('./package.json').version\") ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/infrastructure/api/server.ts",
+    "start": "cross-env API_VERSION=$npm_package_version node dist/infrastructure/api/server.js",
+    "dev": "cross-env API_VERSION=$npm_package_version ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/infrastructure/api/server.ts",
     "format": "pnpm prettier --write .",
     "test:outside": "make build-db-test && jest --runInBand --verbose",
     "test": "jest --runInBand --verbose",
@@ -29,15 +29,11 @@
   },
   "author": "Gabriel Gregório",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/gabrielogregorio/valorant-tips-api/issues"
-  },
-  "homepage": "https://github.com/gabrielogregorio/valorant-tips-api#readme",
   "dependencies": {
-    "@asteasolutions/zod-to-openapi": "^7.3.0",
-    "@scalar/express-api-reference": "^0.9.0",
+    "@asteasolutions/zod-to-openapi": "^8.4.3",
     "cloudinary": "^2.0.1",
     "cors": "^2.8.5",
+    "cross-env": "^10.1.0",
     "dotenv": "^16.4.4",
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
@@ -50,11 +46,12 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "multer-storage-cloudinary": "^4.0.0",
+    "reflect-metadata": "^0.2.1",
     "sanitize-html": "^2.11.0",
     "sharp": "0.34.5",
     "streamifier": "^0.1.1",
-    "swagger-ui-express": "^5.0.1",
-    "zod": "^3.23.8"
+    "swagger-ui-express": "^5.0.0",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@babel/cli": "^7.23.9",
