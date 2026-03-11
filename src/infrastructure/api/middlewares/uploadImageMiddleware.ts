@@ -18,3 +18,19 @@ export const uploadImageMiddleware = multer({
     }
   },
 });
+
+export const uploadImagesMiddleware = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: LIMIT_SIZE_UPLOAD_IN_BYTES,
+    files: 20, // 👈 Ajuste: Aumente para limitar ao tanto de imagens simultâneas permitidas (ex: 10 steps)
+  },
+  fileFilter: (_req, file, callback) => {
+    const allowedTypes = /jpeg|jpg|png/;
+    if (allowedTypes.test(file.mimetype)) {
+      callback(null, true);
+    } else {
+      callback(new Error('formato inválido'));
+    }
+  },
+});

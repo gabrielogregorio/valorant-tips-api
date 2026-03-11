@@ -5,7 +5,6 @@ import { UpdatePostUseCaseInterface } from '@/application/contexts/post/useCases
 import { FindPostByIdOrThrowUseCaseInterface } from '@/application/contexts/post/useCases/findByIdOrThrow/IFindPostByIdOrThrowUseCase';
 import { FindAllPostUseCaseInterface } from '@/application/contexts/post/useCases/findAll/FindAllPostUseCaseInterface';
 import { FindAllByMapAndAgentUseCaseInterface } from '@/application/contexts/post/useCases/findAllByMapAndAgent/FindAllByMapAndAgentUseCaseInterface';
-import { useValidation } from '@/infrastructure/api/middlewares/useValidation';
 import { DeletePostUseCaseInterface } from '@/application/contexts/post/useCases/deleteById/DeletePostUseCaseInterface';
 import { StorageServiceInterface } from '@/application/services/StorageServiceInterface';
 import { HandleUploadFileInterface } from '@/application/services/HandleUploadFileInterface';
@@ -13,7 +12,6 @@ import { HttpResponse } from 'src/shared/http/HttpResponse';
 import { PostPresenter } from '@/application/contexts/post/presenters/PostPresenter';
 import { PostControllerInterface } from './PostControllerInterface';
 import { statusCode } from '../config/statusCode';
-import { schemaUpdatePosts } from '../routes/updatePost.schema';
 import { getImagePath } from '../helpers/getImagePath';
 
 export class PostController implements PostControllerInterface {
@@ -47,9 +45,9 @@ export class PostController implements PostControllerInterface {
     });
 
     // Processar steps
-    const processedSteps = await Promise.all<{ description: string; imageUrl: string }>(
-      steps.map(async (step: any) => {
-        let imageUrl: string | undefined;
+    const processedSteps = await Promise.all(
+      steps.map(async (step: { description: string; imageUrl?: string; imageField: string }) => {
+        let { imageUrl } = step;
 
         const file = fileMap.get(step.imageField);
 
@@ -59,11 +57,12 @@ export class PostController implements PostControllerInterface {
           });
 
           imageUrl = await this._storageService.upload(this.folderPostsSteps, processed.data);
+          imageUrl = getImagePath(imageUrl);
         }
 
         return {
           description: step.description,
-          imageUrl: imageUrl ? getImagePath(imageUrl) : undefined,
+          imageUrl,
         };
       }),
     );
@@ -78,27 +77,59 @@ export class PostController implements PostControllerInterface {
       steps: processedSteps,
     });
 
-    return HttpResponse.ok(res, PostPresenter.toViewModel(post));
+    return HttpResponse.created(res, PostPresenter.toViewModel(post));
   };
 
   updatePost = async (req: Request, res: Response): Promise<Response> => {
-    const content = useValidation(req, schemaUpdatePosts);
+    // const content = useValidation(req, schemaUpdatePosts);
 
-    const { title, description, agentIds, mapIds, steps, tagIds } = content.body;
-    const { id } = content.params;
+    const { title, description } = req.body;
+    const { id } = req.params;
+    const agentIds = JSON.parse(req.body.agentIds || '[]');
+    const mapIds = JSON.parse(req.body.mapIds || '[]');
+    const steps = JSON.parse(req.body.steps || '[]');
     const userId = req.data.userId as string;
+    const files = req.files as Express.Multer.File[];
 
+    const fileMap = new Map<string, Express.Multer.File>();
+
+    files?.forEach((file) => {
+      fileMap.set(file.fieldname, file);
+    });
+    const processedSteps = await Promise.all(
+      steps.map(async (step: { id: string; description: string; imageUrl?: string; imageField: string }) => {
+        let { imageUrl } = step;
+
+        const file = fileMap.get(step.imageField);
+
+        if (file) {
+          const processed = await this._handleUploadFile.process({
+            buffer: file.buffer,
+          });
+
+          imageUrl = await this._storageService.upload(this.folderPostsSteps, processed.data);
+          imageUrl = getImagePath(imageUrl);
+        }
+
+        return {
+          id: step.id,
+          description: step.description,
+          imageUrl,
+        };
+      }),
+    );
+ 
     const post = await this._updatePostUseCase.execute(id, {
-      agentIds,
-      authorIds: [userId],
-      mapIds,
-      steps,
       title,
-      tagIds,
       description,
+      authorIds: [userId],
+      tagIds: [],
+      agentIds,
+      mapIds,
+      steps: processedSteps,
     });
 
-    return res.json(post);
+    return HttpResponse.ok(res, PostPresenter.toViewModel(post));
   };
 
   get = async (req: Request, res: Response): Promise<Response> => {

@@ -25,7 +25,8 @@ type PostEntityDto = {
   steps: PostStepInterface[];
 };
 
-type CreatePostStep = {
+export type CreatePostStep = {
+  id?: string;
   description: string;
   imageUrl: string;
 };
@@ -210,7 +211,7 @@ export class PostEntity extends Entity implements PostEntityInterface {
   changeSteps(steps: CreatePostStep[]): void {
     this._steps = steps.map((step) => ({
       description: step.description,
-      id: new UniqueId(),
+      id: step.id ? new UniqueId(step.id) : new UniqueId(),
       imageUrl: step.imageUrl,
     }));
 
@@ -246,7 +247,7 @@ export class PostEntity extends Entity implements PostEntityInterface {
   private _validate() {
     if (this._isPublished && !this._authors.length) {
       throw new DomainError('BusinessRuleViolation', 'Para publicar um post, ele precisa ter autores', {
-        id: this._id,
+        id: this._id.getValue(),
       });
     }
 

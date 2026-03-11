@@ -1,4 +1,4 @@
-import './docs/zod-extensions';
+// import './docs/zod-extensions';
 import '@/infrastructure/config/i18nTranslate';
 import { app } from './app';
 import { PORT } from './config/envs';

@@ -3,6 +3,7 @@ import { AgentsEntity } from '@/domain/contexts/contexts/agents/entity';
 import { PostTagsValueObject } from '@/domain/contexts/contexts/postTags/valueObject';
 import { UserEntity } from '@/domain/contexts/contexts/user/entity/user';
 import { MapsEntity } from '../../maps/entity';
+import { CreatePostStep } from './post';
 
 export interface PostStepInterface {
   id: UniqueId;
@@ -16,7 +17,7 @@ export interface PostEntityInterface {
   publishPost(): void;
 
   changeTags(tags: PostTagsValueObject[]): void;
-  changeSteps(steps: PostStepInterface[]): void;
+  changeSteps(steps: CreatePostStep[]): void;
   changeMap(map: MapsEntity[]): void;
   changeAgents(agents: AgentsEntity[]): void;
   changeAuthors(authors: UserEntity[]): void;

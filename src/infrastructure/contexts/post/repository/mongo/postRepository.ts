@@ -98,7 +98,7 @@ export class PostRepository implements PostRepositoryInterface {
       title: post.title,
       mapIds: post.maps.map((map) => map.id.getValue()),
       steps: post.steps.map((step) => ({
-        id: step.id,
+        id: step.id.getValue(),
         description: step.description,
         imageUrl: step.imageUrl,
       })),

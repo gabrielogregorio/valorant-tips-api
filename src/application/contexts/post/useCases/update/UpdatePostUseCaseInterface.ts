@@ -6,6 +6,7 @@ export interface UpdatePostInputDtoInterface {
   mapIds: string[];
   tagIds: string[];
   steps: {
+    id?: string;
     description: string;
     imageUrl: string;
   }[];
