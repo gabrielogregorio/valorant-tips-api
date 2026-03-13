@@ -1,0 +1,9 @@
+
+@baseUrl = http://localhost:3333
+@bearerToken =
+
+
+### @name getDashboard
+
+GET {{baseUrl}}/dashboards HTTP/1.1
+authorization: {{bearerToken}}

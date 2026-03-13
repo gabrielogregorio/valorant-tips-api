@@ -9,4 +9,7 @@ module.exports = {
   testTimeout: 20000,
   globalSetup: '<rootDir>/global-setup.js',
   setupFilesAfterEnv: ['<rootDir>/setupFilesAfterEnv.js'],
+  globals: {
+    'ts-jest': {    },
+  },
 };

@@ -7,18 +7,22 @@ log-api: logs-api
 la: logs-api
 
 dev: start-setup
-	make stop
-	docker compose -f ./docker-compose.dev.yaml up -d
+	@docker compose -f ./docker-compose.dev.yaml up -d
 
-build: start-setup
-	@docker compose -f ./docker-compose.dev.yaml up --build --force-recreate -d
+seed:
+	@docker exec  vavatips-api pnpm ts-node-dev -r tsconfig-paths/register --transpile-only --ignore-watch node_modules --no-notify src/seed.ts
+
+build:start-setup
+	@docker compose -f ./docker-compose.dev.yaml down --remove-orphans --volumes
+	@docker compose -f ./docker-compose.dev.yaml build --no-cache --progress=plain
+	@docker compose -f ./docker-compose.dev.yaml up -d --force-recreate
 
 down:
 	@docker compose -f ./docker-compose.dev.yaml down --remove-orphans --volumes
 	@docker compose -f ./docker-compose.test.yaml down --remove-orphans --volumes
 
 delete-universe:
-	@make down-all & make delete-all-containers & make delete-all-networks & make delete-all-volumes & make delete-all-images & make delete-all-unsed-images & yarn cache clean
+	@make down-all & make delete-all-containers & make delete-all-networks & make delete-all-volumes & make delete-all-images & make delete-all-unsed-images & pnpm cache clean
 
 delete-all-unsed-images:
 	@docker image prune -a
@@ -52,25 +56,31 @@ build-db: start-setup
 	@docker compose -f ./docker-compose.dev.yaml up --build --force-recreate -d vavatips-api-mongodb
 
 build-test: start-setup
-	@docker compose --env-file .env.test -f ./docker-compose.test.yaml down --remove-orphans --volumes
-	@docker compose --env-file .env.test -f ./docker-compose.test.yaml up --build -d
+	@docker compose -f ./docker-compose.test.yaml down --remove-orphans --volumes
+	@docker volume prune -f
+	@docker compose -f ./docker-compose.test.yaml build
 
 tests: start-setup
-	make build-test
-	@docker compose --env-file .env.test -f ./docker-compose.test.yaml run -T vavatips-api-test yarn test
-	@docker compose --env-file .env.test -f ./docker-compose.test.yaml rm -f -s -v vavatips-db-test vavatips-api-test
+	@make build-test
+	@docker compose -f ./docker-compose.test.yaml run vavatips-api-test pnpm test:watch
+	@docker compose -f ./docker-compose.test.yaml rm -f -s -v vavatips-db-test vavatips-api-test
+
+test-only: start-setup
+	@make build-test
+	@docker compose -f ./docker-compose.test.yaml run vavatips-api-test pnpm test
+	@docker compose -f ./docker-compose.test.yaml rm -f -s -v vavatips-db-test vavatips-api-test
 
 bash:
-	@docker exec -it vavatips-api /bin/bash
+	@docker exec -it vavatips-api /bin/sh
 
 bash-mongo:
 	@docker exec -it vavatips-api-mongodb /bin/bash
 
 logs:
-	@docker compose -f ./docker-compose.dev.yaml logs -f
-
-logs-api:
 	@docker compose -f ./docker-compose.dev.yaml logs -f vavatips-api
+
+logs-db:
+	@docker compose -f ./docker-compose.dev.yaml logs -f vavatips-api-mongodb
 
 start-setup:
 	@if [ ! -f .env ]; then cp .env.example .env; fi

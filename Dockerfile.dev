@@ -1,14 +1,19 @@
-FROM node:20-alpine
+FROM node:22-slim
 WORKDIR /usr/src/app
 
-# Remove unused downloaded list
-RUN rm -rf /var/lib/apt/lists/*
+COPY ./package.json ./pnpm-lock.yaml ./
 
+RUN npm i pnpm --global
 
-COPY ./package.json ./yarn.lock ./
+RUN pnpm install
 
-RUN yarn
+ENV DOCKERIZE_VERSION v0.7.0
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends wget openssl ca-certificates \
+  && wget -O - https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz | tar xzf - -C /usr/local/bin \
+  && apt-get purge -y wget \
+  && rm -rf /var/lib/apt/lists/*
 
 EXPOSE 3333
 
-CMD ["yarn", "dev"]
+ENTRYPOINT dockerize -timeout 10s -wait tcp://vavatips-api-mongodb:27017 && pnpm run dev

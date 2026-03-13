@@ -1,7 +1,7 @@
 dist
 node_modules
 mongo-init.js
-*.http
-*.json
 *.js
 *.log
+*.test.ts
+*.spec.ts

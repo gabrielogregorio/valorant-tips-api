@@ -4,3 +4,8 @@ google-credentials.json
 dist/
 coverage/
 doc
+public
+**/seed/**
+Results_ valorant.posts
+database/Results_ valorant.posts.json
+.pnpm-store
