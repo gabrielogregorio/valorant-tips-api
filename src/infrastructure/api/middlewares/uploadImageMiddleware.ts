@@ -23,7 +23,7 @@ export const uploadImagesMiddleware = multer({
   storage: multer.memoryStorage(),
   limits: {
     fileSize: LIMIT_SIZE_UPLOAD_IN_BYTES,
-    files: 20, // 👈 Ajuste: Aumente para limitar ao tanto de imagens simultâneas permitidas (ex: 10 steps)
+    files: 20,
   },
   fileFilter: (_req, file, callback) => {
     const allowedTypes = /jpeg|jpg|png/;
